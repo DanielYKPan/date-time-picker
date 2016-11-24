@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "target": "es5",
+    "declaration": true,
+    "rootDir": "./tmp",
+    "outDir": "./dist",
+    "sourceMap": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "moduleResolution": "node",
+    "removeComments": true,
+    "noImplicitAny": true,
+    "suppressImplicitAnyIndexErrors": true,
+    "lib": [ "es2015", "dom" ]
+  },
+  "exclude": [
+    "node_modules",
+    "npmdist",
+    "dist"
+  ],
+  "files": [
+    "./tmp/**/*.ts"
+  ]
+}
