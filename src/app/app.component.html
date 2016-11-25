@@ -1,0 +1,52 @@
+<main>
+    <header class="header">
+        <h1>Ng2 Date Time Picker</h1>
+        <p>A date time picker built by AngularJS 2</p>
+        <a>
+            <img class="github-banner"
+                 src="https://camo.githubusercontent.com/365986a132ccd6a44c23a9169022c0b5c890c387/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f7265645f6161303030302e706e67"
+                 alt="Fork me on GitHub"
+                 data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png">
+        </a>
+    </header>
+    <section class="container">
+        <div class="description">
+            <p>Angular 2 date time picker - Angular 2 reusable UI Component</p>
+            <ul>
+                <li>This Picker is responsive and works on all device</li>
+                <li>The source code of the module is here</li>
+                <li>The sample code is here</li>
+                <li>See more on the documentation</li>
+            </ul>
+        </div>
+
+        <div class="demo">
+            <div class="input-control">
+                <label for="date-input">Date: </label>
+                <input class="picker-input"
+                       id="date-input"
+                       [ngModel]="date"
+                       (focus)="toggleDatePicker(true)"
+                       readonly>
+            </div>
+
+            <div class="input-control">
+                <label for="time-input">Time: </label>
+                <input class="picker-input"
+                       id="time-input"
+                       [ngModel]="time"
+                       (focus)="toggleTimePicker(true)"
+                       readonly>
+            </div>
+        </div>
+    </section>
+</main>
+
+<date-picker *ngIf="showDatePicker"
+             (onSelectDate)="setDate($event)"
+             (onDatePickerCancel)="toggleDatePicker($event)"></date-picker>
+
+<time-picker *ngIf="showTimePicker"
+             [use12Hour]="true"
+             (onSelectTime)="setTime($event)"
+             (onTimePickerCancel)="toggleTimePicker($event)"></time-picker>

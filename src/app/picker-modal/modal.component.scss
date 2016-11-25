@@ -1,0 +1,42 @@
+$mid-grey: hsla(120, 4%, 95%, 1) !default;
+$light-dark: hsla(0, 0%, 0%, .3);
+$white: #fff;
+
+:host {
+  z-index: 9999999999;
+}
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 99;
+  width: 100%;
+  height: 100%;
+  overflow-y: scroll;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 11;
+  display: block;
+  width: 100%;
+  height: 100%;
+  background-color: $light-dark;
+}
+
+.modal-main {
+  position: absolute;
+  top: 30px;
+  right: auto;
+  bottom: auto;
+  left: 50%;
+  z-index: 111;
+  background-color: $white;
+  border: 1px solid darken($mid-grey, 10%);
+  border-radius: 6px;
+  transform: translate(-50%, 0);
+  box-shadow: 0 5px 15px $light-dark;
+}
