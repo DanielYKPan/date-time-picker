@@ -1,5 +1,5 @@
 {
-  "name": "ng2-date-time-picker",
+  "name": "ng2-date-time-picker-demo",
   "version": "1.0.0",
   "description": "Angular2 Date Time Picker",
   "keywords": [
@@ -20,8 +20,7 @@
     "test": "karma start",
     "build": "rimraf dist && webpack --config config/webpack.prod.js --progress --profile --bail"
   },
-  "dependencies": {},
-  "devDependencies": {
+  "dependencies": {
     "@angular/common": "~2.2.0",
     "@angular/compiler": "~2.2.0",
     "@angular/core": "~2.2.0",
@@ -30,13 +29,18 @@
     "@angular/platform-browser": "~2.2.0",
     "@angular/platform-browser-dynamic": "~2.2.0",
     "@angular/router": "~3.2.0",
+    "core-js": "^2.4.1",
+    "ng2-date-time-picker": "^1.0.4",
+    "rxjs": "5.0.0-beta.12",
+    "zone.js": "^0.6.25"
+  },
+  "devDependencies": {
     "@types/jasmine": "^2.5.36",
     "@types/node": "^6.0.46",
     "@types/selenium-webdriver": "^2.53.33",
     "angular2-template-loader": "^0.4.0",
     "autoprefixer": "^6.5.3",
     "awesome-typescript-loader": "^2.2.4",
-    "core-js": "^2.4.1",
     "css-loader": "^0.23.1",
     "extract-text-webpack-plugin": "^1.0.1",
     "file-loader": "^0.8.5",
@@ -67,14 +71,12 @@
     "raw-loader": "^0.5.1",
     "rimraf": "^2.5.2",
     "run-sequence": "^1.2.2",
-    "rxjs": "5.0.0-beta.12",
     "sass-loader": "^4.0.2",
     "style-loader": "^0.13.1",
     "to-string-loader": "^1.1.5",
     "typescript": "^2.0.3",
     "webpack": "^1.13.0",
     "webpack-dev-server": "^1.14.1",
-    "webpack-merge": "^0.14.0",
-    "zone.js": "^0.6.26"
+    "webpack-merge": "^0.14.0"
   }
 }
