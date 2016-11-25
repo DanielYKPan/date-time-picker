@@ -2,6 +2,12 @@
 @import '../../sass/utils/functions';
 @import '../../sass/utils/mixins';
 
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
 .picker-wrap {
   width: 95vw;
   max-width: 40rem;
@@ -11,6 +17,7 @@
 .picker-box {
   width: 100%;
   padding: 0.625rem 1rem;
+  user-select: none;
 }
 
 .picker-header,

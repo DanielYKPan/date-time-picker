@@ -2,6 +2,12 @@
 @import '../../sass/utils/functions';
 @import '../../sass/utils/mixins';
 
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
 .picker-wrap {
   width: 95vw;
   max-width: 666px;
@@ -11,6 +17,7 @@
   font-family: 'Open Sans';
   width: 100%;
   padding: $base-line-height / 2 1rem;
+  user-select: none;
 }
 
 .picker-header,

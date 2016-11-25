@@ -6,6 +6,12 @@ $white: #fff;
   z-index: 9999999999;
 }
 
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
 .modal {
   position: fixed;
   top: 0;
