@@ -138,6 +138,10 @@ In side your component
 ## Demo
 Online demo is [here](https://danielykpan.github.io/ng2-date-time-picker/)
 
+## ToDo
+* Add animation to picker.
+* Test components.
+
 ## License
 * License: MIT
 
