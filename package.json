@@ -9,7 +9,7 @@
     "timepicker",
     "time picker"
   ],
-  "author": "daniel pan",
+  "author": "Daniel Pan",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -20,7 +20,9 @@
     "test": "karma start",
     "build": "rimraf dist && webpack --config config/webpack.prod.js --progress --profile --bail"
   },
-  "dependencies": {},
+  "dependencies": {
+    "moment": "^2.17.0"
+  },
   "devDependencies": {
     "@angular/common": "~2.2.0",
     "@angular/compiler": "~2.2.0",
