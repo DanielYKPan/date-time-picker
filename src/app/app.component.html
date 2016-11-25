@@ -43,10 +43,12 @@
 </main>
 
 <date-picker *ngIf="showDatePicker"
+             [initDate]="date"
              (onSelectDate)="setDate($event)"
              (onDatePickerCancel)="toggleDatePicker($event)"></date-picker>
 
 <time-picker *ngIf="showTimePicker"
+             [initTime]="time"
              [use12Hour]="true"
              (onSelectTime)="setTime($event)"
              (onTimePickerCancel)="toggleTimePicker($event)"></time-picker>

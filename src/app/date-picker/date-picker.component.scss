@@ -141,6 +141,10 @@
     &:hover {
       background-color: #b1dcfb;
     }
+
+    .text {
+      padding-left: .8rem;
+    }
   }
 
   .action-today::before,
@@ -150,7 +154,6 @@
     position: relative;
     display: inline-block;
     height: 0;
-    margin-right: .8rem;
     width: 0;
   }
 
@@ -166,10 +169,10 @@
   }
 
   .action-close::before {
-    content: "\D7";
-    vertical-align: top;
-    font-size: 1.1em;
-    margin-right: 1.5rem;
-    color: #777;
+    width: 1rem;
+    height: 1rem;
+    background: linear-gradient(to bottom, transparent 35%, #777 35%, #777 65%,  transparent 65%),
+    linear-gradient(to right, transparent 35%, #777 35%, #777 65%, transparent 65%);
+    transform: rotate(45deg);
   }
 }
