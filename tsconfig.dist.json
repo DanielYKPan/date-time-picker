@@ -3,7 +3,7 @@
     "module": "commonjs",
     "target": "es5",
     "declaration": true,
-    "rootDir": "./tmp",
+    "rootDir": "./tmp/date-time-picker",
     "outDir": "./dist",
     "sourceMap": true,
     "emitDecoratorMetadata": true,

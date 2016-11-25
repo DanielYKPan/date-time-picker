@@ -43,7 +43,7 @@
 
     gulp.task('inline.template.and.styles.to.component', function () {
         return gulp.src('./tmp/**/*.component.ts')
-            .pipe(flatmap(function(stream, file){
+            .pipe(flatmap(function (stream, file) {
                 var tsFile = file.path;
                 var htmlFile = tsFile.slice(0, -2) + 'html';
                 var cssFile = tsFile.slice(0, -2) + 'css';
@@ -55,7 +55,7 @@
                     .pipe(replace(str2, str4))
                     .pipe(replace('styles: [myDpStyles],', 'styles: [' + '`' + styles + '`' + '],'))
                     .pipe(replace('template: myDpTpl,', 'template: `' + htmlTpl + '`' + ','))
-                    .pipe(gulp.dest(function(file) {
+                    .pipe(gulp.dest(function (file) {
                         return file.base;
                     }));
             }));
@@ -65,7 +65,10 @@
 
         var processors = [
             pixrem(),
-            autoprefixer({browsers: ['last 8 version', '> 1%', 'ie 9', 'ie 8', 'ie 7', 'ios 6', 'Firefox <= 20'], cascade: false})
+            autoprefixer({
+                browsers: ['last 8 version', '> 1%', 'ie 9', 'ie 8', 'ie 7', 'ios 6', 'Firefox <= 20'],
+                cascade: false
+            })
         ];
 
         return gulp.src(config.allSass)
@@ -75,14 +78,14 @@
             .pipe(gulp.dest(config.tmpOutputPath));
     });
 
-    gulp.task('minify.html', function() {
+    gulp.task('minify.html', function () {
         return gulp.src(config.allHtml)
             .pipe(htmlmin({collapseWhitespace: true, caseSensitive: true}))
             .pipe(gulp.dest(config.tmpOutputPath));
     });
 
     gulp.task('clean', function () {
-        return gulp.src(['./npmdist', config.tmpOutputPath], {read: false}).pipe(clean());
+        return gulp.src(['./dist', './npmdist', config.tmpOutputPath], {read: false}).pipe(clean());
     });
 
     gulp.task('backup.ts.tmp', function () {
@@ -93,15 +96,15 @@
         return gulp.src([config.tmpOutputPath], {read: false}).pipe(clean());
     });
 
-    gulp.task('copy.src.to.npmdist.dir', function() {
+    gulp.task('copy.src.to.npmdist.dir', function () {
         return gulp.src([config.alltmpTs, '!' + config.alltmpSpecTs]).pipe(gulp.dest('./npmdist/src'));
     });
 
-    gulp.task('copy.dist.to.npmdist.dir', function() {
+    gulp.task('copy.dist.to.npmdist.dir', function () {
         return gulp.src(config.allDistFiles).pipe(gulp.dest('./npmdist/dist'));
     });
 
-    gulp.task('copy.root.files.to.npmdist.dir', function() {
+    gulp.task('copy.root.files.to.npmdist.dir', function () {
         return gulp.src(
             [
                 './index.ts',
