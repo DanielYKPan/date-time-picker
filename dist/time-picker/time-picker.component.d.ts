@@ -6,7 +6,7 @@ export declare class TimePickerComponent implements OnInit {
     use12Hour: boolean;
     onSelectTime: EventEmitter<string>;
     onTimePickerCancel: EventEmitter<boolean>;
-    private hourFormat;
+    hourFormat: string;
     private time;
     constructor();
     ngOnInit(): void;

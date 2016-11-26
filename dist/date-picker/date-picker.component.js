@@ -37,7 +37,7 @@ var DatePickerComponent = (function () {
         return;
     };
     DatePickerComponent.prototype.selectToday = function () {
-        var today = this.today.format(this.viewFormat);
+        var today = moment().format(this.viewFormat);
         this.onSelectDate.emit(today);
         this.cancelDatePicker();
         return;
@@ -62,7 +62,7 @@ var DatePickerComponent = (function () {
             this.selectedDate = this.calendarDate.clone();
         }
         else {
-            this.calendarDate = this.today.clone();
+            this.calendarDate = moment();
         }
     };
     DatePickerComponent.prototype.generateCalendar = function () {
