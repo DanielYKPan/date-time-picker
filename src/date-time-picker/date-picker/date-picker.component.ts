@@ -59,7 +59,7 @@ export class DatePickerComponent implements OnInit {
     }
 
     selectToday(): void {
-        let today = this.today.format(this.viewFormat);
+        let today = moment().format(this.viewFormat);
         this.onSelectDate.emit(today);
         this.cancelDatePicker();
         return;
@@ -91,7 +91,7 @@ export class DatePickerComponent implements OnInit {
             this.calendarDate = moment(this.initDate, this.viewFormat).startOf('date');
             this.selectedDate = this.calendarDate.clone();
         } else {
-            this.calendarDate = this.today.clone();
+            this.calendarDate = moment();
         }
     }
 
