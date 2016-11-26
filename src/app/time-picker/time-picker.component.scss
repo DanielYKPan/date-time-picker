@@ -108,7 +108,7 @@
     }
   }
 
-  .action-today::before,
+  .action-now::before,
   .action-confirm::before,
   .action-clear::before,
   .action-close::before {
@@ -119,7 +119,7 @@
     width: 0;
   }
 
-  .action-today::before {
+  .action-now::before {
     border-top: .66em solid #0059bc;
     border-left: .66em solid transparent;
   }

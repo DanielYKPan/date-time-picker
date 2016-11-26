@@ -1,35 +1,33 @@
 <picker-modal (onOverlayClick)="cancelTimePicker()">
     <div class="picker-wrap">
         <div class="picker-box">
-            <div class="picker-header">
-                Time Picker
-            </div>
+            <div class="picker-header">Time Picker</div>
             <div class="picker-table">
                 <ul class="picker-table-time">
-                    <li class="picker-table-number">
+                    <li class="picker-table-number hour">
                         <span class="arrow up" (click)="increaseHour()"></span>
                         {{time | moment: hourFormat}}
                         <span class="arrow down" (click)="decreaseHour()"></span>
                     </li>
                     <li class="picker-table-separator">:</li>
-                    <li class="picker-table-number">
+                    <li class="picker-table-number minute">
                         <span class="arrow up" (click)="increaseMinute()"></span>
                         {{time | moment: 'mm'}}
                         <span class="arrow down" (click)="decreaseMinute()"></span>
                     </li>
                     <li *ngIf="showSecond" class="picker-table-separator">:</li>
-                    <li *ngIf="showSecond" class="picker-table-number">
+                    <li *ngIf="showSecond" class="picker-table-number second">
                         <span class="arrow up" (click)="increaseSecond()"></span>
                         {{time | moment: 'ss'}}
                         <span class="arrow down" (click)="decreaseSecond()"></span>
                     </li>
-                    <li *ngIf="use12Hour" class="picker-table-meridiem">
+                    <li *ngIf="use12Hour" class="picker-table-meridiem meridiem">
                         {{time | moment: 'A'}}
                     </li>
                 </ul>
             </div>
             <div class="picker-footer">
-                <div class="picker-action action-today" (click)="selectNow()"><span class="text">Now</span></div>
+                <div class="picker-action action-now" (click)="selectNow()"><span class="text">Now</span></div>
                 <div class="picker-action action-confirm" (click)="selectTime()"><span class="text">Confirm</span></div>
                 <div class="picker-action action-clear" (click)="clearTime()"><span class="text">Clear</span></div>
                 <div class="picker-action action-close" (click)="cancelTimePicker()"><span class="text">Close</span></div>
