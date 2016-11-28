@@ -76,30 +76,31 @@ Use the following snippet inside your template for example:
 ```
 In side your component
 ```typescript
-            private date: string;
+            private date: any;
             private showDatePicker: boolean;
     
             toggleDatePicker(status: boolean): void  {
                 this.showDatePicker = status;
             }
     
-            setDate(date: string): void {
+            setDate(date: any): void {
                 this.date = date;
             }
 ```
-* Create a normal HTML Input and put it anywhere you want (like inside a form you already created). 
-* Set the HTML Input to **readonly**, so you can only change the date value from the pop-up date picker.
-* Use **[ngModel]="date"** from Angular2 built-in FormsModule to bind the date value to the input value. 
-* Use **(focus)="toggleDatePicker(true)"** to toggle the date picker. In the Code above, we set the showDatePicker variable to true in the component, so we date picker would show up.
-* The date-picker selector could be place anywhere inside your template. (Normally, put it outside your form tag).
-* Use ***ngIf="showDatePicker"** in <date-picker></date-picker> to toggle the date picker. (**showDatePicker** is just variable from the component, you can change it to whatever you want)
-* Mandatory attributes:
+ * Create a normal HTML Input and put it anywhere you want (like inside a form you already created). 
+ * Set the HTML Input to **readonly**, so you can only change the date value from the pop-up date picker.
+ * Use **[ngModel]="date"** from Angular2 built-in FormsModule to bind the date value to the input value. 
+ * Use **(focus)="toggleDatePicker(true)"** to toggle the date picker. In the Code above, we set the showDatePicker variable to true in the component, so we date picker would show up.
+ * The date-picker selector could be place anywhere inside your template. (Normally, put it outside your form tag).
+ * Use ***ngIf="showDatePicker"** in <date-picker></date-picker> to toggle the date picker. (**showDatePicker** is just variable from the component, you can change it to whatever you want)
+ * Mandatory attributes:
       * **[initDate]="date"** --- The initial date you will have see in the calendar. You can set it null if you don't have any initial date, and the calendar would set Today as the initial date.
       * **(onDatePickerCancel)="toggleDatePicker($event)"** --- This would close the pop-up date picker when you click the cancel button or select a date in the date picker.
       * **(onSelectDate)="setDate($event)"** --- This would set the date value when you pick a date in the date picker.
-* Optional attributes:
-      * **[viewFormat]='MMM DD, YYYY'** --- You can change the date string format you will get when you pick a date. (Default value is 'MMM DD, YYYY'. You can get more inform about the format from [MomentJS](http://momentjs.com/docs/#/parsing/string-format/)).
-      * **[firstWeekDayMonday]="false"** --- You can change the calendar first day in a week to be Monday. (The default value is false, so the first day of a week is set to be Sunday).
+ * Optional attributes:
+      * **[viewFormat]='ll'** --- You can change the date string format you will get when you pick a date. (Default value is 'll'. You can get more inform about the format from [MomentJS](http://momentjs.com/docs/#/parsing/string-format/)).
+      * **[locale]="'en'"** --- This date-time-picker has robust support for internationalization. (Default value is 'en'. If you want to change to French for example, just set [locale]="'fr'". You can get more inform about the i18n from [MomentJS-i18n](http://momentjs.com/docs/#/i18n/)).
+      * **[returnObject]="'js'"** --- You can set the return object type when you pick a date from date-picker. (Default value is 'js', this means the default return object type is javascript Date object. The other options are: string, moment, json, array, iso and object).
 
 ### Time Picker
 Use the following snippet inside your template for example:
@@ -113,15 +114,15 @@ Use the following snippet inside your template for example:
 ```
 In side your component
 ```typescript
-            private date: string;
+            private date: any;
             private showDatePicker: boolean;
     
             toggleDatePicker(status: boolean): void  {
                 this.showDatePicker = status;
             }
     
-            setDate(date: string): void {
-                this.date = date;
+            setTime(time: any): void {
+                this.time = time;
             }
 ```
 * The usage of time picker is similar to date time picker except we use <time-picker></time-picker> selector.
@@ -130,17 +131,16 @@ In side your component
       * **[initTime]="time"** --- The initial date you will have see in the calendar. You can set it null if you don't have any initial date, and the calendar would set Today as the initial date.
       * **(onTimePickerCancel)="toggleTimePicker($event)"** --- This would close the pop-up time picker when you click the cancel button or select a time in the time picker.
       * **(onSelectTime)="setTime($event)"** --- This would set the time value when you select a time in the time picker.
+
+
 * Optional attributes:
       * **[viewFormat]="hh:mm A"** --- You can change the time string format you will get when you select a time. (Default value is 'hh:mm A'. You can get more inform about the format from [MomentJS](http://momentjs.com/docs/#/parsing/string-format/)).
       * **[use12Hour]="true"** --- You can change the time format using 12 hour rule.(The default value is false, so we use 24 hour rule as default).
       * **[showSecond]="true"** --- You can show and change the second value in the time picker. (The default value is false, so the time picker does not show the second value as default).
+      * **[returnObject]="'js'"** --- You can set the return object type when you pick a date from date-picker. (Default value is 'js', this means the default return object type is javascript Date object. The other options are: string, moment, json, array, iso and object).
 
 ## Demo
 Online demo is [here](https://danielykpan.github.io/ng2-date-time-picker/)
-
-## ToDo
-* Add animation to picker.
-* Test components.
 
 ## License
 * License: MIT
