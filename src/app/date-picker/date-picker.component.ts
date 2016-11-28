@@ -53,6 +53,8 @@ export class DatePickerComponent implements OnInit {
     }
 
     selectDay( day: Moment ): void {
+        let daysDifference = day.diff(this.calendarDate.clone().startOf('date'), 'days');
+        day = this.calendarDate.clone().add(daysDifference, 'd');
         let selectedDay = this.parseToReturnObjectType(day);
         this.onSelectDate.emit(selectedDay);
         this.cancelDatePicker();
@@ -90,9 +92,9 @@ export class DatePickerComponent implements OnInit {
 
         // check if the input initDate has value
         if (this.initDate) {
-            this.calendarDate = this.returnObject === 'string'? moment(this.initDate, this.viewFormat).startOf('date') :
-                moment(this.initDate).startOf('date');
-            this.selectedDate = this.calendarDate.clone();
+            this.calendarDate = this.returnObject === 'string'? moment(this.initDate, this.viewFormat):
+                moment(this.initDate);
+            this.selectedDate = this.calendarDate.clone().startOf('date');
         } else {
             this.calendarDate = moment();
         }
