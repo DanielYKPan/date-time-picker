@@ -25,7 +25,7 @@
                 <label for="date-input">Date: </label>
                 <input class="picker-input"
                        id="date-input"
-                       [ngModel]="date"
+                       [ngModel]="moment | date: 'mediumDate'"
                        (focus)="toggleDatePicker(true)"
                        readonly>
             </div>
@@ -34,7 +34,7 @@
                 <label for="time-input">Time: </label>
                 <input class="picker-input"
                        id="time-input"
-                       [ngModel]="time"
+                       [ngModel]="moment | date: 'shortTime'"
                        (focus)="toggleTimePicker(true)"
                        readonly>
             </div>
@@ -43,12 +43,12 @@
 </main>
 
 <date-picker *ngIf="showDatePicker"
-             [initDate]="date"
+             [initDate]="moment"
              (onSelectDate)="setDate($event)"
              (onDatePickerCancel)="toggleDatePicker($event)"></date-picker>
 
 <time-picker *ngIf="showTimePicker"
-             [initTime]="time"
+             [initTime]="moment"
              [use12Hour]="true"
              (onSelectTime)="setTime($event)"
              (onTimePickerCancel)="toggleTimePicker($event)"></time-picker>
