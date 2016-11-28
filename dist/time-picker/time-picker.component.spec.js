@@ -31,6 +31,7 @@ describe('TimePickerComponent', function () {
     it('should raise onSelectTime event when "Now" button clicked', function () {
         var selectedTimeValue;
         comp.onSelectTime.subscribe(function (time) { return selectedTimeValue = time; });
+        comp.returnObject = 'string';
         var nowBtnEl = fixture.debugElement.query(platform_browser_1.By.css('.action-now'));
         nowBtnEl.triggerEventHandler('click', null);
         expect(selectedTimeValue).toBe(moment().format(comp.viewFormat));
@@ -43,6 +44,7 @@ describe('TimePickerComponent', function () {
         var selectedTimeValue;
         var initTimeMoment = moment().add(1, 'h');
         comp.initTime = initTimeMoment.format(comp.viewFormat);
+        comp.returnObject = 'string';
         fixture.detectChanges();
         comp.onSelectTime.subscribe(function (time) { return selectedTimeValue = time; });
         var confirmBtnEl = fixture.debugElement.query(platform_browser_1.By.css('.action-confirm'));
@@ -96,6 +98,7 @@ describe('TimePickerComponent', function () {
     it('should increase one hour if hour arrow up element was clicked', function () {
         var initTimeMoment = moment();
         comp.initTime = initTimeMoment.format(comp.viewFormat);
+        comp.returnObject = 'string';
         fixture.detectChanges();
         var hourArrowUpEl = fixture.debugElement.query(platform_browser_1.By.css('.hour .arrow.up'));
         var hourEl = fixture.debugElement.query(platform_browser_1.By.css('.hour'));
@@ -106,6 +109,7 @@ describe('TimePickerComponent', function () {
     it('should decrease one hour if hour arrow down element was clicked', function () {
         var initTimeMoment = moment();
         comp.initTime = initTimeMoment.format(comp.viewFormat);
+        comp.returnObject = 'string';
         fixture.detectChanges();
         var hourArrowDownEl = fixture.debugElement.query(platform_browser_1.By.css('.hour .arrow.down'));
         var hourEl = fixture.debugElement.query(platform_browser_1.By.css('.hour'));
@@ -116,6 +120,7 @@ describe('TimePickerComponent', function () {
     it('should increase one minute if minute arrow up element was clicked', function () {
         var initTimeMoment = moment();
         comp.initTime = initTimeMoment.format(comp.viewFormat);
+        comp.returnObject = 'string';
         fixture.detectChanges();
         var minuteArrowUpEl = fixture.debugElement.query(platform_browser_1.By.css('.minute .arrow.up'));
         var minuteEl = fixture.debugElement.query(platform_browser_1.By.css('.minute'));
@@ -126,6 +131,7 @@ describe('TimePickerComponent', function () {
     it('should decrease one minute if minute arrow down element was clicked', function () {
         var initTimeMoment = moment();
         comp.initTime = initTimeMoment.format(comp.viewFormat);
+        comp.returnObject = 'string';
         fixture.detectChanges();
         var minuteArrowDownEl = fixture.debugElement.query(platform_browser_1.By.css('.minute .arrow.down'));
         var minuteEl = fixture.debugElement.query(platform_browser_1.By.css('.minute'));
@@ -136,6 +142,7 @@ describe('TimePickerComponent', function () {
     it('should increase one second if second arrow up element was clicked', function () {
         var initTimeMoment = moment();
         comp.initTime = initTimeMoment.format(comp.viewFormat);
+        comp.returnObject = 'string';
         fixture.detectChanges();
         var secondArrowUpEl = fixture.debugElement.query(platform_browser_1.By.css('.second .arrow.up'));
         var secondEl = fixture.debugElement.query(platform_browser_1.By.css('.second'));
@@ -147,6 +154,7 @@ describe('TimePickerComponent', function () {
     it('should decrease one second if second arrow down element was clicked', function () {
         var initTimeMoment = moment();
         comp.initTime = initTimeMoment.format(comp.viewFormat);
+        comp.returnObject = 'string';
         fixture.detectChanges();
         var secondArrowDownEl = fixture.debugElement.query(platform_browser_1.By.css('.second .arrow.down'));
         var secondEl = fixture.debugElement.query(platform_browser_1.By.css('.second'));

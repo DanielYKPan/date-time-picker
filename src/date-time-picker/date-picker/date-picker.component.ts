@@ -20,13 +20,14 @@ const myDpTpl: string = require("./date-picker.component.html");
 
 export class DatePickerComponent implements OnInit {
 
-    dayNames: Array<string> = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+    dayNames: Array<string>;
 
-    @Input() initDate: string;
-    @Input() firstWeekDayMonday: boolean = false;
-    @Input() viewFormat: string = 'MMM DD, YYYY';
+    @Input() initDate: any;
+    @Input() locale: string = 'en';
+    @Input() viewFormat: string = 'll';
+    @Input() returnObject: string = 'js';
     @Output() onDatePickerCancel = new EventEmitter<boolean>();
-    @Output() onSelectDate = new EventEmitter<string>();
+    @Output() onSelectDate = new EventEmitter<any>();
 
     calendarDate: Moment;
     selectedDate: Moment;
@@ -52,14 +53,16 @@ export class DatePickerComponent implements OnInit {
     }
 
     selectDay( day: Moment ): void {
-        let selectedDay = day.format(this.viewFormat);
+        let daysDifference = day.diff(this.calendarDate.clone().startOf('date'), 'days');
+        day = this.calendarDate.clone().add(daysDifference, 'd');
+        let selectedDay = this.parseToReturnObjectType(day);
         this.onSelectDate.emit(selectedDay);
         this.cancelDatePicker();
         return;
     }
 
     selectToday(): void {
-        let today = moment().format(this.viewFormat);
+        let today = this.parseToReturnObjectType(moment());
         this.onSelectDate.emit(today);
         this.cancelDatePicker();
         return;
@@ -78,18 +81,20 @@ export class DatePickerComponent implements OnInit {
 
     protected initValue() {
 
+        // set moment locale (default is en)
+        moment.locale(this.locale);
+
         // set today value
         this.today = moment().startOf('date');
 
-        if (this.firstWeekDayMonday) {
-            let sun = this.dayNames.shift();
-            this.dayNames.push(sun);
-        }
+        // set week days name array
+        this.dayNames = moment.weekdaysShort(true);
 
         // check if the input initDate has value
         if (this.initDate) {
-            this.calendarDate = moment(this.initDate, this.viewFormat).startOf('date');
-            this.selectedDate = this.calendarDate.clone();
+            this.calendarDate = this.returnObject === 'string'? moment(this.initDate, this.viewFormat):
+                moment(this.initDate);
+            this.selectedDate = this.calendarDate.clone().startOf('date');
         } else {
             this.calendarDate = moment();
         }
@@ -97,19 +102,40 @@ export class DatePickerComponent implements OnInit {
 
     protected generateCalendar(): void {
         this.calendarDays = [];
-
-        let start: number;
-        if (this.firstWeekDayMonday) {
-            start = 0 - (this.calendarDate.clone().startOf('month').day() + 6) % 7; // iterator starting point
-        } else {
-            start = 0 - this.calendarDate.clone().startOf('month').day(); // iterator starting point
-        }
-
+        let start = 0 - (this.calendarDate.clone().startOf('month').day() + (7 - moment.localeData().firstDayOfWeek())) % 7;
         let end = 41 + start; // iterator ending point
 
         for (let i = start; i <= end; i += 1) {
             let day = this.calendarDate.clone().startOf('month').add(i, 'days');
             this.calendarDays.push(day);
+        }
+    }
+
+    protected parseToReturnObjectType(day: Moment): any {
+        switch (this.returnObject) {
+            case 'js':
+                return day.toDate();
+
+            case 'string':
+                return day.format(this.viewFormat);
+
+            case 'moment':
+                return day;
+
+            case 'json':
+                return day.toJSON();
+
+            case 'array':
+                return day.toArray();
+
+            case 'iso':
+                return day.toISOString();
+
+            case 'object':
+                return day.toObject();
+
+            default:
+                return day;
         }
     }
 }

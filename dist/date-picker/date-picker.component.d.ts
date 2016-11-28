@@ -2,11 +2,12 @@ import { OnInit, EventEmitter } from "@angular/core";
 import { Moment } from 'moment/moment';
 export declare class DatePickerComponent implements OnInit {
     dayNames: Array<string>;
-    initDate: string;
-    firstWeekDayMonday: boolean;
+    initDate: any;
+    locale: string;
     viewFormat: string;
+    returnObject: string;
     onDatePickerCancel: EventEmitter<boolean>;
-    onSelectDate: EventEmitter<string>;
+    onSelectDate: EventEmitter<any>;
     calendarDate: Moment;
     selectedDate: Moment;
     today: Moment;
@@ -21,4 +22,5 @@ export declare class DatePickerComponent implements OnInit {
     cancelDatePicker(): void;
     protected initValue(): void;
     protected generateCalendar(): void;
+    protected parseToReturnObjectType(day: Moment): any;
 }

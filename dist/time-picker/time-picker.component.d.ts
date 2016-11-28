@@ -1,10 +1,12 @@
 import { OnInit, EventEmitter } from "@angular/core";
+import { Moment } from 'moment/moment';
 export declare class TimePickerComponent implements OnInit {
-    initTime: string;
+    initTime: any;
     showSecond: boolean;
     viewFormat: string;
     use12Hour: boolean;
-    onSelectTime: EventEmitter<string>;
+    returnObject: string;
+    onSelectTime: EventEmitter<any>;
     onTimePickerCancel: EventEmitter<boolean>;
     hourFormat: string;
     private time;
@@ -20,4 +22,5 @@ export declare class TimePickerComponent implements OnInit {
     selectNow(): void;
     clearTime(): void;
     cancelTimePicker(): void;
+    protected parseToReturnObjectType(time: Moment): any;
 }

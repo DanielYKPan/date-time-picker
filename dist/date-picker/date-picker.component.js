@@ -12,9 +12,9 @@ var core_1 = require("@angular/core");
 var moment = require('moment/moment');
 var DatePickerComponent = (function () {
     function DatePickerComponent() {
-        this.dayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-        this.firstWeekDayMonday = false;
-        this.viewFormat = 'MMM DD, YYYY';
+        this.locale = 'en';
+        this.viewFormat = 'll';
+        this.returnObject = 'js';
         this.onDatePickerCancel = new core_1.EventEmitter();
         this.onSelectDate = new core_1.EventEmitter();
     }
@@ -31,13 +31,15 @@ var DatePickerComponent = (function () {
         this.generateCalendar();
     };
     DatePickerComponent.prototype.selectDay = function (day) {
-        var selectedDay = day.format(this.viewFormat);
+        var daysDifference = day.diff(this.calendarDate.clone().startOf('date'), 'days');
+        day = this.calendarDate.clone().add(daysDifference, 'd');
+        var selectedDay = this.parseToReturnObjectType(day);
         this.onSelectDate.emit(selectedDay);
         this.cancelDatePicker();
         return;
     };
     DatePickerComponent.prototype.selectToday = function () {
-        var today = moment().format(this.viewFormat);
+        var today = this.parseToReturnObjectType(moment());
         this.onSelectDate.emit(today);
         this.cancelDatePicker();
         return;
@@ -52,14 +54,13 @@ var DatePickerComponent = (function () {
         return;
     };
     DatePickerComponent.prototype.initValue = function () {
+        moment.locale(this.locale);
         this.today = moment().startOf('date');
-        if (this.firstWeekDayMonday) {
-            var sun = this.dayNames.shift();
-            this.dayNames.push(sun);
-        }
+        this.dayNames = moment.weekdaysShort(true);
         if (this.initDate) {
-            this.calendarDate = moment(this.initDate, this.viewFormat).startOf('date');
-            this.selectedDate = this.calendarDate.clone();
+            this.calendarDate = this.returnObject === 'string' ? moment(this.initDate, this.viewFormat) :
+                moment(this.initDate);
+            this.selectedDate = this.calendarDate.clone().startOf('date');
         }
         else {
             this.calendarDate = moment();
@@ -67,31 +68,49 @@ var DatePickerComponent = (function () {
     };
     DatePickerComponent.prototype.generateCalendar = function () {
         this.calendarDays = [];
-        var start;
-        if (this.firstWeekDayMonday) {
-            start = 0 - (this.calendarDate.clone().startOf('month').day() + 6) % 7;
-        }
-        else {
-            start = 0 - this.calendarDate.clone().startOf('month').day();
-        }
+        var start = 0 - (this.calendarDate.clone().startOf('month').day() + (7 - moment.localeData().firstDayOfWeek())) % 7;
         var end = 41 + start;
         for (var i = start; i <= end; i += 1) {
             var day = this.calendarDate.clone().startOf('month').add(i, 'days');
             this.calendarDays.push(day);
         }
     };
+    DatePickerComponent.prototype.parseToReturnObjectType = function (day) {
+        switch (this.returnObject) {
+            case 'js':
+                return day.toDate();
+            case 'string':
+                return day.format(this.viewFormat);
+            case 'moment':
+                return day;
+            case 'json':
+                return day.toJSON();
+            case 'array':
+                return day.toArray();
+            case 'iso':
+                return day.toISOString();
+            case 'object':
+                return day.toObject();
+            default:
+                return day;
+        }
+    };
     __decorate([
         core_1.Input(), 
-        __metadata('design:type', String)
+        __metadata('design:type', Object)
     ], DatePickerComponent.prototype, "initDate", void 0);
     __decorate([
         core_1.Input(), 
-        __metadata('design:type', Boolean)
-    ], DatePickerComponent.prototype, "firstWeekDayMonday", void 0);
+        __metadata('design:type', String)
+    ], DatePickerComponent.prototype, "locale", void 0);
     __decorate([
         core_1.Input(), 
         __metadata('design:type', String)
     ], DatePickerComponent.prototype, "viewFormat", void 0);
+    __decorate([
+        core_1.Input(), 
+        __metadata('design:type', String)
+    ], DatePickerComponent.prototype, "returnObject", void 0);
     __decorate([
         core_1.Output(), 
         __metadata('design:type', Object)

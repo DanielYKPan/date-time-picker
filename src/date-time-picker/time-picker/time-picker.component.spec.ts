@@ -40,6 +40,7 @@ describe('TimePickerComponent', () => {
     it('should raise onSelectTime event when "Now" button clicked', () => {
         let selectedTimeValue: string;
         comp.onSelectTime.subscribe(( time: string ) => selectedTimeValue = time);
+        comp.returnObject = 'string';
         let nowBtnEl = fixture.debugElement.query(By.css('.action-now'));
         nowBtnEl.triggerEventHandler('click', null);
         expect(selectedTimeValue).toBe(moment().format(comp.viewFormat));
@@ -54,6 +55,7 @@ describe('TimePickerComponent', () => {
         let selectedTimeValue: string;
         let initTimeMoment = moment().add(1, 'h');
         comp.initTime = initTimeMoment.format(comp.viewFormat);
+        comp.returnObject = 'string';
         fixture.detectChanges();
         comp.onSelectTime.subscribe(( time: string ) => selectedTimeValue = time);
         let confirmBtnEl = fixture.debugElement.query(By.css('.action-confirm'));
@@ -116,6 +118,7 @@ describe('TimePickerComponent', () => {
     it('should increase one hour if hour arrow up element was clicked', () => {
         let initTimeMoment = moment();
         comp.initTime = initTimeMoment.format(comp.viewFormat);
+        comp.returnObject = 'string';
         fixture.detectChanges();
         let hourArrowUpEl = fixture.debugElement.query(By.css('.hour .arrow.up'));
         let hourEl = fixture.debugElement.query(By.css('.hour'));
@@ -127,6 +130,7 @@ describe('TimePickerComponent', () => {
     it('should decrease one hour if hour arrow down element was clicked', () => {
         let initTimeMoment = moment();
         comp.initTime = initTimeMoment.format(comp.viewFormat);
+        comp.returnObject = 'string';
         fixture.detectChanges();
         let hourArrowDownEl = fixture.debugElement.query(By.css('.hour .arrow.down'));
         let hourEl = fixture.debugElement.query(By.css('.hour'));
@@ -138,6 +142,7 @@ describe('TimePickerComponent', () => {
     it('should increase one minute if minute arrow up element was clicked', () => {
         let initTimeMoment = moment();
         comp.initTime = initTimeMoment.format(comp.viewFormat);
+        comp.returnObject = 'string';
         fixture.detectChanges();
         let minuteArrowUpEl = fixture.debugElement.query(By.css('.minute .arrow.up'));
         let minuteEl = fixture.debugElement.query(By.css('.minute'));
@@ -149,6 +154,7 @@ describe('TimePickerComponent', () => {
     it('should decrease one minute if minute arrow down element was clicked', () => {
         let initTimeMoment = moment();
         comp.initTime = initTimeMoment.format(comp.viewFormat);
+        comp.returnObject = 'string';
         fixture.detectChanges();
         let minuteArrowDownEl = fixture.debugElement.query(By.css('.minute .arrow.down'));
         let minuteEl = fixture.debugElement.query(By.css('.minute'));
@@ -160,6 +166,7 @@ describe('TimePickerComponent', () => {
     it('should increase one second if second arrow up element was clicked', () => {
         let initTimeMoment = moment();
         comp.initTime = initTimeMoment.format(comp.viewFormat);
+        comp.returnObject = 'string';
         fixture.detectChanges();
         let secondArrowUpEl = fixture.debugElement.query(By.css('.second .arrow.up'));
         let secondEl = fixture.debugElement.query(By.css('.second'));
@@ -172,6 +179,7 @@ describe('TimePickerComponent', () => {
     it('should decrease one second if second arrow down element was clicked', () => {
         let initTimeMoment = moment();
         comp.initTime = initTimeMoment.format(comp.viewFormat);
+        comp.returnObject = 'string';
         fixture.detectChanges();
         let secondArrowDownEl = fixture.debugElement.query(By.css('.second .arrow.down'));
         let secondEl = fixture.debugElement.query(By.css('.second'));

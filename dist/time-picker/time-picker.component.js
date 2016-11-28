@@ -15,6 +15,7 @@ var TimePickerComponent = (function () {
         this.showSecond = true;
         this.viewFormat = 'hh:mm A';
         this.use12Hour = false;
+        this.returnObject = 'js';
         this.onSelectTime = new core_1.EventEmitter();
         this.onTimePickerCancel = new core_1.EventEmitter();
         this.hourFormat = 'HH';
@@ -23,6 +24,13 @@ var TimePickerComponent = (function () {
         if (this.use12Hour)
             this.hourFormat = 'hh';
         this.time = this.initTime ? moment(this.initTime, this.viewFormat) : moment();
+        if (this.initTime) {
+            this.time = this.returnObject === 'string' ? moment(this.initTime, this.viewFormat) :
+                moment(this.initTime);
+        }
+        else {
+            this.time = moment();
+        }
     };
     TimePickerComponent.prototype.increaseHour = function () {
         this.time = this.time.clone().add(1, 'h');
@@ -43,13 +51,13 @@ var TimePickerComponent = (function () {
         this.time = this.time.clone().subtract(1, 's');
     };
     TimePickerComponent.prototype.selectTime = function () {
-        var selectTime = this.time.format(this.viewFormat);
+        var selectTime = this.parseToReturnObjectType(this.time);
         this.onSelectTime.emit(selectTime);
         this.cancelTimePicker();
         return;
     };
     TimePickerComponent.prototype.selectNow = function () {
-        var selectTime = moment().format(this.viewFormat);
+        var selectTime = this.parseToReturnObjectType(moment());
         this.onSelectTime.emit(selectTime);
         this.cancelTimePicker();
         return;
@@ -63,9 +71,29 @@ var TimePickerComponent = (function () {
         this.onTimePickerCancel.emit(false);
         return;
     };
+    TimePickerComponent.prototype.parseToReturnObjectType = function (time) {
+        switch (this.returnObject) {
+            case 'js':
+                return time.toDate();
+            case 'string':
+                return time.format(this.viewFormat);
+            case 'moment':
+                return time;
+            case 'json':
+                return time.toJSON();
+            case 'array':
+                return time.toArray();
+            case 'iso':
+                return time.toISOString();
+            case 'object':
+                return time.toObject();
+            default:
+                return time;
+        }
+    };
     __decorate([
         core_1.Input(), 
-        __metadata('design:type', String)
+        __metadata('design:type', Object)
     ], TimePickerComponent.prototype, "initTime", void 0);
     __decorate([
         core_1.Input(), 
@@ -79,6 +107,10 @@ var TimePickerComponent = (function () {
         core_1.Input(), 
         __metadata('design:type', Boolean)
     ], TimePickerComponent.prototype, "use12Hour", void 0);
+    __decorate([
+        core_1.Input(), 
+        __metadata('design:type', String)
+    ], TimePickerComponent.prototype, "returnObject", void 0);
     __decorate([
         core_1.Output(), 
         __metadata('design:type', Object)
