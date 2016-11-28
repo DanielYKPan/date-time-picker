@@ -1,6 +1,7 @@
 <section class="modal">
     <section class="modal-overlay" (click)="closeModal()"></section>
-    <section class="modal-main">
+    <section class="modal-main"
+             [@modalAnimation]="'in'">
         <ng-content></ng-content>
     </section>
 </section>
