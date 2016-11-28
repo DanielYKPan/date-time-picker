@@ -16,7 +16,7 @@ export class AppComponent implements OnInit {
 
     private showDatePicker: boolean = false;
     private showTimePicker: boolean = false;
-    private date: string;
+    private date: any;
     private time: string;
 
     constructor() {
@@ -25,7 +25,8 @@ export class AppComponent implements OnInit {
     ngOnInit(): void {
     }
 
-    setDate(date: string): void {
+    setDate(date: any): void {
+        console.log(date);
         this.date = date;
         return;
     }

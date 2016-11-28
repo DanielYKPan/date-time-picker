@@ -28,19 +28,6 @@ describe('DatePickerComponent', () => {
         comp = fixture.componentInstance; // DatePickerComponent test instance
     });
 
-    it('should display "Sun" as the first weekday', () => {
-        fixture.detectChanges();
-        let weekDaysEl = fixture.debugElement.queryAll(By.css('.picker-weekday'));
-        expect(weekDaysEl[0].nativeElement.textContent).toBe('Sun');
-    });
-
-    it('should display "Mon" as the first weekday if the firstWeekDayMonday variable set to be true', () => {
-        comp.firstWeekDayMonday = true;
-        fixture.detectChanges();
-        let weekDaysEl = fixture.debugElement.queryAll(By.css('.picker-weekday'));
-        expect(weekDaysEl[0].nativeElement.textContent).toBe('Mon');
-    });
-
     it('should display display 42 picker days', () => {
         fixture.detectChanges();
         let pickerDayEls = fixture.debugElement.queryAll(By.css('.picker-day'));
@@ -53,11 +40,12 @@ describe('DatePickerComponent', () => {
     });
 
     it('should raise onSelectDate event when "Today" button clicked', () => {
-        let selectedDateValue: string;
-        comp.onSelectDate.subscribe(( date: string ) => selectedDateValue = date);
+        let selectedDateValue: any;
+        comp.onSelectDate.subscribe(( date: any ) => selectedDateValue = date);
+        expect(selectedDateValue).toBeUndefined();
         let todayBtnEl = fixture.debugElement.query(By.css('.action-today'));
         todayBtnEl.triggerEventHandler('click', null);
-        expect(selectedDateValue).toBe(moment().format(comp.viewFormat));
+        expect(selectedDateValue).toBeDefined();
     });
 
     it('should have a button named "Clear"', () => {
@@ -66,8 +54,8 @@ describe('DatePickerComponent', () => {
     });
 
     it('should raise onSelectDate event when "Clear" button clicked', () => {
-        let selectedDateValue: string;
-        comp.onSelectDate.subscribe(( date: string ) => selectedDateValue = date);
+        let selectedDateValue: any;
+        comp.onSelectDate.subscribe(( date: any ) => selectedDateValue = date);
         let clearBtnEl = fixture.debugElement.query(By.css('.action-clear'));
         clearBtnEl.triggerEventHandler('click', null);
         expect(selectedDateValue).toBeNull();
@@ -94,8 +82,9 @@ describe('DatePickerComponent', () => {
     });
 
     it('should display initDate\'s month if the initDate is set', () => {
-        let displayMonthValue = moment().add(1, 'm').format('MMMM')
+        let displayMonthValue = moment().add(1, 'm').format('MMMM');
         comp.initDate = moment().add(1, 'm').format(comp.viewFormat);
+        comp.returnObject = 'string';
         fixture.detectChanges();
         expect(comp.initDate).toBeDefined();
         let monthEl = fixture.debugElement.query(By.css('.month'));
@@ -112,6 +101,7 @@ describe('DatePickerComponent', () => {
     it('should display initDate\'s year if the initDate is set', () => {
         let displayYearValue = moment().add(1, 'y').format('YYYY');
         comp.initDate = moment().add(1, 'y').format(comp.viewFormat);
+        comp.returnObject = 'string';
         fixture.detectChanges();
         expect(comp.initDate).toBeDefined();
         let yearEl = fixture.debugElement.query(By.css('.year'));
@@ -120,6 +110,7 @@ describe('DatePickerComponent', () => {
 
     it('should display next month calendar if the nav-next button was clicked', () => {
         comp.initDate = moment().format(comp.viewFormat);
+        comp.returnObject = 'string';
         fixture.detectChanges();
 
         let navNextEl = fixture.debugElement.query(By.css('.nav-next'));
@@ -131,6 +122,7 @@ describe('DatePickerComponent', () => {
 
     it('should display previous month calendar if the nav-prev button was clicked', () => {
         comp.initDate = moment().format(comp.viewFormat);
+        comp.returnObject = 'string';
         fixture.detectChanges();
 
         let navNextEl = fixture.debugElement.query(By.css('.nav-prev'));
@@ -144,6 +136,7 @@ describe('DatePickerComponent', () => {
         let selectedIndex: number;
         let initMoment = moment().add(1, 'd');
         comp.initDate = initMoment.format(comp.viewFormat);
+        comp.returnObject = 'string';
         fixture.detectChanges();
         comp.calendarDays.map(( day: Moment, index: number ) => {
             if (day.format(comp.viewFormat) === initMoment.format(comp.viewFormat)) {
@@ -159,6 +152,7 @@ describe('DatePickerComponent', () => {
         let todayIndex: number;
         let todayMoment = moment();
         comp.initDate = todayMoment.format(comp.viewFormat);
+        comp.returnObject = 'string';
         fixture.detectChanges();
         comp.calendarDays.map(( day: Moment, index: number ) => {
             if (day.format(comp.viewFormat) === todayMoment.format(comp.viewFormat)) {
@@ -174,6 +168,7 @@ describe('DatePickerComponent', () => {
         let notCurrentMonthDaysIndex: number[] = [];
         let todayMoment = moment();
         comp.initDate = todayMoment.format(comp.viewFormat);
+        comp.returnObject = 'string';
         fixture.detectChanges();
         comp.calendarDays.map(( day: Moment, index: number ) => {
             if (day.format('MMMM') != todayMoment.format('MMMM')) {
