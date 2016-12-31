@@ -21,7 +21,7 @@ To install this component to an external project, follow the procedure:
     import { DateTimePickerModule } from 'ng2-date-time-picker';
 
     // If you are using systemjs package loader import the MyDatePickerModule from here:
-    import { DatetimePickerModule } from 'ng2-date-time-picker/dist/date-time-picker.module';
+    import { DateTimePickerModule } from 'ng2-date-time-picker/dist/date-time-picker.module';
 
     @NgModule({
         imports:      [ BrowserModule, DateTimePickerModule ],
