@@ -1,6 +1,6 @@
 "use strict";
-var moment_pipe_1 = require('./moment.pipe');
-var moment = require('moment/moment');
+var moment_pipe_1 = require("./moment.pipe");
+var moment = require("moment/moment");
 describe('MomentPipe', function () {
     var defaultFormat;
     var nowMoment;

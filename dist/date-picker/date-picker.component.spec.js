@@ -4,7 +4,7 @@ var date_picker_component_1 = require("./date-picker.component");
 var platform_browser_1 = require("@angular/platform-browser");
 var moment_pipe_1 = require("../pipes/moment.pipe");
 var modal_component_1 = require("../picker-modal/modal.component");
-var moment = require('moment/moment');
+var moment = require("moment/moment");
 describe('DatePickerComponent', function () {
     var comp;
     var fixture;

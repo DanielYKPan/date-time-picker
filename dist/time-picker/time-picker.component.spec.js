@@ -4,7 +4,7 @@ var time_picker_component_1 = require("./time-picker.component");
 var modal_component_1 = require("../picker-modal/modal.component");
 var moment_pipe_1 = require("../pipes/moment.pipe");
 var platform_browser_1 = require("@angular/platform-browser");
-var moment = require('moment/moment');
+var moment = require("moment/moment");
 describe('TimePickerComponent', function () {
     var comp;
     var fixture;

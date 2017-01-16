@@ -8,21 +8,21 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var core_1 = require('@angular/core');
+var core_1 = require("@angular/core");
 var MomentPipe = (function () {
     function MomentPipe() {
     }
     MomentPipe.prototype.transform = function (moment, format) {
         return format ? moment.format(format) : moment.format('MMM DD, YYYY');
     };
-    MomentPipe = __decorate([
-        core_1.Pipe({
-            name: 'moment'
-        }), 
-        __metadata('design:paramtypes', [])
-    ], MomentPipe);
     return MomentPipe;
 }());
+MomentPipe = __decorate([
+    core_1.Pipe({
+        name: 'moment'
+    }),
+    __metadata("design:paramtypes", [])
+], MomentPipe);
 exports.MomentPipe = MomentPipe;
 
 //# sourceMappingURL=moment.pipe.js.map
