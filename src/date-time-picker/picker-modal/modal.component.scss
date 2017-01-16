@@ -12,7 +12,7 @@ $white: #fff;
   box-sizing: border-box;
 }
 
-.modal {
+.picker-modal {
   position: fixed;
   top: 0;
   left: 0;
@@ -22,7 +22,7 @@ $white: #fff;
   overflow-y: scroll;
 }
 
-.modal-overlay {
+.picker-modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
@@ -33,7 +33,7 @@ $white: #fff;
   background-color: $light-dark;
 }
 
-.modal-main {
+.picker-modal-main {
   position: absolute;
   top: 30px;
   right: auto;
