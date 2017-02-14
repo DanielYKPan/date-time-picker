@@ -114,11 +114,11 @@ Use the following snippet inside your template for example:
 ```
 In side your component
 ```typescript
-            private date: any;
-            private showDatePicker: boolean;
+            private time: any;
+            private showTimePicker: boolean;
     
-            toggleDatePicker(status: boolean): void  {
-                this.showDatePicker = status;
+            toggleTimePicker(status: boolean): void  {
+                this.showTimePicker = status;
             }
     
             setTime(time: any): void {
