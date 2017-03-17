@@ -52,11 +52,23 @@
                     <div [hidden]="dialogType !== 2" class="month">
                         <div class="picker-calendar-row">
                             <span class="picker-month"
-                                  *ngFor="let month of monthNames"
+                                  *ngFor="let month of monthList"
                                   [class.selected]="month === (moment | moment: 'MMM')"
                                   (click)="selectMonth(month)">
                                 {{month}}
                             </span>
+                        </div>
+                    </div>
+                    <div [hidden]="dialogType !== 3" class="year">
+                        <div class="picker-calendar-row">
+                            <span class="arrow-left" (click)="generateYearList('prev')"></span>
+                            <span class="picker-year"
+                                  *ngFor="let year of yearList"
+                                  [class.selected]="year.toString() === (moment | moment: 'YYYY')"
+                                  (click)="selectYear(year)">
+                                {{year}}
+                            </span>
+                            <span class="arrow-right" (click)="generateYearList('next')"></span>
                         </div>
                     </div>
                 </div>

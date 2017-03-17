@@ -28,7 +28,8 @@ export class DialogComponent implements OnInit {
     private calendarDays: Moment[];
     private today: Moment;
     private dayNames: string[];
-    private monthNames: string[];
+    private monthList: string[];
+    private yearList: number[] = [];
     private dialogType: DialogType;
 
     private dtLocale: string;
@@ -86,7 +87,7 @@ export class DialogComponent implements OnInit {
         // set week days name array
         this.dayNames = moment.weekdaysShort(true);
         // set month name array
-        this.monthNames = moment.monthsShort();
+        this.monthList = moment.monthsShort();
     }
 
     public prevMonth(): void {
@@ -122,11 +123,39 @@ export class DialogComponent implements OnInit {
         return;
     }
 
+    public selectYear(year: number): void {
+        this.moment = this.moment.clone().year(year);
+        this.generateCalendar();
+        this.toggleDialogType(DialogType.Year);
+        return;
+    }
+
     public toggleDialogType( type: DialogType ): void {
         if (this.dialogType === type) {
             this.dialogType = this.dtDialogType;
+            return;
+        }
+
+        this.dialogType = type;
+        if (type === DialogType.Year) {
+            this.generateYearList();
+        }
+        return;
+    }
+
+    public generateYearList( param?: string ): void {
+        let start;
+
+        if (param === 'prev') {
+            start = this.yearList[0] - 9;
+        } else if (param === 'next') {
+            start = this.yearList[8] + 1;
         } else {
-            this.dialogType = type;
+            start = +this.moment.clone().subtract(4, 'y').format('YYYY');
+        }
+
+        for (let i = 0; i < 9; i++) {
+            this.yearList[i] = start + i;
         }
         return;
     }
