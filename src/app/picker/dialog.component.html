@@ -4,7 +4,7 @@
             <div class="picker-banner">
                 <div class="picker-banner-day">{{ (selectedMoment? selectedMoment : now) | moment: 'dddd'}}</div>
                 <div class="picker-banner-moment">
-                    <div class="moment-date">
+                    <div class="moment-date" (click)="toggleDialogType(1)">
                         <div class="big">
                             <span>{{(selectedMoment? selectedMoment : now) | moment: 'Do'}}</span>
                         </div>
@@ -13,7 +13,7 @@
                             <span>{{(selectedMoment? selectedMoment : now) | moment: 'YYYY'}}</span>
                         </div>
                     </div>
-                    <div class="moment-time">
+                    <div class="moment-time" (click)="toggleDialogType(0)">
                         <div class="big">
                             <span>{{(selectedMoment? selectedMoment : now) | moment: 'hh:mm'}}</span>
                         </div>
@@ -23,10 +23,11 @@
                     </div>
                 </div>
             </div>
-            <div [hidden]="dialogType === 0" class="picker-content">
-                <dialog-date-panel [moment]="moment" [dialogType]="dtDialogType" [now]="now"
+            <div class="picker-content">
+                <dialog-date-panel [hidden]="dialogType === 0" [moment]="moment" [dialogType]="dtDialogType" [now]="now"
                                    [locale]="dtLocale" [selectedMoment]="selectedMoment"
                                    (onSelectDate)="select($event)"></dialog-date-panel>
+                <div [hidden]="dialogType !== 0">Time Panel</div>
             </div>
             <div class="picker-footer">
                 <div class="picker-action action-today" (click)="selectToday()"><span class="text">Today</span>

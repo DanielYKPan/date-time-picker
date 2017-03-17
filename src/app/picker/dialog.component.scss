@@ -40,7 +40,7 @@
   .moment-date,
   .moment-time {
     width: 50%;
-    padding: $base-line-height/2 1rem;
+    padding: $base-line-height/2 .5rem;
     cursor: pointer;
   }
 
@@ -63,7 +63,7 @@
 
     .small {
       flex-direction: column;
-      padding: 0 1rem;
+      padding: 0 .5rem;
     }
   }
 

@@ -102,6 +102,14 @@ export class DialogComponent implements OnInit {
         this.cancelDialog();
     }
 
+    public toggleDialogType( type: DialogType ): void {
+        if (this.dialogType === type) {
+            this.dialogType = DialogType.Date;
+        } else {
+            this.dialogType = type;
+        }
+    }
+
     private setMomentFromString( value: any, emit: boolean = true ) {
         if (value) {
             this.moment = this.dtReturnObject === 'string' ? moment(value, this.dtViewFormat) :
