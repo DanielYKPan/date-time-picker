@@ -22,7 +22,7 @@ export class DialogComponent implements OnInit {
     private show: boolean;
     private moment: Moment;
     private initialValue: string;
-    private selectedDate: Moment;
+    private selectedMoment: Moment;
     private directiveInstance: any;
     private directiveElementRef: ElementRef;
     private calendarDays: Moment[];
@@ -105,7 +105,7 @@ export class DialogComponent implements OnInit {
         if (value) {
             this.moment = this.dtReturnObject === 'string' ? moment(value, this.dtViewFormat) :
                 moment(value);
-            this.selectedDate = this.moment.clone().startOf('date');
+            this.selectedMoment = this.moment.clone().startOf('date');
         } else {
             this.moment = moment();
         }

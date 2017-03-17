@@ -1,6 +1,21 @@
 <picker-modal *ngIf="show" (onOverlayClick)="cancelDialog()">
     <div class="picker-wrap">
         <div class="picker-box">
+            <div class="picker-banner">
+                <div class="picker-banner-day">{{ moment | moment: 'dddd'}}</div>
+                <div class="picker-banner-moment">
+                    <div class="moment-date">
+                        <div class="big">
+                            <span>{{(selectedMoment? selectedMoment : today) | moment: 'Do'}}</span>
+                        </div>
+                        <div class="small">
+                            <span>{{(selectedMoment? selectedMoment : today) | moment: 'MMM'}}</span>
+                            <span>{{(selectedMoment? selectedMoment : today) | moment: 'YYYY'}}</span>
+                        </div>
+                    </div>
+                    <div class="moment-time"></div>
+                </div>
+            </div>
             <div class="picker-header">
                 <div class="picker-header-nav">
                     <span class="nav-prev" (click)="prevMonth()"></span>
@@ -22,10 +37,10 @@
                 <div class="picker-calendar-row">
                 <span class="picker-day"
                       (click)="select(day)"
-                      [ngClass] = "{
+                      [ngClass]="{
                        'out-focus': day.month() != moment.month(),
                        'today': day.isSame(today),
-                       'selected': day.isSame(selectedDate)
+                       'selected': day.isSame(selectedMoment)
                       }"
                       *ngFor="let day of calendarDays">
                     {{ day | moment: 'D'}}
