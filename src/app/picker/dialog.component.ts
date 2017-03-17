@@ -115,6 +115,22 @@ export class DialogComponent implements OnInit {
         return;
     }
 
+    public selectMonth( month: string ): void {
+        this.moment = this.moment.clone().month(month);
+        this.generateCalendar();
+        this.toggleDialogType(DialogType.Month);
+        return;
+    }
+
+    public toggleDialogType( type: DialogType ): void {
+        if (this.dialogType === type) {
+            this.dialogType = this.dtDialogType;
+        } else {
+            this.dialogType = type;
+        }
+        return;
+    }
+
     private setMomentFromString( value: any, emit: boolean = true ) {
         if (value) {
             this.moment = this.dtReturnObject === 'string' ? moment(value, this.dtViewFormat) :

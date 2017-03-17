@@ -120,6 +120,17 @@
   width: calc(100% * 6 / 8);
   text-align: center;
 
+  .month,
+  .year {
+    display: inline-block;
+    cursor: pointer;
+    transition: transform 200ms ease;
+
+    &:hover {
+      transform: scale(1.2);
+    }
+  }
+
   .month {
     @include type-setting(1);
 
