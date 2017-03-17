@@ -28,10 +28,13 @@ export class DialogComponent implements OnInit {
     private calendarDays: Moment[];
     private today: Moment;
     private dayNames: string[];
+    private monthNames: string[];
+    private dialogType: DialogType;
 
     private dtLocale: string;
     private dtViewFormat: string;
     private dtReturnObject: string;
+    private dtDialogType: DialogType;
 
     constructor() {
     }
@@ -42,6 +45,7 @@ export class DialogComponent implements OnInit {
 
     public openDialog( moment: any, emit: boolean = true ): void {
         this.show = true;
+        this.dialogType = this.dtDialogType;
         this.setInitialMoment(moment);
         this.setMomentFromString(moment, emit);
         this.generateCalendar();
@@ -57,13 +61,21 @@ export class DialogComponent implements OnInit {
         this.initialValue = value;
     }
 
-    public setDialog( instance: any, elementRef: ElementRef, initialValue: any, dtLocale: string, dtViewFormat: string, dtReturnObject: string ): void {
+    public setDialog( instance: any, elementRef: ElementRef, initialValue: any,
+                      dtLocale: string, dtViewFormat: string, dtReturnObject: string,
+                      dtDialogType: string ): void {
         this.directiveInstance = instance;
         this.directiveElementRef = elementRef;
         this.initialValue = initialValue;
         this.dtLocale = dtLocale;
         this.dtViewFormat = dtViewFormat;
         this.dtReturnObject = dtReturnObject;
+
+        if (dtDialogType === 'time') {
+            this.dtDialogType = DialogType.Time;
+        } else {
+            this.dtDialogType = DialogType.Date;
+        }
 
         // set moment locale (default is en)
         moment.locale(this.dtLocale);
@@ -73,6 +85,8 @@ export class DialogComponent implements OnInit {
 
         // set week days name array
         this.dayNames = moment.weekdaysShort(true);
+        // set month name array
+        this.monthNames = moment.monthsShort();
     }
 
     public prevMonth(): void {
@@ -149,4 +163,11 @@ export class DialogComponent implements OnInit {
                 return day;
         }
     }
+}
+
+enum DialogType {
+    Time,
+    Date,
+    Month,
+    Year,
 }

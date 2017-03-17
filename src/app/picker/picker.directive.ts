@@ -22,6 +22,7 @@ export class DateTimePickerDirective {
     @Input() locale: string = 'en';
     @Input() viewFormat: string = 'll';
     @Input() returnObject: string = 'js';
+    @Input() dialogType: string = 'date';
 
     private created: boolean;
     private dialog: any;
@@ -47,7 +48,8 @@ export class DateTimePickerDirective {
                     const compFactory: ComponentFactory<DialogComponent> = factory.componentFactories.find(( x: any ) => x.componentType === DialogComponent);
                     const injector = ReflectiveInjector.fromResolvedProviders([], this.vcRef.parentInjector);
                     const cmpRef = this.vcRef.createComponent(compFactory, 0, injector, []);
-                    cmpRef.instance.setDialog(this, this.el, this.dateTimePicker, this.locale, this.viewFormat, this.returnObject);
+                    cmpRef.instance.setDialog(this, this.el, this.dateTimePicker,
+                        this.locale, this.viewFormat, this.returnObject, this.dialogType);
                     this.dialog = cmpRef.instance;
                 });
         } else if (this.dialog) {

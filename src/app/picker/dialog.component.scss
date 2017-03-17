@@ -68,6 +68,13 @@
   }
 }
 
+.picker-content {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-height: $base-line-height * 17;
+}
+
 .picker-header,
 .picker-footer {
   @include type-setting(1);
@@ -114,7 +121,7 @@
   text-align: center;
 
   .month {
-    @include type-setting(2);
+    @include type-setting(1);
 
     margin-right: .5rem;
     font-weight: 700;
@@ -127,13 +134,26 @@
 }
 
 .picker-calendar {
+  flex-grow: 1;
   width: 100%;
 
   .picker-calendar-row {
     display: flex;
     flex-wrap: wrap;
     width: 100%;
-    margin-bottom: $base-line-height / 2;
+  }
+
+  .picker-month {
+    @include type-setting(1);
+    position: relative;
+    height: $base-line-height * 2;
+    text-align: center;
+    cursor: pointer;
+    width: calc(100% / 4);
+
+    &:hover {
+      background: #b1dcfb
+    }
   }
 
   .picker-weekday {
