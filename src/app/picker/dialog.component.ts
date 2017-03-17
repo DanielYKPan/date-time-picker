@@ -26,7 +26,7 @@ export class DialogComponent implements OnInit {
     private directiveInstance: any;
     private directiveElementRef: ElementRef;
     private calendarDays: Moment[];
-    private today: Moment;
+    private now: Moment;
     private dayNames: string[];
     private monthList: string[];
     private yearList: number[] = [];
@@ -81,8 +81,8 @@ export class DialogComponent implements OnInit {
         // set moment locale (default is en)
         moment.locale(this.dtLocale);
 
-        // set today value
-        this.today = moment().startOf('date');
+        // set now value
+        this.now = moment();
 
         // set week days name array
         this.dayNames = moment.weekdaysShort(true);
@@ -102,17 +102,25 @@ export class DialogComponent implements OnInit {
 
     public select( moment: Moment ): void {
         let daysDifference = moment.diff(this.moment.clone().startOf('date'), 'days');
-        moment = this.moment.clone().add(daysDifference, 'd');
-        let selectedMoment = this.parseToReturnObjectType(moment);
-        this.directiveInstance.momentChanged(selectedMoment);
-        this.cancelDialog();
+        this.selectedMoment = this.moment.clone().add(daysDifference, 'd');
+        if (this.selectedMoment.year() !== this.moment.year() ||
+            this.selectedMoment.month() !== this.moment.month()) {
+            this.moment = this.selectedMoment.clone();
+            this.generateCalendar();
+        }
         return;
     }
 
     public selectToday(): void {
-        let today = this.parseToReturnObjectType(moment());
-        this.directiveInstance.momentChanged(today);
-        this.cancelDialog();
+        this.selectedMoment = this.moment.clone()
+            .year(this.now.year())
+            .month(this.now.month())
+            .dayOfYear(this.now.dayOfYear());
+        if (this.selectedMoment.year() !== this.moment.year() ||
+            this.selectedMoment.month() !== this.moment.month()) {
+            this.moment = this.selectedMoment.clone();
+            this.generateCalendar();
+        }
         return;
     }
 
@@ -123,7 +131,7 @@ export class DialogComponent implements OnInit {
         return;
     }
 
-    public selectYear(year: number): void {
+    public selectYear( year: number ): void {
         this.moment = this.moment.clone().year(year);
         this.generateCalendar();
         this.toggleDialogType(DialogType.Year);
@@ -160,11 +168,18 @@ export class DialogComponent implements OnInit {
         return;
     }
 
+    public confirm(): void {
+        let m = this.selectedMoment ? this.selectedMoment.clone() : moment();
+        let selectedM = this.parseToReturnObjectType(m);
+        this.directiveInstance.momentChanged(selectedM);
+        this.cancelDialog();
+    }
+
     private setMomentFromString( value: any, emit: boolean = true ) {
         if (value) {
             this.moment = this.dtReturnObject === 'string' ? moment(value, this.dtViewFormat) :
                 moment(value);
-            this.selectedMoment = this.moment.clone().startOf('date');
+            this.selectedMoment = this.moment.clone();
         } else {
             this.moment = moment();
         }

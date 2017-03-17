@@ -2,15 +2,15 @@
     <div class="picker-wrap">
         <div class="picker-box">
             <div class="picker-banner">
-                <div class="picker-banner-day">{{ (selectedMoment? selectedMoment : today) | moment: 'dddd'}}</div>
+                <div class="picker-banner-day">{{ (selectedMoment? selectedMoment : now) | moment: 'dddd'}}</div>
                 <div class="picker-banner-moment">
                     <div class="moment-date">
                         <div class="big">
-                            <span>{{(selectedMoment? selectedMoment : today) | moment: 'Do'}}</span>
+                            <span>{{(selectedMoment? selectedMoment : now) | moment: 'Do'}}</span>
                         </div>
                         <div class="small">
-                            <span>{{(selectedMoment? selectedMoment : today) | moment: 'MMM'}}</span>
-                            <span>{{(selectedMoment? selectedMoment : today) | moment: 'YYYY'}}</span>
+                            <span>{{(selectedMoment? selectedMoment : now) | moment: 'MMM'}}</span>
+                            <span>{{(selectedMoment? selectedMoment : now) | moment: 'YYYY'}}</span>
                         </div>
                     </div>
                     <div class="moment-time"></div>
@@ -41,8 +41,8 @@
                                   (click)="select(day)"
                                   [ngClass]="{
                                'out-focus': day.month() != moment.month(),
-                               'today': day.isSame(today),
-                               'selected': day.isSame(selectedMoment)
+                               'today': day.isSame(now, 'day'),
+                               'selected': selectedMoment && day.isSame(selectedMoment, 'day')
                               }"
                                   *ngFor="let day of calendarDays">
                             {{ day | moment: 'D'}}
@@ -79,7 +79,7 @@
                     </div>
                     <div class="picker-action action-close" (click)="cancelDialog()"><span class="text">Close</span>
                     </div>
-                    <div class="picker-action action-confirm"><span class="text">Confirm</span>
+                    <div class="picker-action action-confirm" (click)="confirm()"><span class="text">Confirm</span>
                     </div>
                 </div>
             </div>
