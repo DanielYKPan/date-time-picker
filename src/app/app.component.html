@@ -25,30 +25,30 @@
                 <label for="date-input">Date: </label>
                 <input class="picker-input"
                        id="date-input"
-                       [ngModel]="momentValue | date: 'longDate'"
-                       (focus)="toggleDatePicker(true)"
-                       readonly>
+                       [dateTimePicker]="momentValue"
+                       [value]="momentValue | date: 'longDate'"
+                       (dateTimePickerChange)="setDate($event)" readonly>
             </div>
 
-            <div class="input-control">
-                <label for="time-input">Time: </label>
-                <input class="picker-input"
-                       id="time-input"
-                       [ngModel]="momentValue | date: 'shortTime'"
-                       (focus)="toggleTimePicker(true)"
-                       readonly>
-            </div>
+            <!-- <div class="input-control">
+                 <label for="time-input">Time: </label>
+                 <input class="picker-input"
+                        id="time-input"
+                        [ngModel]="momentValue | date: 'shortTime'"
+                        (focus)="toggleTimePicker(true)"
+                        readonly>
+             </div>-->
         </div>
     </section>
 </main>
 
-<date-picker *ngIf="showDatePicker"
+<!--<date-picker *ngIf="showDatePicker"
              [initDate]="momentValue"
              (onSelectDate)="setDate($event)"
-             (onDatePickerCancel)="toggleDatePicker($event)"></date-picker>
+             (onDatePickerCancel)="toggleDatePicker($event)"></date-picker>-->
 
-<time-picker *ngIf="showTimePicker"
+<!--<time-picker *ngIf="showTimePicker"
              [initTime]="momentValue"
              [use12Hour]="true"
              (onSelectTime)="setTime($event)"
-             (onTimePickerCancel)="toggleTimePicker($event)"></time-picker>
+             (onTimePickerCancel)="toggleTimePicker($event)"></time-picker>-->

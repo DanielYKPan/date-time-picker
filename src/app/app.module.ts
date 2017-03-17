@@ -10,17 +10,19 @@ import { ModalComponent } from "./picker-modal/modal.component";
 import { MomentPipe } from "./pipes/moment.pipe";
 import { FormsModule } from "@angular/forms";
 import { TimePickerComponent } from "./time-picker/time-picker.component";
+import { PickerModule } from './picker/picker.module';
 @NgModule({
     imports: [
         BrowserModule,
-        FormsModule
+        FormsModule,
+        PickerModule,
     ],
     declarations: [
         AppComponent,
-        DatePickerComponent,
-        TimePickerComponent,
-        ModalComponent,
-        MomentPipe
+       // DatePickerComponent,
+       // TimePickerComponent,
+       // ModalComponent,
+       // MomentPipe
     ],
     bootstrap: [ AppComponent ]
 })

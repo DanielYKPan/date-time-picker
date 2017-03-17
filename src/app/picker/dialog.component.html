@@ -1,0 +1,42 @@
+<picker-modal *ngIf="show" (onOverlayClick)="cancelDialog()">
+    <div class="picker-wrap">
+        <div class="picker-box">
+            <div class="picker-header">
+                <div class="picker-header-nav">
+                    <span class="nav-prev" (click)="prevMonth()"></span>
+                </div>
+                <div class="picker-header-content">
+                    <div class="content">
+                        <span class="month">{{moment | moment: "MMMM"}}</span>
+                        <span class="year">{{moment | moment: "YYYY"}}</span>
+                    </div>
+                </div>
+                <div class="picker-header-nav">
+                    <span class="nav-next" (click)="nextMonth()"></span>
+                </div>
+            </div>
+            <div class="picker-calendar">
+                <div class="picker-calendar-row">
+                    <span class="picker-weekday" *ngFor="let day of dayNames">{{ day }}</span>
+                </div>
+                <div class="picker-calendar-row">
+                <span class="picker-day"
+                      (click)="select(day)"
+                      [ngClass] = "{
+                       'out-focus': day.month() != moment.month(),
+                       'today': day.isSame(today),
+                       'selected': day.isSame(selectedDate)
+                      }"
+                      *ngFor="let day of calendarDays">
+                    {{ day | moment: 'D'}}
+                </span>
+                </div>
+            </div>
+            <div class="picker-footer">
+                <div class="picker-action action-today" (click)="selectToday()"><span class="text">Today</span></div>
+                <div class="picker-action action-clear" (click)="clearPickDate()"><span class="text">Clear</span></div>
+                <div class="picker-action action-close" (click)="cancelDialog()"><span class="text">Close</span></div>
+            </div>
+        </div>
+    </div>
+</picker-modal>
