@@ -1,0 +1,55 @@
+<div class="picker-control">
+    <div class="picker-control-nav">
+        <span class="nav-prev" (click)="prevMonth()"></span>
+    </div>
+    <div class="picker-control-content">
+        <div class="content">
+            <span class="month" (click)="toggleDialogType(2)">{{moment | moment: "MMMM"}}</span>
+            <span class="year" (click)="toggleDialogType(3)">{{moment | moment: "YYYY"}}</span>
+        </div>
+    </div>
+    <div class="picker-control-nav">
+        <span class="nav-next" (click)="nextMonth()"></span>
+    </div>
+</div>
+<div class="picker-calendar">
+    <div [hidden]="dialogType !== 1" class="date">
+        <div class="picker-calendar-row">
+            <span class="picker-weekday" *ngFor="let day of dayNames">{{ day }}</span>
+        </div>
+        <div class="picker-calendar-row">
+                            <span class="picker-day"
+                                  (click)="select(day)"
+                                  [ngClass]="{
+                               'out-focus': day.month() != moment.month(),
+                               'today': day.isSame(now, 'day'),
+                               'selected': selectedMoment && day.isSame(selectedMoment, 'day')
+                              }"
+                                  *ngFor="let day of calendarDays">
+                            {{ day | moment: 'D'}}
+                            </span>
+        </div>
+    </div>
+    <div [hidden]="dialogType !== 2" class="month">
+        <div class="picker-calendar-row">
+                            <span class="picker-month"
+                                  *ngFor="let month of monthList"
+                                  [class.selected]="month === (moment | moment: 'MMM')"
+                                  (click)="selectMonth(month)">
+                                {{month}}
+                            </span>
+        </div>
+    </div>
+    <div [hidden]="dialogType !== 3" class="year">
+        <div class="picker-calendar-row">
+            <span class="arrow-left" (click)="generateYearList('prev')"></span>
+            <span class="picker-year"
+                  *ngFor="let year of yearList"
+                  [class.selected]="year.toString() === (moment | moment: 'YYYY')"
+                  (click)="selectYear(year)">
+                                {{year}}
+                            </span>
+            <span class="arrow-right" (click)="generateYearList('next')"></span>
+        </div>
+    </div>
+</div>
