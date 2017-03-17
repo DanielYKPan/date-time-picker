@@ -66,6 +66,28 @@
       padding: 0 1rem;
     }
   }
+
+  .moment-time {
+    display: flex;
+
+    .big, .small {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .big {
+      @include type-setting(2);
+      @include respond-to(medium) {
+        @include type-setting(3);
+      }
+    }
+
+    .small {
+      @include type-setting(1);
+      padding: 0 5px;
+    }
+  }
 }
 
 .picker-content {

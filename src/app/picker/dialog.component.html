@@ -13,7 +13,14 @@
                             <span>{{(selectedMoment? selectedMoment : now) | moment: 'YYYY'}}</span>
                         </div>
                     </div>
-                    <div class="moment-time"></div>
+                    <div class="moment-time">
+                        <div class="big">
+                            <span>{{(selectedMoment? selectedMoment : now) | moment: 'hh:mm'}}</span>
+                        </div>
+                        <div class="small">
+                            <span>{{(selectedMoment? selectedMoment : now) | moment: 'A'}}</span>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div [hidden]="dialogType === 0" class="picker-content">
