@@ -8,6 +8,7 @@ import { DialogComponent } from './dialog.component';
 import { ModalComponent } from '../picker-modal/modal.component';
 import { MomentPipe } from "../pipes/moment.pipe";
 import { DatePanelComponent } from './date-panel.component';
+import { TimePanelComponent } from './time-panel.component';
 
 @NgModule({
     imports: [
@@ -17,6 +18,7 @@ import { DatePanelComponent } from './date-panel.component';
         DialogComponent,
         ModalComponent,
         DatePanelComponent,
+        TimePanelComponent,
         MomentPipe
     ],
 })
