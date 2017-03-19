@@ -22,33 +22,13 @@
 
         <div class="demo">
             <div class="input-control">
-                <label for="date-input">Date: </label>
+                <label for="time-input">Time: </label>
                 <input class="picker-input"
-                       id="date-input"
+                       id="time-input"
                        [dateTimePicker]="momentValue"
-                       [value]="momentValue | date: 'longDate'"
+                       [ngModel]="momentValue | date: 'short'"
                        (dateTimePickerChange)="setDate($event)" readonly>
             </div>
-
-            <!-- <div class="input-control">
-                 <label for="time-input">Time: </label>
-                 <input class="picker-input"
-                        id="time-input"
-                        [ngModel]="momentValue | date: 'shortTime'"
-                        (focus)="toggleTimePicker(true)"
-                        readonly>
-             </div>-->
         </div>
     </section>
 </main>
-
-<!--<date-picker *ngIf="showDatePicker"
-             [initDate]="momentValue"
-             (onSelectDate)="setDate($event)"
-             (onDatePickerCancel)="toggleDatePicker($event)"></date-picker>-->
-
-<!--<time-picker *ngIf="showTimePicker"
-             [initTime]="momentValue"
-             [use12Hour]="true"
-             (onSelectTime)="setTime($event)"
-             (onTimePickerCancel)="toggleTimePicker($event)"></time-picker>-->
