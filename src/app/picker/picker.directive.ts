@@ -22,7 +22,7 @@ export class DateTimePickerDirective {
     @Input() locale: string = 'en';
     @Input() viewFormat: string = 'll';
     @Input() returnObject: string = 'js';
-    @Input() dialogType: string = 'date';
+    @Input() dialogType: string = 'time'; //TODO: change to 'date'
 
     private created: boolean;
     private dialog: any;
