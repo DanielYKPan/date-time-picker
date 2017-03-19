@@ -15,6 +15,10 @@
     height: $base-line-height * 4;
     cursor: pointer;
 
+    &.hidden {
+      display: none;
+    }
+
     .picker-action {
       text-align: center;
       width: calc(100% / 3);

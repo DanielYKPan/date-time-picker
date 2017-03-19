@@ -53,7 +53,7 @@
         </div>
     </div>
 </div>
-<div class="picker-control footer">
+<div class="picker-control footer" [class.hidden]="dialogType !== 1">
     <div class="picker-action action-today" (click)="selectToday()"><span class="text">Today</span>
     </div>
     <div class="picker-action action-close" (click)="cancelDialog()"><span class="text">Close</span>
