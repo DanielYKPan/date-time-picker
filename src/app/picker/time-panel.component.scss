@@ -55,3 +55,24 @@
     }
   }
 }
+
+.control {
+  @include type-setting(1);
+
+  margin: $base-line-height * 2 0;
+  text-align: center;
+
+  .button {
+    width: 50%;
+    background: #4285f4;
+    color: #fff;
+    margin: 0 auto;
+    border: 1px solid #4285f4;
+    border-radius: 3px;
+    cursor: pointer;
+
+    &:hover {
+      background-color: #3461bd;
+    }
+  }
+}

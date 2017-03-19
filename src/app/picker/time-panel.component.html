@@ -14,4 +14,8 @@
         <div class="title">Minutes</div>
         <app-slide-bar [floor]="0" [ceiling]="59" [(low)]="minValue"></app-slide-bar>
     </div>
+
+    <div class="control">
+        <button class="button" (click)="setTime()">Set Time</button>
+    </div>
 </div>

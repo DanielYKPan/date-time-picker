@@ -94,6 +94,12 @@ export class DialogComponent implements OnInit {
         this.cancelDialog();
     }
 
+    public setTime( moment: Moment ): void {
+        this.selectedMoment = this.moment.clone()
+            .hours(moment.hours())
+            .minutes(moment.minutes());
+    }
+
     public toggleDialogType( type: DialogType ): void {
         if (this.dialogType === type) {
             this.dialogType = DialogType.Date;

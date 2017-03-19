@@ -2,7 +2,7 @@
  * time-panel.component
  */
 
-import { Component, OnInit, Input, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, Input, ChangeDetectionStrategy, Output, EventEmitter } from '@angular/core';
 import { Moment } from 'moment/moment';
 import { DialogType } from './dialog.component';
 
@@ -23,6 +23,7 @@ export class TimePanelComponent implements OnInit {
     @Input() moment: Moment;
     @Input() now: Moment;
     @Input() dialogType: DialogType;
+    @Output() onSetTime = new EventEmitter<Moment>();
 
     hourValue: number;
     minValue: number;
@@ -46,5 +47,25 @@ export class TimePanelComponent implements OnInit {
 
     public setMeridian( meridian: string ): void {
         this.meridianValue = meridian;
+    }
+
+    public setTime(): void {
+        let selectedMoment = this.moment.clone();
+        if (this.meridianValue === 'AM') {
+            if (this.hourValue === 12) {
+                selectedMoment.hours(0);
+            } else {
+                selectedMoment.hours(this.hourValue);
+            }
+        } else {
+            if (this.hourValue === 12) {
+                selectedMoment.hours(12);
+            } else {
+                selectedMoment.hours(this.hourValue + 12);
+            }
+        }
+        selectedMoment.minutes(this.minValue);
+
+        this.onSetTime.emit(selectedMoment);
     }
 }

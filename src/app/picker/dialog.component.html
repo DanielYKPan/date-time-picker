@@ -30,7 +30,7 @@
                                    (onCancelDialog)="cancelDialog()"
                                    (onConfrim)="confirm()"></dialog-date-panel>
                 <dialog-time-panel [hidden]="dialogType !== 0" [moment]="moment" [dialogType]="dialogType"
-                                   [now]="now"></dialog-time-panel>
+                                   [now]="now" (onSetTime)="setTime($event)"></dialog-time-panel>
             </div>
         </div>
     </div>
