@@ -22,4 +22,7 @@ export class TimePanelComponent implements OnInit {
     public ngOnInit() {
     }
 
+    public lowValueChange( event: number ): void {
+        console.log(event);
+    }
 }
