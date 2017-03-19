@@ -52,7 +52,7 @@ export class DatePanelComponent implements OnInit, OnChanges {
     }
 
     public ngOnChanges( changes: SimpleChanges ): void {
-        if (!changes['selectedMoment'].isFirstChange() &&
+        if (changes['selectedMoment'] && !changes['selectedMoment'].isFirstChange() &&
             (this.selectedMoment.year() !== this.moment.year() ||
             this.selectedMoment.month() !== this.moment.month())) {
             this.moment = this.selectedMoment.clone();

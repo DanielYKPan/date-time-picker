@@ -24,7 +24,7 @@
                 </div>
             </div>
             <div class="picker-content">
-                <dialog-date-panel [hidden]="dialogType === 0" [moment]="moment" [dialogType]="dtDialogType" [now]="now"
+                <dialog-date-panel [hidden]="dialogType === 0" [moment]="moment" [dialogType]="dialogType" [now]="now"
                                    [locale]="dtLocale" [selectedMoment]="selectedMoment"
                                    (onSelectDate)="select($event)"></dialog-date-panel>
                 <dialog-time-panel [hidden]="dialogType !== 0" [moment]="moment" [now]="now"></dialog-time-panel>
