@@ -1,5 +1,5 @@
 <div class="time-view">
-    <div class="time">{{hourValue}} : {{minValue}}</div>
+    <div class="time">{{hourValue | numberFixedLen: 2}} : {{minValue | numberFixedLen: 2}}</div>
     <div class="meridiem">
         <div class="button-group">
             <button class="button" [class.active]="meridianValue === 'AM'" (click)="setMeridian('AM')">AM</button>
