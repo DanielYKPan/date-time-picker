@@ -27,7 +27,7 @@
                 <dialog-date-panel [hidden]="dialogType === 0" [moment]="moment" [dialogType]="dtDialogType" [now]="now"
                                    [locale]="dtLocale" [selectedMoment]="selectedMoment"
                                    (onSelectDate)="select($event)"></dialog-date-panel>
-                <dialog-time-panel [hidden]="dialogType !== 0"></dialog-time-panel>
+                <dialog-time-panel [hidden]="dialogType !== 0" [moment]="moment" [now]="now"></dialog-time-panel>
             </div>
             <div class="picker-footer">
                 <div class="picker-action action-today" (click)="selectToday()"><span class="text">Today</span>
