@@ -6,11 +6,11 @@
             <button class="button" [class.active]="meridianValue === 'PM'" (click)="setMeridian('PM')">PM</button>
         </div>
     </div>
-    <div class="time-control">
+    <div *ngIf="dialogType === 0" class="time-control">
         <div class="title">Hours</div>
         <app-slide-bar [floor]="1" [ceiling]="12" [(low)]="hourValue"></app-slide-bar>
     </div>
-    <div class="time-control">
+    <div *ngIf="dialogType === 0" class="time-control">
         <div class="title">Minutes</div>
         <app-slide-bar [floor]="0" [ceiling]="59" [(low)]="minValue"></app-slide-bar>
     </div>

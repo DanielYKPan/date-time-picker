@@ -2,9 +2,9 @@
  * time-panel.component
  */
 
-import { Component, OnInit, Input } from '@angular/core';
-import * as moment from 'moment/moment';
+import { Component, OnInit, Input, ChangeDetectionStrategy } from '@angular/core';
 import { Moment } from 'moment/moment';
+import { DialogType } from './dialog.component';
 
 // webpack1_
 declare let require: any;
@@ -14,6 +14,7 @@ const myDpTpl: string = require("./time-panel.component.html");
 
 @Component({
     selector: 'dialog-time-panel',
+    changeDetection: ChangeDetectionStrategy.OnPush,
     template: myDpTpl,
     styles: [myDpStyles],
 })
@@ -21,6 +22,7 @@ export class TimePanelComponent implements OnInit {
 
     @Input() moment: Moment;
     @Input() now: Moment;
+    @Input() dialogType: DialogType;
 
     hourValue: number;
     minValue: number;
