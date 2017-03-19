@@ -30,6 +30,8 @@ export class DatePanelComponent implements OnInit, OnChanges {
     @Input() locale: string;
     @Input() selectedMoment: Moment;
     @Output() onSelectDate = new EventEmitter<Moment>();
+    @Output() onCancelDialog = new EventEmitter<boolean>();
+    @Output() onConfrim = new EventEmitter<boolean>();
 
     private calendarDays: Moment[];
     private dayNames: string[];
@@ -120,6 +122,24 @@ export class DatePanelComponent implements OnInit, OnChanges {
             return;
         }
         this.onSelectDate.emit(moment);
+    }
+
+    public selectToday(): void {
+        let moment = this.moment.clone()
+            .year(this.now.year())
+            .month(this.now.month())
+            .dayOfYear(this.now.dayOfYear());
+        this.onSelectDate.emit(moment);
+    }
+
+    public cancelDialog(): void {
+        this.onCancelDialog.emit(true);
+        return;
+    }
+
+    public confirm(): void {
+        this.onConfrim.emit(true);
+        return;
     }
 
     private generateCalendar(): void {

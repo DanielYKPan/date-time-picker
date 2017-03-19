@@ -87,14 +87,6 @@ export class DialogComponent implements OnInit {
         return;
     }
 
-    public selectToday(): void {
-        this.selectedMoment = this.moment.clone()
-            .year(this.now.year())
-            .month(this.now.month())
-            .dayOfYear(this.now.dayOfYear());
-        return;
-    }
-
     public confirm(): void {
         let m = this.selectedMoment ? this.selectedMoment.clone() : moment();
         let selectedM = this.parseToReturnObjectType(m);
