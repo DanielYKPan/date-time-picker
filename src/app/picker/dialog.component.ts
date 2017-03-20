@@ -95,9 +95,8 @@ export class DialogComponent implements OnInit {
     }
 
     public setTime( moment: Moment ): void {
-        this.selectedMoment = this.moment.clone()
-            .hours(moment.hours())
-            .minutes(moment.minutes());
+        let m = this.selectedMoment ? this.selectedMoment.clone() : this.moment.clone();
+        this.selectedMoment = m.hours(moment.hours()).minutes(moment.minutes());
     }
 
     public toggleDialogType( type: DialogType ): void {
