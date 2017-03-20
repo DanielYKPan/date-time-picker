@@ -13,6 +13,18 @@
   max-width: 666px;
 }
 
+.picker-dropdown {
+  max-width: 666px;
+  min-width: 333px;
+  border: #777 solid 1px;
+  position: absolute;
+  z-index: 1000;
+  user-select: none;
+  background-color: $white;
+  margin-bottom: $base-line-height/2;
+  border-radius: 5px;
+}
+
 .picker-box {
   font-family: 'Open Sans';
   width: 100%;

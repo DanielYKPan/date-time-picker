@@ -23,6 +23,8 @@ export class DateTimePickerDirective {
     @Input() viewFormat: string = 'll';
     @Input() returnObject: string = 'js';
     @Input() dialogType: string = 'date';
+    @Input() mode: string = 'popup';
+    @Input() positionOffset: string = '0%';
 
     private created: boolean;
     private dialog: any;
@@ -49,7 +51,8 @@ export class DateTimePickerDirective {
                     const injector = ReflectiveInjector.fromResolvedProviders([], this.vcRef.parentInjector);
                     const cmpRef = this.vcRef.createComponent(compFactory, 0, injector, []);
                     cmpRef.instance.setDialog(this, this.el, this.dateTimePicker,
-                        this.locale, this.viewFormat, this.returnObject, this.dialogType);
+                        this.locale, this.viewFormat, this.returnObject,
+                        this.dialogType, this.mode, this.positionOffset);
                     this.dialog = cmpRef.instance;
                 });
         } else if (this.dialog) {
