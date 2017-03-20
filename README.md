@@ -80,7 +80,6 @@ public setMoment(moment: any): any {
 }
 ```
 
-
  * Create a normal HTML Input and put it anywhere you want (like inside a form you already created). 
  * You may set the HTML Input to **readonly**, so you can only change the date value from the pop-up date-time picker.
  * Use **[(dateTimePicker)]="momentValue"** from our DateTimePickerModule. This is the two way binding feature from Angular2.
