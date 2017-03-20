@@ -14,8 +14,6 @@ import '../sass/main.scss';
 
 export class AppComponent implements OnInit {
 
-    private showDatePicker: boolean = false;
-    private showTimePicker: boolean = false;
     private moment: Date;
 
     constructor() {
@@ -24,23 +22,4 @@ export class AppComponent implements OnInit {
     ngOnInit(): void {
     }
 
-    setDate(date: any): void {
-        this.moment = date;
-        return;
-    }
-
-    setTime(time: any): void {
-        this.moment = time;
-        return;
-    }
-
-    toggleDatePicker(status: boolean): void {
-        this.showDatePicker = status;
-        return;
-    }
-
-    toggleTimePicker(status: boolean): void {
-        this.showTimePicker = status;
-        return;
-    }
 }

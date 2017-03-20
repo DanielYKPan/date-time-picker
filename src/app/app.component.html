@@ -14,41 +14,26 @@
             <p>Angular 2 date time picker - Angular 2 reusable UI Component</p>
             <ul>
                 <li>This Picker is responsive and works on all devices(desktops, tablets and mobiles)</li>
-                <li>The source code of the module is <a class="ex-link" href="https://github.com/DanielYKPan/ng2-date-time-picker">here</a></li>
-                <li>The sample code is <a class="ex-link" href="https://github.com/DanielYKPan/ng2-date-time-picker/tree/gh-pages">here</a></li>
-                <li>See more on the <a class="ex-link" href="https://github.com/DanielYKPan/ng2-date-time-picker">documentation</a></li>
+                <li>The source code of the module is <a class="ex-link"
+                                                        href="https://github.com/DanielYKPan/ng2-date-time-picker">here</a>
+                </li>
+                <li>The sample code is <a class="ex-link"
+                                          href="https://github.com/DanielYKPan/ng2-date-time-picker/tree/gh-pages">here</a>
+                </li>
+                <li>See more on the <a class="ex-link" href="https://github.com/DanielYKPan/ng2-date-time-picker">documentation</a>
+                </li>
             </ul>
         </div>
 
         <div class="demo">
             <div class="input-control">
-                <label for="date-input">Date: </label>
-                <input class="picker-input"
-                       id="date-input"
-                       [ngModel]="moment | date: 'mediumDate'"
-                       (focus)="toggleDatePicker(true)"
-                       readonly>
-            </div>
-
-            <div class="input-control">
                 <label for="time-input">Time: </label>
                 <input class="picker-input"
                        id="time-input"
-                       [ngModel]="moment | date: 'shortTime'"
-                       (focus)="toggleTimePicker(true)"
+                       [ngModel]="moment | date: 'mediumDate'"
+                       [(dateTimePicker)]="moment"
                        readonly>
             </div>
         </div>
     </section>
 </main>
-
-<date-picker *ngIf="showDatePicker"
-             [initDate]="moment"
-             (onSelectDate)="setDate($event)"
-             (onDatePickerCancel)="toggleDatePicker($event)"></date-picker>
-
-<time-picker *ngIf="showTimePicker"
-             [initTime]="moment"
-             [use12Hour]="true"
-             (onSelectTime)="setTime($event)"
-             (onTimePickerCancel)="toggleTimePicker($event)"></time-picker>
