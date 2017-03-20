@@ -106,6 +106,8 @@ export class DialogComponent implements OnInit {
         let m = this.selectedMoment ? this.selectedMoment.clone() : this.moment.clone();
         let daysDifference = moment.clone().startOf('date').diff(m.clone().startOf('date'), 'days');
         this.selectedMoment = m.add(daysDifference, 'd');
+        let selectedM = this.parseToReturnObjectType(m);
+        this.directiveInstance.momentChanged(selectedM);
         return;
     }
 
@@ -119,6 +121,8 @@ export class DialogComponent implements OnInit {
     public setTime( moment: Moment ): void {
         let m = this.selectedMoment ? this.selectedMoment.clone() : this.moment.clone();
         this.selectedMoment = m.hours(moment.hours()).minutes(moment.minutes());
+        let selectedM = this.parseToReturnObjectType(m);
+        this.directiveInstance.momentChanged(selectedM);
         this.dialogType = this.dtDialogType;
     }
 
