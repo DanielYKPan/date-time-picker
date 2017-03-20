@@ -42,6 +42,10 @@
     width: 50%;
     padding: $base-line-height/2 .5rem;
     cursor: pointer;
+
+    &:hover {
+      color: rgba(255, 255, 255, 0.65);
+    }
   }
 
   .moment-date {

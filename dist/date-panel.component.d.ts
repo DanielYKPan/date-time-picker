@@ -10,7 +10,7 @@ export declare class DatePanelComponent implements OnInit, OnChanges {
     selectedMoment: Moment;
     onSelectDate: EventEmitter<moment.Moment>;
     onCancelDialog: EventEmitter<boolean>;
-    onConfrim: EventEmitter<boolean>;
+    onConfirm: EventEmitter<boolean>;
     private calendarDays;
     private dayNames;
     private monthList;

@@ -15,7 +15,7 @@ var DatePanelComponent = (function () {
     function DatePanelComponent() {
         this.onSelectDate = new core_1.EventEmitter();
         this.onCancelDialog = new core_1.EventEmitter();
-        this.onConfrim = new core_1.EventEmitter();
+        this.onConfirm = new core_1.EventEmitter();
         this.yearList = [];
     }
     DatePanelComponent.prototype.ngOnInit = function () {
@@ -98,7 +98,7 @@ var DatePanelComponent = (function () {
         return;
     };
     DatePanelComponent.prototype.confirm = function () {
-        this.onConfrim.emit(true);
+        this.onConfirm.emit(true);
         return;
     };
     DatePanelComponent.prototype.generateCalendar = function () {
@@ -143,7 +143,7 @@ __decorate([
 __decorate([
     core_1.Output(),
     __metadata("design:type", Object)
-], DatePanelComponent.prototype, "onConfrim", void 0);
+], DatePanelComponent.prototype, "onConfirm", void 0);
 DatePanelComponent = __decorate([
     core_1.Component({
         selector: 'dialog-date-panel',

@@ -4,7 +4,9 @@
 **Angular 2 date time picker - Angular2 reusable UI component**
 
 ## Description
-Simple Angular2 date time picker. Online demo is [here](https://danielykpan.github.io/ng2-date-time-picker/). This picker is responsive design, so feel free to try it in your desktops, tablets and mobile devices. This picker uses [MomentJS](http://momentjs.com/)
+Simple Angular2 date time picker. Online demo is [here](https://danielykpan.github.io/ng2-date-time-picker/). 
+This picker is responsive design, so feel free to try it in your desktops, tablets and mobile devices. 
+This picker uses [MomentJS](http://momentjs.com/)
 
 ## Installation
 
@@ -17,11 +19,7 @@ To install this component to an external project, follow the procedure:
     import { BrowserModule } from '@angular/platform-browser';
     import { MyTestApp } from './my-test-app';
 
-    // If you are using webpack package loader import the MyDatePickerModule from here:
     import { DateTimePickerModule } from 'ng2-date-time-picker';
-
-    // If you are using systemjs package loader import the MyDatePickerModule from here:
-    import { DateTimePickerModule } from 'ng2-date-time-picker/dist/date-time-picker.module';
 
     @NgModule({
         imports:      [ BrowserModule, DateTimePickerModule ],
@@ -30,7 +28,7 @@ To install this component to an external project, follow the procedure:
     })
     export class MyTestAppModule {}
     ```
-3. This picker use MomentJS. Remember to load MomentJS when you load your project from webpack or systemjs
+3. **This picker use MomentJS. Remember to load MomentJS when you load your project from webpack or systemjs*.*
 4. If you are using __systemjs__ package loader add the following mydatepicker properties to the __System.config__:
     ```js
     (function (global) {
@@ -68,76 +66,37 @@ To install this component to an external project, follow the procedure:
 Use the following snippet inside your template for example:
 
 ```html
-
-<input [ngModel]="date" (focus)="toggleDatePicker(true)" readonly />
-<date-picker *ngIf="showDatePicker" [initDate]="date"
-           (onDatePickerCancel)="toggleDatePicker($event)"
-           (onSelectDate)="setDate($event)"></date-picker>
+<input [ngModel]="momentValue | date: 'short'" [(dateTimePicker)]="momentValue" readonly />
 ```
-In side your component
-```typescript
-            private date: any;
-            private showDatePicker: boolean;
-    
-            toggleDatePicker(status: boolean): void  {
-                this.showDatePicker = status;
-            }
-    
-            setDate(date: any): void {
-                this.date = date;
-            }
-```
- * Create a normal HTML Input and put it anywhere you want (like inside a form you already created). 
- * Set the HTML Input to **readonly**, so you can only change the date value from the pop-up date picker.
- * Use **[ngModel]="date"** from Angular2 built-in FormsModule to bind the date value to the input value. 
- * Use **(focus)="toggleDatePicker(true)"** to toggle the date picker. In the Code above, we set the showDatePicker variable to true in the component, so we date picker would show up.
- * The date-picker selector could be place anywhere inside your template. (Normally, put it outside your form tag).
- * Use ***ngIf="showDatePicker"** in <date-picker></date-picker> to toggle the date picker. (**showDatePicker** is just variable from the component, you can change it to whatever you want)
- * Mandatory attributes:
-      * **[initDate]="date"** --- The initial date you will have see in the calendar. You can set it null if you don't have any initial date, and the calendar would set Today as the initial date.
-      * **(onDatePickerCancel)="toggleDatePicker($event)"** --- This would close the pop-up date picker when you click the cancel button or select a date in the date picker.
-      * **(onSelectDate)="setDate($event)"** --- This would set the date value when you pick a date in the date picker.
- * Optional attributes:
-      * **[viewFormat]='ll'** --- You can change the date string format you will get when you pick a date. (Default value is 'll'. You can get more inform about the format from [MomentJS](http://momentjs.com/docs/#/parsing/string-format/)).
-      * **[locale]="'en'"** --- This date-time-picker has robust support for internationalization. (Default value is 'en'. If you want to change to French for example, just set [locale]="'fr'". You can get more inform about the i18n from [MomentJS-i18n](http://momentjs.com/docs/#/i18n/)).
-      * **[returnObject]="'js'"** --- You can set the return object type when you pick a date from date-picker. (Default value is 'js', this means the default return object type is javascript Date object. The other options are: string, moment, json, array, iso and object).
-
-### Time Picker
-Use the following snippet inside your template for example:
+<p>Or:</p>
 
 ```html
-
-<input [ngModel]="time" (focus)="toggleTimePicker(true)" readonly />
-<time-picker *ngIf="showTimePicker" [initTime]="time"
-           (onTimePickerCancel)="toggleTimePicker($event)"
-           (onSelectTime)="setTime($event)"></time-picker>
+<input [ngModel]="momentValue | date: 'short'" [dateTimePicker]="momentValue" (dateTimePickerChange)="setMoment($event)" readonly />
 ```
-In side your component
 ```typescript
-            private date: any;
-            private showDatePicker: boolean;
-    
-            toggleDatePicker(status: boolean): void  {
-                this.showDatePicker = status;
-            }
-    
-            setTime(time: any): void {
-                this.time = time;
-            }
+public setMoment(moment: any): any {
+    this.momentValue = moment;
+    // Do whatever you want to the return object 'moment'
+}
 ```
-* The usage of time picker is similar to date time picker except we use <time-picker></time-picker> selector.
-
-* Mandatory attributes:
-      * **[initTime]="time"** --- The initial date you will have see in the calendar. You can set it null if you don't have any initial date, and the calendar would set Today as the initial date.
-      * **(onTimePickerCancel)="toggleTimePicker($event)"** --- This would close the pop-up time picker when you click the cancel button or select a time in the time picker.
-      * **(onSelectTime)="setTime($event)"** --- This would set the time value when you select a time in the time picker.
 
 
-* Optional attributes:
-      * **[viewFormat]="hh:mm A"** --- You can change the time string format you will get when you select a time. (Default value is 'hh:mm A'. You can get more inform about the format from [MomentJS](http://momentjs.com/docs/#/parsing/string-format/)).
-      * **[use12Hour]="true"** --- You can change the time format using 12 hour rule.(The default value is false, so we use 24 hour rule as default).
-      * **[showSecond]="true"** --- You can show and change the second value in the time picker. (The default value is false, so the time picker does not show the second value as default).
-      * **[returnObject]="'js'"** --- You can set the return object type when you pick a date from date-picker. (Default value is 'js', this means the default return object type is javascript Date object. The other options are: string, moment, json, array, iso and object).
+ * Create a normal HTML Input and put it anywhere you want (like inside a form you already created). 
+ * You may set the HTML Input to **readonly**, so you can only change the date value from the pop-up date-time picker.
+ * Use **[(dateTimePicker)]="momentValue"** from our DateTimePickerModule. This is the two way binding feature from Angular2.
+    Firstly, the local variable 'momentValue' would be bind to Our 'dateTimePicker' directive and shows in the popup picker dialog.
+    Once you select your new moment value and confirm it, the local variable 'momentValue' would be updated. Or if you want to deal
+    with the return new moment value from our directive before update the local variable, your can separate it like this **[dateTimePicker]="momentValue" (dateTimePickerChange)="setMoment($event)"**
+ * Use **[ngModel]="momentValue"** from Angular2 built-in FormsModule to bind the moment value to the input value. 
+ * Inside **[ngModel]="momentValue | date: 'short' "**, we use the date pipe from Angular2 built-in Pipes to transform the Javascript Date Object to more friendly formats.
+    We only use this built-in date pipe when we set the 'dateTimePicker' return object as Javascript Date Object.
+ * Optional attributes:
+      * **[returnObject]="'js'"** --- You can set the return object type when you pick a moment from date-time-picker. (Default value is 'js', this means the default return object type is javascript Date object. The other options are: string, moment, json, array, iso and object).
+      * **[viewFormat]="'ll'"** --- If you set your returnObject as 'string', you need to set the viewFormat. (Default value is 'll'. You can get more inform about the format from [MomentJS](http://momentjs.com/docs/#/parsing/string-format/)).
+      * **[locale]="'en'"** --- This date-time-picker has robust support for internationalization. (Default value is 'en'. If you want to change to French for example, just set [locale]="'fr'". You can get more inform about the i18n from [MomentJS-i18n](http://momentjs.com/docs/#/i18n/)).
+      * **[dialogType]="'date'"** --- You can set the default dialogType to 'date' or 'time'. When you leave it as default ([dialogType]="'date'"), the pop-up date-time-picker dialog would display the date calendar.
+        If you set it as 'time', the pop-up date-time-picker dialog would display time slide bar control dialog. But you can still toggle these two dialogs inside the pop-up date-time-picker.
+      * **Important: Do Not forget the single quote inside the double quote when you set the optional attributes value.**
 
 ## Demo
 Online demo is [here](https://danielykpan.github.io/ng2-date-time-picker/)

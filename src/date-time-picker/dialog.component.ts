@@ -82,8 +82,9 @@ export class DialogComponent implements OnInit {
     }
 
     public select( moment: Moment ): void {
-        let daysDifference = moment.diff(this.moment.clone().startOf('date'), 'days');
-        this.selectedMoment = this.moment.clone().add(daysDifference, 'd');
+        let m = this.selectedMoment ? this.selectedMoment.clone() : this.moment.clone();
+        let daysDifference = moment.clone().startOf('date').diff(m.clone().startOf('date'), 'days');
+        this.selectedMoment = m.add(daysDifference, 'd');
         return;
     }
 
@@ -95,9 +96,9 @@ export class DialogComponent implements OnInit {
     }
 
     public setTime( moment: Moment ): void {
-        this.selectedMoment = this.moment.clone()
-            .hours(moment.hours())
-            .minutes(moment.minutes());
+        let m = this.selectedMoment ? this.selectedMoment.clone() : this.moment.clone();
+        this.selectedMoment = m.hours(moment.hours()).minutes(moment.minutes());
+        this.dialogType = this.dtDialogType;
     }
 
     public toggleDialogType( type: DialogType ): void {
