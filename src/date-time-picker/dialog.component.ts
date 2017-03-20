@@ -32,8 +32,15 @@ export class DialogComponent implements OnInit {
     private dtViewFormat: string;
     private dtReturnObject: string;
     private dtDialogType: DialogType;
+    private dtPositionOffset: string;
+    private dtMode: string;
 
-    constructor() {
+    private top: number;
+    private left: number;
+    private width: number;
+    private position: string;
+
+    constructor( private el: ElementRef ) {
     }
 
     public ngOnInit() {
@@ -42,6 +49,13 @@ export class DialogComponent implements OnInit {
 
     public openDialog( moment: any, emit: boolean = true ): void {
         this.show = true;
+
+        if (this.dtMode === 'dropdown') {
+            this.setDialogPosition();
+            document.addEventListener('mousedown', ( event: any ) => {
+                this.onMouseDown(event)
+            });
+        }
         this.dialogType = this.dtDialogType;
         this.setInitialMoment(moment);
         this.setMomentFromString(moment, emit);
@@ -50,6 +64,11 @@ export class DialogComponent implements OnInit {
 
     public cancelDialog(): void {
         this.show = false;
+        if (this.dtMode === 'dropdown') {
+            document.removeEventListener('mousedown', ( event: any ) => {
+                this.onMouseDown(event)
+            });
+        }
         return;
     }
 
@@ -59,13 +78,15 @@ export class DialogComponent implements OnInit {
 
     public setDialog( instance: any, elementRef: ElementRef, initialValue: any,
                       dtLocale: string, dtViewFormat: string, dtReturnObject: string,
-                      dtDialogType: string ): void {
+                      dtDialogType: string, dtMode: string, dtPositionOffset: string ): void {
         this.directiveInstance = instance;
         this.directiveElementRef = elementRef;
         this.initialValue = initialValue;
         this.dtLocale = dtLocale;
         this.dtViewFormat = dtViewFormat;
         this.dtReturnObject = dtReturnObject;
+        this.dtMode = dtMode;
+        this.dtPositionOffset = dtPositionOffset;
 
         if (dtDialogType === 'time') {
             this.dtDialogType = DialogType.Time;
@@ -85,6 +106,8 @@ export class DialogComponent implements OnInit {
         let m = this.selectedMoment ? this.selectedMoment.clone() : this.moment.clone();
         let daysDifference = moment.clone().startOf('date').diff(m.clone().startOf('date'), 'days');
         this.selectedMoment = m.add(daysDifference, 'd');
+        let selectedM = this.parseToReturnObjectType(m);
+        this.directiveInstance.momentChanged(selectedM);
         return;
     }
 
@@ -98,6 +121,8 @@ export class DialogComponent implements OnInit {
     public setTime( moment: Moment ): void {
         let m = this.selectedMoment ? this.selectedMoment.clone() : this.moment.clone();
         this.selectedMoment = m.hours(moment.hours()).minutes(moment.minutes());
+        let selectedM = this.parseToReturnObjectType(m);
+        this.directiveInstance.momentChanged(selectedM);
         this.dialogType = this.dtDialogType;
     }
 
@@ -145,6 +170,70 @@ export class DialogComponent implements OnInit {
             default:
                 return day;
         }
+    }
+
+    private setDialogPosition() {
+        let node = this.directiveElementRef.nativeElement;
+        let position = 'static';
+        let parentNode: any = null;
+        let boxDirective;
+
+        while (node !== null && node.tagName !== 'HTML') {
+            position = window.getComputedStyle(node).getPropertyValue("position");
+            if (position !== 'static' && parentNode === null) {
+                parentNode = node;
+            }
+            if (position === 'fixed') {
+                break;
+            }
+            node = node.parentNode;
+        }
+
+        if (position !== 'fixed') {
+            boxDirective = this.createBox(this.directiveElementRef.nativeElement, true);
+            if (parentNode === null) {
+                parentNode = node
+            }
+            let boxParent = this.createBox(parentNode, true);
+            this.top = boxDirective.top - boxParent.top;
+            this.left = boxDirective.left - boxParent.left;
+        } else {
+            boxDirective = this.createBox(this.directiveElementRef.nativeElement, false);
+            this.top = boxDirective.top;
+            this.left = boxDirective.left;
+            this.position = 'fixed';
+        }
+
+        this.top += boxDirective.height + 3;
+        this.left += parseInt(this.dtPositionOffset) / 100 * boxDirective.width;
+        this.width = this.directiveElementRef.nativeElement.offsetWidth;
+    }
+
+    private createBox( element: any, offset: boolean ) {
+        return {
+            top: element.getBoundingClientRect().top + (offset ? window.pageYOffset : 0),
+            left: element.getBoundingClientRect().left + (offset ? window.pageXOffset : 0),
+            width: element.offsetWidth,
+            height: element.offsetHeight
+        };
+    }
+
+    private onMouseDown( event: any ) {
+        if ((!this.isDescendant(this.el.nativeElement, event.target)
+            && event.target != this.directiveElementRef.nativeElement)) {
+            this.show = false;
+        }
+    }
+
+    private isDescendant( parent: any, child: any ): boolean {
+        let node: any = child.parentNode;
+        while (node !== null) {
+            if (node === parent) {
+                return true;
+            }
+            node = node.parentNode;
+        }
+        return false;
     }
 }
 

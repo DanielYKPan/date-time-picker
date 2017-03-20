@@ -21,6 +21,9 @@
     "build": "rimraf dist && webpack --config config/webpack.prod.js --progress --profile --bail"
   },
   "dependencies": {
+    "moment": "^2.17.0"
+  },
+  "devDependencies": {
     "@angular/common": "2.4.6",
     "@angular/compiler": "2.4.6",
     "@angular/core": "2.4.6",
@@ -30,13 +33,10 @@
     "@angular/platform-browser-dynamic": "2.4.6",
     "@angular/platform-server": "2.4.6",
     "@angular/router": "3.4.6",
-
     "core-js": "^2.4.1",
-    "moment": "^2.17.0",
     "rxjs": "5.0.2",
-    "zone.js": "0.7.6"
-  },
-  "devDependencies": {
+    "web-animations-js": "^2.2.2",
+    "zone.js": "0.7.6",
     "@types/jasmine": "^2.5.36",
     "@types/node": "^7.0.0",
     "@types/selenium-webdriver": "~2.53.39",

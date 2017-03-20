@@ -9,6 +9,8 @@ export declare class DateTimePickerDirective {
     viewFormat: string;
     returnObject: string;
     dialogType: string;
+    mode: string;
+    positionOffset: string;
     private created;
     private dialog;
     constructor(compiler: Compiler, vcRef: ViewContainerRef, el: ElementRef);

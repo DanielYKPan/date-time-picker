@@ -21,6 +21,8 @@ var DateTimePickerDirective = (function () {
         this.viewFormat = 'll';
         this.returnObject = 'js';
         this.dialogType = 'date';
+        this.mode = 'popup';
+        this.positionOffset = '0%';
     }
     DateTimePickerDirective.prototype.onClick = function () {
         this.openDialog();
@@ -37,7 +39,7 @@ var DateTimePickerDirective = (function () {
                 var compFactory = factory.componentFactories.find(function (x) { return x.componentType === dialog_component_1.DialogComponent; });
                 var injector = core_1.ReflectiveInjector.fromResolvedProviders([], _this.vcRef.parentInjector);
                 var cmpRef = _this.vcRef.createComponent(compFactory, 0, injector, []);
-                cmpRef.instance.setDialog(_this, _this.el, _this.dateTimePicker, _this.locale, _this.viewFormat, _this.returnObject, _this.dialogType);
+                cmpRef.instance.setDialog(_this, _this.el, _this.dateTimePicker, _this.locale, _this.viewFormat, _this.returnObject, _this.dialogType, _this.mode, _this.positionOffset);
                 _this.dialog = cmpRef.instance;
             });
         }
@@ -71,6 +73,14 @@ __decorate([
     core_1.Input(),
     __metadata("design:type", String)
 ], DateTimePickerDirective.prototype, "dialogType", void 0);
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", String)
+], DateTimePickerDirective.prototype, "mode", void 0);
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", String)
+], DateTimePickerDirective.prototype, "positionOffset", void 0);
 DateTimePickerDirective = __decorate([
     core_1.Directive({
         selector: '[dateTimePicker]',

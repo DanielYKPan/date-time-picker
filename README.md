@@ -95,6 +95,7 @@ public setMoment(moment: any): any {
       * **[locale]=" 'en' "** --- This date-time-picker has robust support for internationalization. (Default value is 'en'. If you want to change to French for example, just set [locale]=" 'fr' ". You can get more inform about the i18n from [MomentJS-i18n](http://momentjs.com/docs/#/i18n/)).
       * **[dialogType]=" 'date' "** --- You can set the default dialogType to 'date' or 'time'. When you leave it as default ([dialogType]=" 'date' "), the pop-up date-time-picker dialog would display the date calendar.
         If you set it as 'time', the pop-up date-time-picker dialog would display time slide bar control dialog. But you can still toggle these two dialogs inside the pop-up date-time-picker.
+      * **[mode]=" 'popup' "** --- Set the date-time picker mode. Default is 'popup'. The other choice could be 'dropdown'.
       * **Important: Do Not forget the single quote inside the double quote when you set the optional attributes value.**
 
 ## Demo
