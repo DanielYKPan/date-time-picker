@@ -2,7 +2,7 @@
     <header class="header">
         <h1>Ng2 Date Time Picker</h1>
         <p>A date time picker built by AngularJS 2</p>
-        <a href="https://github.com/DanielYKPan/ng2-date-time-picker">
+        <a href="https://github.com/DanielYKPan/ng2-date-time-picker" target="_blank">
             <img class="github-banner"
                  src="https://camo.githubusercontent.com/365986a132ccd6a44c23a9169022c0b5c890c387/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f7265645f6161303030302e706e67"
                  alt="Fork me on GitHub"
@@ -11,28 +11,152 @@
     </header>
     <section class="container">
         <div class="description">
-            <p>Angular 2 date time picker - Angular 2 reusable UI Component</p>
+            <h3>AngularJs 2 DateTimePicker is a cool responsive DateTimePicker directive for Web and Mobile. It is
+                Mobile friendly and light weight.</h3>
             <ul>
                 <li>This Picker is responsive and works on all devices(desktops, tablets and mobiles)</li>
+                <li>This Picker combines both date picker and time picker. You could toggle between them on the show-up
+                    picker
+                </li>
+                <li>This Picker has two modes('popup' and 'dropdown'). You could try it in the below demos</li>
                 <li>The source code of the module is <a class="ex-link"
-                                                        href="https://github.com/DanielYKPan/ng2-date-time-picker">here</a>
+                                                        href="https://github.com/DanielYKPan/ng2-date-time-picker" target="_blank">here</a>.
                 </li>
                 <li>The sample code is <a class="ex-link"
-                                          href="https://github.com/DanielYKPan/ng2-date-time-picker/tree/gh-pages">here</a>
+                                          href="https://github.com/DanielYKPan/ng2-date-time-picker/tree/gh-pages" target="_blank">here</a>.
                 </li>
-                <li>See more on the <a class="ex-link" href="https://github.com/DanielYKPan/ng2-date-time-picker">documentation</a>
+                <li>See more on the <a class="ex-link" href="https://github.com/DanielYKPan/ng2-date-time-picker" target="_blank">documentation</a>.
                 </li>
             </ul>
         </div>
 
         <div class="demo">
-            <div class="input-control">
-                <label for="time-input">Time: </label>
-                <input class="picker-input"
-                       id="time-input"
-                       [ngModel]="moment | date: 'mediumDate'"
-                       [(dateTimePicker)]="moment"
-                       readonly>
+            <h3 class="title">Demo</h3>
+            <p>Remember to import 'DateTimePickerModule' to your project before using this Picker.
+                You could learn more from the <a class="ex-link" href="https://github.com/DanielYKPan/ng2-date-time-picker" target="_blank">documentation</a>.</p>
+            <div class="row">
+                <h4 class="heading">Normal pop-up mode:</h4>
+                <p>Click the input, and the date time picker would be pop-up. If you click anywhere out side the pop-up
+                    picker, the picker would be close.</p>
+                <div class="input-control">
+                    <label for="time-input-1">DateTime: </label>
+                    <input class="picker-input"
+                           id="time-input-1"
+                           [ngModel]="input1Moment | date: 'short'"
+                           [(dateTimePicker)]="input1Moment"
+                           readonly>
+                </div>
+                <pre class="prettyprint"><code><![CDATA[<input class="picker-input" [ngModel]="moment | date: 'short'" [(dateTimePicker)]="moment" readonly>]]></code></pre>
+            </div>
+
+            <div class="row">
+                <h4 class="heading">Normal dropdown mode:</h4>
+                <p>Click the text input, and the date time picker would be shown under the text input. If you click
+                    anywhere out side the
+                    picker, the picker would be close.</p>
+                <div class="input-control">
+                    <label for="time-input-2">DateTime ([mode]="'dropdown'"): </label>
+                    <input class="picker-input"
+                           id="time-input-2"
+                           [ngModel]="input2Moment | date: 'short'"
+                           [(dateTimePicker)]="input2Moment"
+                           [mode]="'dropdown'"
+                           readonly>
+                </div>
+                <pre class="prettyprint"><code><![CDATA[<input class="picker-input" [ngModel]="moment | date: 'short'" [(dateTimePicker)]="moment" [mode]="'dropdown'" readonly>]]></code></pre>
+            </div>
+
+            <div class="row">
+                <h4 class="heading">Toggle between date picker and time picker:</h4>
+                <p>When the picker open, there is a blue banner on the top, displaying the date and time. When you click
+                    the date, the picker would be date picker. And when you click the time, the picker would toggle to
+                    time picker.</p>
+                <div class="input-control">
+                    <label for="time-input-3">DateTime: </label>
+                    <input class="picker-input"
+                           id="time-input-3"
+                           [ngModel]="input3Moment | date: 'short'"
+                           [(dateTimePicker)]="input3Moment"
+                           readonly>
+                    <pre class="prettyprint"><code><![CDATA[<input class="picker-input" [ngModel]="moment | date: 'short'" [(dateTimePicker)]="moment" readonly>]]></code></pre>
+                </div>
+            </div>
+
+            <div class="row">
+                <h4 class="heading">Set Different Return Object:</h4>
+                <p>The date-time picker returns a Javascript Date Object by default. Other options could be 'MomentJS
+                    Object'(moment), 'Array'(array), 'Json'(json), and 'String'(string).</p>
+
+                <p>If you leave it by default, it will return a 'Javascript Date' object. It is highly recommended to
+                    use the AngularJS 2 datePipe to transform the return value like below:</p>
+                <pre class="prettyprint"><code><![CDATA[ [ngModel]="moment | date: 'short'" ]]></code></pre>
+                <p>You could get more inform about this Angular built-in datePipe from <a class="ex-link"
+                                                                                          href="https://angular.io/docs/ts/latest/api/common/index/DatePipe-pipe.html" target="_blank">here</a>.
+                </p>
+                <p>If you set it to 'string', you also could set the 'viewFormat' to transform to different string format.
+                    The default 'viewFormat' value is 'll'. This viewFormat actually tells the Picker to
+                    use momentJS to transform the momentJS Object to string with this viewFormat.
+                    You could learn more about this viewForm from <a class="ex-link"
+                                                                     href="http://momentjs.com/docs/#/parsing/string-format/" target="_blank">here</a>.
+                    You could also check the example belows:
+                </p>
+                <div class="input-control">
+                    <label for="time-input-4">DateTime ([returnObject] = 'string'): </label>
+                    <input class="picker-input"
+                           id="time-input-4"
+                           [ngModel]="input4Moment"
+                           [returnObject]=" 'string' "
+                           [(dateTimePicker)]="input4Moment"
+                           readonly>
+                    <pre class="prettyprint"><code><![CDATA[<input class="picker-input" [ngModel]="moment" [returnObject]=" 'string' " [(dateTimePicker)]="moment" readonly>]]></code></pre>
+                </div>
+
+                <div class="input-control">
+                    <label for="time-input-5">DateTime ([returnObject] = 'string' [viewFormat]= 'YYYY-MM-DD HH:mm'): </label>
+                    <input class="picker-input"
+                           id="time-input-5"
+                           [ngModel]="input5Moment"
+                           [returnObject]=" 'string' "
+                           [viewFormat]= "'YYYY-MM-DD HH:mm'"
+                           [(dateTimePicker)]="input5Moment"
+                           readonly>
+                    <pre class="prettyprint"><code><![CDATA[<input class="picker-input" [ngModel]="moment" [returnObject]=" 'string' " [viewFormat]= "'YYYY-MM-DD HH:mm'" [(dateTimePicker)]="moment" readonly>]]></code></pre>
+                </div>
+            </div>
+
+            <div class="row">
+                <h4 class="heading">Set Picker Dialog Type:</h4>
+                <p>When the picker open, it will show the calendar (the date picker by default). If you want to show the time picker when it is open,
+                    we need to set the dialogType to 'time'. Remember you could still toggle the date picker and the time picker by clicking the picker
+                    banner at the top of the Picker.</p>
+                <div class="input-control">
+                    <label for="time-input-6">DateTime: </label>
+                    <input class="picker-input"
+                           id="time-input-6"
+                           [ngModel]="input6Moment | date: 'short'"
+                           [dialogType]="'time'"
+                           [(dateTimePicker)]="input6Moment"
+                           readonly>
+                    <pre class="prettyprint"><code><![CDATA[<input class="picker-input" [ngModel]="moment | date: 'short'" [(dateTimePicker)]="moment" [dialogType]="'time'" readonly>]]></code></pre>
+                </div>
+            </div>
+
+            <div class="row">
+                <h4 class="heading">Set Locales:</h4>
+                <p>This date-time-picker has robust support for internationalization. (Default value is 'en').
+                    If you want to change to French for example, just set [locale]=" 'fr' ".
+                    You can get more inform about the i18n from <a class="ex-link"
+                                                                   href="http://momentjs.com/docs/#/i18n/" target="_blank">MomentJS-i18n</a>.</p>
+                <div class="input-control">
+                    <label for="time-input-7">DateTime ([locale] = " 'fr' "): </label>
+                    <input class="picker-input"
+                           id="time-input-7"
+                           [ngModel]="input7Moment | date: 'short'"
+                           [locale] = " 'fr' "
+                           [(dateTimePicker)]="input7Moment"
+                           readonly>
+                    <pre class="prettyprint"><code><![CDATA[<input class="picker-input" [ngModel]="moment | date: 'short'" [(dateTimePicker)]="moment" [locale]=" 'fr' " readonly>]]></code></pre>
+                </div>
             </div>
         </div>
     </section>

@@ -7,11 +7,13 @@ main {
   font-family: Arial, Helvetica, sans-serif;
   width: 100%;
   height: 100%;
+  overflow: hidden;
+  overflow-y: scroll;
 }
 
 .header {
   width: 100%;
-  height: $base-line-height * 10;
+  height: $base-line-height * 6;
   background-color: $brand-color;
   color: $white;
   text-align: center;
@@ -19,10 +21,10 @@ main {
 
   h1 {
     @include type-setting(2);
-    margin: $base-line-height * 2 0 0;
+    margin: $base-line-height 0 0;
 
     @include respond-to('large') {
-      @include type-setting(5);
+      @include type-setting(3);
     }
   }
 
@@ -39,25 +41,48 @@ main {
   max-width: 720px;
   margin: 0 auto;
   padding: 1rem;
+  background-color: $white;
 }
 
 .description {
-  .ex-link {
-    color: $ui-control-color-blue;
-    text-decoration: underline;
+  h3 {
+    @include type-setting(2);
+    margin: 0;
+    color: #2e6da4;
+  }
+}
 
-    &:hover {
-      color: darken($ui-control-color-blue, 10%);
-      text-decoration: none;
-    }
+.title {
+  @include type-setting(3);
+  position: relative;
+  margin: 130px 0 20px;
+  color: #2e6da4;
+
+  &:before {
+    position: absolute;
+    top: -90px;
+    left: -25%;
+    width: 150%;
+    height: 30px;
+    background: $mid-grey;
+    content: '';
+    display: block;
   }
 }
 
 .demo {
   width: 100%;
 
+  .row {
+    margin-bottom: $base-line-height * 3;
+    h4 {
+      @include type-setting(1);
+      margin: 0;
+    }
+  }
+
   .input-control {
-    margin: $base-line-height * 3 0;
+    margin: $base-line-height 0 0;
   }
 
   label {
@@ -66,15 +91,27 @@ main {
 
   .picker-input {
 
-    width: 50%;
-    min-width: 18rem;
+    width: 250px;
     height: $base-line-height * 2;
-    margin-bottom: $base-line-height;
     padding: 0 1rem;
     border-radius: 2rem;
     border: 1px solid darken($mid-grey, 10%);
     cursor: pointer;
     box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
     transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+  }
+}
+
+pre {
+  white-space: pre-wrap;
+}
+
+.ex-link {
+  color: $ui-control-color-blue;
+  text-decoration: underline;
+
+  &:hover {
+    color: #204d74;
+    text-decoration: none;
   }
 }
