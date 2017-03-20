@@ -21,5 +21,5 @@ import { DateTimePickerDirective } from './picker.directive';
     ],
     providers: [],
 })
-export class PickerModule {
+export class DateTimePickerModule {
 }
