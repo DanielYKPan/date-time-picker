@@ -82,8 +82,9 @@ export class DialogComponent implements OnInit {
     }
 
     public select( moment: Moment ): void {
-        let daysDifference = moment.diff(this.moment.clone().startOf('date'), 'days');
-        this.selectedMoment = this.moment.clone().add(daysDifference, 'd');
+        let m = this.selectedMoment ? this.selectedMoment.clone() : this.moment.clone();
+        let daysDifference = moment.clone().startOf('date').diff(m.clone().startOf('date'), 'days');
+        this.selectedMoment = m.add(daysDifference, 'd');
         return;
     }
 

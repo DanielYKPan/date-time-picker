@@ -31,7 +31,7 @@ export class DatePanelComponent implements OnInit, OnChanges {
     @Input() selectedMoment: Moment;
     @Output() onSelectDate = new EventEmitter<Moment>();
     @Output() onCancelDialog = new EventEmitter<boolean>();
-    @Output() onConfrim = new EventEmitter<boolean>();
+    @Output() onConfirm = new EventEmitter<boolean>();
 
     private calendarDays: Moment[];
     private dayNames: string[];
@@ -138,7 +138,7 @@ export class DatePanelComponent implements OnInit, OnChanges {
     }
 
     public confirm(): void {
-        this.onConfrim.emit(true);
+        this.onConfirm.emit(true);
         return;
     }
 
