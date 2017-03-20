@@ -1,0 +1,163 @@
+@import '../sass/utils/variables';
+@import '../sass/utils/functions';
+@import '../sass/utils/mixins';
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+.picker-wrap {
+  width: 95vw;
+  max-width: 666px;
+}
+
+.picker-box {
+  font-family: 'Open Sans';
+  width: 100%;
+  padding: $base-line-height / 2 1rem;
+  user-select: none;
+}
+
+.picker-banner {
+  width: 100%;
+  background-color: #4285f4;
+  color: $white;
+  user-select: none;
+}
+
+.picker-banner-day {
+  padding: 5px 0;
+  text-align: center;
+  background: rgba(0, 0, 0, 0.09);
+}
+
+.picker-banner-moment {
+  display: flex;
+  width: 100%;
+
+  .moment-date,
+  .moment-time {
+    width: 50%;
+    padding: $base-line-height/2 .5rem;
+    cursor: pointer;
+  }
+
+  .moment-date {
+    display: flex;
+    justify-content: flex-end;
+
+    .big, .small {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .big {
+      @include type-setting(3);
+      @include respond-to(medium) {
+        @include type-setting(4);
+      }
+    }
+
+    .small {
+      flex-direction: column;
+      padding: 0 .5rem;
+    }
+  }
+
+  .moment-time {
+    display: flex;
+
+    .big, .small {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .big {
+      @include type-setting(2);
+      @include respond-to(medium) {
+        @include type-setting(3);
+      }
+    }
+
+    .small {
+      @include type-setting(1);
+      padding: 0 5px;
+    }
+  }
+}
+
+.picker-content {
+  width: 100%;
+  height: $base-line-height * 19;
+}
+
+.picker-footer {
+  @include type-setting(1);
+
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  height: $base-line-height * 4;
+  cursor: pointer;
+
+  .picker-action {
+    text-align: center;
+    width: calc(100% / 3);
+
+    .text {
+      padding-left: .8rem;
+    }
+  }
+
+  .action-confirm {
+    width: 100%;
+    color: $white;
+    background-color: #4285f4;
+
+    &:hover {
+      background-color: #3461bd;
+    }
+  }
+
+  .action-today::before,
+  .action-clear::before,
+  .action-close::before,
+  .action-confirm::before {
+    content: " ";
+    position: relative;
+    display: inline-block;
+    height: 0;
+    width: 0;
+  }
+
+  .action-today::before {
+    border-top: .66em solid #0059bc;
+    border-left: .66em solid transparent;
+  }
+
+  .action-clear::before {
+    top: -.5rem;
+    width: 1rem;
+    border-top: 3px solid #e20;
+  }
+
+  .action-close::before {
+    width: 1rem;
+    height: 1rem;
+    background: linear-gradient(to bottom, transparent 35%, #777 35%, #777 65%, transparent 65%),
+    linear-gradient(to right, transparent 35%, #777 35%, #777 65%, transparent 65%);
+    transform: rotate(45deg);
+  }
+
+  .action-confirm::before {
+    width: 1rem;
+    height: 1rem;
+    border-radius: 100%;
+    background-color: #00B5AD;
+  }
+}
+

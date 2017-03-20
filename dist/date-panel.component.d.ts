@@ -1,0 +1,32 @@
+import { OnInit, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
+import * as moment from 'moment/moment';
+import { Moment } from 'moment/moment';
+import { DialogType } from './dialog.component';
+export declare class DatePanelComponent implements OnInit, OnChanges {
+    moment: Moment;
+    now: Moment;
+    dialogType: DialogType;
+    locale: string;
+    selectedMoment: Moment;
+    onSelectDate: EventEmitter<moment.Moment>;
+    onCancelDialog: EventEmitter<boolean>;
+    onConfrim: EventEmitter<boolean>;
+    private calendarDays;
+    private dayNames;
+    private monthList;
+    private yearList;
+    constructor();
+    ngOnInit(): void;
+    ngOnChanges(changes: SimpleChanges): void;
+    prevMonth(): void;
+    nextMonth(): void;
+    selectMonth(month: string): void;
+    selectYear(year: number): void;
+    toggleDialogType(type: DialogType): void;
+    generateYearList(param?: string): void;
+    select(moment: Moment): void;
+    selectToday(): void;
+    cancelDialog(): void;
+    confirm(): void;
+    private generateCalendar();
+}

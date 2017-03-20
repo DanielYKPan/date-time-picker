@@ -1,0 +1,78 @@
+@import '../sass/utils/variables';
+@import '../sass/utils/functions';
+@import '../sass/utils/mixins';
+
+.time-view {
+  width: 100%;
+}
+
+.time {
+  @include type-setting(3);
+  text-align: center;
+  padding: $base-line-height 0 0;
+  color: #4285f4;
+}
+
+.title {
+  @include type-setting(1);
+  width: 80%;
+  margin: $base-line-height/2 auto;
+}
+
+.meridiem {
+  text-align: center;
+
+  .button-group {
+    display: inline-block;
+  }
+
+  .button {
+    border: 1px solid #4285f4;
+    background: #fff;
+    border-radius: 3px;
+    float: left;
+    margin: 0;
+    align-items: initial;
+    color: #4285f4;
+    width: auto;
+    padding: 0 5px;
+    cursor: pointer;
+
+    &:first-child {
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+      border-right: 0;
+    }
+
+    &:last-child {
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
+    }
+
+    &.active {
+      background: #4285f4;
+      color: #fff;
+    }
+  }
+}
+
+.control {
+  @include type-setting(1);
+
+  margin: $base-line-height * 2 0;
+  text-align: center;
+
+  .button {
+    width: 50%;
+    background: #4285f4;
+    color: #fff;
+    margin: 0 auto;
+    border: 1px solid #4285f4;
+    border-radius: 3px;
+    cursor: pointer;
+
+    &:hover {
+      background-color: #3461bd;
+    }
+  }
+}
