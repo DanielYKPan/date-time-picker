@@ -47,6 +47,7 @@ To install this component, follow the procedure:
 
 				// the picker
                 'ng2-date-time-picker': {
+                    main: 'index.js',
                     defaultExtension: 'js'
                 },
                 // momentJS
@@ -60,8 +61,6 @@ To install this component, follow the procedure:
     ```
 
 ## Usage
-
-### Date Picker
 
 Use the following snippet inside your template. For example:
 
