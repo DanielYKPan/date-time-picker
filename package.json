@@ -20,6 +20,8 @@
     "test": "karma start",
     "build": "rimraf dist && webpack --config config/webpack.prod.js --progress --profile --bail"
   },
+  "main": "./index.js",
+  "types": "./index.d.ts",
   "dependencies": {
     "@angular/common": "2.4.6",
     "@angular/compiler": "2.4.6",

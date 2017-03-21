@@ -47,6 +47,7 @@ To install this component to an external project, follow the procedure:
 
 				// the picker
                 'ng2-date-time-picker': {
+                    main: 'index.js',
                     defaultExtension: 'js'
                 },
                 // momentJS
