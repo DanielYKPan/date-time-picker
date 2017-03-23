@@ -37,7 +37,8 @@ export class DialogComponent implements OnInit {
 
     private top: number;
     private left: number;
-    private width: number;
+    private width: string;
+    private height: string = 'auto';
     private position: string;
 
     constructor( private el: ElementRef ) {
@@ -173,40 +174,48 @@ export class DialogComponent implements OnInit {
     }
 
     private setDialogPosition() {
-        let node = this.directiveElementRef.nativeElement;
-        let position = 'static';
-        let parentNode: any = null;
-        let boxDirective;
-
-        while (node !== null && node.tagName !== 'HTML') {
-            position = window.getComputedStyle(node).getPropertyValue("position");
-            if (position !== 'static' && parentNode === null) {
-                parentNode = node;
-            }
-            if (position === 'fixed') {
-                break;
-            }
-            node = node.parentNode;
-        }
-
-        if (position !== 'fixed') {
-            boxDirective = this.createBox(this.directiveElementRef.nativeElement, true);
-            if (parentNode === null) {
-                parentNode = node
-            }
-            let boxParent = this.createBox(parentNode, true);
-            this.top = boxDirective.top - boxParent.top;
-            this.left = boxDirective.left - boxParent.left;
-        } else {
-            boxDirective = this.createBox(this.directiveElementRef.nativeElement, false);
-            this.top = boxDirective.top;
-            this.left = boxDirective.left;
+        if (window.innerWidth < 768) {
             this.position = 'fixed';
-        }
+            this.top = 0;
+            this.left = 0;
+            this.width = '100%';
+            this.height = '100%';
+        } else {
+            let node = this.directiveElementRef.nativeElement;
+            let position = 'static';
+            let parentNode: any = null;
+            let boxDirective;
 
-        this.top += boxDirective.height + 3;
-        this.left += parseInt(this.dtPositionOffset) / 100 * boxDirective.width;
-        this.width = this.directiveElementRef.nativeElement.offsetWidth;
+            while (node !== null && node.tagName !== 'HTML') {
+                position = window.getComputedStyle(node).getPropertyValue("position");
+                if (position !== 'static' && parentNode === null) {
+                    parentNode = node;
+                }
+                if (position === 'fixed') {
+                    break;
+                }
+                node = node.parentNode;
+            }
+
+            if (position !== 'fixed') {
+                boxDirective = this.createBox(this.directiveElementRef.nativeElement, true);
+                if (parentNode === null) {
+                    parentNode = node
+                }
+                let boxParent = this.createBox(parentNode, true);
+                this.top = boxDirective.top - boxParent.top;
+                this.left = boxDirective.left - boxParent.left;
+            } else {
+                boxDirective = this.createBox(this.directiveElementRef.nativeElement, false);
+                this.top = boxDirective.top;
+                this.left = boxDirective.left;
+                this.position = 'fixed';
+            }
+
+            this.top += boxDirective.height + 3;
+            this.left += parseInt(this.dtPositionOffset) / 100 * boxDirective.width;
+            this.width = this.directiveElementRef.nativeElement.offsetWidth + 'px';
+        }
     }
 
     private createBox( element: any, offset: boolean ) {

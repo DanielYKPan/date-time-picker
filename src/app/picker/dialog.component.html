@@ -24,7 +24,8 @@
                 </div>
             </div>
             <div class="picker-content">
-                <dialog-date-panel [ngClass]="{hidden: dialogType === 0}" [moment]="moment" [dialogType]="dialogType" [now]="now"
+                <dialog-date-panel [ngClass]="{hidden: dialogType === 0}" [moment]="moment" [dialogType]="dialogType"
+                                   [now]="now"
                                    [locale]="dtLocale" [selectedMoment]="selectedMoment"
                                    (onSelectDate)="select($event)"
                                    (onCancelDialog)="cancelDialog()"
@@ -39,7 +40,8 @@
 <div class="picker-dropdown"
      *ngIf="dtMode === 'dropdown' && show"
      [ngStyle]="{
-        'width.px': width,
+        'width': width,
+        'height': height,
         'top.px': top,
         'left.px': left,
         'position': position
@@ -68,7 +70,8 @@
             </div>
         </div>
         <div class="picker-content">
-            <dialog-date-panel [ngClass]="{hidden: dialogType === 0}" [moment]="moment" [dialogType]="dialogType" [now]="now"
+            <dialog-date-panel [ngClass]="{hidden: dialogType === 0}" [moment]="moment" [dialogType]="dialogType"
+                               [now]="now"
                                [locale]="dtLocale" [selectedMoment]="selectedMoment"
                                (onSelectDate)="select($event)"
                                (onCancelDialog)="cancelDialog()"

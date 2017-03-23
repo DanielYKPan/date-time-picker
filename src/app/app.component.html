@@ -26,7 +26,6 @@
                 <input class="picker-input"
                        id="time-input"
                        [dateTimePicker]="momentValue"
-                       [mode]="'dropdown'"
                        [ngModel]="momentValue | date: 'short'"
                        (dateTimePickerChange)="setDate($event)" readonly>
             </div>
