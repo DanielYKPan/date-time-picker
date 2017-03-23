@@ -2,6 +2,16 @@
 @import '../sass/utils/functions';
 @import '../sass/utils/mixins';
 
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+
+  &.hidden {
+    display: none;
+  }
+}
+
 .picker-control {
   @include type-setting(1);
 
@@ -13,6 +23,7 @@
     flex-wrap: wrap;
     justify-content: center;
     height: $base-line-height * 4;
+    background-color: $white;
     cursor: pointer;
 
     &.hidden {
@@ -138,6 +149,7 @@
 }
 
 .picker-calendar {
+  flex-grow: 1;
   width: 100%;
 
   .picker-calendar-row {
@@ -178,6 +190,7 @@
     text-align: left;
     color: #999;
     width: calc(100% / 7);
+    padding-left: 10px;
   }
 
   .picker-day {

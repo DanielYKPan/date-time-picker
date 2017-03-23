@@ -1,6 +1,6 @@
 {
   "name": "ng2-date-time-picker",
-  "version": "2.0.4",
+  "version": "2.0.7",
   "description": "Angular2 Date Time Picker",
   "keywords": [
     "Angular2",
@@ -24,8 +24,9 @@
     "url": "https://github.com/DanielYKPan/ng2-date-time-picker/issues"
   },
   "homepage": "https://github.com/DanielYKPan/ng2-date-time-picker#readme",
-  "main": "./index.js", 
-  "types": "./index.d.ts",
+  "main": "index.js",
+  "module": "picker.module.js",
+  "types": "index.d.ts",
   "dependencies": {
     "moment": "^2.17.0"
   },

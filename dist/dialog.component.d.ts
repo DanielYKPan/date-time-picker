@@ -19,6 +19,7 @@ export declare class DialogComponent implements OnInit {
     private top;
     private left;
     private width;
+    private height;
     private position;
     constructor(el: ElementRef);
     ngOnInit(): void;
