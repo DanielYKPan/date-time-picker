@@ -1,3 +1,7 @@
+@import '../../sass/utils/variables';
+@import '../../sass/utils/functions';
+@import '../../sass/utils/mixins';
+
 $mid-grey: hsla(120, 4%, 95%, 1) !default;
 $light-dark: hsla(0, 0%, 0%, .3);
 $white: #fff;
@@ -35,14 +39,18 @@ $white: #fff;
 
 .picker-modal-main {
   position: absolute;
-  top: 30px;
+  top: 0;
   right: auto;
   bottom: auto;
   left: 50%;
   z-index: 111;
+  height: 100%;
   background-color: $white;
-  border: 1px solid darken($mid-grey, 10%);
-  border-radius: 6px;
   transform: translate(-50%, 0);
   box-shadow: 0 5px 15px $light-dark;
+
+  @include respond-to(medium) {
+    top: 30px;
+    height: auto;
+  }
 }

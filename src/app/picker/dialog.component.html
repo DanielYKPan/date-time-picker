@@ -24,7 +24,7 @@
                 </div>
             </div>
             <div class="picker-content">
-                <dialog-date-panel [hidden]="dialogType === 0" [moment]="moment" [dialogType]="dialogType" [now]="now"
+                <dialog-date-panel [ngClass]="{hidden: dialogType === 0}" [moment]="moment" [dialogType]="dialogType" [now]="now"
                                    [locale]="dtLocale" [selectedMoment]="selectedMoment"
                                    (onSelectDate)="select($event)"
                                    (onCancelDialog)="cancelDialog()"
