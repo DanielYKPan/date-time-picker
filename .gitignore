@@ -1,6 +1,8 @@
 # Created by .ignore support plugin (hsz.mobi)
 
+/aot
 /node_modules
 /.idea
 /tmp
 /npmdist
+/dist

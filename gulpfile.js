@@ -27,6 +27,8 @@
 
     var tsDistProject = ts.createProject('tsconfig.dist.json');
 
+    const exec = require('child_process').exec;
+
     var str1 = '// webpack1_';
     var str2 = '// webpack2_';
     var str3 = '/*';
@@ -122,7 +124,7 @@
             'minify.css',
             'minify.html',
             'inline.template.and.styles.to.component',
-            'tsc.compile.dist',
+            'ngc',
             'copy.src.to.npmdist.dir',
             'copy.dist.to.npmdist.dir',
             'copy.root.files.to.npmdist.dir',
@@ -130,4 +132,20 @@
             cb
         )
     });
+
+    gulp.task('ngc', function (cb) {
+        var cmd = 'node_modules/.bin/ngc -p tsconfig-aot.json';
+        return run_proc(cmd, cb);
+    });
+
+    const run_proc = function (cmd, callBack, options) {
+        var proc = exec(cmd, function (err, stdout, stderr) {
+            if (options === undefined) options = {};
+            if (options.outFilter !== undefined) stdout = options.outFilter(stdout);
+            if (options.errFilter !== undefined) stderr = options.errFilter(stderr);
+            process.stdout.write(stdout);
+            process.stdout.write(stderr);
+            callBack(err);
+        });
+    };
 })();
