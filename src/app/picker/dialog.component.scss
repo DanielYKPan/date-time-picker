@@ -12,7 +12,12 @@
   width: 100vw;
   max-width: 666px;
   height: 100%;
+  overflow: hidden;
   overflow-y: scroll;
+
+  @include respond-to(medium) {
+    overflow-y: hidden;
+  }
 }
 
 .picker-dropdown {
