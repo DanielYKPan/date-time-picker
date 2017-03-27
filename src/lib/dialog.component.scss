@@ -1,6 +1,7 @@
 @import '../sass/utils/variables';
 @import '../sass/utils/functions';
 @import '../sass/utils/mixins';
+@import './colors';
 
 *,
 *::before,
@@ -43,7 +44,7 @@
 
 .picker-banner {
   width: 100%;
-  background-color: #4285f4;
+  background-color: $blue;
   color: $white;
   user-select: none;
 }
@@ -131,5 +132,72 @@
 
   .hidden {
     display: none;
+  }
+}
+
+.theme-green {
+
+  .picker-banner {
+    background-color: $green;
+  }
+  .bar {
+    .highlight {
+      background: $green!important;
+    }
+  }
+}
+.theme-teal {
+
+  .picker-banner {
+    background-color: $teal;
+  }
+  .bar {
+    .highlight {
+      background: $teal!important;
+    }
+  }
+}
+.theme-cyan {
+
+  .picker-banner {
+    background-color: $cyan;
+  }
+  .bar {
+    .highlight {
+      background: $cyan!important;
+    }
+  }
+}
+.theme-grape {
+
+  .picker-banner {
+    background-color: $grape;
+  }
+  .bar {
+    .highlight {
+      background: $grape!important;
+    }
+  }
+}
+.theme-red {
+
+  .picker-banner {
+    background-color: $red;
+  }
+  .bar {
+    .highlight {
+      background: $red!important;
+    }
+  }
+}
+.theme-gray {
+
+  .picker-banner {
+    background-color: $gray;
+  }
+  .bar {
+    .highlight {
+      background: $gray!important;
+    }
   }
 }

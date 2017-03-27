@@ -24,6 +24,7 @@ export class TimePanelComponent implements OnInit {
     @Input() now: Moment;
     @Input() hourTime: '12' | '24';
     @Input() dialogType: DialogType;
+    @Input() theme: string;
     @Output() onSetTime = new EventEmitter<Moment>();
 
     hourValue: number;

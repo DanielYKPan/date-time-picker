@@ -3,6 +3,10 @@
 
 **Angular 2 date time picker - Angular2 reusable UI component**
 
+## Other Similar Projects
+
+* [Date Range Picker](https://github.com/DanielYKPan/date-range-picker)
+
 ## Description
 Simple Angular2 date time picker. Online demo is [here](https://danielykpan.github.io/ng2-date-time-picker/). 
 This picker is responsive design, so feel free to try it in your desktops, tablets and mobile devices. 
@@ -95,7 +99,8 @@ public setMoment(moment: any): any {
       * **[dialogType]=" 'date' "** --- You can set the default dialogType to 'date' or 'time'. When you leave it as default ([dialogType]=" 'date' "), the pop-up date-time-picker dialog would display the date calendar.
         If you set it as 'time', the pop-up date-time-picker dialog would display time slide bar control dialog. But you can still toggle these two dialogs inside the pop-up date-time-picker.
       * **[mode]=" 'popup' "** --- Set the date-time picker mode. Default is 'popup'. The other choice could be 'dropdown'.
-      * **[hourTime]=" '24' "** --- Set the hour time format (12-hour format or 24-hour format). Default is '24'. The other choice could be '12'.
+      * **[hourTime]=" '24' "** --- Set the hour time format (12-hour format or 24-hour format). Default is '24'(24-hour format). The other choice could be '12'(12-hour format).
+      * **[theme]=" 'default' "** --- Set the theme color. The default color is Blue. Other options include 'green', 'teal', 'cyan', 'grape', 'red', 'gray'. You can see the effect from the demo.
       * **Important: Do Not forget the single quote inside the double quote when you set the optional attributes value.**
 
 ## Demo
