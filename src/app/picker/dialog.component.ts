@@ -35,6 +35,7 @@ export class DialogComponent implements OnInit {
     private dtPositionOffset: string;
     private dtMode: string;
     private dtHourTime: '12' | '24';
+    private dtTheme: string;
 
     private top: number;
     private left: number;
@@ -81,7 +82,7 @@ export class DialogComponent implements OnInit {
     public setDialog( instance: any, elementRef: ElementRef, initialValue: any,
                       dtLocale: string, dtViewFormat: string, dtReturnObject: string,
                       dtDialogType: string, dtMode: string, dtPositionOffset: string,
-                      dtHourTime: '12' | '24' ): void {
+                      dtHourTime: '12' | '24', dtTheme: string ): void {
         this.directiveInstance = instance;
         this.directiveElementRef = elementRef;
         this.initialValue = initialValue;
@@ -91,6 +92,7 @@ export class DialogComponent implements OnInit {
         this.dtMode = dtMode;
         this.dtPositionOffset = dtPositionOffset;
         this.dtHourTime = dtHourTime;
+        this.dtTheme = dtTheme;
 
         if (dtDialogType === 'time') {
             this.dtDialogType = DialogType.Time;

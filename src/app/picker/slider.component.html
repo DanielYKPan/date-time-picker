@@ -1,4 +1,10 @@
-<div class="bar" #bar>
+<div class="bar" [ngClass]="{
+    'theme-green': theme === 'green',
+    'theme-teal': theme === 'teal',
+    'theme-grape': theme === 'grape',
+    'theme-cyan': theme === 'cyan',
+    'theme-red': theme === 'red',
+    'theme-gray': theme === 'gray'}" #bar>
     <div class="highlight" #highlight></div>
 </div>
 <div class="handle low" #lowPointer><span>{{low}}</span></div>

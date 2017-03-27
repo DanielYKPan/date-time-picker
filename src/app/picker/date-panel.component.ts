@@ -29,6 +29,7 @@ export class DatePanelComponent implements OnInit, OnChanges {
     @Input() dialogType: DialogType;
     @Input() locale: string;
     @Input() selectedMoment: Moment;
+    @Input() theme: string;
     @Output() onSelectDate = new EventEmitter<Moment>();
     @Output() onCancelDialog = new EventEmitter<boolean>();
     @Output() onConfirm = new EventEmitter<boolean>();

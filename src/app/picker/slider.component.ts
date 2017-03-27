@@ -29,6 +29,7 @@ export class SlideControlComponent implements OnInit {
     @Input() ceiling: number = 100;
     @Input() precision: number = 0;
     @Input() low: number;
+    @Input() theme: string;
     @Output() lowChange = new EventEmitter<number>(true);
 
     @ViewChild('bar') bar: ElementRef;

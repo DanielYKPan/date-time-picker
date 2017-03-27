@@ -27,6 +27,7 @@
                        id="time-input"
                        [dateTimePicker]="momentValue"
                        [ngModel]="momentValue | date: 'short'"
+                       [hourTime]="'12'"
                        (dateTimePickerChange)="setDate($event)" readonly>
             </div>
         </div>

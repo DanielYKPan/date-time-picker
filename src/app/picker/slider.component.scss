@@ -1,3 +1,5 @@
+@import './colors';
+
 :host {
   display: block;
   position: relative;
@@ -19,7 +21,7 @@
     left: 0;
     width: 0;
     height: 100%;
-    background: #4285f4;
+    background: $blue;
   }
 }
 
@@ -32,9 +34,40 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background: #fff;
+  background: $white;
   box-shadow: 0px 0px 5px #ccc;
   z-index: 2;
   border-radius: 100%;
   cursor: pointer;
+}
+
+.theme-green {
+  .highlight {
+    background: $green;
+  }
+}
+.theme-teal {
+  .highlight {
+    background: $teal;
+  }
+}
+.theme-cyan {
+  .highlight {
+    background: $cyan;
+  }
+}
+.theme-grape {
+  .highlight {
+    background: $grape;
+  }
+}
+.theme-red {
+  .highlight {
+    background: $red;
+  }
+}
+.theme-gray {
+  .highlight {
+    background: $gray;
+  }
 }

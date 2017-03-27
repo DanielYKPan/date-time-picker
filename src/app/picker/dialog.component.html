@@ -1,5 +1,11 @@
 <picker-modal *ngIf="dtMode === 'popup' && show" (onOverlayClick)="cancelDialog()">
-    <div class="picker-wrap">
+    <div class="picker-wrap" [ngClass]="{
+        'theme-green': dtTheme === 'green',
+        'theme-teal': dtTheme === 'teal',
+        'theme-grape': dtTheme === 'grape',
+        'theme-cyan': dtTheme === 'cyan',
+        'theme-red': dtTheme === 'red',
+        'theme-gray': dtTheme === 'gray'}">
         <div class="picker-box">
             <div class="picker-banner">
                 <div class="picker-banner-day">{{ (selectedMoment? selectedMoment : now) | moment: 'dddd'}}</div>
@@ -26,13 +32,14 @@
             </div>
             <div class="picker-content">
                 <dialog-date-panel [ngClass]="{hidden: dialogType === 0}" [moment]="moment" [dialogType]="dialogType"
-                                   [now]="now"
+                                   [now]="now" [theme]="dtTheme"
                                    [locale]="dtLocale" [selectedMoment]="selectedMoment"
                                    (onSelectDate)="select($event)"
                                    (onCancelDialog)="cancelDialog()"
                                    (onConfirm)="confirm()"></dialog-date-panel>
                 <dialog-time-panel [hidden]="dialogType !== 0" [moment]="moment" [dialogType]="dialogType"
-                                   [hourTime]="dtHourTime" [now]="now" (onSetTime)="setTime($event)"></dialog-time-panel>
+                                   [hourTime]="dtHourTime" [now]="now" [theme]="dtTheme"
+                                   (onSetTime)="setTime($event)"></dialog-time-panel>
             </div>
         </div>
     </div>
@@ -40,6 +47,13 @@
 
 <div class="picker-dropdown"
      *ngIf="dtMode === 'dropdown' && show"
+     [ngClass]="{
+        'theme-green': dtTheme === 'green',
+        'theme-teal': dtTheme === 'teal',
+        'theme-grape': dtTheme === 'grape',
+        'theme-cyan': dtTheme === 'cyan',
+        'theme-red': dtTheme === 'red',
+        'theme-gray': dtTheme === 'gray'}"
      [ngStyle]="{
         'width': width,
         'height': height,
@@ -72,13 +86,14 @@
         </div>
         <div class="picker-content">
             <dialog-date-panel [ngClass]="{hidden: dialogType === 0}" [moment]="moment" [dialogType]="dialogType"
-                               [now]="now"
+                               [now]="now" [theme]="dtTheme"
                                [locale]="dtLocale" [selectedMoment]="selectedMoment"
                                (onSelectDate)="select($event)"
                                (onCancelDialog)="cancelDialog()"
                                (onConfirm)="confirm()"></dialog-date-panel>
             <dialog-time-panel [hidden]="dialogType !== 0" [moment]="moment" [dialogType]="dialogType"
-                               [now]="now" (onSetTime)="setTime($event)"></dialog-time-panel>
+                               [hourTime]="dtHourTime" [now]="now" [theme]="dtTheme"
+                               (onSetTime)="setTime($event)"></dialog-time-panel>
         </div>
     </div>
 </div>

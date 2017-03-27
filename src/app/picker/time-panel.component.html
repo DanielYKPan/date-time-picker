@@ -1,4 +1,10 @@
-<div class="time-view">
+<div class="time-panel" [ngClass]="{
+    'theme-green': theme === 'green',
+    'theme-teal': theme === 'teal',
+    'theme-grape': theme === 'grape',
+    'theme-cyan': theme === 'cyan',
+    'theme-red': theme === 'red',
+    'theme-gray': theme === 'gray'}">
     <div class="time">{{hourValue | numberFixedLen: 2}} : {{minValue | numberFixedLen: 2}}</div>
     <div class="meridiem" *ngIf="hourTime === '12'">
         <div class="button-group">
@@ -8,11 +14,11 @@
     </div>
     <div *ngIf="dialogType === 0" class="time-control">
         <div class="title">Hours</div>
-        <app-slide-bar [floor]="hourFloor" [ceiling]="hourCeiling" [(low)]="hourValue"></app-slide-bar>
+        <app-slide-bar [theme]="theme" [floor]="hourFloor" [ceiling]="hourCeiling" [(low)]="hourValue"></app-slide-bar>
     </div>
     <div *ngIf="dialogType === 0" class="time-control">
         <div class="title">Minutes</div>
-        <app-slide-bar [floor]="0" [ceiling]="59" [(low)]="minValue"></app-slide-bar>
+        <app-slide-bar [theme]="theme" [floor]="0" [ceiling]="59" [(low)]="minValue"></app-slide-bar>
     </div>
 
     <div class="control">
