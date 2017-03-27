@@ -167,6 +167,11 @@
     &:hover {
       background: lighten($blue, 40%);
     }
+
+    &.selected {
+      background: $blue;
+      color: $white;
+    }
   }
 
   .picker-month {
@@ -179,6 +184,11 @@
 
     &:hover {
       background: lighten($blue, 40%);
+    }
+
+    &.selected {
+      background: $blue;
+      color: $white;
     }
   }
 
@@ -277,9 +287,6 @@
       &:hover {
         background: lighten($green, 40%);
       }
-    }
-
-    .picker-day {
       &.selected {
         background: $green;
       }
@@ -312,9 +319,6 @@
       &:hover {
         background: lighten($teal, 40%);
       }
-    }
-
-    .picker-day {
       &.selected {
         background: $teal;
       }
@@ -347,14 +351,10 @@
       &:hover {
         background: lighten($cyan, 40%);
       }
-    }
-
-    .picker-day {
       &.selected {
         background: $cyan;
       }
     }
-
     .today::before {
       border-top-color: lighten($cyan, 10%);
     }
@@ -382,9 +382,6 @@
       &:hover {
         background: lighten($grape, 40%);
       }
-    }
-
-    .picker-day {
       &.selected {
         background: $grape;
       }
@@ -417,9 +414,6 @@
       &:hover {
         background: lighten($red, 40%);
       }
-    }
-
-    .picker-day {
       &.selected {
         background: $red;
       }
@@ -452,9 +446,6 @@
       &:hover {
         background: lighten($gray, 40%);
       }
-    }
-
-    .picker-day {
       &.selected {
         background: $gray;
       }

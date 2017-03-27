@@ -28,6 +28,7 @@
                        [dateTimePicker]="momentValue"
                        [ngModel]="momentValue | date: 'short'"
                        [hourTime]="'12'"
+                       [theme]="'red'"
                        (dateTimePickerChange)="setDate($event)" readonly>
             </div>
         </div>
