@@ -22,23 +22,34 @@ export class TimePanelComponent implements OnInit {
 
     @Input() moment: Moment;
     @Input() now: Moment;
+    @Input() hourTime: '12' | '24';
     @Input() dialogType: DialogType;
     @Output() onSetTime = new EventEmitter<Moment>();
 
     hourValue: number;
     minValue: number;
     meridianValue: string;
+    hourFloor: number = 1;
+    hourCeiling: number = 12;
 
     constructor() {
     }
 
     public ngOnInit() {
-        if (this.moment.hours() <= 11) {
+        if (this.hourTime === '12') {
+            if (this.moment.hours() <= 11) {
+                this.hourValue = this.moment.hours();
+            } else if (this.moment.hours() > 12) {
+                this.hourValue = this.moment.hours() - 12;
+            } else if (this.moment.hours() === 0 || this.moment.hours() === 12) {
+                this.hourValue = 12;
+            }
+        }
+
+        if (this.hourTime === '24') {
             this.hourValue = this.moment.hours();
-        } else if (this.moment.hours() > 12) {
-            this.hourValue = this.moment.hours() - 12;
-        } else if (this.moment.hours() === 0 || this.moment.hours() === 12) {
-            this.hourValue = 12;
+            this.hourFloor = 0;
+            this.hourCeiling = 23;
         }
 
         this.minValue = this.moment.minutes();
@@ -51,21 +62,27 @@ export class TimePanelComponent implements OnInit {
 
     public setTime(): void {
         let selectedMoment = this.moment.clone();
-        if (this.meridianValue === 'AM') {
-            if (this.hourValue === 12) {
-                selectedMoment.hours(0);
+
+        if (this.hourTime === '12') {
+            if (this.meridianValue === 'AM') {
+                if (this.hourValue === 12) {
+                    selectedMoment.hours(0);
+                } else {
+                    selectedMoment.hours(this.hourValue);
+                }
             } else {
-                selectedMoment.hours(this.hourValue);
-            }
-        } else {
-            if (this.hourValue === 12) {
-                selectedMoment.hours(12);
-            } else {
-                selectedMoment.hours(this.hourValue + 12);
+                if (this.hourValue === 12) {
+                    selectedMoment.hours(12);
+                } else {
+                    selectedMoment.hours(this.hourValue + 12);
+                }
             }
         }
-        selectedMoment.minutes(this.minValue);
 
+        if (this.hourTime === '24') {
+            selectedMoment.hours(this.hourValue);
+        }
+        selectedMoment.minutes(this.minValue);
         this.onSetTime.emit(selectedMoment);
     }
 }
