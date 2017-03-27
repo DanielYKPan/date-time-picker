@@ -183,11 +183,13 @@ export class DialogComponent implements OnInit {
         } else {
             let node = this.directiveElementRef.nativeElement;
             let position = 'static';
+            let transform;
             let parentNode: any = null;
             let boxDirective;
 
             while (node !== null && node.tagName !== 'HTML') {
                 position = window.getComputedStyle(node).getPropertyValue("position");
+                transform = window.getComputedStyle(node).getPropertyValue("-webkit-transform");
                 if (position !== 'static' && parentNode === null) {
                     parentNode = node;
                 }
@@ -197,7 +199,7 @@ export class DialogComponent implements OnInit {
                 node = node.parentNode;
             }
 
-            if (position !== 'fixed') {
+            if (position !== 'fixed' || transform) {
                 boxDirective = this.createBox(this.directiveElementRef.nativeElement, true);
                 if (parentNode === null) {
                     parentNode = node
