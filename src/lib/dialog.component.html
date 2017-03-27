@@ -62,9 +62,10 @@
                 </div>
                 <div class="moment-time" (click)="toggleDialogType(0)">
                     <div class="big">
-                        <span>{{(selectedMoment? selectedMoment : now) | moment: 'hh:mm'}}</span>
+                        <span *ngIf="dtHourTime === '12'">{{(selectedMoment? selectedMoment : now) | moment: 'hh:mm'}}</span>
+                        <span *ngIf="dtHourTime === '24'">{{(selectedMoment? selectedMoment : now) | moment: 'HH:mm'}}</span>
                     </div>
-                    <div class="small">
+                    <div class="small" *ngIf="dtHourTime === '12'">
                         <span>{{(selectedMoment? selectedMoment : now) | moment: 'A'}}</span>
                     </div>
                 </div>
@@ -78,7 +79,7 @@
                                (onCancelDialog)="cancelDialog()"
                                (onConfirm)="confirm()"></dialog-date-panel>
             <dialog-time-panel [hidden]="dialogType !== 0" [moment]="moment" [dialogType]="dialogType"
-                               [now]="now" (onSetTime)="setTime($event)"></dialog-time-panel>
+                               [hourTime]="dtHourTime" [now]="now" (onSetTime)="setTime($event)"></dialog-time-panel>
         </div>
     </div>
 </div>
