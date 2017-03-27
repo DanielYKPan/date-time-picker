@@ -95,7 +95,7 @@ public setMoment(moment: any): any {
       * **[dialogType]=" 'date' "** --- You can set the default dialogType to 'date' or 'time'. When you leave it as default ([dialogType]=" 'date' "), the pop-up date-time-picker dialog would display the date calendar.
         If you set it as 'time', the pop-up date-time-picker dialog would display time slide bar control dialog. But you can still toggle these two dialogs inside the pop-up date-time-picker.
       * **[mode]=" 'popup' "** --- Set the date-time picker mode. Default is 'popup'. The other choice could be 'dropdown'.
-      * **[hourTime]=" '12' "** --- Set the hour time format (12-hour format or 24-hour format). Default is '12'. The other choice could be '24'.
+      * **[hourTime]=" '24' "** --- Set the hour time format (12-hour format or 24-hour format). Default is '24'. The other choice could be '12'.
       * **Important: Do Not forget the single quote inside the double quote when you set the optional attributes value.**
 
 ## Demo
