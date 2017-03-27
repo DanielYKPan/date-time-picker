@@ -31,6 +31,16 @@
                        [theme]="'red'"
                        (dateTimePickerChange)="setDate($event)" readonly>
             </div>
+
+            <div class="input-control">
+                <label for="time-input2">Time: </label>
+                <input class="picker-input"
+                       id="time-input2"
+                       [dateTimePicker]="momentValue"
+                       [ngModel]="momentValue | date: 'short'"
+                       [mode]="'dropdown'"
+                       (dateTimePickerChange)="setDate($event)" readonly>
+            </div>
         </div>
     </section>
 </main>
