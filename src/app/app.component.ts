@@ -23,6 +23,8 @@ export class AppComponent implements OnInit {
     private input5Moment: any;
     private input6Moment: any;
     private input7Moment: any;
+    private input8Moment: any;
+    private input9Moment: any;
 
     constructor() {
     }
