@@ -24,6 +24,7 @@ export class DateTimePickerDirective {
     @Input() returnObject: string = 'js';
     @Input() dialogType: string = 'date';
     @Input() mode: string = 'popup';
+    @Input() hourTime: '12' | '24' = '24'; // determines the hour format (12 or 24)
     @Input() positionOffset: string = '0%';
 
     private created: boolean;
@@ -52,7 +53,7 @@ export class DateTimePickerDirective {
                     const cmpRef = this.vcRef.createComponent(compFactory, 0, injector, []);
                     cmpRef.instance.setDialog(this, this.el, this.dateTimePicker,
                         this.locale, this.viewFormat, this.returnObject,
-                        this.dialogType, this.mode, this.positionOffset);
+                        this.dialogType, this.mode, this.positionOffset, this.hourTime);
                     this.dialog = cmpRef.instance;
                 });
         } else if (this.dialog) {

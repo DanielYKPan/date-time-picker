@@ -1,6 +1,6 @@
 <div class="time-view">
     <div class="time">{{hourValue | numberFixedLen: 2}} : {{minValue | numberFixedLen: 2}}</div>
-    <div class="meridiem">
+    <div class="meridiem" *ngIf="hourTime === '12'">
         <div class="button-group">
             <button class="button" [class.active]="meridianValue === 'AM'" (click)="setMeridian('AM')">AM</button>
             <button class="button" [class.active]="meridianValue === 'PM'" (click)="setMeridian('PM')">PM</button>
@@ -8,7 +8,7 @@
     </div>
     <div *ngIf="dialogType === 0" class="time-control">
         <div class="title">Hours</div>
-        <app-slide-bar [floor]="1" [ceiling]="12" [(low)]="hourValue"></app-slide-bar>
+        <app-slide-bar [floor]="hourFloor" [ceiling]="hourCeiling" [(low)]="hourValue"></app-slide-bar>
     </div>
     <div *ngIf="dialogType === 0" class="time-control">
         <div class="title">Minutes</div>
