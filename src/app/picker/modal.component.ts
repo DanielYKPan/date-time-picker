@@ -7,16 +7,10 @@ import {
     ChangeDetectionStrategy
 } from "@angular/core";
 
-// webpack1_
-declare let require: any;
-const myDpStyles: string = require("./modal.component.scss");
-const myDpTpl: string = require("./modal.component.html");
-// webpack2_
-
 @Component({
     selector: 'picker-modal',
-    template: myDpTpl,
-    styles: [myDpStyles],
+    templateUrl: './modal.component.html',
+    styleUrls: ['./modal.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     animations: [
         trigger('modalAnimation', [

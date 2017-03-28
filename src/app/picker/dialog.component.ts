@@ -6,16 +6,10 @@ import { Component, OnInit, ElementRef } from '@angular/core';
 import * as moment from 'moment/moment';
 import { Moment } from 'moment/moment';
 
-// webpack1_
-declare let require: any;
-const myDpStyles: string = require("./dialog.component.scss");
-const myDpTpl: string = require("./dialog.component.html");
-// webpack2_
-
 @Component({
     selector: 'date-time-dialog',
-    template: myDpTpl,
-    styles: [myDpStyles],
+    templateUrl: './dialog.component.html',
+    styleUrls: ['./dialog.component.scss']
 })
 export class DialogComponent implements OnInit {
 
