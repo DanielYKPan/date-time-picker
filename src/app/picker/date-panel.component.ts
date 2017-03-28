@@ -3,8 +3,7 @@
  */
 
 import {
-    Component, OnInit, Input, Output, EventEmitter, ChangeDetectionStrategy, OnChanges,
-    SimpleChanges
+    Component, OnInit, Input, Output, EventEmitter, ChangeDetectionStrategy
 } from '@angular/core';
 import * as moment from 'moment/moment';
 import { Moment } from 'moment/moment';
@@ -16,7 +15,7 @@ import { DialogType } from './dialog.component';
     templateUrl: './date-panel.component.html',
     styleUrls: ['./date-panel.component.scss']
 })
-export class DatePanelComponent implements OnInit, OnChanges {
+export class DatePanelComponent implements OnInit {
 
     @Input() moment: Moment;
     @Input() now: Moment;
@@ -46,15 +45,6 @@ export class DatePanelComponent implements OnInit, OnChanges {
         this.monthList = moment.monthsShort();
 
         this.generateCalendar();
-    }
-
-    public ngOnChanges( changes: SimpleChanges ): void {
-        if (changes['selectedMoment'] && !changes['selectedMoment'].isFirstChange() &&
-            (this.selectedMoment.year() !== this.moment.year() ||
-            this.selectedMoment.month() !== this.moment.month())) {
-            this.moment = this.selectedMoment.clone();
-            this.generateCalendar();
-        }
     }
 
     public prevMonth(): void {
@@ -115,6 +105,12 @@ export class DatePanelComponent implements OnInit, OnChanges {
         if (this.selectedMoment &&
             this.selectedMoment.clone().startOf('date') === moment) {
             return;
+        }
+
+        if (moment.year() !== this.moment.year() ||
+            moment.month() !== this.moment.month()) {
+            this.moment = moment.clone();
+            this.generateCalendar();
         }
         this.onSelectDate.emit(moment);
     }

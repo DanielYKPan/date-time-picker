@@ -2,7 +2,7 @@
  * dialog.component
  */
 
-import { Component, OnInit, ElementRef } from '@angular/core';
+import { Component, OnInit, ElementRef, HostListener } from '@angular/core';
 import * as moment from 'moment/moment';
 import { Moment } from 'moment/moment';
 
@@ -49,9 +49,6 @@ export class DialogComponent implements OnInit {
 
         if (this.dtMode === 'dropdown') {
             this.setDialogPosition();
-            document.addEventListener('mousedown', ( event: any ) => {
-                this.onMouseDown(event)
-            });
         }
         this.dialogType = this.dtDialogType;
         this.setInitialMoment(moment);
@@ -61,11 +58,6 @@ export class DialogComponent implements OnInit {
 
     public cancelDialog(): void {
         this.show = false;
-        if (this.dtMode === 'dropdown') {
-            document.removeEventListener('mousedown', ( event: any ) => {
-                this.onMouseDown(event)
-            });
-        }
         return;
     }
 
@@ -228,22 +220,14 @@ export class DialogComponent implements OnInit {
         };
     }
 
+    @HostListener('document:click', ['$event'])
     private onMouseDown( event: any ) {
-        if ((!this.isDescendant(this.el.nativeElement, event.target)
-            && event.target != this.directiveElementRef.nativeElement)) {
+        let target = event.srcElement || event.target;
+        if (!this.el.nativeElement.contains(event.target) &&
+            !(<Element> target).classList.contains('picker-day')
+            && event.target != this.directiveElementRef.nativeElement) {
             this.show = false;
         }
-    }
-
-    private isDescendant( parent: any, child: any ): boolean {
-        let node: any = child.parentNode;
-        while (node !== null) {
-            if (node === parent) {
-                return true;
-            }
-            node = node.parentNode;
-        }
-        return false;
     }
 }
 

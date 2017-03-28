@@ -25,16 +25,16 @@
                 <span class="picker-weekday" *ngFor="let day of dayNames">{{ day }}</span>
             </div>
             <div class="picker-calendar-row">
-                            <span class="picker-day"
-                                  (click)="select(day)"
-                                  [ngClass]="{
+                <div class="picker-day"
+                     (click)="select(day)"
+                     [ngClass]="{
                                'out-focus': day.month() != moment.month(),
                                'today': day.isSame(now, 'day'),
                                'selected': selectedMoment && day.isSame(selectedMoment, 'day')
                               }"
-                                  *ngFor="let day of calendarDays">
-                            {{ day | moment: 'D'}}
-                            </span>
+                     *ngFor="let day of calendarDays">
+                    {{ day | moment: 'D'}}
+                </div>
             </div>
         </div>
         <div [hidden]="dialogType !== 2" class="month">
