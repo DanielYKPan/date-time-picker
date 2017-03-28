@@ -6,16 +6,10 @@ import { Component, OnInit, ElementRef } from '@angular/core';
 import * as moment from 'moment/moment';
 import { Moment } from 'moment/moment';
 
-// webpack1_
-declare let require: any;
-const myDpStyles: string = require("./dialog.component.scss");
-const myDpTpl: string = require("./dialog.component.html");
-// webpack2_
-
 @Component({
     selector: 'date-time-dialog',
-    template: myDpTpl,
-    styles: [myDpStyles],
+    templateUrl: './dialog.component.html',
+    styleUrls: ['./dialog.component.scss'],
 })
 export class DialogComponent implements OnInit {
 
@@ -35,7 +29,7 @@ export class DialogComponent implements OnInit {
     private dtPositionOffset: string;
     private dtMode: string;
     private dtHourTime: '12' | '24';
-    private dtTheme: 'default' | 'green' | 'teal' | 'cyan' | 'grape' | 'red' | 'gray';
+    private dtTheme: string;
 
     private top: number;
     private left: number;
@@ -82,7 +76,7 @@ export class DialogComponent implements OnInit {
     public setDialog( instance: any, elementRef: ElementRef, initialValue: any,
                       dtLocale: string, dtViewFormat: string, dtReturnObject: string,
                       dtDialogType: string, dtMode: string, dtPositionOffset: string,
-                      dtHourTime: '12' | '24', dtTheme: 'default' | 'green' | 'teal' | 'cyan' | 'grape' | 'red' | 'gray' ): void {
+                      dtHourTime: '12' | '24', dtTheme: string ): void {
         this.directiveInstance = instance;
         this.directiveElementRef = elementRef;
         this.initialValue = initialValue;

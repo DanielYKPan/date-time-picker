@@ -29,11 +29,6 @@
 
     const exec = require('child_process').exec;
 
-    var str1 = '// webpack1_';
-    var str2 = '// webpack2_';
-    var str3 = '/*';
-    var str4 = '*/';
-
     gulp.task('tsc.compile.dist', function () {
         var tsResult = tsDistProject.src().pipe(sourcemaps.init()).pipe(tsDistProject());
         return merge([
@@ -48,15 +43,16 @@
             .pipe(flatmap(function (stream, file) {
                 var tsFile = file.path;
                 var htmlFile = tsFile.slice(0, -2) + 'html';
+                var htmlFileName = path.parse(htmlFile).base;
                 var cssFile = tsFile.slice(0, -2) + 'css';
+                var scssFile = tsFile.slice(0, -2) + 'scss';
+                var scssFileName = path.parse(scssFile).base;
                 var styles = fs.readFileSync(cssFile, 'utf-8');
                 var htmlTpl = fs.readFileSync(htmlFile, 'utf-8');
 
                 return gulp.src([file.path])
-                    .pipe(replace(str1, str3))
-                    .pipe(replace(str2, str4))
-                    .pipe(replace('styles: [myDpStyles],', 'styles: [' + '`' + styles + '`' + '],'))
-                    .pipe(replace('template: myDpTpl,', 'template: `' + htmlTpl + '`' + ','))
+                    .pipe(replace('styleUrls: [' + '\'' + './' +  scssFileName + '\'' + '],', 'styles: [' + '`' + styles + '`' + '],'))
+                    .pipe(replace('templateUrl: ' + '\'' + './' +  htmlFileName + '\'' + ',', 'template: `' + htmlTpl + '`' + ','))
                     .pipe(gulp.dest(function (file) {
                         return file.base;
                     }));

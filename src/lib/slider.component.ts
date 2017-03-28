@@ -4,16 +4,10 @@
 
 import { Component, OnInit, ElementRef, Input, ViewChild, Renderer, Output, EventEmitter } from '@angular/core';
 
-// webpack1_
-declare let require: any;
-const myDpStyles: string = require("./slider.component.scss");
-const myDpTpl: string = require("./slider.component.html");
-// webpack2_
-
 @Component({
     selector: 'app-slide-bar',
-    template: myDpTpl,
-    styles: [myDpStyles],
+    templateUrl: './slider.component.html',
+    styleUrls: ['./slider.component.scss'],
     host: {
         '(mousedown)': 'start($event)',
         '(touchstart)': 'start($event)'

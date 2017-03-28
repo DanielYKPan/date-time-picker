@@ -10,17 +10,11 @@ import * as moment from 'moment/moment';
 import { Moment } from 'moment/moment';
 import { DialogType } from './dialog.component';
 
-// webpack1_
-declare let require: any;
-const myDpStyles: string = require("./date-panel.component.scss");
-const myDpTpl: string = require("./date-panel.component.html");
-// webpack2_
-
 @Component({
     selector: 'dialog-date-panel',
     changeDetection: ChangeDetectionStrategy.OnPush,
-    template: myDpTpl,
-    styles: [myDpStyles],
+    templateUrl: './date-panel.component.html',
+    styleUrls: ['./date-panel.component.scss'],
 })
 export class DatePanelComponent implements OnInit, OnChanges {
 

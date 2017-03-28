@@ -6,17 +6,11 @@ import { Component, OnInit, Input, ChangeDetectionStrategy, Output, EventEmitter
 import { Moment } from 'moment/moment';
 import { DialogType } from './dialog.component';
 
-// webpack1_
-declare let require: any;
-const myDpStyles: string = require("./time-panel.component.scss");
-const myDpTpl: string = require("./time-panel.component.html");
-// webpack2_
-
 @Component({
     selector: 'dialog-time-panel',
     changeDetection: ChangeDetectionStrategy.OnPush,
-    template: myDpTpl,
-    styles: [myDpStyles],
+    templateUrl: './time-panel.component.html',
+    styleUrls: ['./time-panel.component.scss'],
 })
 export class TimePanelComponent implements OnInit {
 
