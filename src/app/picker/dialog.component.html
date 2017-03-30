@@ -46,7 +46,7 @@
 </picker-modal>
 
 <div class="picker-dropdown"
-     *ngIf="dtMode === 'dropdown' && show"
+     *ngIf="(dtMode === 'dropdown' && show) || dtMode === 'inline'"
      [ngClass]="{
         'theme-green': dtTheme === 'green',
         'theme-teal': dtTheme === 'teal',

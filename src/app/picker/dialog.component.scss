@@ -23,14 +23,14 @@
 
 .picker-dropdown {
   max-width: 666px;
-  min-width: 333px;
+  min-width: 320px;
   border: #777 solid 1px;
   position: absolute;
   z-index: 1000;
   user-select: none;
   background-color: $white;
-  margin-bottom: $base-line-height/2;
   border-radius: 5px;
+  display: inline-block;
 }
 
 .picker-box {

@@ -41,6 +41,10 @@
                        [mode]="'dropdown'"
                        (dateTimePickerChange)="setDate($event)" readonly>
             </div>
+
+            <div [dateTimePicker]="momentValue" [mode]="'inline'"
+                 [ngStyle]="{width: '300px'}"
+                 (dateTimePickerChange)="setDate($event)"></div>
         </div>
     </section>
 </main>

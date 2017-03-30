@@ -27,7 +27,7 @@ export class DialogComponent implements OnInit {
     private dtReturnObject: string;
     private dtDialogType: DialogType;
     private dtPositionOffset: string;
-    private dtMode: string;
+    private dtMode: 'popup' | 'dropdown' | 'inline';
     private dtHourTime: '12' | '24';
     private dtTheme: string;
 
@@ -49,6 +49,8 @@ export class DialogComponent implements OnInit {
 
         if (this.dtMode === 'dropdown') {
             this.setDialogPosition();
+        } else if (this.dtMode === 'inline') {
+            this.setInlineDialogPosition();
         }
         this.dialogType = this.dtDialogType;
         this.setInitialMoment(moment);
@@ -67,7 +69,7 @@ export class DialogComponent implements OnInit {
 
     public setDialog( instance: any, elementRef: ElementRef, initialValue: any,
                       dtLocale: string, dtViewFormat: string, dtReturnObject: string,
-                      dtDialogType: string, dtMode: string, dtPositionOffset: string,
+                      dtDialogType: string, dtMode: 'popup' | 'dropdown' | 'inline', dtPositionOffset: string,
                       dtHourTime: '12' | '24', dtTheme: string ): void {
         this.directiveInstance = instance;
         this.directiveElementRef = elementRef;
@@ -209,6 +211,11 @@ export class DialogComponent implements OnInit {
             this.left += parseInt(this.dtPositionOffset) / 100 * boxDirective.width;
             this.width = this.directiveElementRef.nativeElement.offsetWidth + 'px';
         }
+    }
+
+    private setInlineDialogPosition() {
+        this.position = 'relative';
+        this.width = this.directiveElementRef.nativeElement.offsetWidth + 'px';
     }
 
     private createBox( element: any, offset: boolean ) {

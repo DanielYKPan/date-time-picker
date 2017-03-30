@@ -4,7 +4,7 @@
 
 import {
     Directive, ElementRef, Input, Compiler, ViewContainerRef, ComponentFactory,
-    ReflectiveInjector, Output, EventEmitter
+    ReflectiveInjector, Output, EventEmitter, OnInit
 } from '@angular/core';
 import { DynamicModule } from './dynamic.module';
 import { DialogComponent } from './dialog.component';
@@ -15,7 +15,7 @@ import { DialogComponent } from './dialog.component';
         '(click)': 'onClick()',
     }
 })
-export class DateTimePickerDirective {
+export class DateTimePickerDirective implements OnInit {
 
     @Input('dateTimePicker') dateTimePicker: any;
     @Output('dateTimePickerChange') dateTimePickerChange = new EventEmitter<any>(true);
@@ -23,7 +23,7 @@ export class DateTimePickerDirective {
     @Input() viewFormat: string = 'll';
     @Input() returnObject: string = 'js';
     @Input() dialogType: string = 'date';
-    @Input() mode: string = 'popup';
+    @Input() mode: 'popup' | 'dropdown' | 'inline' = 'popup';
     @Input() hourTime: '12' | '24' = '24'; // determines the hour format (12 or 24)
     @Input() theme: 'default' | 'green' | 'teal' | 'cyan' | 'grape' | 'red' | 'gray' = 'default'; // theme color
     @Input() positionOffset: string = '0%';
@@ -34,6 +34,12 @@ export class DateTimePickerDirective {
     constructor( private compiler: Compiler,
                  private vcRef: ViewContainerRef,
                  private el: ElementRef ) {
+    }
+
+    public ngOnInit(): void {
+        if(this.mode === 'inline') {
+            this.openDialog();
+        }
     }
 
     public onClick(): void {
