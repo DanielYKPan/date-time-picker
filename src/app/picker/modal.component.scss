@@ -48,6 +48,7 @@ $white: #fff;
   background-color: $white;
   transform: translate(-50%, 0);
   box-shadow: 0 5px 15px $light-dark;
+  border-radius: 5px;
 
   @include respond-to(medium) {
     top: 30px;
