@@ -5,31 +5,23 @@
 import { Component, OnInit, ElementRef, HostListener } from '@angular/core';
 import * as moment from 'moment/moment';
 import { Moment } from 'moment/moment';
+import { PickerService } from './picker.service';
+import { Subscription } from 'rxjs';
 
 @Component({
     selector: 'date-time-dialog',
     templateUrl: './dialog.component.html',
-    styleUrls: ['./dialog.component.scss']
+    styleUrls: ['./dialog.component.scss'],
+    providers: [PickerService],
 })
 export class DialogComponent implements OnInit {
 
     private show: boolean;
-    private moment: Moment;
     private initialValue: string;
     private selectedMoment: Moment;
     private directiveInstance: any;
     private directiveElementRef: ElementRef;
     private now: Moment;
-    private dialogType: DialogType;
-
-    private dtLocale: string;
-    private dtViewFormat: string;
-    private dtReturnObject: string;
-    private dtDialogType: DialogType;
-    private dtPositionOffset: string;
-    private dtMode: 'popup' | 'dropdown' | 'inline';
-    private dtHourTime: '12' | '24';
-    private dtTheme: string;
 
     private top: number;
     private left: number;
@@ -37,24 +29,45 @@ export class DialogComponent implements OnInit {
     private height: string = 'auto';
     private position: string;
 
-    constructor( private el: ElementRef ) {
+    public theme: string;
+    public hourTime: '12' | '24';
+    public positionOffset: string;
+    public mode: 'popup' | 'dropdown' | 'inline';
+    public returnObject: string;
+    public dialogType: DialogType;
+
+    private subId: Subscription;
+
+    constructor( private el: ElementRef,
+                 private service: PickerService ) {
     }
 
     public ngOnInit() {
-        this.openDialog(this.initialValue, false);
+        this.theme = this.service.dtTheme;
+        this.hourTime = this.service.dtHourTime;
+        this.positionOffset = this.service.dtPositionOffset;
+        this.mode = this.service.dtMode;
+        this.returnObject = this.service.dtReturnObject;
+        moment.locale(this.service.dtLocale);
+        this.subId = this.service.events.subscribe(
+            ( selectedMoment: Moment ) => {
+                this.selectedMoment = selectedMoment;
+                this.returnSelectedMoment();
+            }
+        );
+        this.openDialog(this.initialValue);
     }
 
-    public openDialog( moment: any, emit: boolean = true ): void {
+    public openDialog( moment: any): void {
         this.show = true;
 
-        if (this.dtMode === 'dropdown') {
+        if (this.mode === 'dropdown') {
             this.setDialogPosition();
-        } else if (this.dtMode === 'inline') {
+        } else if (this.mode === 'inline') {
             this.setInlineDialogPosition();
         }
-        this.dialogType = this.dtDialogType;
-        this.setInitialMoment(moment);
-        this.setMomentFromString(moment, emit);
+        this.dialogType = this.service.dtDialogType;
+        this.service.setMoment(moment);
         return;
     }
 
@@ -67,57 +80,23 @@ export class DialogComponent implements OnInit {
         this.initialValue = value;
     }
 
-    public setDialog( instance: any, elementRef: ElementRef, initialValue: any,
-                      dtLocale: string, dtViewFormat: string, dtReturnObject: string,
-                      dtDialogType: string, dtMode: 'popup' | 'dropdown' | 'inline', dtPositionOffset: string,
+    public setDialog( instance: any, elementRef: ElementRef, initialValue: any, dtLocal: string, dtViewFormat: string, dtReturnObject: string, dialogType: string,
+                      dtPositionOffset: string, dtMode: 'popup' | 'dropdown' | 'inline',
                       dtHourTime: '12' | '24', dtTheme: string ): void {
         this.directiveInstance = instance;
         this.directiveElementRef = elementRef;
         this.initialValue = initialValue;
-        this.dtLocale = dtLocale;
-        this.dtViewFormat = dtViewFormat;
-        this.dtReturnObject = dtReturnObject;
-        this.dtMode = dtMode;
-        this.dtPositionOffset = dtPositionOffset;
-        this.dtHourTime = dtHourTime;
-        this.dtTheme = dtTheme;
 
-        if (dtDialogType === 'time') {
-            this.dtDialogType = DialogType.Time;
-        } else {
-            this.dtDialogType = DialogType.Date;
-        }
-
-        // set moment locale (default is en)
-        moment.locale(this.dtLocale);
+        this.service.setPickerOptions(dtLocal, dtViewFormat, dtReturnObject,
+            dialogType, dtPositionOffset, dtMode, dtHourTime, dtTheme);
 
         // set now value
         this.now = moment();
-
-    }
-
-    public select( moment: Moment ): void {
-        let m = this.selectedMoment ? this.selectedMoment.clone() : this.moment.clone();
-        let daysDifference = moment.clone().startOf('date').diff(m.clone().startOf('date'), 'days');
-        this.selectedMoment = m.add(daysDifference, 'd');
-        let selectedM = this.parseToReturnObjectType(m);
-        this.directiveInstance.momentChanged(selectedM);
-        return;
     }
 
     public confirm(): void {
-        let m = this.selectedMoment ? this.selectedMoment.clone() : moment();
-        let selectedM = this.parseToReturnObjectType(m);
-        this.directiveInstance.momentChanged(selectedM);
+        this.returnSelectedMoment();
         this.cancelDialog();
-    }
-
-    public setTime( moment: Moment ): void {
-        let m = this.selectedMoment ? this.selectedMoment.clone() : this.moment.clone();
-        this.selectedMoment = m.hours(moment.hours()).minutes(moment.minutes());
-        let selectedM = this.parseToReturnObjectType(m);
-        this.directiveInstance.momentChanged(selectedM);
-        this.dialogType = this.dtDialogType;
     }
 
     public toggleDialogType( type: DialogType ): void {
@@ -125,44 +104,6 @@ export class DialogComponent implements OnInit {
             this.dialogType = DialogType.Date;
         } else {
             this.dialogType = type;
-        }
-    }
-
-    private setMomentFromString( value: any, emit: boolean = true ) {
-        if (value) {
-            this.moment = this.dtReturnObject === 'string' ? moment(value, this.dtViewFormat) :
-                moment(value);
-            this.selectedMoment = this.moment.clone();
-        } else {
-            this.moment = moment();
-        }
-    }
-
-    private parseToReturnObjectType( day: Moment ): any {
-        switch (this.dtReturnObject) {
-            case 'js':
-                return day.toDate();
-
-            case 'string':
-                return day.format(this.dtViewFormat);
-
-            case 'moment':
-                return day;
-
-            case 'json':
-                return day.toJSON();
-
-            case 'array':
-                return day.toArray();
-
-            case 'iso':
-                return day.toISOString();
-
-            case 'object':
-                return day.toObject();
-
-            default:
-                return day;
         }
     }
 
@@ -208,7 +149,7 @@ export class DialogComponent implements OnInit {
             }
 
             this.top += boxDirective.height + 3;
-            this.left += parseInt(this.dtPositionOffset) / 100 * boxDirective.width;
+            this.left += parseInt(this.positionOffset) / 100 * boxDirective.width;
             this.width = this.directiveElementRef.nativeElement.offsetWidth + 'px';
         }
     }
@@ -225,6 +166,11 @@ export class DialogComponent implements OnInit {
             width: element.offsetWidth,
             height: element.offsetHeight
         };
+    }
+
+    private returnSelectedMoment(): void {
+        let selectedM = this.service.parseToReturnObjectType();
+        this.directiveInstance.momentChanged(selectedM);
     }
 
     @HostListener('document:click', ['$event'])

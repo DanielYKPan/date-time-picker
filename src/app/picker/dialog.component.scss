@@ -9,7 +9,7 @@
   box-sizing: border-box;
 }
 
-.picker-wrap {
+.picker-popup {
   width: 100vw;
   max-width: 666px;
   height: 100%;
@@ -27,6 +27,16 @@
   border: #777 solid 1px;
   position: absolute;
   z-index: 1000;
+  user-select: none;
+  background-color: $white;
+  border-radius: 5px;
+}
+
+.picker-inline {
+  max-width: 666px;
+  min-width: 320px;
+  border: #777 solid 1px;
+  position: relative;
   user-select: none;
   background-color: $white;
   border-radius: 5px;

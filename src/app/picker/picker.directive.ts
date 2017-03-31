@@ -33,11 +33,11 @@ export class DateTimePickerDirective implements OnInit {
 
     constructor( private compiler: Compiler,
                  private vcRef: ViewContainerRef,
-                 private el: ElementRef ) {
+                 private el: ElementRef) {
     }
 
     public ngOnInit(): void {
-        if(this.mode === 'inline') {
+        if (this.mode === 'inline') {
             this.openDialog();
         }
     }
@@ -58,10 +58,8 @@ export class DateTimePickerDirective implements OnInit {
                     const compFactory: ComponentFactory<DialogComponent> = factory.componentFactories.find(( x: any ) => x.componentType === DialogComponent);
                     const injector = ReflectiveInjector.fromResolvedProviders([], this.vcRef.parentInjector);
                     const cmpRef = this.vcRef.createComponent(compFactory, 0, injector, []);
-                    cmpRef.instance.setDialog(this, this.el, this.dateTimePicker,
-                        this.locale, this.viewFormat, this.returnObject,
-                        this.dialogType, this.mode, this.positionOffset,
-                        this.hourTime, this.theme);
+                    cmpRef.instance.setDialog(this, this.el, this.dateTimePicker, this.locale, this.viewFormat, this.returnObject,
+                        this.dialogType, this.positionOffset, this.mode, this.hourTime, this.theme);
                     this.dialog = cmpRef.instance;
                 });
         } else if (this.dialog) {

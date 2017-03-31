@@ -8,6 +8,8 @@ import {
 import * as moment from 'moment/moment';
 import { Moment } from 'moment/moment';
 import { DialogType } from './dialog.component';
+import { PickerService } from './picker.service';
+import { Subscription } from 'rxjs';
 
 @Component({
     selector: 'dialog-date-panel',
@@ -17,25 +19,30 @@ import { DialogType } from './dialog.component';
 })
 export class DatePanelComponent implements OnInit {
 
-    @Input() moment: Moment;
-    @Input() now: Moment;
-    @Input() dialogType: DialogType;
-    @Input() locale: string;
-    @Input() selectedMoment: Moment;
-    @Input() theme: string;
-    @Output() onSelectDate = new EventEmitter<Moment>();
-    @Output() onCancelDialog = new EventEmitter<boolean>();
-    @Output() onConfirm = new EventEmitter<boolean>();
+    @Input() public selectedMoment: Moment;
+    @Output() public onCancelDialog = new EventEmitter<boolean>();
+    @Output() public onConfirm = new EventEmitter<boolean>();
 
-    private calendarDays: Moment[];
-    private dayNames: string[];
-    private monthList: string[];
-    private yearList: number[] = [];
+    public theme: string;
+    public dialogType: DialogType;
+    public now: Moment;
+    public moment: Moment;
+    public calendarDays: Moment[];
+    public dayNames: string[];
+    public monthList: string[];
+    public yearList: number[] = [];
 
-    constructor() {
+    private locale: string;
+
+    constructor( private service: PickerService ) {
     }
 
     public ngOnInit() {
+
+        this.locale = this.service.dtLocale;
+        this.theme = this.service.dtTheme;
+        this.dialogType = this.service.dtDialogType;
+
         // set moment locale (default is en)
         moment.locale(this.locale);
 
@@ -44,6 +51,8 @@ export class DatePanelComponent implements OnInit {
         // set month name array
         this.monthList = moment.monthsShort();
 
+        this.now = moment();
+        this.moment = this.service.moment;
         this.generateCalendar();
     }
 
@@ -112,7 +121,7 @@ export class DatePanelComponent implements OnInit {
             this.moment = moment.clone();
             this.generateCalendar();
         }
-        this.onSelectDate.emit(moment);
+        this.service.setDate(moment);
     }
 
     public selectToday(): void {
@@ -120,7 +129,7 @@ export class DatePanelComponent implements OnInit {
             .year(this.now.year())
             .month(this.now.month())
             .dayOfYear(this.now.dayOfYear());
-        this.onSelectDate.emit(moment);
+        this.service.setDate(moment);
     }
 
     public cancelDialog(): void {
