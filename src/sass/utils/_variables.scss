@@ -15,6 +15,10 @@ $base-line-height: 1.25 * $base-font-size;
 /// line-height: X * 1.25 > font-size
 /// @type Map
 $type-settings: (
+        -2: (
+                font-size: .5rem,
+                line-height: $base-line-height/2,
+        ),
         -1: (
                 font-size: .75rem,
                 line-height: $base-line-height,

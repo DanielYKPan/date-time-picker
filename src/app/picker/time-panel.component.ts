@@ -25,6 +25,7 @@ export class TimePanelComponent implements OnInit {
     moment: Moment;
     hourTime: '12' | '24';
     theme: string;
+    mode: 'popup' | 'dropdown' | 'inline';
 
     constructor( private service: PickerService ) {
     }
@@ -34,6 +35,7 @@ export class TimePanelComponent implements OnInit {
         this.moment = this.service.moment.clone();
         this.hourTime = this.service.dtHourTime;
         this.theme = this.service.dtTheme;
+        this.mode = this.service.dtMode;
 
         if (this.hourTime === '12') {
             if (this.moment.hours() <= 11) {

@@ -31,6 +31,7 @@ export class DatePanelComponent implements OnInit {
     public dayNames: string[];
     public monthList: string[];
     public yearList: number[] = [];
+    public mode: 'popup' | 'dropdown' | 'inline';
 
     private locale: string;
 
@@ -42,6 +43,7 @@ export class DatePanelComponent implements OnInit {
         this.locale = this.service.dtLocale;
         this.theme = this.service.dtTheme;
         this.dialogType = this.service.dtDialogType;
+        this.mode = this.service.dtMode;
 
         // set moment locale (default is en)
         moment.locale(this.locale);

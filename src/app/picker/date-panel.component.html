@@ -1,4 +1,5 @@
 <div class="yk-date-panel" [ngClass]="{
+    'small-mode': mode === 'dropdown' || mode === 'inline',
     'theme-green': theme === 'green',
     'theme-teal': theme === 'teal',
     'theme-grape': theme === 'grape',
@@ -64,7 +65,7 @@
         <div class="picker-action action-today" (click)="selectToday()">
             <span class="text" i18n="Today button">Today</span>
         </div>
-        <div class="picker-action action-close" (click)="cancelDialog()"><span class="text">Close</span>
+        <div class="picker-action action-close" (click)="cancelDialog()" [hidden]="mode === 'inline'"><span class="text">Close</span>
         </div>
         <div class="picker-action action-confirm" (click)="confirm()"><span class="text">Confirm</span>
         </div>
