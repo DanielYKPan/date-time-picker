@@ -10,7 +10,7 @@
             <div class="picker-banner">
                 <div class="picker-banner-day">{{ (selectedMoment? selectedMoment : now) | moment: 'dddd'}}</div>
                 <div class="picker-banner-moment">
-                    <div class="moment-date" (click)="toggleDialogType(1)">
+                    <div class="moment-date" *ngIf="pickerType === 'both' || pickerType === 'date'" (click)="toggleDialogType(1)">
                         <div class="big">
                             <span>{{(selectedMoment? selectedMoment : now) | moment: 'Do'}}</span>
                         </div>
@@ -19,7 +19,7 @@
                             <span>{{(selectedMoment? selectedMoment : now) | moment: 'YYYY'}}</span>
                         </div>
                     </div>
-                    <div class="moment-time" (click)="toggleDialogType(0)">
+                    <div class="moment-time" *ngIf="pickerType === 'both' || pickerType === 'time'" (click)="toggleDialogType(0)">
                         <div class="big">
                             <span *ngIf="hourTime === '12'">{{(selectedMoment? selectedMoment : now) | moment: 'hh:mm'}}</span>
                             <span *ngIf="hourTime === '24'">{{(selectedMoment? selectedMoment : now) | moment: 'HH:mm'}}</span>
@@ -31,11 +31,13 @@
                 </div>
             </div>
             <div class="picker-content">
-                <dialog-date-panel [ngClass]="{hidden: dialogType === 0}"
+                <dialog-date-panel *ngIf="pickerType === 'both' || pickerType === 'date'"
+                                   [ngClass]="{hidden: dialogType === 0}"
                                    [selectedMoment]="selectedMoment"
                                    (onCancelDialog)="cancelDialog()"
                                    (onConfirm)="confirm()"></dialog-date-panel>
-                <dialog-time-panel [hidden]="dialogType !== 0" [dialogType]="dialogType" ></dialog-time-panel>
+                <dialog-time-panel *ngIf="pickerType === 'both' || pickerType === 'time'"
+                                   [hidden]="dialogType !== 0" [dialogType]="dialogType" ></dialog-time-panel>
             </div>
         </div>
     </div>
@@ -61,9 +63,12 @@
      }">
     <div class="picker-box">
         <div class="picker-banner">
-            <div class="picker-banner-day">{{ (selectedMoment? selectedMoment : now) | moment: 'dddd'}}</div>
+            <div class="picker-banner-day">
+                <span [hidden]="dialogType === 0">{{ (selectedMoment? selectedMoment : now) | moment: 'dddd'}}</span>
+                <span [hidden]="dialogType !== 0">Time Picker</span>
+            </div>
             <div class="picker-banner-moment">
-                <div class="moment-date" (click)="toggleDialogType(1)">
+                <div class="moment-date" *ngIf="pickerType === 'both' || pickerType === 'date'" (click)="toggleDialogType(1)">
                     <div class="big">
                         <span>{{(selectedMoment? selectedMoment : now) | moment: 'Do'}}</span>
                     </div>
@@ -72,7 +77,7 @@
                         <span>{{(selectedMoment? selectedMoment : now) | moment: 'YYYY'}}</span>
                     </div>
                 </div>
-                <div class="moment-time" (click)="toggleDialogType(0)">
+                <div class="moment-time" *ngIf="pickerType === 'both' || pickerType === 'time'" (click)="toggleDialogType(0)">
                     <div class="big">
                         <span *ngIf="hourTime === '12'">{{(selectedMoment? selectedMoment : now) | moment: 'hh:mm'}}</span>
                         <span *ngIf="hourTime === '24'">{{(selectedMoment? selectedMoment : now) | moment: 'HH:mm'}}</span>
@@ -84,11 +89,13 @@
             </div>
         </div>
         <div class="picker-content">
-            <dialog-date-panel [ngClass]="{hidden: dialogType === 0}"
+            <dialog-date-panel *ngIf="pickerType === 'both' || pickerType === 'date'"
+                               [ngClass]="{hidden: dialogType === 0}"
                                [selectedMoment]="selectedMoment"
                                (onCancelDialog)="cancelDialog()"
                                (onConfirm)="confirm()"></dialog-date-panel>
-            <dialog-time-panel [hidden]="dialogType !== 0" [dialogType]="dialogType" ></dialog-time-panel>
+            <dialog-time-panel *ngIf="pickerType === 'both' || pickerType === 'time'"
+                               [hidden]="dialogType !== 0" [dialogType]="dialogType" ></dialog-time-panel>
         </div>
     </div>
 </div>

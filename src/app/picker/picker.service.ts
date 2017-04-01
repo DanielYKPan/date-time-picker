@@ -42,6 +42,22 @@ export class PickerService {
         return this._dtDialogType;
     }
 
+    /* Property _dtPickerType */
+    private _dtPickerType: 'both' | 'date' | 'time';
+
+    get dtPickerType(): 'both' | 'date' | 'time' {
+        return this._dtPickerType;
+    }
+
+    set dtPickerType( value: 'both' | 'date' | 'time' ) {
+        this._dtPickerType = value;
+        if (value === 'both' || value === 'date') {
+            this._dtDialogType = DialogType.Date;
+        } else if (value === 'time') {
+            this._dtDialogType = DialogType.Time;
+        }
+    }
+
     /* Property _dtPositionOffset */
     private _dtPositionOffset: string;
 
@@ -92,9 +108,9 @@ export class PickerService {
     constructor() {
     }
 
-    public setPickerOptions( dtLocal: string, dtViewFormat: string, dtReturnObject: string, dialogType: string,
+    public setPickerOptions( dtLocal: string, dtViewFormat: string, dtReturnObject: string,
                              dtPositionOffset: string, dtMode: 'popup' | 'dropdown' | 'inline',
-                             dtHourTime: '12' | '24', dtTheme: string ): void {
+                             dtHourTime: '12' | '24', dtTheme: string, dtPickerType: 'both' | 'date' | 'time' ): void {
         this._dtLocale = dtLocal;
         this._dtViewFormat = dtViewFormat;
         this._dtReturnObject = dtReturnObject;
@@ -102,12 +118,7 @@ export class PickerService {
         this._dtMode = dtMode;
         this._dtHourTime = dtHourTime;
         this._dtTheme = dtTheme;
-
-        if (dialogType === 'time') {
-            this._dtDialogType = DialogType.Time;
-        } else {
-            this._dtDialogType = DialogType.Date;
-        }
+        this.dtPickerType = dtPickerType;
     }
 
     public setMoment( value: any ): void {

@@ -35,6 +35,7 @@ export class DialogComponent implements OnInit {
     public mode: 'popup' | 'dropdown' | 'inline';
     public returnObject: string;
     public dialogType: DialogType;
+    public pickerType: 'both' | 'date' | 'time';
 
     private subId: Subscription;
 
@@ -48,6 +49,7 @@ export class DialogComponent implements OnInit {
         this.positionOffset = this.service.dtPositionOffset;
         this.mode = this.service.dtMode;
         this.returnObject = this.service.dtReturnObject;
+        this.pickerType = this.service.dtPickerType;
         moment.locale(this.service.dtLocale);
         this.subId = this.service.events.subscribe(
             ( selectedMoment: Moment ) => {
@@ -58,7 +60,7 @@ export class DialogComponent implements OnInit {
         this.openDialog(this.initialValue);
     }
 
-    public openDialog( moment: any): void {
+    public openDialog( moment: any ): void {
         this.show = true;
 
         if (this.mode === 'dropdown') {
@@ -80,15 +82,15 @@ export class DialogComponent implements OnInit {
         this.initialValue = value;
     }
 
-    public setDialog( instance: any, elementRef: ElementRef, initialValue: any, dtLocal: string, dtViewFormat: string, dtReturnObject: string, dialogType: string,
+    public setDialog( instance: any, elementRef: ElementRef, initialValue: any, dtLocal: string, dtViewFormat: string, dtReturnObject: string,
                       dtPositionOffset: string, dtMode: 'popup' | 'dropdown' | 'inline',
-                      dtHourTime: '12' | '24', dtTheme: string ): void {
+                      dtHourTime: '12' | '24', dtTheme: string, dtPickerType: 'both' | 'date' | 'time' ): void {
         this.directiveInstance = instance;
         this.directiveElementRef = elementRef;
         this.initialValue = initialValue;
 
         this.service.setPickerOptions(dtLocal, dtViewFormat, dtReturnObject,
-            dialogType, dtPositionOffset, dtMode, dtHourTime, dtTheme);
+            dtPositionOffset, dtMode, dtHourTime, dtTheme, dtPickerType);
 
         // set now value
         this.now = moment();
@@ -100,6 +102,9 @@ export class DialogComponent implements OnInit {
     }
 
     public toggleDialogType( type: DialogType ): void {
+        if(this.pickerType !== 'both'){
+            return;
+        }
         if (this.dialogType === type) {
             this.dialogType = DialogType.Date;
         } else {
