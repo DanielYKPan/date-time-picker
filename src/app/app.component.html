@@ -50,16 +50,30 @@
             </div>
 
             <div class="row">
+                <h4 class="heading">Normal inline mode:</h4>
+                <p>In inline mode, the picker would always appear on the page. You could set the width= "250px" to make the picker bigger or smaller. (picker width size between 200px to 300px)</p>
+                <div class="input-control">
+                    <label for="time-input-2">DateTime ([mode]="'inline'"): </label>
+                    <div>Return Object: {{input2Moment | date: 'MMMM dd, y HH:mm'}}</div>
+                    <div id="time-input-2" [(dateTimePicker)]="input2Moment"
+                         width= "250px"
+                         [mode]="'inline'"
+                    ></div>
+                </div>
+                <pre class="prettyprint"><code><![CDATA[<div class="picker-input" [(dateTimePicker)]="moment" [mode]="'inline'"></div>]]></code></pre>
+            </div>
+
+            <div class="row">
                 <h4 class="heading">Normal dropdown mode:</h4>
                 <p>Click the text input, and the date time picker would be shown under the text input. If you click
                     anywhere out side the
                     picker, the picker would be close.</p>
                 <div class="input-control">
-                    <label for="time-input-2">DateTime ([mode]="'dropdown'"): </label>
+                    <label for="time-input-3">DateTime ([mode]="'dropdown'"): </label>
                     <input class="picker-input"
-                           id="time-input-2"
-                           [ngModel]="input2Moment | date: 'MMMM dd, y HH:mm'"
-                           [(dateTimePicker)]="input2Moment"
+                           id="time-input-3"
+                           [ngModel]="input3Moment | date: 'MMMM dd, y HH:mm'"
+                           [(dateTimePicker)]="input3Moment"
                            [mode]="'dropdown'"
                            readonly>
                 </div>
@@ -71,11 +85,11 @@
                 <p>Choose different theme color. Colors include 'default', 'green', 'teal', 'cyan', 'grape', 'red', 'gray'. Default Color is blue.
                 </p>
                 <div class="input-control">
-                    <label for="time-input-8">DateTime ([theme]="'grape'"): </label>
+                    <label for="time-input-4">DateTime ([theme]="'grape'"): </label>
                     <input class="picker-input"
-                           id="time-input-8"
-                           [ngModel]="input8Moment | date: 'MMMM dd, y HH:mm'"
-                           [(dateTimePicker)]="input8Moment"
+                           id="time-input-4"
+                           [ngModel]="input4Moment | date: 'MMMM dd, y HH:mm'"
+                           [(dateTimePicker)]="input4Moment"
                            [theme]="'grape'"
                            readonly>
                 </div>
@@ -86,11 +100,11 @@
                 <h4 class="heading">Use 12-hour Format:</h4>
                 <p>We can choose different hour format. The default hour format is 24-hour. We could choose the 12-hour format.</p>
                 <div class="input-control">
-                    <label for="time-input-9">DateTime ([hourTime]="'12'"): </label>
+                    <label for="time-input-5">DateTime ([hourTime]="'12'"): </label>
                     <input class="picker-input"
-                           id="time-input-9"
-                           [ngModel]="input8Moment | date: 'short'"
-                           [(dateTimePicker)]="input8Moment"
+                           id="time-input-5"
+                           [ngModel]="input5Moment | date: 'short'"
+                           [(dateTimePicker)]="input5Moment"
                            [hourTime]="'12'"
                            readonly>
                 </div>
@@ -103,11 +117,11 @@
                     the date, the picker would be date picker. And when you click the time, the picker would toggle to
                     time picker.</p>
                 <div class="input-control">
-                    <label for="time-input-3">DateTime: </label>
+                    <label for="time-input-6">DateTime: </label>
                     <input class="picker-input"
-                           id="time-input-3"
-                           [ngModel]="input3Moment | date: 'MMMM dd, y HH:mm'"
-                           [(dateTimePicker)]="input3Moment"
+                           id="time-input-6"
+                           [ngModel]="input6Moment | date: 'MMMM dd, y HH:mm'"
+                           [(dateTimePicker)]="input6Moment"
                            readonly>
                     <pre class="prettyprint"><code><![CDATA[<input class="picker-input" [ngModel]="moment | date: 'short'" [(dateTimePicker)]="moment" readonly>]]></code></pre>
                 </div>
@@ -132,43 +146,53 @@
                     You could also check the example belows:
                 </p>
                 <div class="input-control">
-                    <label for="time-input-4">DateTime ([returnObject] = 'string'): </label>
+                    <label for="time-input-7">DateTime ([returnObject] = 'string'): </label>
                     <input class="picker-input"
-                           id="time-input-4"
-                           [ngModel]="input4Moment"
+                           id="time-input-7"
+                           [ngModel]="input7Moment"
                            [returnObject]=" 'string' "
-                           [(dateTimePicker)]="input4Moment"
+                           [(dateTimePicker)]="input7Moment"
                            readonly>
                     <pre class="prettyprint"><code><![CDATA[<input class="picker-input" [ngModel]="moment" [returnObject]=" 'string' " [(dateTimePicker)]="moment" readonly>]]></code></pre>
                 </div>
 
                 <div class="input-control">
-                    <label for="time-input-5">DateTime ([returnObject] = 'string' [viewFormat]= 'YYYY-MM-DD HH:mm'): </label>
+                    <label for="time-input-8">DateTime ([returnObject] = 'string' [viewFormat]= 'YYYY-MM-DD HH:mm'): </label>
                     <input class="picker-input"
-                           id="time-input-5"
-                           [ngModel]="input5Moment"
+                           id="time-input-8"
+                           [ngModel]="input8Moment"
                            [returnObject]=" 'string' "
                            [viewFormat]= "'YYYY-MM-DD HH:mm'"
-                           [(dateTimePicker)]="input5Moment"
+                           [(dateTimePicker)]="input8Moment"
                            readonly>
                     <pre class="prettyprint"><code><![CDATA[<input class="picker-input" [ngModel]="moment" [returnObject]=" 'string' " [viewFormat]= "'YYYY-MM-DD HH:mm'" [(dateTimePicker)]="moment" readonly>]]></code></pre>
                 </div>
             </div>
 
             <div class="row">
-                <h4 class="heading">Set Picker Dialog Type:</h4>
-                <p>When the picker open, it will show the calendar (the date picker by default). If you want to show the time picker when it is open,
-                    we need to set the dialogType to 'time'. Remember you could still toggle the date picker and the time picker by clicking the picker
-                    banner at the top of the Picker.</p>
+                <h4 class="heading">Set Picker Type:</h4>
+                <p>When the picker open, it will show the calendar (the date picker by default). And when you click the time in the picker banner, it will toggle to the time slider.
+                    If you only want to use the date picker or time picker, set the [pickerType] = " 'date' " or [pickerType] = " 'time' "</p>
                 <div class="input-control">
-                    <label for="time-input-6">DateTime: </label>
+                    <label for="time-input-9">Date Picker: </label>
                     <input class="picker-input"
-                           id="time-input-6"
-                           [ngModel]="input6Moment | date: 'MMMM dd, y HH:mm'"
-                           [dialogType]="'time'"
-                           [(dateTimePicker)]="input6Moment"
+                           id="time-input-9"
+                           [ngModel]="input9Moment | date: 'MMMM dd, y'"
+                           [pickerType]="'date'"
+                           [(dateTimePicker)]="input9Moment"
                            readonly>
-                    <pre class="prettyprint"><code><![CDATA[<input class="picker-input" [ngModel]="moment | date: 'short'" [(dateTimePicker)]="moment" [dialogType]="'time'" readonly>]]></code></pre>
+                    <pre class="prettyprint"><code><![CDATA[<input class="picker-input" [ngModel]="moment | date: 'short'" [(dateTimePicker)]="moment" [pickerType]="'date'" readonly>]]></code></pre>
+                </div>
+
+                <div class="input-control">
+                    <label for="time-input-10">Time Picker: </label>
+                    <input class="picker-input"
+                           id="time-input-10"
+                           [ngModel]="input10Moment | date: 'HH:mm'"
+                           [pickerType]="'time'"
+                           [(dateTimePicker)]="input10Moment"
+                           readonly>
+                    <pre class="prettyprint"><code><![CDATA[<input class="picker-input" [ngModel]="moment | date: 'short'" [(dateTimePicker)]="moment" [pickerType]="'time'" readonly>]]></code></pre>
                 </div>
             </div>
 
@@ -179,12 +203,12 @@
                     You can get more inform about the i18n from <a class="ex-link"
                                                                    href="http://momentjs.com/docs/#/i18n/" target="_blank">MomentJS-i18n</a>.</p>
                 <div class="input-control">
-                    <label for="time-input-7">DateTime ([locale] = " 'fr' "): </label>
+                    <label for="time-input-11">DateTime ([locale] = " 'fr' "): </label>
                     <input class="picker-input"
-                           id="time-input-7"
-                           [ngModel]="input7Moment | date: 'MMMM dd, y HH:mm'"
+                           id="time-input-11"
+                           [ngModel]="input11Moment | date: 'MMMM dd, y HH:mm'"
                            [locale] = " 'fr' "
-                           [(dateTimePicker)]="input7Moment"
+                           [(dateTimePicker)]="input11Moment"
                            readonly>
                     <pre class="prettyprint"><code><![CDATA[<input class="picker-input" [ngModel]="moment | date: 'short'" [(dateTimePicker)]="moment" [locale]=" 'fr' " readonly>]]></code></pre>
                 </div>
