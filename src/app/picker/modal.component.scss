@@ -6,6 +6,12 @@ $mid-grey: hsla(120, 4%, 95%, 1) !default;
 $light-dark: hsla(0, 0%, 0%, .3);
 $white: #fff;
 
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
 :host {
   z-index: 9999999999;
 }

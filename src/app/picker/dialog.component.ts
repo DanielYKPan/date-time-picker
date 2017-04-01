@@ -85,14 +85,14 @@ export class DialogComponent implements OnInit {
         this.initialValue = value;
     }
 
-    public setDialog( instance: any, elementRef: ElementRef, initialValue: any, dtLocal: string, dtViewFormat: string, dtReturnObject: string,
+    public setDialog( instance: any, elementRef: ElementRef, initialValue: any, dtLocale: string, dtViewFormat: string, dtReturnObject: string,
                       dtPositionOffset: string, dtMode: 'popup' | 'dropdown' | 'inline',
                       dtHourTime: '12' | '24', dtTheme: string, dtPickerType: 'both' | 'date' | 'time' ): void {
         this.directiveInstance = instance;
         this.directiveElementRef = elementRef;
         this.initialValue = initialValue;
 
-        this.service.setPickerOptions(dtLocal, dtViewFormat, dtReturnObject,
+        this.service.setPickerOptions(dtLocale, dtViewFormat, dtReturnObject,
             dtPositionOffset, dtMode, dtHourTime, dtTheme, dtPickerType);
     }
 

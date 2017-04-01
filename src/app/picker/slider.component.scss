@@ -1,5 +1,11 @@
 @import './colors';
 
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
 :host {
   display: block;
   position: relative;

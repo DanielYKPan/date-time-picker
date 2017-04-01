@@ -3,6 +3,12 @@
 @import '../../sass/utils/mixins';
 @import './colors';
 
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
 :host {
   &.hidden {
     display: none;
