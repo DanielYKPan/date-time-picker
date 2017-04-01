@@ -9,13 +9,12 @@ import * as moment from 'moment/moment';
 import { Moment } from 'moment/moment';
 import { DialogType } from './dialog.component';
 import { PickerService } from './picker.service';
-import { Subscription } from 'rxjs';
 
 @Component({
     selector: 'dialog-date-panel',
     changeDetection: ChangeDetectionStrategy.OnPush,
     templateUrl: './date-panel.component.html',
-    styleUrls: ['./date-panel.component.scss']
+    styleUrls: ['./date-panel.component.scss'],
 })
 export class DatePanelComponent implements OnInit {
 
