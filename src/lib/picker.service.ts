@@ -108,10 +108,10 @@ export class PickerService {
     constructor() {
     }
 
-    public setPickerOptions( dtLocal: string, dtViewFormat: string, dtReturnObject: string,
+    public setPickerOptions( dtLocale: string, dtViewFormat: string, dtReturnObject: string,
                              dtPositionOffset: string, dtMode: 'popup' | 'dropdown' | 'inline',
                              dtHourTime: '12' | '24', dtTheme: string, dtPickerType: 'both' | 'date' | 'time' ): void {
-        this._dtLocale = dtLocal;
+        this._dtLocale = dtLocale;
         this._dtViewFormat = dtViewFormat;
         this._dtReturnObject = dtReturnObject;
         this._dtPositionOffset = dtPositionOffset;
