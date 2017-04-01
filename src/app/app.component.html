@@ -51,16 +51,16 @@
 
             <div class="row">
                 <h4 class="heading">Normal inline mode:</h4>
-                <p>In inline mode, the picker would always appear on the page. You could set the width= "250px" to make the picker bigger or smaller. (picker width size between 200px to 300px)</p>
+                <p>In inline mode, the picker would always appear on the page. You could set the [style.width]= "'250px'" to make the picker bigger or smaller. (picker width size between 200px to 300px)</p>
                 <div class="input-control">
                     <label for="time-input-2">DateTime ([mode]="'inline'"): </label>
                     <div>Return Object: {{input2Moment | date: 'MMMM dd, y HH:mm'}}</div>
                     <div id="time-input-2" [(dateTimePicker)]="input2Moment"
-                         width= "250px"
+                         [style.width]= "'250px'"
                          [mode]="'inline'"
                     ></div>
                 </div>
-                <pre class="prettyprint"><code><![CDATA[<div class="picker-input" [(dateTimePicker)]="moment" [mode]="'inline'"></div>]]></code></pre>
+                <pre class="prettyprint"><code><![CDATA[<div class="picker-input" [(dateTimePicker)]="moment" [mode]="'inline'" [style.width]= "'250px'"></div>]]></code></pre>
             </div>
 
             <div class="row">
