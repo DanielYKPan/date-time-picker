@@ -96,13 +96,17 @@ export class DialogComponent implements OnInit {
         this.now = moment();
     }
 
-    public confirm(): void {
+    public confirm( close: boolean ): void {
         this.returnSelectedMoment();
-        this.cancelDialog();
+        if (close === true) {
+            this.cancelDialog();
+        } else {
+            this.dialogType = this.service.dtDialogType;
+        }
     }
 
     public toggleDialogType( type: DialogType ): void {
-        if(this.pickerType !== 'both'){
+        if (this.pickerType !== 'both') {
             return;
         }
         if (this.dialogType === type) {

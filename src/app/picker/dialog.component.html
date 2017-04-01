@@ -35,9 +35,10 @@
                                    [ngClass]="{hidden: dialogType === 0}"
                                    [selectedMoment]="selectedMoment"
                                    (onCancelDialog)="cancelDialog()"
-                                   (onConfirm)="confirm()"></dialog-date-panel>
+                                   (onConfirm)="confirm($event)"></dialog-date-panel>
                 <dialog-time-panel *ngIf="pickerType === 'both' || pickerType === 'time'"
-                                   [hidden]="dialogType !== 0" [dialogType]="dialogType" ></dialog-time-panel>
+                                   [hidden]="dialogType !== 0" [dialogType]="dialogType"
+                                   (onSetTime)="confirm($event)"></dialog-time-panel>
             </div>
         </div>
     </div>
@@ -93,9 +94,10 @@
                                [ngClass]="{hidden: dialogType === 0}"
                                [selectedMoment]="selectedMoment"
                                (onCancelDialog)="cancelDialog()"
-                               (onConfirm)="confirm()"></dialog-date-panel>
+                               (onConfirm)="confirm($event)"></dialog-date-panel>
             <dialog-time-panel *ngIf="pickerType === 'both' || pickerType === 'time'"
-                               [hidden]="dialogType !== 0" [dialogType]="dialogType" ></dialog-time-panel>
+                               [hidden]="dialogType !== 0" [dialogType]="dialogType"
+                               (onSetTime)="confirm($event)" ></dialog-time-panel>
         </div>
     </div>
 </div>

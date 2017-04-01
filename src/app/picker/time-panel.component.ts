@@ -2,7 +2,7 @@
  * time-panel.component
  */
 
-import { Component, OnInit, Input, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, Input, ChangeDetectionStrategy, Output, EventEmitter } from '@angular/core';
 import { Moment } from 'moment/moment';
 import { DialogType } from './dialog.component';
 import { PickerService } from './picker.service';
@@ -16,6 +16,7 @@ import { PickerService } from './picker.service';
 export class TimePanelComponent implements OnInit {
 
     @Input() dialogType: DialogType;
+    @Output() onSetTime = new EventEmitter<boolean>();
 
     hourValue: number;
     minValue: number;
@@ -63,5 +64,10 @@ export class TimePanelComponent implements OnInit {
 
     public setTime(): void {
         this.service.setTime(this.hourValue, this.minValue, this.meridianValue);
+        if (this.service.dtPickerType === 'time') {
+            this.onSetTime.emit(true);
+        } else {
+            this.onSetTime.emit(false);
+        }
     }
 }
