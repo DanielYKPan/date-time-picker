@@ -6,7 +6,7 @@ import { Injectable } from '@angular/core';
 import { DialogType } from './dialog.component';
 import * as moment from 'moment/moment';
 import { Moment } from 'moment/moment';
-import { Observable, Subject } from 'rxjs';
+import { Observable, Subject } from 'rxjs/Rx';
 
 @Injectable()
 export class PickerService {

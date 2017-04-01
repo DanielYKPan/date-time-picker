@@ -6,7 +6,7 @@ import { Component, OnInit, ElementRef, HostListener } from '@angular/core';
 import * as moment from 'moment/moment';
 import { Moment } from 'moment/moment';
 import { PickerService } from './picker.service';
-import { Subscription } from 'rxjs';
+import { Subscription } from 'rxjs/Rx';
 
 @Component({
     selector: 'date-time-dialog',
