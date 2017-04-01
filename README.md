@@ -111,7 +111,7 @@ public setMoment(moment: any): any {
       * **[pickerType]=" 'both' "** --- You can set the default dialogType to 'date' or 'time' or 'both'. When you leave it as default ([pickerType]=" 'both' "), the date-time-picker dialog would display the date calendar and time slider (you could toggle between them).
         If you set it as 'date' or 'time', the date-time-picker dialog would only display date calendar or time slider.
       * **[mode]=" 'popup' "** --- Set the date-time picker mode. Default is 'popup'. The options choice could be 'popup', 'dropdown', 'inline'.
-        If you set it as 'inline', the date-time-picker would always show on your web page as a html element.
+        If you set it as 'inline', the date-time-picker would always show on your web page as a html element (In inline mode, you could set width = '250px' to make the the picker smaller or bigger. picker width are set between 200px and 300px ).
       * **[hourTime]=" '24' "** --- Set the hour time format (12-hour format or 24-hour format). Default is '24'(24-hour format). The other choice could be '12'(12-hour format).
       * **[theme]=" 'default' "** --- Set the theme color. The default color is Blue. Other options include 'green', 'teal', 'cyan', 'grape', 'red', 'gray'. You can see the effect from the demo.
       * **Important: Do Not forget the single quote inside the double quote when you set the optional attributes value.**
