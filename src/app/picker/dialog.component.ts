@@ -51,6 +51,9 @@ export class DialogComponent implements OnInit {
         this.returnObject = this.service.dtReturnObject;
         this.pickerType = this.service.dtPickerType;
         moment.locale(this.service.dtLocale);
+
+        // set now value
+        this.now = moment();
         this.subId = this.service.events.subscribe(
             ( selectedMoment: Moment ) => {
                 this.selectedMoment = selectedMoment;
@@ -91,9 +94,6 @@ export class DialogComponent implements OnInit {
 
         this.service.setPickerOptions(dtLocal, dtViewFormat, dtReturnObject,
             dtPositionOffset, dtMode, dtHourTime, dtTheme, dtPickerType);
-
-        // set now value
-        this.now = moment();
     }
 
     public confirm( close: boolean ): void {

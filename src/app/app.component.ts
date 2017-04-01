@@ -16,7 +16,7 @@ export class AppComponent implements OnInit {
 
     private showDatePicker: boolean = false;
     private showTimePicker: boolean = false;
-    private momentValue: Date = new Date();
+    private momentValue: Date;
 
     constructor() {
     }
