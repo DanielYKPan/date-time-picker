@@ -8,7 +8,10 @@
         'theme-gray': theme === 'gray'}">
         <div class="picker-box">
             <div class="picker-banner">
-                <div class="picker-banner-day">{{ (selectedMoment? selectedMoment : now) | moment: 'dddd'}}</div>
+                <div class="picker-banner-day">
+                    <span [hidden]="dialogType === 0">{{ (selectedMoment? selectedMoment : now) | moment: 'dddd'}}</span>
+                    <span [hidden]="dialogType !== 0">Time Picker</span>
+                </div>
                 <div class="picker-banner-moment">
                     <div class="moment-date" *ngIf="pickerType === 'both' || pickerType === 'date'" (click)="toggleDialogType(1)">
                         <div class="big">
