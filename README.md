@@ -3,6 +3,18 @@
 
 **Angular 2 date time picker - Angular2 reusable UI component**
 
+## Important
+
+**This package currently only supports AngularJS 2. 
+If the package running on AngularJs 4, 
+it will appears bugs because Angular 4 move its animation to its own module. 
+Those bugs will be fixed in the next updates**
+
+## Updates
+
+* Added a new 'inline' mode. **[mode]=" 'inline' "** would make the date-time-picker always show in your page.
+* Added a new pickerType option. **[pickerType]=" 'both' "**, this option would let you choose the date-time-picker to be date-picker or time-picker or both. Options include 'both', 'date', 'time'. Default is 'both'.
+
 ## Other Similar Projects
 
 * [Date Range Picker](https://github.com/DanielYKPan/date-range-picker)
@@ -96,9 +108,10 @@ public setMoment(moment: any): any {
       * **[returnObject]=" 'js' "** --- You can set the return object type when you pick a moment from date-time-picker. (Default value is 'js', this means the default return object type is javascript Date object. The other options are: string, moment, json, array, iso and object).
       * **[viewFormat]=" 'll' "** --- If you set your returnObject as 'string', you need to set the viewFormat. (Default value is 'll'. You can get more inform about the format from [MomentJS](http://momentjs.com/docs/#/parsing/string-format/)).
       * **[locale]=" 'en' "** --- This date-time-picker has robust support for internationalization. (Default value is 'en'. If you want to change to French for example, just set [locale]=" 'fr' ". You can get more inform about the i18n from [MomentJS-i18n](http://momentjs.com/docs/#/i18n/)).
-      * **[dialogType]=" 'date' "** --- You can set the default dialogType to 'date' or 'time'. When you leave it as default ([dialogType]=" 'date' "), the pop-up date-time-picker dialog would display the date calendar.
-        If you set it as 'time', the pop-up date-time-picker dialog would display time slide bar control dialog. But you can still toggle these two dialogs inside the pop-up date-time-picker.
-      * **[mode]=" 'popup' "** --- Set the date-time picker mode. Default is 'popup'. The other choice could be 'dropdown'.
+      * **[pickerType]=" 'both' "** --- You can set the default dialogType to 'date' or 'time' or 'both'. When you leave it as default ([pickerType]=" 'both' "), the date-time-picker dialog would display the date calendar and time slider (you could toggle between them).
+        If you set it as 'date' or 'time', the date-time-picker dialog would only display date calendar or time slider.
+      * **[mode]=" 'popup' "** --- Set the date-time picker mode. Default is 'popup'. The options choice could be 'popup', 'dropdown', 'inline'.
+        If you set it as 'inline', the date-time-picker would always show on your web page as a html element.
       * **[hourTime]=" '24' "** --- Set the hour time format (12-hour format or 24-hour format). Default is '24'(24-hour format). The other choice could be '12'(12-hour format).
       * **[theme]=" 'default' "** --- Set the theme color. The default color is Blue. Other options include 'green', 'teal', 'cyan', 'grape', 'red', 'gray'. You can see the effect from the demo.
       * **Important: Do Not forget the single quote inside the double quote when you set the optional attributes value.**

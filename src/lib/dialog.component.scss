@@ -9,7 +9,7 @@
   box-sizing: border-box;
 }
 
-.picker-wrap {
+.picker-popup {
   width: 100vw;
   max-width: 666px;
   height: 100%;
@@ -22,15 +22,28 @@
 }
 
 .picker-dropdown {
-  max-width: 666px;
-  min-width: 333px;
+  @include respond-to('medium') {
+    max-width: 300px;
+  }
+  max-width: 100vw;
+  min-width: 200px;
   border: #777 solid 1px;
   position: absolute;
   z-index: 1000;
   user-select: none;
   background-color: $white;
-  margin-bottom: $base-line-height/2;
   border-radius: 5px;
+}
+
+.picker-inline {
+  max-width: 250px;
+  min-width: 200px;
+  border: #777 solid 1px;
+  position: relative;
+  user-select: none;
+  background-color: $white;
+  border-radius: 5px;
+  display: inline-block;
 }
 
 .picker-box {
@@ -47,9 +60,13 @@
   background-color: $blue;
   color: $white;
   user-select: none;
+  border-radius: 4px 4px 0 0;
 }
 
 .picker-banner-day {
+  @include when-inside('.small-mode') {
+    @include type-setting(-1);
+  }
   @include type-setting(1);
   text-align: center;
   background: rgba(0, 0, 0, 0.09);
@@ -62,7 +79,7 @@
 
   .moment-date,
   .moment-time {
-    padding: $base-line-height/2 .5rem;
+    padding: 0 .5rem;
     cursor: pointer;
 
     &:hover {
@@ -87,12 +104,18 @@
     }
 
     .big {
+      @include when-inside('.small-mode') {
+        @include type-setting(1);
+      }
       @include type-setting(4);
     }
 
     .small {
+      @include when-inside('.small-mode') {
+        @include type-setting(-2);
+      }
       flex-direction: column;
-      padding: 0 .5rem;
+      padding: .3rem .5rem;
       font-weight: 300;
     }
   }
@@ -101,6 +124,11 @@
     display: flex;
     justify-content: center;
     width: 100%;
+
+    @include when-inside('.small-mode') {
+      width: 50%;
+      justify-content: flex-start;
+    }
 
     @include respond-to(medium) {
       width: 50%;
@@ -114,11 +142,17 @@
     }
 
     .big {
+      @include when-inside('.small-mode') {
+        @include type-setting(1);
+      }
       @include type-setting(3);
       font-weight: 100;
     }
 
     .small {
+      @include when-inside('.small-mode') {
+        @include type-setting(-1);
+      }
       @include type-setting(1);
       padding: 0 5px;
     }
@@ -126,6 +160,9 @@
 }
 
 .picker-content {
+  @include when-inside('.small-mode') {
+    height: $base-line-height * 11;
+  }
   flex-grow: 1;
   width: 100%;
   height: $base-line-height * 19;

@@ -5,6 +5,7 @@
 import { Component, OnInit, Input, ChangeDetectionStrategy, Output, EventEmitter } from '@angular/core';
 import { Moment } from 'moment/moment';
 import { DialogType } from './dialog.component';
+import { PickerService } from './picker.service';
 
 @Component({
     selector: 'dialog-time-panel',
@@ -14,23 +15,29 @@ import { DialogType } from './dialog.component';
 })
 export class TimePanelComponent implements OnInit {
 
-    @Input() moment: Moment;
-    @Input() now: Moment;
-    @Input() hourTime: '12' | '24';
     @Input() dialogType: DialogType;
-    @Input() theme: string;
-    @Output() onSetTime = new EventEmitter<Moment>();
+    @Output() onSetTime = new EventEmitter<boolean>();
 
     hourValue: number;
     minValue: number;
     meridianValue: string;
     hourFloor: number = 1;
     hourCeiling: number = 12;
+    moment: Moment;
+    hourTime: '12' | '24';
+    theme: string;
+    mode: 'popup' | 'dropdown' | 'inline';
 
-    constructor() {
+    constructor( private service: PickerService ) {
     }
 
     public ngOnInit() {
+
+        this.moment = this.service.moment.clone();
+        this.hourTime = this.service.dtHourTime;
+        this.theme = this.service.dtTheme;
+        this.mode = this.service.dtMode;
+
         if (this.hourTime === '12') {
             if (this.moment.hours() <= 11) {
                 this.hourValue = this.moment.hours();
@@ -56,28 +63,11 @@ export class TimePanelComponent implements OnInit {
     }
 
     public setTime(): void {
-        let selectedMoment = this.moment.clone();
-
-        if (this.hourTime === '12') {
-            if (this.meridianValue === 'AM') {
-                if (this.hourValue === 12) {
-                    selectedMoment.hours(0);
-                } else {
-                    selectedMoment.hours(this.hourValue);
-                }
-            } else {
-                if (this.hourValue === 12) {
-                    selectedMoment.hours(12);
-                } else {
-                    selectedMoment.hours(this.hourValue + 12);
-                }
-            }
+        this.service.setTime(this.hourValue, this.minValue, this.meridianValue);
+        if (this.service.dtPickerType === 'time') {
+            this.onSetTime.emit(true);
+        } else {
+            this.onSetTime.emit(false);
         }
-
-        if (this.hourTime === '24') {
-            selectedMoment.hours(this.hourValue);
-        }
-        selectedMoment.minutes(this.minValue);
-        this.onSetTime.emit(selectedMoment);
     }
 }

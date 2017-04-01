@@ -3,12 +3,12 @@
  */
 
 import {
-    Component, OnInit, Input, Output, EventEmitter, ChangeDetectionStrategy, OnChanges,
-    SimpleChanges
+    Component, OnInit, Input, Output, EventEmitter, ChangeDetectionStrategy
 } from '@angular/core';
 import * as moment from 'moment/moment';
 import { Moment } from 'moment/moment';
 import { DialogType } from './dialog.component';
+import { PickerService } from './picker.service';
 
 @Component({
     selector: 'dialog-date-panel',
@@ -16,27 +16,34 @@ import { DialogType } from './dialog.component';
     templateUrl: './date-panel.component.html',
     styleUrls: ['./date-panel.component.scss'],
 })
-export class DatePanelComponent implements OnInit, OnChanges {
+export class DatePanelComponent implements OnInit {
 
-    @Input() moment: Moment;
-    @Input() now: Moment;
-    @Input() dialogType: DialogType;
-    @Input() locale: string;
-    @Input() selectedMoment: Moment;
-    @Input() theme: string;
-    @Output() onSelectDate = new EventEmitter<Moment>();
-    @Output() onCancelDialog = new EventEmitter<boolean>();
-    @Output() onConfirm = new EventEmitter<boolean>();
+    @Input() public selectedMoment: Moment;
+    @Output() public onCancelDialog = new EventEmitter<boolean>();
+    @Output() public onConfirm = new EventEmitter<boolean>();
 
-    private calendarDays: Moment[];
-    private dayNames: string[];
-    private monthList: string[];
-    private yearList: number[] = [];
+    public theme: string;
+    public dialogType: DialogType;
+    public now: Moment;
+    public moment: Moment;
+    public calendarDays: Moment[];
+    public dayNames: string[];
+    public monthList: string[];
+    public yearList: number[] = [];
+    public mode: 'popup' | 'dropdown' | 'inline';
 
-    constructor() {
+    private locale: string;
+
+    constructor( private service: PickerService ) {
     }
 
     public ngOnInit() {
+
+        this.locale = this.service.dtLocale;
+        this.theme = this.service.dtTheme;
+        this.dialogType = this.service.dtDialogType;
+        this.mode = this.service.dtMode;
+
         // set moment locale (default is en)
         moment.locale(this.locale);
 
@@ -45,16 +52,9 @@ export class DatePanelComponent implements OnInit, OnChanges {
         // set month name array
         this.monthList = moment.monthsShort();
 
+        this.now = moment();
+        this.moment = this.service.moment;
         this.generateCalendar();
-    }
-
-    public ngOnChanges( changes: SimpleChanges ): void {
-        if (changes['selectedMoment'] && !changes['selectedMoment'].isFirstChange() &&
-            (this.selectedMoment.year() !== this.moment.year() ||
-            this.selectedMoment.month() !== this.moment.month())) {
-            this.moment = this.selectedMoment.clone();
-            this.generateCalendar();
-        }
     }
 
     public prevMonth(): void {
@@ -116,7 +116,13 @@ export class DatePanelComponent implements OnInit, OnChanges {
             this.selectedMoment.clone().startOf('date') === moment) {
             return;
         }
-        this.onSelectDate.emit(moment);
+
+        if (moment.year() !== this.moment.year() ||
+            moment.month() !== this.moment.month()) {
+            this.moment = moment.clone();
+            this.generateCalendar();
+        }
+        this.service.setDate(moment);
     }
 
     public selectToday(): void {
@@ -124,7 +130,7 @@ export class DatePanelComponent implements OnInit, OnChanges {
             .year(this.now.year())
             .month(this.now.month())
             .dayOfYear(this.now.dayOfYear());
-        this.onSelectDate.emit(moment);
+        this.service.setDate(moment);
     }
 
     public cancelDialog(): void {

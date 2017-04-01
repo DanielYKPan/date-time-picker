@@ -17,17 +17,26 @@
 }
 
 .picker-control {
-  @include type-setting(1);
+
+  @include when-inside('.small-mode') {
+    height: $base-line-height * 1.5;
+  }
 
   display: flex;
   height: $base-line-height * 2;
   width: 100%;
 
   &.footer {
+    @include when-inside('.small-mode') {
+      @include type-setting(-1);
+      height: $base-line-height * 2;
+    }
+
+    @include type-setting(1);
+
     flex-wrap: wrap;
     justify-content: center;
     height: $base-line-height * 4;
-    background-color: $white;
     cursor: pointer;
 
     &.hidden {
@@ -47,6 +56,7 @@
       width: 100%;
       color: $white;
       background-color: $blue;
+      border-radius: 0 0 4px 4px;
 
       &:hover {
         background-color: darken($blue, 5%);
@@ -69,16 +79,16 @@
     }
 
     .action-close::before {
-      width: 1rem;
-      height: 1rem;
+      width: .8em;
+      height: .8em;
       background: linear-gradient(to bottom, transparent 35%, #777 35%, #777 65%, transparent 65%),
       linear-gradient(to right, transparent 35%, #777 35%, #777 65%, transparent 65%);
       transform: rotate(45deg);
     }
 
     .action-confirm::before {
-      width: 1rem;
-      height: 1rem;
+      width: .8em;
+      height: .8em;
       border-radius: 100%;
       background-color: #00B5AD;
     }
@@ -101,6 +111,11 @@
 
   .nav-prev::before,
   .nav-next::before {
+    @include when-inside('.small-mode') {
+      border-top: .4em solid transparent;
+      border-bottom: .4em solid transparent;
+      border-right: .6em solid $black;
+    }
     content: " ";
     border-top: .5em solid transparent;
     border-bottom: .5em solid transparent;
@@ -112,12 +127,19 @@
   }
 
   .nav-next::before {
+    @include when-inside('.small-mode') {
+      border-right: 0;
+      border-left: .6em solid $black;
+    }
     border-right: 0;
     border-left: .75em solid $black;
   }
 }
 
 .picker-control-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: calc(100% * 6 / 8);
   text-align: center;
 
@@ -135,11 +157,18 @@
   .month {
     @include type-setting(1);
 
+    @include when-inside('.small-mode') {
+      @include type-setting(0);
+    }
+
     margin-right: .5rem;
     font-weight: 700;
   }
 
   .year {
+    @include when-inside('.small-mode') {
+      @include type-setting(-1);
+    }
     font-style: italic;
     color: #999;
   }
@@ -157,6 +186,10 @@
   }
 
   .picker-year {
+    @include when-inside('.small-mode') {
+      @include type-setting(-1);
+      height: $base-line-height;
+    }
     @include type-setting(1);
     position: relative;
     height: $base-line-height * 2;
@@ -175,6 +208,10 @@
   }
 
   .picker-month {
+    @include when-inside('.small-mode') {
+      @include type-setting(-1);
+      height: $base-line-height;
+    }
     @include type-setting(1);
     position: relative;
     height: $base-line-height * 2;
@@ -193,6 +230,10 @@
   }
 
   .picker-weekday {
+    @include when-inside('.small-mode') {
+      @include type-setting(-1);
+      padding-left: 3px;
+    }
     font-weight: 700;
     text-align: left;
     color: #999;
@@ -201,6 +242,11 @@
   }
 
   .picker-day {
+    @include when-inside('.small-mode') {
+      @include type-setting(0);
+      height: $base-line-height;
+    }
+
     @include type-setting(1);
     position: relative;
     height: $base-line-height * 2;

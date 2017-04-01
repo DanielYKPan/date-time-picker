@@ -4,7 +4,7 @@
 
 import {
     Directive, ElementRef, Input, Compiler, ViewContainerRef, ComponentFactory,
-    ReflectiveInjector, Output, EventEmitter
+    ReflectiveInjector, Output, EventEmitter, OnInit
 } from '@angular/core';
 import { DynamicModule } from './dynamic.module';
 import { DialogComponent } from './dialog.component';
@@ -15,18 +15,18 @@ import { DialogComponent } from './dialog.component';
         '(click)': 'onClick()',
     }
 })
-export class DateTimePickerDirective {
+export class DateTimePickerDirective implements OnInit {
 
     @Input('dateTimePicker') dateTimePicker: any;
     @Output('dateTimePickerChange') dateTimePickerChange = new EventEmitter<any>(true);
     @Input() locale: string = 'en';
     @Input() viewFormat: string = 'll';
     @Input() returnObject: string = 'js';
-    @Input() dialogType: string = 'date';
-    @Input() mode: string = 'popup';
+    @Input() mode: 'popup' | 'dropdown' | 'inline' = 'popup';
     @Input() hourTime: '12' | '24' = '24'; // determines the hour format (12 or 24)
     @Input() theme: 'default' | 'green' | 'teal' | 'cyan' | 'grape' | 'red' | 'gray' = 'default'; // theme color
     @Input() positionOffset: string = '0%';
+    @Input() pickerType: 'both' | 'date' | 'time' = 'both';
 
     private created: boolean;
     private dialog: any;
@@ -34,6 +34,12 @@ export class DateTimePickerDirective {
     constructor( private compiler: Compiler,
                  private vcRef: ViewContainerRef,
                  private el: ElementRef ) {
+    }
+
+    public ngOnInit(): void {
+        if (this.mode === 'inline') {
+            this.openDialog();
+        }
     }
 
     public onClick(): void {
@@ -52,10 +58,8 @@ export class DateTimePickerDirective {
                     const compFactory: ComponentFactory<DialogComponent> = factory.componentFactories.find(( x: any ) => x.componentType === DialogComponent);
                     const injector = ReflectiveInjector.fromResolvedProviders([], this.vcRef.parentInjector);
                     const cmpRef = this.vcRef.createComponent(compFactory, 0, injector, []);
-                    cmpRef.instance.setDialog(this, this.el, this.dateTimePicker,
-                        this.locale, this.viewFormat, this.returnObject,
-                        this.dialogType, this.mode, this.positionOffset,
-                        this.hourTime, this.theme);
+                    cmpRef.instance.setDialog(this, this.el, this.dateTimePicker, this.locale, this.viewFormat, this.returnObject,
+                        this.positionOffset, this.mode, this.hourTime, this.theme, this.pickerType);
                     this.dialog = cmpRef.instance;
                 });
         } else if (this.dialog) {

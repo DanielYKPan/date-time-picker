@@ -1,16 +1,19 @@
-<picker-modal *ngIf="dtMode === 'popup' && show" (onOverlayClick)="cancelDialog()">
-    <div class="picker-wrap" [ngClass]="{
-        'theme-green': dtTheme === 'green',
-        'theme-teal': dtTheme === 'teal',
-        'theme-grape': dtTheme === 'grape',
-        'theme-cyan': dtTheme === 'cyan',
-        'theme-red': dtTheme === 'red',
-        'theme-gray': dtTheme === 'gray'}">
+<picker-modal *ngIf="mode === 'popup' && show" (onOverlayClick)="cancelDialog()">
+    <div class="picker-popup" [ngClass]="{
+        'theme-green': theme === 'green',
+        'theme-teal': theme === 'teal',
+        'theme-grape': theme === 'grape',
+        'theme-cyan': theme === 'cyan',
+        'theme-red': theme === 'red',
+        'theme-gray': theme === 'gray'}">
         <div class="picker-box">
             <div class="picker-banner">
-                <div class="picker-banner-day">{{ (selectedMoment? selectedMoment : now) | moment: 'dddd'}}</div>
+                <div class="picker-banner-day">
+                    <span [hidden]="dialogType === 0">{{ (selectedMoment? selectedMoment : now) | moment: 'dddd'}}</span>
+                    <span [hidden]="dialogType !== 0">Time Picker</span>
+                </div>
                 <div class="picker-banner-moment">
-                    <div class="moment-date" (click)="toggleDialogType(1)">
+                    <div class="moment-date" *ngIf="pickerType === 'both' || pickerType === 'date'" (click)="toggleDialogType(1)">
                         <div class="big">
                             <span>{{(selectedMoment? selectedMoment : now) | moment: 'Do'}}</span>
                         </div>
@@ -19,41 +22,42 @@
                             <span>{{(selectedMoment? selectedMoment : now) | moment: 'YYYY'}}</span>
                         </div>
                     </div>
-                    <div class="moment-time" (click)="toggleDialogType(0)">
+                    <div class="moment-time" *ngIf="pickerType === 'both' || pickerType === 'time'" (click)="toggleDialogType(0)">
                         <div class="big">
-                            <span *ngIf="dtHourTime === '12'">{{(selectedMoment? selectedMoment : now) | moment: 'hh:mm'}}</span>
-                            <span *ngIf="dtHourTime === '24'">{{(selectedMoment? selectedMoment : now) | moment: 'HH:mm'}}</span>
+                            <span *ngIf="hourTime === '12'">{{(selectedMoment? selectedMoment : now) | moment: 'hh:mm'}}</span>
+                            <span *ngIf="hourTime === '24'">{{(selectedMoment? selectedMoment : now) | moment: 'HH:mm'}}</span>
                         </div>
-                        <div class="small" *ngIf="dtHourTime === '12'">
+                        <div class="small" *ngIf="hourTime === '12'">
                             <span>{{(selectedMoment? selectedMoment : now) | moment: 'A'}}</span>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="picker-content">
-                <dialog-date-panel [ngClass]="{hidden: dialogType === 0}" [moment]="moment" [dialogType]="dialogType"
-                                   [now]="now" [theme]="dtTheme"
-                                   [locale]="dtLocale" [selectedMoment]="selectedMoment"
-                                   (onSelectDate)="select($event)"
+                <dialog-date-panel *ngIf="pickerType === 'both' || pickerType === 'date'"
+                                   [ngClass]="{hidden: dialogType === 0}"
+                                   [selectedMoment]="selectedMoment"
                                    (onCancelDialog)="cancelDialog()"
-                                   (onConfirm)="confirm()"></dialog-date-panel>
-                <dialog-time-panel [hidden]="dialogType !== 0" [moment]="moment" [dialogType]="dialogType"
-                                   [hourTime]="dtHourTime" [now]="now" [theme]="dtTheme"
-                                   (onSetTime)="setTime($event)"></dialog-time-panel>
+                                   (onConfirm)="confirm($event)"></dialog-date-panel>
+                <dialog-time-panel *ngIf="pickerType === 'both' || pickerType === 'time'"
+                                   [hidden]="dialogType !== 0" [dialogType]="dialogType"
+                                   (onSetTime)="confirm($event)"></dialog-time-panel>
             </div>
         </div>
     </div>
 </picker-modal>
 
-<div class="picker-dropdown"
-     *ngIf="dtMode === 'dropdown' && show"
+<div *ngIf="(mode === 'dropdown' && show) || mode === 'inline'"
      [ngClass]="{
-        'theme-green': dtTheme === 'green',
-        'theme-teal': dtTheme === 'teal',
-        'theme-grape': dtTheme === 'grape',
-        'theme-cyan': dtTheme === 'cyan',
-        'theme-red': dtTheme === 'red',
-        'theme-gray': dtTheme === 'gray'}"
+        'picker-dropdown': mode === 'dropdown',
+        'picker-inline': mode === 'inline',
+        'small-mode': mode === 'dropdown' || mode === 'inline',
+        'theme-green': theme === 'green',
+        'theme-teal': theme === 'teal',
+        'theme-grape': theme === 'grape',
+        'theme-cyan': theme === 'cyan',
+        'theme-red': theme === 'red',
+        'theme-gray': theme === 'gray'}"
      [ngStyle]="{
         'width': width,
         'height': height,
@@ -63,9 +67,12 @@
      }">
     <div class="picker-box">
         <div class="picker-banner">
-            <div class="picker-banner-day">{{ (selectedMoment? selectedMoment : now) | moment: 'dddd'}}</div>
+            <div class="picker-banner-day">
+                <span [hidden]="dialogType === 0">{{ (selectedMoment? selectedMoment : now) | moment: 'dddd'}}</span>
+                <span [hidden]="dialogType !== 0">Time Picker</span>
+            </div>
             <div class="picker-banner-moment">
-                <div class="moment-date" (click)="toggleDialogType(1)">
+                <div class="moment-date" *ngIf="pickerType === 'both' || pickerType === 'date'" (click)="toggleDialogType(1)">
                     <div class="big">
                         <span>{{(selectedMoment? selectedMoment : now) | moment: 'Do'}}</span>
                     </div>
@@ -74,27 +81,26 @@
                         <span>{{(selectedMoment? selectedMoment : now) | moment: 'YYYY'}}</span>
                     </div>
                 </div>
-                <div class="moment-time" (click)="toggleDialogType(0)">
+                <div class="moment-time" *ngIf="pickerType === 'both' || pickerType === 'time'" (click)="toggleDialogType(0)">
                     <div class="big">
-                        <span *ngIf="dtHourTime === '12'">{{(selectedMoment? selectedMoment : now) | moment: 'hh:mm'}}</span>
-                        <span *ngIf="dtHourTime === '24'">{{(selectedMoment? selectedMoment : now) | moment: 'HH:mm'}}</span>
+                        <span *ngIf="hourTime === '12'">{{(selectedMoment? selectedMoment : now) | moment: 'hh:mm'}}</span>
+                        <span *ngIf="hourTime === '24'">{{(selectedMoment? selectedMoment : now) | moment: 'HH:mm'}}</span>
                     </div>
-                    <div class="small" *ngIf="dtHourTime === '12'">
+                    <div class="small" *ngIf="hourTime === '12'">
                         <span>{{(selectedMoment? selectedMoment : now) | moment: 'A'}}</span>
                     </div>
                 </div>
             </div>
         </div>
         <div class="picker-content">
-            <dialog-date-panel [ngClass]="{hidden: dialogType === 0}" [moment]="moment" [dialogType]="dialogType"
-                               [now]="now" [theme]="dtTheme"
-                               [locale]="dtLocale" [selectedMoment]="selectedMoment"
-                               (onSelectDate)="select($event)"
+            <dialog-date-panel *ngIf="pickerType === 'both' || pickerType === 'date'"
+                               [ngClass]="{hidden: dialogType === 0}"
+                               [selectedMoment]="selectedMoment"
                                (onCancelDialog)="cancelDialog()"
-                               (onConfirm)="confirm()"></dialog-date-panel>
-            <dialog-time-panel [hidden]="dialogType !== 0" [moment]="moment" [dialogType]="dialogType"
-                               [hourTime]="dtHourTime" [now]="now" [theme]="dtTheme"
-                               (onSetTime)="setTime($event)"></dialog-time-panel>
+                               (onConfirm)="confirm($event)"></dialog-date-panel>
+            <dialog-time-panel *ngIf="pickerType === 'both' || pickerType === 'time'"
+                               [hidden]="dialogType !== 0" [dialogType]="dialogType"
+                               (onSetTime)="confirm($event)" ></dialog-time-panel>
         </div>
     </div>
 </div>

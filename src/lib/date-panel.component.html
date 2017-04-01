@@ -1,4 +1,5 @@
 <div class="yk-date-panel" [ngClass]="{
+    'small-mode': mode === 'dropdown' || mode === 'inline',
     'theme-green': theme === 'green',
     'theme-teal': theme === 'teal',
     'theme-grape': theme === 'grape',
@@ -25,16 +26,16 @@
                 <span class="picker-weekday" *ngFor="let day of dayNames">{{ day }}</span>
             </div>
             <div class="picker-calendar-row">
-                            <span class="picker-day"
-                                  (click)="select(day)"
-                                  [ngClass]="{
+                <div class="picker-day"
+                     (click)="select(day)"
+                     [ngClass]="{
                                'out-focus': day.month() != moment.month(),
                                'today': day.isSame(now, 'day'),
                                'selected': selectedMoment && day.isSame(selectedMoment, 'day')
                               }"
-                                  *ngFor="let day of calendarDays">
-                            {{ day | moment: 'D'}}
-                            </span>
+                     *ngFor="let day of calendarDays">
+                    {{ day | moment: 'D'}}
+                </div>
             </div>
         </div>
         <div [hidden]="dialogType !== 2" class="month">
@@ -61,9 +62,10 @@
         </div>
     </div>
     <div class="picker-control footer" [class.hidden]="dialogType !== 1">
-        <div class="picker-action action-today" (click)="selectToday()"><span class="text">Today</span>
+        <div class="picker-action action-today" (click)="selectToday()">
+            <span class="text" i18n="Today button">Today</span>
         </div>
-        <div class="picker-action action-close" (click)="cancelDialog()"><span class="text">Close</span>
+        <div class="picker-action action-close" (click)="cancelDialog()" [hidden]="mode === 'inline'"><span class="text">Close</span>
         </div>
         <div class="picker-action action-confirm" (click)="confirm()"><span class="text">Confirm</span>
         </div>

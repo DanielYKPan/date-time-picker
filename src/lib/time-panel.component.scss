@@ -8,6 +8,10 @@
 }
 
 .time {
+  @include when-inside('.small-mode') {
+    @include type-setting(1);
+    padding: 0;
+  }
   @include type-setting(3);
   text-align: center;
   padding: $base-line-height 0 0;
@@ -15,12 +19,19 @@
 }
 
 .title {
+  @include when-inside('.small-mode') {
+    @include type-setting(-1);
+    margin: 5px auto;
+  }
   @include type-setting(1);
   width: 80%;
   margin: $base-line-height/2 auto;
 }
 
 .meridiem {
+  @include when-inside('.small-mode') {
+    @include type-setting(-2);
+  }
   text-align: center;
 
   .button-group {
@@ -58,6 +69,11 @@
 }
 
 .control {
+  @include when-inside('.small-mode') {
+    @include type-setting(-1);
+    margin: 5px 0;
+  }
+
   @include type-setting(1);
 
   margin: $base-line-height * 2 0;
