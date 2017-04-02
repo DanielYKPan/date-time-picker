@@ -3,9 +3,10 @@
  */
 
 import {
-    Component, Output, OnInit, EventEmitter, trigger, transition, style, state, animate,
+    Component, Output, OnInit, EventEmitter,
     ChangeDetectionStrategy
 } from "@angular/core";
+import { animate, state, style, transition, trigger } from '@angular/animations';
 
 @Component({
     selector: 'picker-modal',
