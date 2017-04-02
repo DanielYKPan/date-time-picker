@@ -1,6 +1,6 @@
 {
-  "name": "ng2-date-time-picker",
-  "version": "4.0.0",
+  "name": "ng-pick-datetime",
+  "version": "4.0.1",
   "description": "Angular Date Time Picker",
   "keywords": [
     "Angular",

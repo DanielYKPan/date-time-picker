@@ -1,26 +1,24 @@
 
-# Angular 2 Date Time Picker
+# Angular Date Time Picker
 
-**Angular 2 date time picker - Angular2 reusable UI component**
+**Angular date time picker - Angular reusable UI component**
 
 ## Important
 
-**This package currently only supports AngularJS 2. 
-If the package running on AngularJs 4, 
-it will appears bugs because Angular 4 move its animation to its own module. 
-Those bugs will be fixed in the next updates**
+**This package now supports Angular 2 ang 4**
 
 ## Updates
 
 * Added a new 'inline' mode. **[mode]=" 'inline' "** would make the date-time-picker always show in your page.
 * Added a new pickerType option. **[pickerType]=" 'both' "**, this option would let you choose the date-time-picker to be date-picker or time-picker or both. Options include 'both', 'date', 'time'. Default is 'both'.
+* This npm package now rename to [ng-pick-datetime](https://www.npmjs.com/package/ng-pick-datetime), this is because this package now support angular 2 and 4. The previous package was named [ng2-date-time-picker](https://www.npmjs.com/package/ng2-date-time-picker).
 
 ## Other Similar Projects
 
 * [Date Range Picker](https://github.com/DanielYKPan/date-range-picker)
 
 ## Description
-Simple Angular2 date time picker. Online demo is [here](https://danielykpan.github.io/ng2-date-time-picker/). 
+Simple Angular date time picker. Online demo is [here](https://danielykpan.github.io/date-time-picker/). 
 This picker is responsive design, so feel free to try it in your desktops, tablets and mobile devices. 
 This picker uses [MomentJS](http://momentjs.com/)
 
@@ -28,14 +26,14 @@ This picker uses [MomentJS](http://momentjs.com/)
 
 To install this component, follow the procedure:
 
-1. __Install with [npm](https://www.npmjs.com):`npm install ng2-date-time-picker --save`__
+1. __Install with [npm](https://www.npmjs.com):`npm install ng-pick-datetime --save`__
 2. Add __DateTimePickerModule__ import to your __@NgModule__ like example below
     ```js
     import { NgModule } from '@angular/core';
     import { BrowserModule } from '@angular/platform-browser';
     import { MyTestApp } from './my-test-app';
 
-    import { DateTimePickerModule } from 'ng2-date-time-picker';
+    import { DateTimePickerModule } from 'ng-pick-datetime';
 
     @NgModule({
         imports:      [ BrowserModule, DateTimePickerModule ],
@@ -45,7 +43,7 @@ To install this component, follow the procedure:
     export class MyTestAppModule {}
     ```
 3. This picker use MomentJS. Remember to load MomentJS when you load your project from webpack or systemjs.**
-4. If you are using __systemjs__ package loader add the following mydatepicker properties to the __System.config__:
+4. If you are using __systemjs__ package loader add the following ng-pick-datetime properties to the __System.config__:
     ```js
     (function (global) {
         System.config({
@@ -55,14 +53,14 @@ To install this component, follow the procedure:
             map: {
                 // Other components are here...
 
-                'ng2-date-time-picker': 'npm:ng2-date-time-picker',
+                'ng-pick-datetime': 'npm:ng-pick-datetime',
                 'moment': 'npm:moment',
             },
             packages: {
                 // Other components are here...
 
 				// the picker
-                'ng2-date-time-picker': {
+                'ng-pick-datetime': {
                     main: 'index.js',
                     defaultExtension: 'js'
                 },
@@ -101,8 +99,8 @@ public setMoment(moment: any): any {
     Firstly, the local variable 'momentValue' would be bind to our 'dateTimePicker' directive Input and shows in the popup picker dialog.
     Once you select your new moment value and confirm it, the local variable 'momentValue' would be updated. Or if you want to deal
     with the return new moment value from our directive before update the local variable, your can separate it like this `[dateTimePicker]="momentValue" (dateTimePickerChange)="setMoment($event)"`
- * Use `[ngModel]="momentValue"` from Angular2 built-in FormsModule to bind the moment value to the input value. 
- * Inside `[ngModel]="momentValue | date: 'short' "`, we use the date pipe from Angular2 built-in Pipes to transform the Javascript Date Object to more friendly formats.
+ * Use `[ngModel]="momentValue"` from Angular built-in FormsModule to bind the moment value to the input value. 
+ * Inside `[ngModel]="momentValue | date: 'short' "`, we use the date pipe from Angular built-in Pipes to transform the Javascript Date Object to more friendly formats.
     We only use this built-in date pipe when we set the 'dateTimePicker' return object as Javascript Date Object.
  * Optional attributes:
       * **[returnObject]=" 'js' "** --- You can set the return object type when you pick a moment from date-time-picker. (Default value is 'js', this means the default return object type is javascript Date object. The other options are: string, moment, json, array, iso and object).
@@ -117,7 +115,7 @@ public setMoment(moment: any): any {
       * **Important: Do Not forget the single quote inside the double quote when you set the optional attributes value.**
 
 ## Demo
-Online demo is [here](https://danielykpan.github.io/ng2-date-time-picker/)
+Online demo is [here](https://danielykpan.github.io/date-time-picker/)
 
 ## License
 * License: MIT
