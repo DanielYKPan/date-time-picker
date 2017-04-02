@@ -16,19 +16,18 @@ import { Subscription } from 'rxjs/Rx';
 })
 export class DialogComponent implements OnInit {
 
-    private show: boolean;
-    private initialValue: string;
     private selectedMoment: Moment;
     private directiveInstance: any;
     private directiveElementRef: ElementRef;
-    private now: Moment;
-
     private top: number;
     private left: number;
     private width: string;
     private height: string = 'auto';
     private position: string;
 
+    public show: boolean;
+    public initialValue: string;
+    public now: Moment;
     public theme: string;
     public hourTime: '12' | '24';
     public positionOffset: string;
@@ -116,6 +115,20 @@ export class DialogComponent implements OnInit {
         }
     }
 
+    public getDialogStyle(): any {
+        if (this.mode === 'popup') {
+            return {}
+        } else {
+            return {
+                'width': this.width,
+                'height': this.height,
+                'top.px': this.top,
+                'left.px': this.left,
+                'position': this.position
+            };
+        }
+    }
+
     private setDialogPosition() {
         if (window.innerWidth < 768) {
             this.position = 'fixed';
@@ -178,12 +191,14 @@ export class DialogComponent implements OnInit {
     }
 
     private returnSelectedMoment(): void {
-        let selectedM = this.service.parseToReturnObjectType();
+        let m = this.selectedMoment || this.now;
+        let selectedM = this.service.parseToReturnObjectType(m);
         this.directiveInstance.momentChanged(selectedM);
     }
 
     @HostListener('document:click', ['$event'])
     private onMouseDown( event: any ) {
+        event.preventDefault();
         let target = event.srcElement || event.target;
         if (!this.el.nativeElement.contains(event.target) &&
             !(<Element> target).classList.contains('picker-day')

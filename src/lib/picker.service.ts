@@ -161,29 +161,29 @@ export class PickerService {
         this.selectedMoment = m;
     }
 
-    public parseToReturnObjectType(): any {
+    public parseToReturnObjectType(selectedMoment: Moment): any {
         switch (this.dtReturnObject) {
             case 'string':
-                return this.selectedMoment.format(this.dtViewFormat);
+                return selectedMoment.format(this.dtViewFormat);
 
             case 'moment':
-                return this.selectedMoment;
+                return selectedMoment;
 
             case 'json':
-                return this.selectedMoment.toJSON();
+                return selectedMoment.toJSON();
 
             case 'array':
-                return this.selectedMoment.toArray();
+                return selectedMoment.toArray();
 
             case 'iso':
-                return this.selectedMoment.toISOString();
+                return selectedMoment.toISOString();
 
             case 'object':
-                return this.selectedMoment.toObject();
+                return selectedMoment.toObject();
 
             case 'js':
             default:
-                return this.selectedMoment.toDate();
+                return selectedMoment.toDate();
         }
     }
 }
