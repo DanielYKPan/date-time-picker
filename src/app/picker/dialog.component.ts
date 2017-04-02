@@ -116,6 +116,20 @@ export class DialogComponent implements OnInit {
         }
     }
 
+    public getDialogStyle(): any {
+        if (this.mode === 'popup') {
+            return {}
+        } else {
+            return {
+                'width': this.width,
+                'height': this.height,
+                'top.px': this.top,
+                'left.px': this.left,
+                'position': this.position
+            };
+        }
+    }
+
     private setDialogPosition() {
         if (window.innerWidth < 768) {
             this.position = 'fixed';
