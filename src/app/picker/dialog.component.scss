@@ -23,14 +23,12 @@
 .picker-popup {
   @include respond-to(medium) {
     top: 30px;
-    left: 50%;
     height: auto;
-    transform: translate(-50%, 0);
   }
 
   position: fixed;
   top: 0;
-  left: 0;
+  left: 50%;
   width: 100vw;
   max-width: 666px;
   height: 100%;
@@ -39,6 +37,7 @@
   box-shadow: 0 5px 15px $light-dark;
   border-radius: 5px;
   z-index: 9999999;
+  transform: translate(-50%, 0);
   animation: slideDown 0.3s cubic-bezier(.13,.68,1,1.53);
 }
 
