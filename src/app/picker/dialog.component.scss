@@ -33,6 +33,7 @@
   user-select: none;
   background-color: $white;
   border-radius: 5px;
+  animation: popover 0.3s ease-in-out;
 }
 
 .picker-inline {
@@ -179,10 +180,11 @@
   }
   .bar {
     .highlight {
-      background: $green!important;
+      background: $green !important;
     }
   }
 }
+
 .theme-teal {
 
   .picker-banner {
@@ -190,10 +192,11 @@
   }
   .bar {
     .highlight {
-      background: $teal!important;
+      background: $teal !important;
     }
   }
 }
+
 .theme-cyan {
 
   .picker-banner {
@@ -201,10 +204,11 @@
   }
   .bar {
     .highlight {
-      background: $cyan!important;
+      background: $cyan !important;
     }
   }
 }
+
 .theme-grape {
 
   .picker-banner {
@@ -212,10 +216,11 @@
   }
   .bar {
     .highlight {
-      background: $grape!important;
+      background: $grape !important;
     }
   }
 }
+
 .theme-red {
 
   .picker-banner {
@@ -223,10 +228,11 @@
   }
   .bar {
     .highlight {
-      background: $red!important;
+      background: $red !important;
     }
   }
 }
+
 .theme-gray {
 
   .picker-banner {
@@ -234,7 +240,22 @@
   }
   .bar {
     .highlight {
-      background: $gray!important;
+      background: $gray !important;
     }
+  }
+}
+
+@keyframes popover {
+  0% {
+    opacity: 0;
+    transform: translateY(-50px) scale(0.8);
+  }
+  80% {
+    opacity: 1;
+    transform: translateY(10px) scale(1.05);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0px) scale(1);
   }
 }

@@ -184,6 +184,7 @@ export class DialogComponent implements OnInit {
 
     @HostListener('document:click', ['$event'])
     private onMouseDown( event: any ) {
+        event.preventDefault();
         let target = event.srcElement || event.target;
         if (!this.el.nativeElement.contains(event.target) &&
             !(<Element> target).classList.contains('picker-day')
