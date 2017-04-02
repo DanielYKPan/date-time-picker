@@ -15,7 +15,7 @@ module.exports = webpackMerge(commonConfig, {
 
     output: {
         path: helpers.root('dist'),
-        publicPath: './ng2-date-time-picker/dist',
+        publicPath: './date-time-picker/dist',
         filename: '[name].[hash].js',
         chunkFilename: '[id].[hash].chunk.js'
     },
