@@ -7,6 +7,7 @@ import { DialogType } from './dialog.component';
 import * as moment from 'moment/moment';
 import { Moment } from 'moment/moment';
 import { Observable, Subject } from 'rxjs/Rx';
+import {DateTimePickerLabels} from "./labels";
 
 @Injectable()
 export class PickerService {
@@ -127,13 +128,24 @@ export class PickerService {
         this.eventSource.next(value);
     }
 
+    /* Property _minMoment */
+    private _labels: DateTimePickerLabels;
+
+    get labels(): DateTimePickerLabels {
+        return this._labels;
+    }
+
+    set labels( value: DateTimePickerLabels ) {
+        this._labels = value;
+    }
+
     constructor() {
     }
 
     public setPickerOptions( dtLocale: string, dtViewFormat: string, dtReturnObject: string,
                              dtPositionOffset: string, dtMode: 'popup' | 'dropdown' | 'inline',
                              dtHourTime: '12' | '24', dtTheme: string, dtPickerType: 'both' | 'date' | 'time',
-                             minMoment: Moment, maxMoment: Moment ): void {
+                             minMoment: Moment, maxMoment: Moment, labels: DateTimePickerLabels ): void {
         this._dtLocale = dtLocale;
         this._dtViewFormat = dtViewFormat;
         this._dtReturnObject = dtReturnObject;
@@ -144,6 +156,7 @@ export class PickerService {
         this.dtPickerType = dtPickerType;
         this._minMoment = minMoment;
         this._maxMoment = maxMoment;
+        this._labels = labels;
     }
 
     public setMoment( value: any ): void {

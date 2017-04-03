@@ -9,6 +9,7 @@ import * as moment from 'moment/moment';
 import { Moment } from 'moment/moment';
 import { DialogType } from './dialog.component';
 import { PickerService } from './picker.service';
+import { DateTimePickerLabels } from "./labels";
 
 @Component({
     selector: 'dialog-date-panel',
@@ -35,6 +36,7 @@ export class DatePanelComponent implements OnInit {
     public maxMoment: Moment;
     public prevMonthDisabled: boolean;
     public nextMonthDisabled: boolean;
+    public labels: DateTimePickerLabels = new DateTimePickerLabels();
 
     private locale: string;
 
@@ -60,6 +62,7 @@ export class DatePanelComponent implements OnInit {
         this.moment = this.service.moment;
         this.minMoment = this.service.minMoment;
         this.maxMoment = this.service.maxMoment;
+        this.labels = this.service.labels;
         this.generateCalendar();
     }
 
