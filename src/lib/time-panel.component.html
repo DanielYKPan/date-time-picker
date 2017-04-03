@@ -14,15 +14,15 @@
         </div>
     </div>
     <div *ngIf="dialogType === 0" class="time-control">
-        <div class="title">Hours</div>
+        <div class="title">{{labels.hours}}</div>
         <app-slide-bar [theme]="theme" [floor]="hourFloor" [ceiling]="hourCeiling" [(low)]="hourValue"></app-slide-bar>
     </div>
     <div *ngIf="dialogType === 0" class="time-control">
-        <div class="title">Minutes</div>
+        <div class="title">{{labels.minutes}}</div>
         <app-slide-bar [theme]="theme" [floor]="0" [ceiling]="59" [(low)]="minValue"></app-slide-bar>
     </div>
 
     <div class="control">
-        <button class="button" type="button" (click)="setTime()">Set Time</button>
+        <button class="button" type="button" (click)="setTime()">{{labels.setTime}}</button>
     </div>
 </div>
