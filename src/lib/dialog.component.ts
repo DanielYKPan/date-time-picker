@@ -86,13 +86,18 @@ export class DialogComponent implements OnInit {
 
     public setDialog( instance: any, elementRef: ElementRef, initialValue: any, dtLocale: string, dtViewFormat: string, dtReturnObject: string,
                       dtPositionOffset: string, dtMode: 'popup' | 'dropdown' | 'inline',
-                      dtHourTime: '12' | '24', dtTheme: string, dtPickerType: 'both' | 'date' | 'time' ): void {
+                      dtHourTime: '12' | '24', dtTheme: string, dtPickerType: 'both' | 'date' | 'time', minMoment: Moment, maxMoment: Moment): void {
         this.directiveInstance = instance;
         this.directiveElementRef = elementRef;
         this.initialValue = initialValue;
 
         this.service.setPickerOptions(dtLocale, dtViewFormat, dtReturnObject,
-            dtPositionOffset, dtMode, dtHourTime, dtTheme, dtPickerType);
+            dtPositionOffset, dtMode, dtHourTime, dtTheme, dtPickerType, minMoment, maxMoment);
+    }
+
+    public updateProperties( minMoment: Moment, maxMoment: Moment ): void {
+        this.service.minMoment = minMoment;
+        this.service.maxMoment = maxMoment;
     }
 
     public confirm( close: boolean ): void {

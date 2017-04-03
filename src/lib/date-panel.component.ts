@@ -31,6 +31,10 @@ export class DatePanelComponent implements OnInit {
     public monthList: string[];
     public yearList: number[] = [];
     public mode: 'popup' | 'dropdown' | 'inline';
+    public minMoment: Moment;
+    public maxMoment: Moment;
+    public prevMonthDisabled: boolean;
+    public nextMonthDisabled: boolean;
 
     private locale: string;
 
@@ -54,12 +58,16 @@ export class DatePanelComponent implements OnInit {
 
         this.now = moment();
         this.moment = this.service.moment;
+        this.minMoment = this.service.minMoment;
+        this.maxMoment = this.service.maxMoment;
         this.generateCalendar();
     }
 
     public prevMonth(): void {
-        this.moment = this.moment.clone().subtract(1, 'M');
-        this.generateCalendar();
+        if(!this.prevMonthDisabled) {
+            this.moment = this.moment.clone().subtract(1, 'M');
+            this.generateCalendar();
+        }
     }
 
     public nextMonth(): void {
@@ -113,7 +121,9 @@ export class DatePanelComponent implements OnInit {
 
     public select( moment: Moment ): void {
         if (this.selectedMoment &&
-            this.selectedMoment.clone().startOf('date') === moment) {
+            this.selectedMoment.clone().startOf('date') === moment
+            || (this.minMoment && this.minMoment.isAfter(moment, 'day'))
+            || (this.maxMoment && this.maxMoment.isBefore(moment, 'day'))) {
             return;
         }
 
@@ -130,6 +140,11 @@ export class DatePanelComponent implements OnInit {
             .year(this.now.year())
             .month(this.now.month())
             .dayOfYear(this.now.dayOfYear());
+
+        if((this.minMoment && this.minMoment.isAfter(moment, 'day'))
+            || (this.maxMoment && this.maxMoment.isBefore(moment, 'day'))){
+            return;
+        }
         this.service.setDate(moment);
     }
 
@@ -152,6 +167,13 @@ export class DatePanelComponent implements OnInit {
             let day = this.moment.clone().startOf('month').add(i, 'days');
             this.calendarDays.push(day);
         }
+
+        this.prevMonthDisabled = this.minMoment &&
+            (this.minMoment.year() > this.moment.year() ||
+            this.minMoment.month() >= this.moment.month());
+        this.nextMonthDisabled = this.maxMoment &&
+            (this.maxMoment.year() < this.moment.year() ||
+            this.maxMoment.month() <= this.moment.month());
     }
 }
 
