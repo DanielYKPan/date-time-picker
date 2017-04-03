@@ -16,7 +16,7 @@
         <div class="picker-banner">
             <div class="picker-banner-day">
                 <span [hidden]="dialogType === 0">{{ (selectedMoment? selectedMoment : now) | moment: 'dddd'}}</span>
-                <span [hidden]="dialogType !== 0">{{labels.timePicker}}</span>
+                <span [hidden]="dialogType !== 0">Time Picker</span>
             </div>
             <div class="picker-banner-moment">
                 <div class="moment-date" *ngIf="pickerType === 'both' || pickerType === 'date'"
