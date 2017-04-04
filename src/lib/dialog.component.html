@@ -1,4 +1,7 @@
-<div class="picker-overlay" *ngIf="mode === 'popup' && show" (click)="cancelDialog()"></div>
+<div class="picker-overlay"
+     [ngClass]="{'picker-overlay-dropdown': mode === 'dropdown'}"
+     *ngIf="(mode === 'popup' || mode === 'dropdown') && show"
+     (click)="cancelDialog()"></div>
 <div *ngIf="(show && (mode === 'dropdown' || mode === 'popup')) || mode === 'inline'"
      [ngClass]="{
         'picker-popup': mode === 'popup',
