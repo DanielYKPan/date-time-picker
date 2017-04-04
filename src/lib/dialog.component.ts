@@ -2,7 +2,7 @@
  * dialog.component
  */
 
-import { Component, OnInit, ElementRef, HostListener } from '@angular/core';
+import { Component, OnInit, ElementRef } from '@angular/core';
 import * as moment from 'moment/moment';
 import { Moment } from 'moment/moment';
 import { PickerService } from './picker.service';
@@ -194,17 +194,6 @@ export class DialogComponent implements OnInit {
         let m = this.selectedMoment || this.now;
         let selectedM = this.service.parseToReturnObjectType(m);
         this.directiveInstance.momentChanged(selectedM);
-    }
-
-    @HostListener('document:click', ['$event'])
-    private onMouseDown( event: any ) {
-        event.preventDefault();
-        let target = event.srcElement || event.target;
-        if (!this.el.nativeElement.contains(event.target) &&
-            !(<Element> target).classList.contains('picker-day')
-            && event.target != this.directiveElementRef.nativeElement) {
-            this.show = false;
-        }
     }
 }
 
