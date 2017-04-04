@@ -18,6 +18,10 @@
   display: block;
   background-color: $light-dark;
   z-index: 999999;
+
+  &.picker-overlay-dropdown {
+    background-color: transparent;
+  }
 }
 
 .picker-popup {
@@ -49,7 +53,7 @@
   min-width: 200px;
   border: #777 solid 1px;
   position: absolute;
-  z-index: 1000;
+  z-index: 9999999;
   user-select: none;
   background-color: $white;
   border-radius: 5px;
