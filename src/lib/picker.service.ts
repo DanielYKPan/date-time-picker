@@ -7,6 +7,7 @@ import { DialogType } from './dialog.component';
 import * as moment from 'moment/moment';
 import { Moment } from 'moment/moment';
 import { Observable, Subject } from 'rxjs/Rx';
+import { DateTimePickerLabels } from "./labels";
 
 @Injectable()
 export class PickerService {
@@ -58,6 +59,28 @@ export class PickerService {
         }
     }
 
+    /* Property _minMoment */
+    private _minMoment: Moment;
+
+    get minMoment(): Moment {
+        return this._minMoment;
+    }
+
+    set minMoment( value: Moment ) {
+        this._minMoment = value;
+    }
+
+    /* Property _maxMoment */
+    private _maxMoment: Moment;
+
+    get maxMoment(): Moment {
+        return this._maxMoment;
+    }
+
+    set maxMoment( value: Moment ) {
+        this._maxMoment = value;
+    }
+
     /* Property _dtPositionOffset */
     private _dtPositionOffset: string;
 
@@ -105,12 +128,24 @@ export class PickerService {
         this.eventSource.next(value);
     }
 
+    /* Property _minMoment */
+    private _labels: DateTimePickerLabels;
+
+    get labels(): DateTimePickerLabels {
+        return this._labels;
+    }
+
+    set labels( value: DateTimePickerLabels ) {
+        this._labels = value;
+    }
+
     constructor() {
     }
 
     public setPickerOptions( dtLocale: string, dtViewFormat: string, dtReturnObject: string,
                              dtPositionOffset: string, dtMode: 'popup' | 'dropdown' | 'inline',
-                             dtHourTime: '12' | '24', dtTheme: string, dtPickerType: 'both' | 'date' | 'time' ): void {
+                             dtHourTime: '12' | '24', dtTheme: string, dtPickerType: 'both' | 'date' | 'time',
+                             minMoment: Moment, maxMoment: Moment, labels: DateTimePickerLabels ): void {
         this._dtLocale = dtLocale;
         this._dtViewFormat = dtViewFormat;
         this._dtReturnObject = dtReturnObject;
@@ -119,6 +154,9 @@ export class PickerService {
         this._dtHourTime = dtHourTime;
         this._dtTheme = dtTheme;
         this.dtPickerType = dtPickerType;
+        this._minMoment = minMoment;
+        this._maxMoment = maxMoment;
+        this._labels = labels;
     }
 
     public setMoment( value: any ): void {
@@ -128,6 +166,7 @@ export class PickerService {
             this.selectedMoment = this._moment.clone();
         } else {
             this._moment = moment();
+            this.selectedMoment = null;
         }
     }
 

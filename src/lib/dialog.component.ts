@@ -7,6 +7,7 @@ import * as moment from 'moment/moment';
 import { Moment } from 'moment/moment';
 import { PickerService } from './picker.service';
 import { Subscription } from 'rxjs/Rx';
+import { DateTimePickerLabels } from "./labels";
 
 @Component({
     selector: 'date-time-dialog',
@@ -35,6 +36,7 @@ export class DialogComponent implements OnInit, OnDestroy {
     public returnObject: string;
     public dialogType: DialogType;
     public pickerType: 'both' | 'date' | 'time';
+    public labels: DateTimePickerLabels = new DateTimePickerLabels();
 
     private subId: Subscription;
 
@@ -49,6 +51,7 @@ export class DialogComponent implements OnInit, OnDestroy {
         this.mode = this.service.dtMode;
         this.returnObject = this.service.dtReturnObject;
         this.pickerType = this.service.dtPickerType;
+        this.labels = this.service.labels;
         moment.locale(this.service.dtLocale);
 
         // set now value
@@ -95,13 +98,19 @@ export class DialogComponent implements OnInit, OnDestroy {
 
     public setDialog( instance: any, elementRef: ElementRef, initialValue: any, dtLocale: string, dtViewFormat: string, dtReturnObject: string,
                       dtPositionOffset: string, dtMode: 'popup' | 'dropdown' | 'inline',
-                      dtHourTime: '12' | '24', dtTheme: string, dtPickerType: 'both' | 'date' | 'time' ): void {
+                      dtHourTime: '12' | '24', dtTheme: string, dtPickerType: 'both' | 'date' | 'time', minMoment: Moment, maxMoment: Moment, labels: DateTimePickerLabels): void {
         this.directiveInstance = instance;
         this.directiveElementRef = elementRef;
         this.initialValue = initialValue;
 
         this.service.setPickerOptions(dtLocale, dtViewFormat, dtReturnObject,
-            dtPositionOffset, dtMode, dtHourTime, dtTheme, dtPickerType);
+            dtPositionOffset, dtMode, dtHourTime, dtTheme, dtPickerType, minMoment, maxMoment, labels);
+    }
+
+    public updateProperties( minMoment: Moment, maxMoment: Moment, labels: DateTimePickerLabels ): void {
+        this.service.minMoment = minMoment;
+        this.service.maxMoment = maxMoment;
+        this.service.labels = labels;
     }
 
     public confirm( close: boolean ): void {

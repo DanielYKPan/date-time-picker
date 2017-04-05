@@ -6,6 +6,7 @@ import { Component, OnInit, Input, ChangeDetectionStrategy, Output, EventEmitter
 import { Moment } from 'moment/moment';
 import { DialogType } from './dialog.component';
 import { PickerService } from './picker.service';
+import { DateTimePickerLabels } from "./labels";
 
 @Component({
     selector: 'dialog-time-panel',
@@ -27,6 +28,7 @@ export class TimePanelComponent implements OnInit {
     hourTime: '12' | '24';
     theme: string;
     mode: 'popup' | 'dropdown' | 'inline';
+    labels: DateTimePickerLabels = new DateTimePickerLabels();
 
     constructor( private service: PickerService ) {
     }
@@ -37,6 +39,7 @@ export class TimePanelComponent implements OnInit {
         this.hourTime = this.service.dtHourTime;
         this.theme = this.service.dtTheme;
         this.mode = this.service.dtMode;
+        this.labels = this.service.labels;
 
         if (this.hourTime === '12') {
             if (this.moment.hours() <= 11) {

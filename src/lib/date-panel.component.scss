@@ -44,15 +44,19 @@
     justify-content: center;
     align-items: center;
     height: $base-line-height * 4;
-    cursor: pointer;
 
     &.hidden {
       display: none;
     }
 
     .picker-action {
+      cursor: pointer;
       text-align: center;
       width: calc(100% / 3);
+
+      &.disabled {
+        cursor: not-allowed;
+      }
 
       .text {
         padding-left: .8rem;
@@ -140,6 +144,22 @@
     }
     border-right: 0;
     border-left: .75em solid $black;
+  }
+
+  .nav-prev.disabled::before {
+    @include when-inside('.small-mode') {
+      border-right-color: $disabled;
+    }
+    cursor: not-allowed;
+    border-right-color: $disabled;
+  }
+
+  .nav-next.disabled::before {
+    @include when-inside('.small-mode') {
+      border-left-color: $disabled;
+    }
+    cursor: not-allowed;
+    border-left-color: $disabled;
   }
 }
 
@@ -266,7 +286,7 @@
     }
 
     &.out-focus {
-      color: #ddd;
+      color: $disabled;
 
       &:hover {
         color: #000;
@@ -276,6 +296,20 @@
     &.selected {
       background: $blue;
       color: #fff;
+
+      &:hover {
+        color: #fff;
+      }
+    }
+
+    &.disabled {
+      color: $disabled;
+      cursor: not-allowed;
+
+      &:hover {
+        background: initial;
+        color: $disabled;
+      }
     }
   }
 

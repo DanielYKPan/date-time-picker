@@ -8,6 +8,8 @@ import {
 } from '@angular/core';
 import { DynamicModule } from './dynamic.module';
 import { DialogComponent } from './dialog.component';
+import { Moment } from "moment";
+import { DateTimePickerLabels } from "./labels";
 
 @Directive({
     selector: '[dateTimePicker]',
@@ -27,9 +29,12 @@ export class DateTimePickerDirective implements OnInit, OnChanges {
     @Input() theme: 'default' | 'green' | 'teal' | 'cyan' | 'grape' | 'red' | 'gray' = 'default'; // theme color
     @Input() positionOffset: string = '0%';
     @Input() pickerType: 'both' | 'date' | 'time' = 'both';
+    @Input() minMoment: Moment;
+    @Input() maxMoment: Moment;
+    @Input() labels: DateTimePickerLabels = new DateTimePickerLabels();
 
     private created: boolean;
-    private dialog: any;
+    private dialog: DialogComponent;
 
     constructor( private compiler: Compiler,
                  private vcRef: ViewContainerRef,
@@ -67,10 +72,11 @@ export class DateTimePickerDirective implements OnInit, OnChanges {
                     const injector = ReflectiveInjector.fromResolvedProviders([], this.vcRef.parentInjector);
                     const cmpRef = this.vcRef.createComponent(compFactory, 0, injector, []);
                     cmpRef.instance.setDialog(this, this.el, this.dateTimePicker, this.locale, this.viewFormat, this.returnObject,
-                        this.positionOffset, this.mode, this.hourTime, this.theme, this.pickerType);
+                        this.positionOffset, this.mode, this.hourTime, this.theme, this.pickerType, this.minMoment, this.maxMoment, Object.assign({}, new DateTimePickerLabels(), this.labels));
                     this.dialog = cmpRef.instance;
                 });
         } else if (this.dialog) {
+            this.dialog.updateProperties(this.minMoment, this.maxMoment, Object.assign({}, new DateTimePickerLabels(), this.labels));
             this.dialog.openDialog(this.dateTimePicker);
         }
     }
