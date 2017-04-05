@@ -2,7 +2,7 @@
  * dialog.component
  */
 
-import { Component, OnInit, ElementRef } from '@angular/core';
+import { Component, OnInit, ElementRef, OnDestroy } from '@angular/core';
 import * as moment from 'moment/moment';
 import { Moment } from 'moment/moment';
 import { PickerService } from './picker.service';
@@ -14,7 +14,7 @@ import { Subscription } from 'rxjs/Rx';
     styleUrls: ['./dialog.component.scss'],
     providers: [PickerService],
 })
-export class DialogComponent implements OnInit {
+export class DialogComponent implements OnInit, OnDestroy {
 
     private selectedMoment: Moment;
     private directiveInstance: any;
@@ -56,10 +56,15 @@ export class DialogComponent implements OnInit {
         this.subId = this.service.events.subscribe(
             ( selectedMoment: Moment ) => {
                 this.selectedMoment = selectedMoment;
-                this.returnSelectedMoment();
             }
         );
         this.openDialog(this.initialValue);
+    }
+
+    public ngOnDestroy(): void {
+        if (this.subId) {
+            this.subId.unsubscribe();
+        }
     }
 
     public openDialog( moment: any ): void {
@@ -71,8 +76,12 @@ export class DialogComponent implements OnInit {
             this.setInlineDialogPosition();
         }
         this.dialogType = this.service.dtDialogType;
-        this.service.setMoment(moment);
+        this.setSelectedMoment(moment);
         return;
+    }
+
+    public setSelectedMoment( moment: any ): void {
+        this.service.setMoment(moment);
     }
 
     public cancelDialog(): void {
@@ -112,6 +121,20 @@ export class DialogComponent implements OnInit {
             this.dialogType = DialogType.Date;
         } else {
             this.dialogType = type;
+        }
+    }
+
+    public setDate( moment: Moment ): void {
+        this.service.setDate(moment);
+        this.confirm(false);
+    }
+
+    public setTime( time: { hour: number, min: number, meridian: string } ): void {
+        this.service.setTime(time.hour, time.min, time.meridian);
+        if (this.service.dtPickerType === 'time') {
+            this.confirm(true);
+        } else {
+            this.confirm(false);
         }
     }
 
