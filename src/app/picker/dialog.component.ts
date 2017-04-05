@@ -2,7 +2,7 @@
  * dialog.component
  */
 
-import { Component, OnInit, ElementRef } from '@angular/core';
+import { Component, OnInit, ElementRef, OnDestroy } from '@angular/core';
 import * as moment from 'moment/moment';
 import { Moment } from 'moment/moment';
 import { PickerService } from './picker.service';
@@ -14,7 +14,7 @@ import { Subscription } from 'rxjs/Rx';
     styleUrls: ['./dialog.component.scss'],
     providers: [PickerService],
 })
-export class DialogComponent implements OnInit {
+export class DialogComponent implements OnInit, OnDestroy {
 
     private selectedMoment: Moment;
     private directiveInstance: any;
@@ -59,6 +59,12 @@ export class DialogComponent implements OnInit {
             }
         );
         this.openDialog(this.initialValue);
+    }
+
+    public ngOnDestroy(): void {
+        if (this.subId) {
+            this.subId.unsubscribe();
+        }
     }
 
     public openDialog( moment: any ): void {
