@@ -56,7 +56,6 @@ export class DialogComponent implements OnInit {
         this.subId = this.service.events.subscribe(
             ( selectedMoment: Moment ) => {
                 this.selectedMoment = selectedMoment;
-                this.returnSelectedMoment();
             }
         );
         this.openDialog(this.initialValue);
@@ -71,8 +70,12 @@ export class DialogComponent implements OnInit {
             this.setInlineDialogPosition();
         }
         this.dialogType = this.service.dtDialogType;
-        this.service.setMoment(moment);
+        this.setSelectedMoment(moment);
         return;
+    }
+
+    public setSelectedMoment( moment: any ): void {
+        this.service.setMoment(moment);
     }
 
     public cancelDialog(): void {
@@ -112,6 +115,20 @@ export class DialogComponent implements OnInit {
             this.dialogType = DialogType.Date;
         } else {
             this.dialogType = type;
+        }
+    }
+
+    public setDate( moment: Moment ): void {
+        this.service.setDate(moment);
+        this.confirm(false);
+    }
+
+    public setTime( time: { hour: number, min: number, meridian: string } ): void {
+        this.service.setTime(time.hour, time.min, time.meridian);
+        if (this.service.dtPickerType === 'time') {
+            this.confirm(true);
+        } else {
+            this.confirm(false);
         }
     }
 
