@@ -22,6 +22,7 @@ export class DatePanelComponent implements OnInit {
     @Input() public selectedMoment: Moment;
     @Output() public onCancelDialog = new EventEmitter<boolean>();
     @Output() public onConfirm = new EventEmitter<boolean>();
+    @Output() public onSelected = new EventEmitter<Moment>();
 
     public theme: string;
     public dialogType: DialogType;
@@ -135,7 +136,7 @@ export class DatePanelComponent implements OnInit {
             this.moment = moment.clone();
             this.generateCalendar();
         }
-        this.service.setDate(moment);
+        this.onSelected.emit(moment);
     }
 
     public selectToday(): void {
@@ -143,12 +144,13 @@ export class DatePanelComponent implements OnInit {
             .year(this.now.year())
             .month(this.now.month())
             .dayOfYear(this.now.dayOfYear());
-
+      
         if((this.minMoment && this.minMoment.isAfter(moment, 'day'))
             || (this.maxMoment && this.maxMoment.isBefore(moment, 'day'))){
             return;
         }
         this.service.setDate(moment);
+        this.onSelected.emit(moment);
     }
 
     public cancelDialog(): void {

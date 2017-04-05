@@ -4,7 +4,7 @@
 
 import {
     Directive, ElementRef, Input, Compiler, ViewContainerRef, ComponentFactory,
-    ReflectiveInjector, Output, EventEmitter, OnInit
+    ReflectiveInjector, Output, EventEmitter, OnInit, OnChanges, SimpleChanges
 } from '@angular/core';
 import { DynamicModule } from './dynamic.module';
 import { DialogComponent } from './dialog.component';
@@ -17,7 +17,7 @@ import { DateTimePickerLabels } from "./labels";
         '(click)': 'onClick()',
     }
 })
-export class DateTimePickerDirective implements OnInit {
+export class DateTimePickerDirective implements OnInit, OnChanges {
 
     @Input('dateTimePicker') dateTimePicker: any;
     @Output('dateTimePickerChange') dateTimePickerChange = new EventEmitter<any>(true);
@@ -39,6 +39,14 @@ export class DateTimePickerDirective implements OnInit {
     constructor( private compiler: Compiler,
                  private vcRef: ViewContainerRef,
                  private el: ElementRef ) {
+    }
+
+    public ngOnChanges( changes: SimpleChanges ): void {
+        if (this.mode === 'inline' &&
+            changes['dateTimePicker'] &&
+            !changes['dateTimePicker'].isFirstChange()) {
+            this.dialog.setSelectedMoment(this.dateTimePicker);
+        }
     }
 
     public ngOnInit(): void {

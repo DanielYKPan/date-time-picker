@@ -17,7 +17,7 @@ import { DateTimePickerLabels } from "./labels";
 export class TimePanelComponent implements OnInit {
 
     @Input() dialogType: DialogType;
-    @Output() onSetTime = new EventEmitter<boolean>();
+    @Output() onSetTime = new EventEmitter<{ hour: number, min: number, meridian: string }>();
 
     hourValue: number;
     minValue: number;
@@ -66,11 +66,6 @@ export class TimePanelComponent implements OnInit {
     }
 
     public setTime(): void {
-        this.service.setTime(this.hourValue, this.minValue, this.meridianValue);
-        if (this.service.dtPickerType === 'time') {
-            this.onSetTime.emit(true);
-        } else {
-            this.onSetTime.emit(false);
-        }
+        this.onSetTime.emit({hour: this.hourValue, min: this.minValue, meridian: this.meridianValue});
     }
 }

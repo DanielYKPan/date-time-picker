@@ -69,7 +69,7 @@
         <div class="picker-action action-close" (click)="cancelDialog()" [hidden]="mode === 'inline'">
             <span class="text">{{labels.close}}</span>
         </div>
-        <div class="picker-action action-confirm" (click)="confirm()">
+        <div class="picker-action action-confirm" (click)="confirm()" [hidden]="mode === 'inline' || mode === 'dropdown'">
             <span class="text">{{labels.confirm}}</span>
         </div>
     </div>
