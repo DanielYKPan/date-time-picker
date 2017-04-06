@@ -5,6 +5,7 @@
 var webpack = require('webpack');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
+var CopyWebpackPlugin = require('copy-webpack-plugin');
 var helpers = require('./helpers');
 
 module.exports = {
@@ -56,7 +57,17 @@ module.exports = {
                 test: /\.scss$/,
                 include: helpers.root('src', 'sass'),
                 loader: ExtractTextPlugin.extract('style', 'raw!postcss!sass')
-            }
+            },
+
+            /*
+             * Json loader support for *.json files.
+             *
+             * See: https://github.com/webpack/json-loader
+             */
+            {
+                test: /\.json$/,
+                loader: 'json-loader'
+            },
         ]
     },
 
@@ -67,6 +78,10 @@ module.exports = {
 
         new HtmlWebpackPlugin({
             template: 'src/index.html'
-        })
+        }),
+
+        new CopyWebpackPlugin([
+            { from: 'src/assets', to: 'assets' },
+        ]),
     ]
 };
