@@ -55,7 +55,7 @@ export class TimePanelComponent implements OnInit {
         }
 
         this.minValue = this.moment.minutes();
-        this.meridianValue = this.moment.format('A');
+        this.meridianValue = this.moment.clone().locale('en').format('A');
     }
 
     public setMeridian( meridian: string ): void {
