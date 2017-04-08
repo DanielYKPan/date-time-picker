@@ -10,6 +10,7 @@ import { DatePanelComponent } from './date-panel.component';
 import { TimePanelComponent } from './time-panel.component';
 import { SlideControlComponent } from './slider.component';
 import { NumberFixedLenPipe } from './numberFixedLen.pipe';
+import { TranslatePipe } from './translate.pipe';
 
 @NgModule({
     imports: [
@@ -22,6 +23,7 @@ import { NumberFixedLenPipe } from './numberFixedLen.pipe';
         SlideControlComponent,
         MomentPipe,
         NumberFixedLenPipe,
+        TranslatePipe,
     ],
 })
 export class DynamicModule {
