@@ -98,8 +98,12 @@
         return gulp.src([config.alltmpTs, '!' + config.alltmpSpecTs]).pipe(gulp.dest('./npmdist/src'));
     });
 
-    gulp.task('copy.dist.to.npmdist.dir', function () {
-        return gulp.src(config.allDistFiles).pipe(gulp.dest('./npmdist/dist'));
+    gulp.task('copy.dist.to.npmdist', function () {
+        return gulp.src(config.allDistFiles).pipe(gulp.dest('./npmdist'));
+    });
+
+    gulp.task('copy.assets.to.npmdist.assets', function() {
+        return gulp.src(config.allAssets).pipe(gulp.dest('./npmdist/assets'));
     });
 
     gulp.task('copy.root.files.to.npmdist.dir', function () {
@@ -122,8 +126,9 @@
             'inline.template.and.styles.to.component',
             'ngc',
             'copy.src.to.npmdist.dir',
-            'copy.dist.to.npmdist.dir',
+            'copy.dist.to.npmdist',
             'copy.root.files.to.npmdist.dir',
+            'copy.assets.to.npmdist.assets',
             'delete.tmp',
             cb
         )
