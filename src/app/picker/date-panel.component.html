@@ -63,13 +63,12 @@
     </div>
     <div class="picker-control footer" [class.hidden]="dialogType !== 1">
         <div class="picker-action action-today" (click)="selectToday()">
-            <span class="text">{{'today' | translate}}</span>
+            <span class="text">{{ 'today' | translate }}</span>
         </div>
-        <div class="picker-action action-close" (click)="cancelDialog()" [hidden]="mode === 'inline'"><span
-                class="text">{{'close' | translate}}</span>
+        <div class="picker-action action-close" (click)="cancelDialog()" [hidden]="mode === 'inline'"><span class="text">{{ 'close' | translate }}</span>
         </div>
         <div class="picker-action action-confirm"
-             (click)="confirm()" [hidden]="mode === 'inline' || mode === 'dropdown'"><span class="text">{{'confirm' | translate}}</span>
+             (click)="confirm()" [hidden]="mode === 'inline' || mode === 'dropdown'"><span class="text">{{ 'confirm' | translate }}</span>
         </div>
     </div>
 </div>

@@ -80,8 +80,8 @@ module.exports = {
             template: 'src/index.html'
         }),
 
-        new CopyWebpackPlugin([
+        /*new CopyWebpackPlugin([
             { from: 'src/assets', to: 'assets' },
-        ]),
+        ]),*/
     ]
 };
