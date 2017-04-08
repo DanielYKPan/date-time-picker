@@ -2,7 +2,7 @@
  * dialog.component
  */
 
-import { Component, OnInit, ElementRef, HostListener } from '@angular/core';
+import { Component, OnInit, ElementRef, OnDestroy } from '@angular/core';
 import * as moment from 'moment/moment';
 import { Moment } from 'moment/moment';
 import { PickerService } from './picker.service';
@@ -14,21 +14,20 @@ import { Subscription } from 'rxjs/Rx';
     styleUrls: ['./dialog.component.scss'],
     providers: [PickerService],
 })
-export class DialogComponent implements OnInit {
+export class DialogComponent implements OnInit, OnDestroy {
 
-    private show: boolean;
-    private initialValue: string;
     private selectedMoment: Moment;
     private directiveInstance: any;
     private directiveElementRef: ElementRef;
-    private now: Moment;
-
     private top: number;
     private left: number;
     private width: string;
     private height: string = 'auto';
     private position: string;
 
+    public show: boolean;
+    public initialValue: string;
+    public now: Moment;
     public theme: string;
     public hourTime: '12' | '24';
     public positionOffset: string;
@@ -57,10 +56,15 @@ export class DialogComponent implements OnInit {
         this.subId = this.service.events.subscribe(
             ( selectedMoment: Moment ) => {
                 this.selectedMoment = selectedMoment;
-                this.returnSelectedMoment();
             }
         );
         this.openDialog(this.initialValue);
+    }
+
+    public ngOnDestroy(): void {
+        if (this.subId) {
+            this.subId.unsubscribe();
+        }
     }
 
     public openDialog( moment: any ): void {
@@ -72,8 +76,12 @@ export class DialogComponent implements OnInit {
             this.setInlineDialogPosition();
         }
         this.dialogType = this.service.dtDialogType;
-        this.service.setMoment(moment);
+        this.setSelectedMoment(moment);
         return;
+    }
+
+    public setSelectedMoment( moment: any ): void {
+        this.service.setMoment(moment);
     }
 
     public cancelDialog(): void {
@@ -113,6 +121,34 @@ export class DialogComponent implements OnInit {
             this.dialogType = DialogType.Date;
         } else {
             this.dialogType = type;
+        }
+    }
+
+    public setDate( moment: Moment ): void {
+        this.service.setDate(moment);
+        this.confirm(false);
+    }
+
+    public setTime( time: { hour: number, min: number, meridian: string } ): void {
+        this.service.setTime(time.hour, time.min, time.meridian);
+        if (this.service.dtPickerType === 'time') {
+            this.confirm(true);
+        } else {
+            this.confirm(false);
+        }
+    }
+
+    public getDialogStyle(): any {
+        if (this.mode === 'popup') {
+            return {}
+        } else {
+            return {
+                'width': this.width,
+                'height': this.height,
+                'top.px': this.top,
+                'left.px': this.left,
+                'position': this.position
+            };
         }
     }
 
@@ -178,18 +214,9 @@ export class DialogComponent implements OnInit {
     }
 
     private returnSelectedMoment(): void {
-        let selectedM = this.service.parseToReturnObjectType();
+        let m = this.selectedMoment || this.now;
+        let selectedM = this.service.parseToReturnObjectType(m);
         this.directiveInstance.momentChanged(selectedM);
-    }
-
-    @HostListener('document:click', ['$event'])
-    private onMouseDown( event: any ) {
-        let target = event.srcElement || event.target;
-        if (!this.el.nativeElement.contains(event.target) &&
-            !(<Element> target).classList.contains('picker-day')
-            && event.target != this.directiveElementRef.nativeElement) {
-            this.show = false;
-        }
     }
 }
 

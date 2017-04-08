@@ -9,16 +9,40 @@
   box-sizing: border-box;
 }
 
+.picker-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: block;
+  background-color: $light-dark;
+  z-index: 999999;
+
+  &.picker-overlay-dropdown {
+    background-color: transparent;
+  }
+}
+
 .picker-popup {
+  @include respond-to(medium) {
+    top: 30px;
+    height: auto;
+  }
+
+  position: fixed;
+  top: 0;
+  left: 50%;
   width: 100vw;
   max-width: 666px;
   height: 100%;
   overflow: hidden;
-  overflow-y: scroll;
-
-  @include respond-to(medium) {
-    overflow-y: hidden;
-  }
+  background-color: $white;
+  box-shadow: 0 5px 15px $light-dark;
+  border-radius: 5px;
+  z-index: 9999999;
+  transform: translate(-50%, 0);
+  animation: slideDown 0.3s cubic-bezier(.13,.68,1,1.53);
 }
 
 .picker-dropdown {
@@ -29,10 +53,11 @@
   min-width: 200px;
   border: #777 solid 1px;
   position: absolute;
-  z-index: 1000;
+  z-index: 9999999;
   user-select: none;
   background-color: $white;
   border-radius: 5px;
+  animation: popover 0.3s ease-in-out;
 }
 
 .picker-inline {
@@ -179,10 +204,11 @@
   }
   .bar {
     .highlight {
-      background: $green!important;
+      background: $green !important;
     }
   }
 }
+
 .theme-teal {
 
   .picker-banner {
@@ -190,10 +216,11 @@
   }
   .bar {
     .highlight {
-      background: $teal!important;
+      background: $teal !important;
     }
   }
 }
+
 .theme-cyan {
 
   .picker-banner {
@@ -201,10 +228,11 @@
   }
   .bar {
     .highlight {
-      background: $cyan!important;
+      background: $cyan !important;
     }
   }
 }
+
 .theme-grape {
 
   .picker-banner {
@@ -212,10 +240,11 @@
   }
   .bar {
     .highlight {
-      background: $grape!important;
+      background: $grape !important;
     }
   }
 }
+
 .theme-red {
 
   .picker-banner {
@@ -223,10 +252,11 @@
   }
   .bar {
     .highlight {
-      background: $red!important;
+      background: $red !important;
     }
   }
 }
+
 .theme-gray {
 
   .picker-banner {
@@ -234,7 +264,33 @@
   }
   .bar {
     .highlight {
-      background: $gray!important;
+      background: $gray !important;
     }
+  }
+}
+
+@keyframes popover {
+  0% {
+    opacity: 0;
+    transform: translateY(-50px) scale(0.8);
+  }
+  80% {
+    opacity: 1;
+    transform: translateY(10px) scale(1.05);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0px) scale(1);
+  }
+}
+
+@keyframes slideDown {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -100%);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(-50%, 0);
   }
 }

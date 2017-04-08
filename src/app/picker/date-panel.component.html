@@ -67,7 +67,8 @@
         </div>
         <div class="picker-action action-close" (click)="cancelDialog()" [hidden]="mode === 'inline'"><span class="text">Close</span>
         </div>
-        <div class="picker-action action-confirm" (click)="confirm()"><span class="text">Confirm</span>
+        <div class="picker-action action-confirm"
+             (click)="confirm()" [hidden]="mode === 'inline' || mode === 'dropdown'"><span class="text">Confirm</span>
         </div>
     </div>
 </div>

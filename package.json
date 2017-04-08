@@ -1,9 +1,9 @@
 {
-  "name": "ng2-date-time-picker",
-  "version": "2.0.0",
-  "description": "Angular2 Date Time Picker",
+  "name": "date-time-picker",
+  "version": "4.0.0",
+  "description": "Angular Date Time Picker",
   "keywords": [
-    "Angular2",
+    "Angular",
     "datepicker",
     "date picker",
     "timepicker",
@@ -13,7 +13,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/DanielYKPan/ng2-date-time-picker.git"
+    "url": "https://github.com/DanielYKPan/date-time-picker.git"
   },
   "scripts": {
     "start": "webpack-dev-server --inline --progress --port 8080",
@@ -23,21 +23,21 @@
   "main": "./index.js",
   "types": "./index.d.ts",
   "dependencies": {
-    "@angular/common": "2.4.6",
-    "@angular/compiler": "2.4.6",
-    "@angular/compiler-cli": "2.4.6",
-    "@angular/core": "2.4.6",
-    "@angular/forms": "2.4.6",
-    "@angular/http": "2.4.6",
-    "@angular/platform-browser": "2.4.6",
-    "@angular/platform-browser-dynamic": "2.4.6",
-    "@angular/platform-server": "2.4.6",
-    "@angular/router": "3.4.6",
+    "@angular/animations": "^4.0.0",
+    "@angular/common": "~4.0.0",
+    "@angular/compiler": "~4.0.0",
+    "@angular/core": "~4.0.0",
+    "@angular/forms": "~4.0.0",
+    "@angular/http": "~4.0.0",
+    "@angular/platform-browser": "~4.0.0",
+    "@angular/platform-browser-dynamic": "~4.0.0",
+    "@angular/platform-server": "^4.0.0",
+    "@angular/router": "~4.0.0",
     "core-js": "^2.4.1",
     "moment": "^2.17.0",
     "rxjs": "5.0.2",
     "web-animations-js": "^2.2.2",
-    "zone.js": "0.7.6"
+    "zone.js": "^0.8.4"
   },
   "devDependencies": {
     "@types/jasmine": "^2.5.36",
@@ -46,6 +46,7 @@
     "angular2-template-loader": "^0.6.0",
     "autoprefixer": "^6.5.3",
     "awesome-typescript-loader": "3.0.0-beta.10",
+    "copy-webpack-plugin": "^4.0.1",
     "css-loader": "^0.23.1",
     "extract-text-webpack-plugin": "^1.0.1",
     "file-loader": "^0.8.5",
@@ -62,6 +63,7 @@
     "html-loader": "^0.4.3",
     "html-webpack-plugin": "^2.15.0",
     "jasmine-core": "^2.4.1",
+    "json-loader": "^0.5.4",
     "karma": "^1.2.0",
     "karma-jasmine": "^1.0.2",
     "karma-phantomjs-launcher": "^1.0.2",
