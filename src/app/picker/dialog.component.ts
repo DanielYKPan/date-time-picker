@@ -7,12 +7,14 @@ import * as moment from 'moment/moment';
 import { Moment } from 'moment/moment';
 import { PickerService } from './picker.service';
 import { Subscription } from 'rxjs/Rx';
+import { TranslateService } from './translate.service';
+import { TranslateDefaultParser } from './translate.parser';
 
 @Component({
     selector: 'date-time-dialog',
     templateUrl: './dialog.component.html',
     styleUrls: ['./dialog.component.scss'],
-    providers: [PickerService],
+    providers: [PickerService, TranslateService, TranslateDefaultParser],
 })
 export class DialogComponent implements OnInit, OnDestroy {
 
@@ -39,6 +41,7 @@ export class DialogComponent implements OnInit, OnDestroy {
     private subId: Subscription;
 
     constructor( private el: ElementRef,
+                 private translate: TranslateService,
                  private service: PickerService ) {
     }
 
@@ -49,6 +52,8 @@ export class DialogComponent implements OnInit, OnDestroy {
         this.mode = this.service.dtMode;
         this.returnObject = this.service.dtReturnObject;
         this.pickerType = this.service.dtPickerType;
+        this.translate.setDefaultLang('en');
+        this.translate.use(this.service.dtLocale);
         moment.locale(this.service.dtLocale);
 
         // set now value
