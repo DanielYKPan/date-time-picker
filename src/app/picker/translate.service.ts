@@ -172,7 +172,7 @@ export class TranslateService {
 
         let slug = this.slugs[lang] || this.slugs[this.defaultLang] || 'en';
 
-        this.loadingTranslations = this.http.get('./assets/' + slug + '.json').share();
+        this.loadingTranslations = this.http.get('./assets/i18n/' + slug + '.json').share();
 
         this.loadingTranslations.take(1)
             .subscribe(( res: any ) => {
