@@ -7,14 +7,14 @@ import * as moment from 'moment/moment';
 import { Moment } from 'moment/moment';
 import { PickerService } from './picker.service';
 import { Subscription } from 'rxjs/Rx';
+import { TRANSLATION_PROVIDERS } from './translations';
 import { TranslateService } from './translate.service';
-import { TranslateDefaultParser } from './translate.parser';
 
 @Component({
     selector: 'date-time-dialog',
     templateUrl: './dialog.component.html',
     styleUrls: ['./dialog.component.scss'],
-    providers: [PickerService, TranslateService, TranslateDefaultParser],
+    providers: [PickerService, TRANSLATION_PROVIDERS, TranslateService],
 })
 export class DialogComponent implements OnInit, OnDestroy {
 
@@ -52,7 +52,6 @@ export class DialogComponent implements OnInit, OnDestroy {
         this.mode = this.service.dtMode;
         this.returnObject = this.service.dtReturnObject;
         this.pickerType = this.service.dtPickerType;
-        this.translate.setDefaultLang('en');
         this.translate.use(this.service.dtLocale);
         moment.locale(this.service.dtLocale);
 
