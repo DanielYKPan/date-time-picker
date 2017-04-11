@@ -9,6 +9,8 @@
 
 ## Updates
 
+* Get locale working in the whole picker. Words not from MomentJS in the picker now are also translated.('de', 'en', 'zh_CN', 'zh_HK', 'zh_TW').
+   If the locale you are using is not working, please open an issue and help me to build that locale library.
 * Added a new 'inline' mode. **[mode]=" 'inline' "** would make the date-time-picker always show in your page.
 * Added a new pickerType option. **[pickerType]=" 'both' "**, this option would let you choose the date-time-picker to be date-picker or time-picker or both. Options include 'both', 'date', 'time'. Default is 'both'.
 * This npm package now rename to [ng-pick-datetime](https://www.npmjs.com/package/ng-pick-datetime), this is because this package now support angular 2 and 4. The previous package was named [ng2-date-time-picker](https://www.npmjs.com/package/ng2-date-time-picker).
@@ -95,7 +97,7 @@ public setMoment(moment: any): any {
 
  * Create a normal HTML Input and put it anywhere you want (like inside a form you already created). 
  * You may set the HTML Input to **readonly**, so you can only change the date value from the pop-up date-time picker.
- * Use **dateTimePicker** directive from our DateTimePickerModule `[(dateTimePicker)]="momentValue"`. This is the two way binding feature from Angular2.
+ * Use **dateTimePicker** directive from our DateTimePickerModule `[(dateTimePicker)]="momentValue"`. This is the two way binding feature from AngularJS.
     Firstly, the local variable 'momentValue' would be bind to our 'dateTimePicker' directive Input and shows in the popup picker dialog.
     Once you select your new moment value and confirm it, the local variable 'momentValue' would be updated. Or if you want to deal
     with the return new moment value from our directive before update the local variable, your can separate it like this `[dateTimePicker]="momentValue" (dateTimePickerChange)="setMoment($event)"`
