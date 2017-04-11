@@ -43,18 +43,25 @@ module.exports = {
              * */
             {
                 test: /\.scss$/,
-                use: ['style-loader', 'css-loader', 'postcss-loader', 'resolve-url-loader', 'sass-loader'],
+                include: helpers.root('src', 'app'),
+                use: ['raw-loader', 'css-loader', 'postcss-loader', 'resolve-url-loader', 'sass-loader']
+            },
+            {
+                test: /\.scss$/,
+                use: ['null-loader'],
                 include: [helpers.root('src', 'sass')]
             },
         ]
     },
 
     plugins: [
+        // Workaround for angular/angular#11580
         new webpack.ContextReplacementPlugin(
-            // The (\\|\/) piece accounts for path separators in *nix and Windows
-            /angular(\\|\/)core(\\|\/)(esm(\\|\/)src|src)(\\|\/)linker/,
-            helpers.root('./src'), // location of your src
-            {} // a map of your routes
-        )
+            /angular(\\|\/)core(\\|\/)@angular/,
+            helpers.root('src'), // location of your src
+            {
+                // your Angular Async Route paths relative to this root directory
+            }
+        ),
     ]
 }
