@@ -5,6 +5,7 @@
 import { InjectionToken } from '@angular/core';
 
 // import translations
+import { LANG_DE_TRANS } from '../locale/de';
 import { LANG_EN_TRANS } from '../locale/en';
 import { LANG_ZHCN_TRANS } from '../locale/zh-cn';
 import { LANG_ZHHK_TRANS } from '../locale/zh-hk';
@@ -15,6 +16,7 @@ export const TRANSLATIONS = new InjectionToken('translations');
 
 // all translations
 export const dictionary = {
+    'de': LANG_DE_TRANS,
     'en': LANG_EN_TRANS,
     'zh_CN': LANG_ZHCN_TRANS,
     'zh_HK': LANG_ZHHK_TRANS,
