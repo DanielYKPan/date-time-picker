@@ -127,11 +127,7 @@ export class DatePanelComponent implements OnInit {
     }
 
     public selectToday(): void {
-        let moment = this.moment.clone()
-            .year(this.now.year())
-            .month(this.now.month())
-            .dayOfYear(this.now.dayOfYear());
-        this.onSelected.emit(moment);
+        this.select(this.now);
     }
 
     public cancelDialog(): void {
