@@ -2,9 +2,8 @@
  * time-panel.component
  */
 
-import { Component, OnInit, Input, ChangeDetectionStrategy, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, Output, EventEmitter } from '@angular/core';
 import { Moment } from 'moment/moment';
-import { DialogType } from './dialog.component';
 import { PickerService } from './picker.service';
 
 @Component({
@@ -15,7 +14,6 @@ import { PickerService } from './picker.service';
 })
 export class TimePanelComponent implements OnInit {
 
-    @Input() dialogType: DialogType;
     @Output() onSetTime = new EventEmitter<{ hour: number, min: number, meridian: string }>();
 
     hourValue: number;

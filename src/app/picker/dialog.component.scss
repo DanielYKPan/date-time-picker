@@ -188,12 +188,13 @@
   @include when-inside('.small-mode') {
     height: $base-line-height * 11;
   }
+  position: relative;
   flex-grow: 1;
   width: 100%;
   height: $base-line-height * 19;
 
-  .hidden {
-    display: none;
+  .picker-hidden {
+    visibility: hidden;
   }
 }
 

@@ -17,11 +17,11 @@
             </button>
         </div>
     </div>
-    <div *ngIf="dialogType === 0" class="time-control">
+    <div class="time-control">
         <div class="title">{{'hour' | translate}}</div>
         <app-slide-bar [theme]="theme" [floor]="hourFloor" [ceiling]="hourCeiling" [(low)]="hourValue"></app-slide-bar>
     </div>
-    <div *ngIf="dialogType === 0" class="time-control">
+    <div class="time-control">
         <div class="title">{{'minute' | translate}}</div>
         <app-slide-bar [theme]="theme" [floor]="0" [ceiling]="59" [(low)]="minValue"></app-slide-bar>
     </div>

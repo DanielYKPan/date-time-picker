@@ -46,13 +46,13 @@
         </div>
         <div class="picker-content">
             <dialog-date-panel *ngIf="pickerType === 'both' || pickerType === 'date'"
-                               [ngClass]="{hidden: dialogType === 0}"
+                               [ngClass]="{'picker-hidden': dialogType === 0}"
                                [selectedMoment]="selectedMoment"
                                (onSelected)="setDate($event)"
                                (onCancelDialog)="cancelDialog()"
                                (onConfirm)="confirm($event)"></dialog-date-panel>
             <dialog-time-panel *ngIf="pickerType === 'both' || pickerType === 'time'"
-                               [hidden]="dialogType !== 0" [dialogType]="dialogType"
+                               [ngClass]="{'picker-hidden': dialogType !== 0}"
                                (onSetTime)="setTime($event)"></dialog-time-panel>
         </div>
     </div>
