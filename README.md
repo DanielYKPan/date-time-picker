@@ -5,14 +5,14 @@
 
 ## Important
 
-**This package now supports Angular 2 ang 4**
+**This package now supports Angular 2 and 4**
 
 ## Updates
 
+* Add seconds slider in time picker. If you set **[showSeconds]=" true "** , the time picker would have a slider for configuring the second value of your select moment.
+    The default value is false.
 * Get locale working in the whole picker. Words not from MomentJS in the picker now are also translated.('de', 'en', 'zh_CN', 'zh_HK', 'zh_TW').
    If the locale you are using is not working, please open an issue and help me to build that locale library.
-* Added a new 'inline' mode. **[mode]=" 'inline' "** would make the date-time-picker always show in your page.
-* Added a new pickerType option. **[pickerType]=" 'both' "**, this option would let you choose the date-time-picker to be date-picker or time-picker or both. Options include 'both', 'date', 'time'. Default is 'both'.
 * This npm package now rename to [ng-pick-datetime](https://www.npmjs.com/package/ng-pick-datetime), this is because this package now support angular 2 and 4. The previous package was named [ng2-date-time-picker](https://www.npmjs.com/package/ng2-date-time-picker).
 
 ## Other Similar Projects
@@ -114,7 +114,8 @@ public setMoment(moment: any): any {
         If you set it as 'inline', the date-time-picker would always show on your web page as a html element (In inline mode, you could set width = '250px' to make the the picker smaller or bigger. picker width are set between 200px and 300px ).
       * **[hourTime]=" '24' "** --- Set the hour time format (12-hour format or 24-hour format). Default is '24'(24-hour format). The other choice could be '12'(12-hour format).
       * **[theme]=" 'default' "** --- Set the theme color. The default color is Blue. Other options include 'green', 'teal', 'cyan', 'grape', 'red', 'gray'. You can see the effect from the demo.
-      * **Important: Do Not forget the single quote inside the double quote when you set the optional attributes value.**
+      * **[showSeconds]=" true "** --- Set to show seconds slider in time picker. (The default value is false).
+      * **Important: Do Not forget the single quote inside the double quote when you set the optional attributes string value.**
 
 ## Demo
 Online demo is [here](https://danielykpan.github.io/date-time-picker/)
