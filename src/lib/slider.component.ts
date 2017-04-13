@@ -2,7 +2,10 @@
  * slider.component
  */
 
-import { Component, OnInit, ElementRef, Input, ViewChild, Renderer, Output, EventEmitter } from '@angular/core';
+import {
+    Component, OnInit, ElementRef, Input, ViewChild, Output, EventEmitter,
+    Renderer2, OnDestroy
+} from '@angular/core';
 
 @Component({
     selector: 'app-slide-bar',
@@ -13,10 +16,14 @@ import { Component, OnInit, ElementRef, Input, ViewChild, Renderer, Output, Even
         '(touchstart)': 'start($event)'
     }
 })
-export class SlideControlComponent implements OnInit {
+export class SlideControlComponent implements OnInit, OnDestroy {
 
-    private listenerMove: any;
-    private listenerStop: any;
+    private movePointer: any;
+    private stopPointer: any;
+    private mouseMoveListener: any;
+    private mouseUpListener: any;
+    private touchMoveListener: any;
+    private touchEndListener: any;
 
     @Input() step: number = 1;
     @Input() floor: number = 0;
@@ -40,11 +47,11 @@ export class SlideControlComponent implements OnInit {
     private offsetRange = 0;
 
     constructor( private el: ElementRef,
-                 private renderer: Renderer, ) {
-        this.listenerMove = ( event: any ) => {
+                 private renderer: Renderer2, ) {
+        this.movePointer = ( event: any ) => {
             this.move(event)
         };
-        this.listenerStop = () => {
+        this.stopPointer = () => {
             this.stop()
         };
     }
@@ -61,19 +68,37 @@ export class SlideControlComponent implements OnInit {
         this.setPointers();
     }
 
+    public ngOnDestroy(): void {
+        if (this.mouseMoveListener) {
+            this.mouseMoveListener();
+        }
+
+        if (this.mouseUpListener) {
+            this.mouseUpListener();
+        }
+
+        if (this.touchMoveListener) {
+            this.touchMoveListener();
+        }
+
+        if (this.touchEndListener) {
+            this.touchEndListener();
+        }
+    }
+
     private setPointers(): void {
 
         let lowPercentValue, lowOffsetValue;
         lowPercentValue = this.percentValue(this.low);
         lowOffsetValue = this.pixelsToOffset(lowPercentValue);
 
-        this.renderer.setElementStyle(
+        this.renderer.setStyle(
             this.lowPointer.nativeElement,
             'left',
             lowOffsetValue + 'px'
         );
 
-        this.renderer.setElementStyle(
+        this.renderer.setStyle(
             this.highlight.nativeElement,
             'width',
             lowOffsetValue + 'px'
@@ -81,17 +106,17 @@ export class SlideControlComponent implements OnInit {
     }
 
     private start( event: any ) {
-        document.addEventListener('mousemove', this.listenerMove);
-        document.addEventListener('touchmove', this.listenerMove);
-        document.addEventListener('mouseup', this.listenerStop);
-        document.addEventListener('touchend', this.listenerStop);
+        this.mouseMoveListener = this.renderer.listen('document', 'mousemove', this.movePointer);
+        this.touchMoveListener = this.renderer.listen('document', 'touchmove', this.movePointer);
+        this.mouseUpListener = this.renderer.listen('document', 'mouseup', this.stopPointer);
+        this.touchEndListener = this.renderer.listen('document', 'touchend', this.stopPointer);
     }
 
     private stop() {
-        document.removeEventListener('mousemove', this.listenerMove);
-        document.removeEventListener('touchmove', this.listenerMove);
-        document.removeEventListener('mouseup', this.listenerStop);
-        document.removeEventListener('touchend', this.listenerStop);
+        this.mouseMoveListener();
+        this.touchMoveListener();
+        this.mouseUpListener();
+        this.touchEndListener();
     }
 
     private move( event: any ) {

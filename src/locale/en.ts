@@ -10,4 +10,5 @@ export const LANG_EN_TRANS = {
     'confirm': 'Confirm',
     'hour': 'Hour',
     'minute': 'Minute',
+    'second': 'Second',
 };

@@ -10,4 +10,5 @@ export const LANG_ZHCN_TRANS = {
     'confirm': '确认',
     'hour': '时',
     'minute': '分',
+    'second': '秒',
 };
