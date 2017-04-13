@@ -37,6 +37,7 @@ export class DialogComponent implements OnInit, OnDestroy {
     public returnObject: string;
     public dialogType: DialogType;
     public pickerType: 'both' | 'date' | 'time';
+    public showSeconds: boolean;
 
     private subId: Subscription;
 
@@ -52,6 +53,7 @@ export class DialogComponent implements OnInit, OnDestroy {
         this.mode = this.service.dtMode;
         this.returnObject = this.service.dtReturnObject;
         this.pickerType = this.service.dtPickerType;
+        this.showSeconds = this.service.dtShowSeconds;
         this.translate.use(this.service.dtLocale);
         moment.locale(this.service.dtLocale);
 
@@ -99,13 +101,14 @@ export class DialogComponent implements OnInit, OnDestroy {
 
     public setDialog( instance: any, elementRef: ElementRef, initialValue: any, dtLocale: string, dtViewFormat: string, dtReturnObject: string,
                       dtPositionOffset: string, dtMode: 'popup' | 'dropdown' | 'inline',
-                      dtHourTime: '12' | '24', dtTheme: string, dtPickerType: 'both' | 'date' | 'time' ): void {
+                      dtHourTime: '12' | '24', dtTheme: string,
+                      dtPickerType: 'both' | 'date' | 'time', dtShowSeconds: boolean ): void {
         this.directiveInstance = instance;
         this.directiveElementRef = elementRef;
         this.initialValue = initialValue;
 
         this.service.setPickerOptions(dtLocale, dtViewFormat, dtReturnObject,
-            dtPositionOffset, dtMode, dtHourTime, dtTheme, dtPickerType);
+            dtPositionOffset, dtMode, dtHourTime, dtTheme, dtPickerType, dtShowSeconds);
     }
 
     public confirm( close: boolean ): void {
@@ -133,8 +136,8 @@ export class DialogComponent implements OnInit, OnDestroy {
         this.confirm(false);
     }
 
-    public setTime( time: { hour: number, min: number, meridian: string } ): void {
-        this.service.setTime(time.hour, time.min, time.meridian);
+    public setTime( time: { hour: number, min: number, sec: number, meridian: string } ): void {
+        this.service.setTime(time.hour, time.min, time.sec, time.meridian);
         if (this.service.dtPickerType === 'time') {
             this.confirm(true);
         } else {

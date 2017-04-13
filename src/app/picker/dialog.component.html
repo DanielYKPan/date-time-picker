@@ -35,8 +35,10 @@
                 <div class="moment-time" *ngIf="pickerType === 'both' || pickerType === 'time'"
                      (click)="toggleDialogType(0)">
                     <div class="big">
-                        <span *ngIf="hourTime === '12'">{{(selectedMoment? selectedMoment : now) | moment: 'hh:mm'}}</span>
-                        <span *ngIf="hourTime === '24'">{{(selectedMoment? selectedMoment : now) | moment: 'HH:mm'}}</span>
+                        <span *ngIf="hourTime === '12' && showSeconds">{{(selectedMoment? selectedMoment : now) | moment: 'hh:mm:ss'}}</span>
+                        <span *ngIf="hourTime === '12' && !showSeconds">{{(selectedMoment? selectedMoment : now) | moment: 'hh:mm'}}</span>
+                        <span *ngIf="hourTime === '24' && showSeconds">{{(selectedMoment? selectedMoment : now) | moment: 'HH:mm:ss'}}</span>
+                        <span *ngIf="hourTime === '24' && !showSeconds">{{(selectedMoment? selectedMoment : now) | moment: 'HH:mm'}}</span>
                     </div>
                     <div class="small" *ngIf="hourTime === '12'">
                         <span>{{(selectedMoment? selectedMoment : now) | moment: 'A'}}</span>

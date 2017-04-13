@@ -168,7 +168,7 @@
 
     .big {
       @include when-inside('.small-mode') {
-        @include type-setting(1);
+        @include type-setting(0);
       }
       @include type-setting(3);
       font-weight: 100;
@@ -176,7 +176,7 @@
 
     .small {
       @include when-inside('.small-mode') {
-        @include type-setting(-1);
+        @include type-setting(-2);
       }
       @include type-setting(1);
       padding: 0 5px;
@@ -186,7 +186,7 @@
 
 .picker-content {
   @include when-inside('.small-mode') {
-    height: $base-line-height * 11;
+    height: $base-line-height * 12;
   }
   position: relative;
   flex-grow: 1;

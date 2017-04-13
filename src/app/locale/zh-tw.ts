@@ -10,4 +10,5 @@ export const LANG_ZHTW_TRANS = {
     'confirm': '確認',
     'hour': '時',
     'minute': '分',
+    'second': '秒',
 };

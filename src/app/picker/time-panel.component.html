@@ -1,20 +1,26 @@
 <div class="time-panel" [ngClass]="{
-    'small-mode': mode === 'dropdown' || mode === 'inline',
+    'picker-popup': mode === 'popup',
+    'picker-dropdown': mode === 'dropdown',
+    'picker-inline': mode === 'inline',
     'theme-green': theme === 'green',
     'theme-teal': theme === 'teal',
     'theme-grape': theme === 'grape',
     'theme-cyan': theme === 'cyan',
     'theme-red': theme === 'red',
     'theme-gray': theme === 'gray'}">
-    <div class="time">{{hourValue | numberFixedLen: 2}} : {{minValue | numberFixedLen: 2}}</div>
-    <div class="meridiem" *ngIf="hourTime === '12'">
-        <div class="button-group">
-            <button class="button" type="button" [class.active]="meridianValue === 'AM'" (click)="setMeridian('AM')">
-                AM
-            </button>
-            <button class="button" type="button" [class.active]="meridianValue === 'PM'" (click)="setMeridian('PM')">
-                PM
-            </button>
+    <div class="time-panel-header">
+        <div class="time">{{hourValue | numberFixedLen: 2}} : {{minValue | numberFixedLen: 2}}</div>
+        <div class="meridiem" *ngIf="hourTime === '12'">
+            <div class="button-group">
+                <button class="button" type="button" [class.active]="meridianValue === 'AM'"
+                        (click)="setMeridian('AM')">
+                    AM
+                </button>
+                <button class="button" type="button" [class.active]="meridianValue === 'PM'"
+                        (click)="setMeridian('PM')">
+                    PM
+                </button>
+            </div>
         </div>
     </div>
     <div class="time-control">
@@ -24,6 +30,11 @@
     <div class="time-control">
         <div class="title">{{'minute' | translate}}</div>
         <app-slide-bar [theme]="theme" [floor]="0" [ceiling]="59" [(low)]="minValue"></app-slide-bar>
+    </div>
+
+    <div class="time-control" *ngIf="showSeconds">
+        <div class="title">{{'second' | translate}}</div>
+        <app-slide-bar [theme]="theme" [floor]="0" [ceiling]="59" [(low)]="secValue"></app-slide-bar>
     </div>
 
     <div class="control">

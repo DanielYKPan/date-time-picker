@@ -86,6 +86,13 @@ export class PickerService {
         return this._dtTheme;
     }
 
+    /* Property _dtShowSeconds */
+    private _dtShowSeconds: boolean;
+
+    get dtShowSeconds(): boolean {
+        return this._dtShowSeconds;
+    }
+
     /* Property _moment */
     private _moment: Moment;
 
@@ -110,7 +117,8 @@ export class PickerService {
 
     public setPickerOptions( dtLocale: string, dtViewFormat: string, dtReturnObject: string,
                              dtPositionOffset: string, dtMode: 'popup' | 'dropdown' | 'inline',
-                             dtHourTime: '12' | '24', dtTheme: string, dtPickerType: 'both' | 'date' | 'time' ): void {
+                             dtHourTime: '12' | '24', dtTheme: string,
+                             dtPickerType: 'both' | 'date' | 'time', dtShowSeconds: boolean ): void {
         this._dtLocale = dtLocale;
         this._dtViewFormat = dtViewFormat;
         this._dtReturnObject = dtReturnObject;
@@ -118,6 +126,7 @@ export class PickerService {
         this._dtMode = dtMode;
         this._dtHourTime = dtHourTime;
         this._dtTheme = dtTheme;
+        this._dtShowSeconds = dtShowSeconds;
         this.dtPickerType = dtPickerType;
     }
 
@@ -137,7 +146,7 @@ export class PickerService {
         this.selectedMoment = m.add(daysDifference, 'd');
     }
 
-    public setTime( hour: number, minute: number, meridian: string ) {
+    public setTime( hour: number, minute: number, second: number, meridian: string ) {
         let m = this.selectedMoment ? this.selectedMoment.clone() : this.moment.clone();
 
         if (this.dtHourTime === '12') {
@@ -158,10 +167,11 @@ export class PickerService {
             m.hours(hour);
         }
         m.minutes(minute);
+        m.seconds(second);
         this.selectedMoment = m;
     }
 
-    public parseToReturnObjectType(selectedMoment: Moment): any {
+    public parseToReturnObjectType( selectedMoment: Moment ): any {
         switch (this.dtReturnObject) {
             case 'string':
                 return selectedMoment.format(this.dtViewFormat);
