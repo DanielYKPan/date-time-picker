@@ -102,13 +102,13 @@ export class DialogComponent implements OnInit, OnDestroy {
     public setDialog( instance: any, elementRef: ElementRef, initialValue: any, dtLocale: string, dtViewFormat: string, dtReturnObject: string,
                       dtPositionOffset: string, dtMode: 'popup' | 'dropdown' | 'inline',
                       dtHourTime: '12' | '24', dtTheme: string,
-                      dtPickerType: 'both' | 'date' | 'time', dtShowSeconds: boolean ): void {
+                      dtPickerType: 'both' | 'date' | 'time', dtShowSeconds: boolean, dtOnlyCurrent: boolean ): void {
         this.directiveInstance = instance;
         this.directiveElementRef = elementRef;
         this.initialValue = initialValue;
 
         this.service.setPickerOptions(dtLocale, dtViewFormat, dtReturnObject,
-            dtPositionOffset, dtMode, dtHourTime, dtTheme, dtPickerType, dtShowSeconds);
+            dtPositionOffset, dtMode, dtHourTime, dtTheme, dtPickerType, dtShowSeconds, dtOnlyCurrent);
     }
 
     public confirm( close: boolean ): void {

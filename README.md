@@ -8,7 +8,7 @@
 **This package now supports Angular 2 and 4**
 
 ## Updates
-
+* Set to only show current month days in date picker. **[onlyCurrent]=" true "** (The default value is false).
 * Add seconds slider in time picker. If you set **[showSeconds]=" true "** , the time picker would have a slider for configuring the second value of your select moment.
     The default value is false.
 * Get locale working in the whole picker. Words not from MomentJS in the picker now are also translated.('de', 'en', 'zh_CN', 'zh_HK', 'zh_TW').
@@ -115,6 +115,7 @@ public setMoment(moment: any): any {
       * **[hourTime]=" '24' "** --- Set the hour time format (12-hour format or 24-hour format). Default is '24'(24-hour format). The other choice could be '12'(12-hour format).
       * **[theme]=" 'default' "** --- Set the theme color. The default color is Blue. Other options include 'green', 'teal', 'cyan', 'grape', 'red', 'gray'. You can see the effect from the demo.
       * **[showSeconds]=" true "** --- Set to show seconds slider in time picker. (The default value is false).
+      * **[onlyCurrent]=" true "** --- Set to only show current month days in date picker. (The default value is false).
       * **Important: Do Not forget the single quote inside the double quote when you set the optional attributes string value.**
 
 ## Demo

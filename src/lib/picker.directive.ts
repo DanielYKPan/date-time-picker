@@ -28,6 +28,7 @@ export class DateTimePickerDirective implements OnInit, OnChanges {
     @Input() positionOffset: string = '0%';
     @Input() pickerType: 'both' | 'date' | 'time' = 'both';
     @Input() showSeconds: boolean = false;
+    @Input() onlyCurrent: boolean = false;
 
     private created: boolean;
     private dialog: any;
@@ -68,7 +69,7 @@ export class DateTimePickerDirective implements OnInit, OnChanges {
                     const injector = ReflectiveInjector.fromResolvedProviders([], this.vcRef.parentInjector);
                     const cmpRef = this.vcRef.createComponent(compFactory, 0, injector, []);
                     cmpRef.instance.setDialog(this, this.el, this.dateTimePicker, this.locale, this.viewFormat, this.returnObject,
-                        this.positionOffset, this.mode, this.hourTime, this.theme, this.pickerType, this.showSeconds);
+                        this.positionOffset, this.mode, this.hourTime, this.theme, this.pickerType, this.showSeconds, this.onlyCurrent);
                     this.dialog = cmpRef.instance;
                 });
         } else if (this.dialog) {

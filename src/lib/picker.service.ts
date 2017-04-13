@@ -93,6 +93,13 @@ export class PickerService {
         return this._dtShowSeconds;
     }
 
+    /* Property _dtOnlyCurrent */
+    private _dtOnlyCurrent: boolean;
+
+    get dtOnlyCurrent(): boolean {
+        return this._dtOnlyCurrent;
+    }
+
     /* Property _moment */
     private _moment: Moment;
 
@@ -118,7 +125,7 @@ export class PickerService {
     public setPickerOptions( dtLocale: string, dtViewFormat: string, dtReturnObject: string,
                              dtPositionOffset: string, dtMode: 'popup' | 'dropdown' | 'inline',
                              dtHourTime: '12' | '24', dtTheme: string,
-                             dtPickerType: 'both' | 'date' | 'time', dtShowSeconds: boolean ): void {
+                             dtPickerType: 'both' | 'date' | 'time', dtShowSeconds: boolean, dtOnlyCurrent: boolean ): void {
         this._dtLocale = dtLocale;
         this._dtViewFormat = dtViewFormat;
         this._dtReturnObject = dtReturnObject;
@@ -127,6 +134,7 @@ export class PickerService {
         this._dtHourTime = dtHourTime;
         this._dtTheme = dtTheme;
         this._dtShowSeconds = dtShowSeconds;
+        this._dtOnlyCurrent = dtOnlyCurrent;
         this.dtPickerType = dtPickerType;
     }
 

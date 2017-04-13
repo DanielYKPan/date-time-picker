@@ -34,6 +34,7 @@ export class DatePanelComponent implements OnInit, OnChanges {
     public monthList: string[];
     public yearList: number[] = [];
     public mode: 'popup' | 'dropdown' | 'inline';
+    public onlyCurrent: boolean;
 
     private locale: string;
 
@@ -51,6 +52,7 @@ export class DatePanelComponent implements OnInit, OnChanges {
         this.locale = this.service.dtLocale;
         this.theme = this.service.dtTheme;
         this.mode = this.service.dtMode;
+        this.onlyCurrent = this.service.dtOnlyCurrent;
 
         // set moment locale (default is en)
         moment.locale(this.locale);
@@ -115,6 +117,9 @@ export class DatePanelComponent implements OnInit, OnChanges {
     }
 
     public select( moment: Moment ): void {
+        if (!moment) {
+            return;
+        }
         if (this.selectedMoment &&
             this.selectedMoment.clone().startOf('date') === moment) {
             return;
@@ -149,6 +154,9 @@ export class DatePanelComponent implements OnInit, OnChanges {
 
         for (let i = start; i <= end; i += 1) {
             let day = this.moment.clone().startOf('month').add(i, 'days');
+            if (this.onlyCurrent && !day.isSame(this.moment, 'month')) {
+                day = null;
+            }
             this.calendarDays.push(day);
         }
     }
