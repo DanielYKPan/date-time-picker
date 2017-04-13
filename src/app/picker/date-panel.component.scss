@@ -262,11 +262,13 @@
     align-items: center;
     position: relative;
     height: $base-line-height * 2;
-    cursor: pointer;
     width: calc(100% / 7);
 
-    &:hover {
-      background: lighten($blue, 40%);
+    &.picker-show {
+      &:hover {
+        background: lighten($blue, 40%);
+      }
+      cursor: pointer;
     }
 
     &.out-focus {
@@ -278,6 +280,9 @@
     }
 
     &.selected {
+      &:hover {
+        background: $blue;
+      }
       background: $blue;
       color: #fff;
     }
@@ -341,10 +346,15 @@
     .picker-year,
     .picker-month,
     .picker-day {
-      &:hover {
-        background: lighten($green, 40%);
+      &.picker-show {
+        &:hover {
+          background: lighten($green, 40%);
+        }
       }
       &.selected {
+        &:hover {
+          background: $green;
+        }
         background: $green;
       }
     }
@@ -354,6 +364,7 @@
     }
   }
 }
+
 .theme-teal {
   .picker-control {
     &.footer {
@@ -373,10 +384,15 @@
     .picker-year,
     .picker-month,
     .picker-day {
-      &:hover {
-        background: lighten($teal, 40%);
+      &.picker-show {
+        &:hover {
+          background: lighten($teal, 40%);
+        }
       }
       &.selected {
+        &:hover {
+          background: $teal;
+        }
         background: $teal;
       }
     }
@@ -386,6 +402,7 @@
     }
   }
 }
+
 .theme-cyan {
   .picker-control {
     &.footer {
@@ -405,10 +422,15 @@
     .picker-year,
     .picker-month,
     .picker-day {
-      &:hover {
-        background: lighten($cyan, 40%);
+      &.picker-show {
+        &:hover {
+          background: lighten($cyan, 40%);
+        }
       }
       &.selected {
+        &:hover {
+          background: $cyan;
+        }
         background: $cyan;
       }
     }
@@ -417,6 +439,7 @@
     }
   }
 }
+
 .theme-grape {
   .picker-control {
     &.footer {
@@ -436,10 +459,15 @@
     .picker-year,
     .picker-month,
     .picker-day {
-      &:hover {
-        background: lighten($grape, 40%);
+      &.picker-show {
+        &:hover {
+          background: lighten($grape, 40%);
+        }
       }
       &.selected {
+        &:hover {
+          background: $grape;
+        }
         background: $grape;
       }
     }
@@ -449,6 +477,7 @@
     }
   }
 }
+
 .theme-red {
   .picker-control {
     &.footer {
@@ -468,10 +497,15 @@
     .picker-year,
     .picker-month,
     .picker-day {
-      &:hover {
-        background: lighten($red, 40%);
+      &.picker-show {
+        &:hover {
+          background: lighten($red, 40%);
+        }
       }
       &.selected {
+        &:hover {
+          background: $red;
+        }
         background: $red;
       }
     }
@@ -481,6 +515,7 @@
     }
   }
 }
+
 .theme-gray {
   .picker-control {
     &.footer {
@@ -500,10 +535,15 @@
     .picker-year,
     .picker-month,
     .picker-day {
-      &:hover {
-        background: lighten($gray, 40%);
+      &.picker-show {
+        &:hover {
+          background: lighten($gray, 40%);
+        }
       }
       &.selected {
+        &:hover {
+          background: $gray;
+        }
         background: $gray;
       }
     }

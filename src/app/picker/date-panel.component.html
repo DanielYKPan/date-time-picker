@@ -29,12 +29,13 @@
                 <div class="picker-day"
                      (click)="select(day)"
                      [ngClass]="{
-                               'out-focus': day.month() != moment.month(),
-                               'today': day.isSame(now, 'day'),
-                               'selected': selectedMoment && day.isSame(selectedMoment, 'day')
-                              }"
+                        'picker-show': day,
+                        'out-focus': day && day.month() != moment.month(),
+                        'today': day  && day.isSame(now, 'day'),
+                        'selected': day && selectedMoment && day.isSame(selectedMoment, 'day')
+                        }"
                      *ngFor="let day of calendarDays">
-                    {{ day | moment: 'D'}}
+                    <span *ngIf="day">{{ day | moment: 'D'}}</span>
                 </div>
             </div>
         </div>
@@ -65,7 +66,8 @@
         <div class="picker-action action-today" (click)="selectToday()">
             <span class="text">{{ 'today' | translate }}</span>
         </div>
-        <div class="picker-action action-close" (click)="cancelDialog()" [hidden]="mode === 'inline'"><span class="text">{{ 'close' | translate }}</span>
+        <div class="picker-action action-close" (click)="cancelDialog()" [hidden]="mode === 'inline'"><span
+                class="text">{{ 'close' | translate }}</span>
         </div>
         <div class="picker-action action-confirm"
              (click)="confirm()" [hidden]="mode === 'inline' || mode === 'dropdown'"><span class="text">{{ 'confirm' | translate }}</span>
