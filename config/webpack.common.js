@@ -23,7 +23,12 @@ module.exports = {
         rules: [
             {
                 test: /\.ts$/,
-                use: ['awesome-typescript-loader', 'angular2-template-loader']
+                loaders: [
+                    {
+                        loader: 'awesome-typescript-loader',
+                        options: { configFileName: helpers.root('tsconfig.json') }
+                    } , 'angular2-template-loader'
+                ]
             },
             {
                 test: /\.html$/,
