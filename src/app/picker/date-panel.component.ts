@@ -41,8 +41,7 @@ export class DatePanelComponent implements OnInit, OnChanges {
     }
 
     public ngOnChanges( changes: SimpleChanges ): void {
-        if(changes['dialogType']) {
-            console.log("good");
+        if (changes['dialogType']) {
             this.type = changes['dialogType'].currentValue;
         }
     }

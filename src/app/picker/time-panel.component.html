@@ -9,7 +9,8 @@
     'theme-red': theme === 'red',
     'theme-gray': theme === 'gray'}">
     <div class="time-panel-header">
-        <div class="time">{{hourValue | numberFixedLen: 2}} : {{minValue | numberFixedLen: 2}}</div>
+        <div class="time" *ngIf="showSeconds">{{hourValue | numberFixedLen: 2}} : {{minValue | numberFixedLen: 2}} : {{(secValue | numberFixedLen: 2)}}</div>
+        <div class="time" *ngIf="!showSeconds">{{hourValue | numberFixedLen: 2}} : {{minValue | numberFixedLen: 2}}</div>
         <div class="meridiem" *ngIf="hourTime === '12'">
             <div class="button-group">
                 <button class="button" type="button" [class.active]="meridianValue === 'AM'"

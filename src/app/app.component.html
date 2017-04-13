@@ -30,6 +30,7 @@
                        [hourTime]="'12'"
                        [theme]="'red'"
                        [locale]="'de'"
+                       [showSeconds]="true"
                        (dateTimePickerChange)="setDate($event)" readonly>
             </div>
             <div [dateTimePicker]="momentValue" [mode]="'inline'"
@@ -43,7 +44,6 @@
                        [dateTimePicker]="momentValue"
                        [ngModel]="momentValue | date: 'short'"
                        [mode]="'dropdown'"
-                       [showSeconds]="true"
                        (dateTimePickerChange)="setDate($event)" readonly>
             </div>
         </div>
