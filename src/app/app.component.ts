@@ -14,19 +14,20 @@ import '../sass/main.scss';
 
 export class AppComponent implements OnInit {
 
-    private moment: Date;
+    public moment: Date;
 
-    private input1Moment: any;
-    private input2Moment: any;
-    private input3Moment: any;
-    private input4Moment: any;
-    private input5Moment: any;
-    private input6Moment: any;
-    private input7Moment: any;
-    private input8Moment: any;
-    private input9Moment: any;
-    private input10Moment: any;
-    private input11Moment: any;
+    public input1Moment: any;
+    public input2Moment: any;
+    public input3Moment: any;
+    public input4Moment: any;
+    public input5Moment: any;
+    public input6Moment: any;
+    public input7Moment: any;
+    public input8Moment: any;
+    public input9Moment: any;
+    public input10Moment: any;
+    public input11Moment: any;
+    public input12Moment: any;
 
     constructor() {
     }

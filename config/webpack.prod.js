@@ -15,13 +15,40 @@ module.exports = webpackMerge(commonConfig, {
 
     output: {
         path: helpers.root('dist'),
-        publicPath: './date-time-picker/dist',
+        publicPath: './ng2-data-time-picker/dist',
         filename: '[name].[hash].js',
         chunkFilename: '[id].[hash].chunk.js'
     },
 
-    htmlLoader: {
-        minimize: false // workaround for ng2
+    module: {
+
+        rules: [
+
+            /*
+             * Extract CSS files from .src/styles directory to external CSS file
+             */
+            {
+                test: /\.css$/,
+                loader: ExtractTextPlugin.extract({
+                    fallback: 'style-loader',
+                    use: 'css-loader'
+                }),
+                include: [helpers.root('src', 'sass')]
+            },
+
+            /*
+             * Extract and compile SCSS files from .src/styles directory to external CSS file
+             */
+            {
+                test: /\.scss$/,
+                loader: ExtractTextPlugin.extract({
+                    fallback: 'style-loader',
+                    use: 'css-loader!postcss-loader!resolve-url-loader!sass-loader'
+                }),
+                include: [helpers.root('src', 'sass')]
+            },
+
+        ]
     },
 
     plugins: [
@@ -36,6 +63,11 @@ module.exports = webpackMerge(commonConfig, {
         new webpack.DefinePlugin({
             'process.env': {
                 'ENV': JSON.stringify(ENV)
+            }
+        }),
+        new webpack.LoaderOptionsPlugin({
+            htmlLoader: {
+                minimize: false // workaround for ng2
             }
         })
     ]

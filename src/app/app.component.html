@@ -1,7 +1,7 @@
 <main>
     <header class="header">
         <h1>Ng Date Time Picker</h1>
-        <p>A date time picker built by AngularJS 2</p>
+        <p>A date time picker built by AngularJS</p>
         <a href="https://github.com/DanielYKPan/date-time-picker" target="_blank">
             <img class="github-banner"
                  src="https://camo.githubusercontent.com/365986a132ccd6a44c23a9169022c0b5c890c387/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f7265645f6161303030302e706e67"
@@ -212,6 +212,22 @@
                            [(dateTimePicker)]="input11Moment"
                            readonly>
                     <pre class="prettyprint"><code><![CDATA[<input class="picker-input" [ngModel]="moment | date: 'short'" [(dateTimePicker)]="moment" [locale]=" 'fr' " readonly>]]></code></pre>
+                </div>
+            </div>
+
+            <div class="row">
+                <h4 class="heading">Show Seconds Slider:</h4>
+                <p>Show the seconds slider in time picker. Default: false</p>
+                <div class="input-control">
+                    <label for="time-input-12">DateTime ([showSeconds] = " true "): </label>
+                    <input class="picker-input"
+                           id="time-input-12"
+                           [ngModel]="input12Moment | date: 'MMMM dd, y HH:mm:ss'"
+                           [(dateTimePicker)]="input12Moment"
+                           [pickerType]=" 'time' "
+                           [showSeconds]="true"
+                           readonly>
+                    <pre class="prettyprint"><code><![CDATA[<input class="picker-input" [ngModel]="moment | date: 'short'" [(dateTimePicker)]="moment" [showSeconds]="true" readonly>]]></code></pre>
                 </div>
             </div>
         </div>
