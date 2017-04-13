@@ -253,13 +253,15 @@
   .picker-day {
     @include when-inside('.small-mode') {
       @include type-setting(0);
-      height: $base-line-height;
+      height: $base-line-height * 1.5;
     }
 
     @include type-setting(1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
     position: relative;
     height: $base-line-height * 2;
-    text-align: center;
     cursor: pointer;
     width: calc(100% / 7);
 
