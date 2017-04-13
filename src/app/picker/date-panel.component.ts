@@ -3,7 +3,7 @@
  */
 
 import {
-    Component, OnInit, Input, Output, EventEmitter, ChangeDetectionStrategy
+    Component, OnInit, Input, Output, EventEmitter, ChangeDetectionStrategy, OnChanges, SimpleChanges
 } from '@angular/core';
 import * as moment from 'moment/moment';
 import { Moment } from 'moment/moment';
@@ -16,15 +16,17 @@ import { PickerService } from './picker.service';
     templateUrl: './date-panel.component.html',
     styleUrls: ['./date-panel.component.scss'],
 })
-export class DatePanelComponent implements OnInit {
+export class DatePanelComponent implements OnInit, OnChanges {
 
     @Input() public selectedMoment: Moment;
+    @Input() public dialogType: DialogType;
+    @Output() public onDialogTypeChange = new EventEmitter<DialogType>();
     @Output() public onCancelDialog = new EventEmitter<boolean>();
     @Output() public onConfirm = new EventEmitter<boolean>();
     @Output() public onSelected = new EventEmitter<Moment>();
 
     public theme: string;
-    public dialogType: DialogType;
+    public type: DialogType;
     public now: Moment;
     public moment: Moment;
     public calendarDays: Moment[];
@@ -38,11 +40,17 @@ export class DatePanelComponent implements OnInit {
     constructor( private service: PickerService ) {
     }
 
+    public ngOnChanges( changes: SimpleChanges ): void {
+        if(changes['dialogType']) {
+            console.log("good");
+            this.type = changes['dialogType'].currentValue;
+        }
+    }
+
     public ngOnInit() {
 
         this.locale = this.service.dtLocale;
         this.theme = this.service.dtTheme;
-        this.dialogType = this.service.dtDialogType;
         this.mode = this.service.dtMode;
 
         // set moment locale (default is en)
@@ -83,12 +91,7 @@ export class DatePanelComponent implements OnInit {
     }
 
     public toggleDialogType( type: DialogType ): void {
-        if (this.dialogType === type) {
-            this.dialogType = DialogType.Date;
-            return;
-        }
-
-        this.dialogType = type;
+        this.onDialogTypeChange.emit(type);
         if (type === DialogType.Year) {
             this.generateYearList();
         }

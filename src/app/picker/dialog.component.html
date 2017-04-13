@@ -50,6 +50,8 @@
             <dialog-date-panel *ngIf="pickerType === 'both' || pickerType === 'date'"
                                [ngClass]="{'picker-hidden': dialogType === 0}"
                                [selectedMoment]="selectedMoment"
+                               [dialogType]="dialogType"
+                               (onDialogTypeChange)="toggleDialogType($event)"
                                (onSelected)="setDate($event)"
                                (onCancelDialog)="cancelDialog()"
                                (onConfirm)="confirm($event)"></dialog-date-panel>

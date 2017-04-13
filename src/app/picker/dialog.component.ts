@@ -121,11 +121,8 @@ export class DialogComponent implements OnInit, OnDestroy {
     }
 
     public toggleDialogType( type: DialogType ): void {
-        if (this.pickerType !== 'both') {
-            return;
-        }
         if (this.dialogType === type) {
-            this.dialogType = DialogType.Date;
+            this.dialogType = this.service.dtDialogType;
         } else {
             this.dialogType = type;
         }
