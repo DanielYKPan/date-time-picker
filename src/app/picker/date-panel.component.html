@@ -1,11 +1,5 @@
 <div class="yk-date-panel" [ngClass]="{
-    'small-mode': mode === 'dropdown' || mode === 'inline',
-    'theme-green': theme === 'green',
-    'theme-teal': theme === 'teal',
-    'theme-grape': theme === 'grape',
-    'theme-cyan': theme === 'cyan',
-    'theme-red': theme === 'red',
-    'theme-gray': theme === 'gray'}">
+    'small-mode': mode === 'dropdown' || mode === 'inline'}">
     <div class="picker-control">
         <div class="picker-control-nav">
             <span class="nav-prev" (click)="prevMonth()"></span>
@@ -30,11 +24,11 @@
                      (click)="select(day)"
                      [ngClass]="{
                         'picker-show': day,
-                        'out-focus': day && day.month() != moment.month(),
+                        'out-focus': day && !day.isSame(moment, 'month'),
                         'today': day  && day.isSame(now, 'day'),
                         'selected': day && selectedMoment && day.isSame(selectedMoment, 'day')
                         }"
-                     *ngFor="let day of calendarDays">
+                     *ngFor="let day of calendarDays" pickerHighlight [day]="day">
                     <span *ngIf="day">{{ day | moment: 'D'}}</span>
                 </div>
             </div>

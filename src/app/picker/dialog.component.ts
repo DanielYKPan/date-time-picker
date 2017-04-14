@@ -59,7 +59,7 @@ export class DialogComponent implements OnInit, OnDestroy {
 
         // set now value
         this.now = moment();
-        this.subId = this.service.events.subscribe(
+        this.subId = this.service.selectedMomentChange.subscribe(
             ( selectedMoment: Moment ) => {
                 this.selectedMoment = selectedMoment;
             }

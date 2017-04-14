@@ -11,6 +11,7 @@ import { TimePanelComponent } from './time-panel.component';
 import { SlideControlComponent } from './slider.component';
 import { NumberFixedLenPipe } from './numberFixedLen.pipe';
 import { TranslatePipe } from './translate.pipe';
+import { HighlightDirective } from './highlight.directive';
 
 @NgModule({
     imports: [
@@ -24,6 +25,7 @@ import { TranslatePipe } from './translate.pipe';
         MomentPipe,
         NumberFixedLenPipe,
         TranslatePipe,
+        HighlightDirective,
     ],
 })
 export class DynamicModule {

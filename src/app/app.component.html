@@ -28,14 +28,13 @@
                        [dateTimePicker]="momentValue"
                        [ngModel]="momentValue | date: 'short'"
                        [hourTime]="'12'"
-                       [theme]="'red'"
                        [locale]="'de'"
                        [showSeconds]="true"
                        (dateTimePickerChange)="setDate($event)" readonly>
             </div>
             <div [dateTimePicker]="momentValue" [mode]="'inline'"
                  [ngStyle]="{width: '150px'}" [hourTime]="'12'" [locale]="'zh_CN'"
-                 [showSeconds]="true"
+                 [showSeconds]="true" [theme]="'#c92a2a'"
                  (dateTimePickerChange)="setDate($event)"></div>
             <div class="input-control">
                 <label for="time-input2">Time: </label>

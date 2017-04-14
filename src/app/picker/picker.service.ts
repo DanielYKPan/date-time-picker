@@ -11,8 +11,8 @@ import { Observable, Subject } from 'rxjs/Rx';
 @Injectable()
 export class PickerService {
 
-    public eventSource: Subject<Moment> = new Subject<Moment>();
-    public events: Observable<Moment> = this.eventSource.asObservable();
+    public selectedMomentSource: Subject<Moment> = new Subject<Moment>();
+    public selectedMomentChange: Observable<Moment> = this.selectedMomentSource.asObservable();
 
     /* Property _dtLocale */
     private _dtLocale: string;
@@ -116,7 +116,7 @@ export class PickerService {
 
     set selectedMoment( value: Moment ) {
         this._selectedMoment = value;
-        this.eventSource.next(value);
+        this.selectedMomentSource.next(value);
     }
 
     constructor() {

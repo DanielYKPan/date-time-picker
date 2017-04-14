@@ -265,25 +265,17 @@
     width: calc(100% / 7);
 
     &.picker-show {
-      &:hover {
-        background: lighten($blue, 40%);
-      }
       cursor: pointer;
     }
 
     &.out-focus {
       color: #ddd;
-
       &:hover {
         color: #000;
       }
     }
 
     &.selected {
-      &:hover {
-        background: $blue;
-      }
-      background: $blue;
       color: #fff;
     }
   }

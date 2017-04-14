@@ -24,7 +24,7 @@ export class DateTimePickerDirective implements OnInit, OnChanges {
     @Input() returnObject: string = 'js';
     @Input() mode: 'popup' | 'dropdown' | 'inline' = 'popup';
     @Input() hourTime: '12' | '24' = '24'; // determines the hour format (12 or 24)
-    @Input() theme: 'default' | 'green' | 'teal' | 'cyan' | 'grape' | 'red' | 'gray' = 'default'; // theme color
+    @Input() theme: string = '#0070ba'; // theme color
     @Input() positionOffset: string = '0%';
     @Input() pickerType: 'both' | 'date' | 'time' = 'both';
     @Input() showSeconds: boolean = false;

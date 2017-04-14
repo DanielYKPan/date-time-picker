@@ -1,13 +1,7 @@
 <div class="time-panel" [ngClass]="{
     'picker-popup': mode === 'popup',
     'picker-dropdown': mode === 'dropdown',
-    'picker-inline': mode === 'inline',
-    'theme-green': theme === 'green',
-    'theme-teal': theme === 'teal',
-    'theme-grape': theme === 'grape',
-    'theme-cyan': theme === 'cyan',
-    'theme-red': theme === 'red',
-    'theme-gray': theme === 'gray'}">
+    'picker-inline': mode === 'inline'}">
     <div class="time-panel-header">
         <div class="time" *ngIf="showSeconds">{{hourValue | numberFixedLen: 2}} : {{minValue | numberFixedLen: 2}} : {{(secValue | numberFixedLen: 2)}}</div>
         <div class="time" *ngIf="!showSeconds">{{hourValue | numberFixedLen: 2}} : {{minValue | numberFixedLen: 2}}</div>
