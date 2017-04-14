@@ -3,10 +3,9 @@
  */
 
 import {
-    Directive, ElementRef, Input, Compiler, ViewContainerRef, ComponentFactory,
-    ReflectiveInjector, Output, EventEmitter, OnInit, OnChanges, SimpleChanges
+    Directive, ElementRef, Input, Compiler, ViewContainerRef,
+    ReflectiveInjector, Output, EventEmitter, OnInit, OnChanges, SimpleChanges, ComponentFactoryResolver
 } from '@angular/core';
-import { DynamicModule } from './dynamic.module';
 import { DialogComponent } from './dialog.component';
 
 @Directive({
@@ -30,11 +29,12 @@ export class DateTimePickerDirective implements OnInit, OnChanges {
     @Input() showSeconds: boolean = false;
     @Input() onlyCurrent: boolean = false;
 
-    private created: boolean;
+    private created: boolean = false;
     private dialog: any;
 
     constructor( private compiler: Compiler,
                  private vcRef: ViewContainerRef,
+                 private componentFactoryResolver: ComponentFactoryResolver,
                  private el: ElementRef ) {
     }
 
@@ -63,15 +63,12 @@ export class DateTimePickerDirective implements OnInit, OnChanges {
     private openDialog(): void {
         if (!this.created) {
             this.created = true;
-            this.compiler.compileModuleAndAllComponentsAsync(DynamicModule)
-                .then(( factory: any ) => {
-                    const compFactory: ComponentFactory<DialogComponent> = factory.componentFactories.find(( x: any ) => x.componentType === DialogComponent);
-                    const injector = ReflectiveInjector.fromResolvedProviders([], this.vcRef.parentInjector);
-                    const cmpRef = this.vcRef.createComponent(compFactory, 0, injector, []);
-                    cmpRef.instance.setDialog(this, this.el, this.dateTimePicker, this.locale, this.viewFormat, this.returnObject,
-                        this.positionOffset, this.mode, this.hourTime, this.theme, this.pickerType, this.showSeconds, this.onlyCurrent);
-                    this.dialog = cmpRef.instance;
-                });
+            const factory = this.componentFactoryResolver.resolveComponentFactory(DialogComponent);
+            const injector = ReflectiveInjector.fromResolvedProviders([], this.vcRef.parentInjector);
+            const cmpRef = this.vcRef.createComponent(factory, 0, injector, []);
+            cmpRef.instance.setDialog(this, this.el, this.dateTimePicker, this.locale, this.viewFormat, this.returnObject,
+                this.positionOffset, this.mode, this.hourTime, this.theme, this.pickerType, this.showSeconds, this.onlyCurrent);
+            this.dialog = cmpRef.instance;
         } else if (this.dialog) {
             this.dialog.openDialog(this.dateTimePicker);
         }
