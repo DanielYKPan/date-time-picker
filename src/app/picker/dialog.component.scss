@@ -50,7 +50,7 @@
     max-width: 300px;
   }
   max-width: 100vw;
-  min-width: 200px;
+  min-width: 250px;
   border: #777 solid 1px;
   position: absolute;
   z-index: 9999999;
@@ -62,7 +62,7 @@
 
 .picker-inline {
   max-width: 300px;
-  min-width: 200px;
+  min-width: 250px;
   border: #777 solid 1px;
   position: relative;
   user-select: none;
@@ -91,54 +91,6 @@
 
   .picker-hidden {
     visibility: hidden;
-  }
-}
-
-.theme-green {
-  .bar {
-    .highlight {
-      background: $green !important;
-    }
-  }
-}
-
-.theme-teal {
-  .bar {
-    .highlight {
-      background: $teal !important;
-    }
-  }
-}
-
-.theme-cyan {
-  .bar {
-    .highlight {
-      background: $cyan !important;
-    }
-  }
-}
-
-.theme-grape {
-  .bar {
-    .highlight {
-      background: $grape !important;
-    }
-  }
-}
-
-.theme-red {
-  .bar {
-    .highlight {
-      background: $red !important;
-    }
-  }
-}
-
-.theme-gray {
-  .bar {
-    .highlight {
-      background: $gray !important;
-    }
   }
 }
 
