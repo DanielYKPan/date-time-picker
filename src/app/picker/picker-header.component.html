@@ -1,5 +1,6 @@
 <div class="picker-banner"
-     [ngClass]="{'small-mode': mode === 'dropdown' || mode === 'inline'}" #banner>
+     [ngClass]="{'small-mode': mode === 'dropdown' || mode === 'inline'}"
+     [ngStyle]="{'backgroundColor': themeColor}">
     <div class="picker-banner-day">
         <span [hidden]="dialogType === 0">{{ (selectedMoment? selectedMoment : now) | moment: 'dddd'}}</span>
         <span [hidden]="dialogType !== 0">{{ 'time picker' | translate }}</span>

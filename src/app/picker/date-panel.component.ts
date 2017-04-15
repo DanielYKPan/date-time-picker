@@ -25,7 +25,6 @@ export class DatePanelComponent implements OnInit, OnChanges {
     @Output() public onConfirm = new EventEmitter<boolean>();
     @Output() public onSelected = new EventEmitter<Moment>();
 
-    public theme: string;
     public type: DialogType;
     public now: Moment;
     public moment: Moment;
@@ -50,7 +49,6 @@ export class DatePanelComponent implements OnInit, OnChanges {
     public ngOnInit() {
 
         this.locale = this.service.dtLocale;
-        this.theme = this.service.dtTheme;
         this.mode = this.service.dtMode;
         this.onlyCurrent = this.service.dtOnlyCurrent;
 

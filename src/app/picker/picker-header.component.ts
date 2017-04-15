@@ -4,7 +4,7 @@
 
 import {
     ChangeDetectionStrategy, Component, ElementRef, EventEmitter,
-    Input, OnInit, Output, Renderer2, ViewChild
+    Input, OnInit, Output, ViewChild
 } from '@angular/core';
 import { PickerService } from './picker.service';
 import { DialogType } from './dialog.component';
@@ -19,7 +19,6 @@ import { Moment } from 'moment';
 
 export class PickerHeaderComponent implements OnInit {
 
-    @ViewChild('banner') public banner: ElementRef;
     @Input() public dialogType: DialogType;
     @Input() public selectedMoment: Moment;
     @Input() public now: Moment;
@@ -31,8 +30,7 @@ export class PickerHeaderComponent implements OnInit {
     public mode: 'popup' | 'dropdown' | 'inline';
     public themeColor: string;
 
-    constructor( private service: PickerService,
-                 private renderer: Renderer2 ) {
+    constructor( private service: PickerService ) {
     }
 
     public ngOnInit(): void {
@@ -41,7 +39,6 @@ export class PickerHeaderComponent implements OnInit {
         this.pickerType = this.service.dtPickerType;
         this.mode = this.service.dtMode;
         this.themeColor = this.service.dtTheme;
-        this.renderer.setStyle(this.banner.nativeElement, 'backgroundColor', this.themeColor);
     }
 
     public setDialogType( type: DialogType ) {

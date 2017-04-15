@@ -28,7 +28,6 @@
     width: 0;
     height: 100%;
     border-radius: 10px;
-    background: $blue;
   }
 }
 
@@ -46,35 +45,4 @@
   z-index: 2;
   border-radius: 100%;
   cursor: pointer;
-}
-
-.theme-green {
-  .highlight {
-    background: $green;
-  }
-}
-.theme-teal {
-  .highlight {
-    background: $teal;
-  }
-}
-.theme-cyan {
-  .highlight {
-    background: $cyan;
-  }
-}
-.theme-grape {
-  .highlight {
-    background: $grape;
-  }
-}
-.theme-red {
-  .highlight {
-    background: $red;
-  }
-}
-.theme-gray {
-  .highlight {
-    background: $gray;
-  }
 }

@@ -47,7 +47,6 @@
   justify-content: center;
   align-items: center;
   width: 60%;
-  color: $blue;
 }
 
 .title {
@@ -88,13 +87,12 @@
   }
 
   .button {
-    border: 1px solid $blue;
+    border: 1px solid;
     background: $white;
     border-radius: 3px;
     float: left;
     margin: 0;
     align-items: initial;
-    color: $blue;
     width: auto;
     padding: 0 5px;
     cursor: pointer;
@@ -108,11 +106,6 @@
     &:last-child {
       border-top-left-radius: 0;
       border-bottom-left-radius: 0;
-    }
-
-    &.active {
-      background: $blue;
-      color: $white;
     }
   }
 }
@@ -137,189 +130,9 @@
 
   .button {
     width: 50%;
-    background: $blue;
     color: $white;
     margin: 0 auto;
-    border: 1px solid $blue;
     border-radius: 3px;
     cursor: pointer;
-
-    &:hover {
-      background-color: darken($blue, 5%);
-    }
-  }
-}
-
-.theme-green {
-  .time {
-    color: $green;
-  }
-
-  .meridiem {
-    .button {
-      border-color: $green;
-      color: $green;
-
-      &.active {
-        background: $green;
-        color: $white;
-      }
-    }
-  }
-
-  .control {
-    .button {
-      background: $green;
-      border-color: $green;
-
-      &:hover {
-        background-color: darken($green, 5%);
-      }
-    }
-  }
-}
-
-.theme-teal {
-  .time {
-    color: $teal;
-  }
-
-  .meridiem {
-    .button {
-      border-color: $teal;
-      color: $teal;
-
-      &.active {
-        background: $teal;
-        color: $white;
-      }
-    }
-  }
-
-  .control {
-    .button {
-      background: $teal;
-      border-color: $teal;
-
-      &:hover {
-        background-color: darken($teal, 5%);
-      }
-    }
-  }
-}
-
-.theme-cyan {
-  .time {
-    color: $cyan;
-  }
-
-  .meridiem {
-    .button {
-      border-color: $cyan;
-      color: $cyan;
-
-      &.active {
-        background: $cyan;
-        color: $white;
-      }
-    }
-  }
-
-  .control {
-    .button {
-      background: $cyan;
-      border-color: $cyan;
-
-      &:hover {
-        background-color: darken($cyan, 5%);
-      }
-    }
-  }
-}
-
-.theme-grape {
-  .time {
-    color: $grape;
-  }
-
-  .meridiem {
-    .button {
-      border-color: $grape;
-      color: $grape;
-
-      &.active {
-        background: $grape;
-        color: $white;
-      }
-    }
-  }
-
-  .control {
-    .button {
-      background: $grape;
-      border-color: $grape;
-
-      &:hover {
-        background-color: darken($grape, 5%);
-      }
-    }
-  }
-}
-
-.theme-red {
-  .time {
-    color: $red;
-  }
-
-  .meridiem {
-    .button {
-      border-color: $red;
-      color: $red;
-
-      &.active {
-        background: $red;
-        color: $white;
-      }
-    }
-  }
-
-  .control {
-    .button {
-      background: $red;
-      border-color: $red;
-
-      &:hover {
-        background-color: darken($red, 5%);
-      }
-    }
-  }
-}
-
-.theme-gray {
-  .time {
-    color: $gray;
-  }
-
-  .meridiem {
-    .button {
-      border-color: $gray;
-      color: $gray;
-
-      &.active {
-        background: $gray;
-        color: $white;
-      }
-    }
-  }
-
-  .control {
-    .button {
-      background: $gray;
-      border-color: $gray;
-
-      &:hover {
-        background-color: darken($gray, 5%);
-      }
-    }
   }
 }

@@ -64,12 +64,7 @@
     .action-confirm {
       width: 100%;
       color: $white;
-      background-color: $blue;
       border-radius: 0 0 4px 4px;
-
-      &:hover {
-        background-color: darken($blue, 5%);
-      }
     }
 
     .action-today::before,
