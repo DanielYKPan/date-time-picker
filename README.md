@@ -8,6 +8,8 @@
 **This package now supports Angular 2 and 4**
 
 ## Updates
+* Set the theme color. The default color is '#0070ba'. You could provide any valid [8-Digit Hex Codes](https://css-tricks.com/8-digit-hex-codes/) to change the picker theme color. You can see the effect from the demo. ([issue #25](https://github.com/DanielYKPan/date-time-picker/issues/25))
+* Fix AOT compile error ([issue #15](https://github.com/DanielYKPan/date-time-picker/issues/15))
 * Set to only show current month days in date picker. **[onlyCurrent]=" true "** (The default value is false).
 * Add seconds slider in time picker. If you set **[showSeconds]=" true "** , the time picker would have a slider for configuring the second value of your select moment.
     The default value is false.
@@ -113,7 +115,7 @@ public setMoment(moment: any): any {
       * **[mode]=" 'popup' "** --- Set the date-time picker mode. Default is 'popup'. The options choice could be 'popup', 'dropdown', 'inline'.
         If you set it as 'inline', the date-time-picker would always show on your web page as a html element (In inline mode, you could set width = '250px' to make the the picker smaller or bigger. picker width are set between 200px and 300px ).
       * **[hourTime]=" '24' "** --- Set the hour time format (12-hour format or 24-hour format). Default is '24'(24-hour format). The other choice could be '12'(12-hour format).
-      * **[theme]=" 'default' "** --- Set the theme color. The default color is Blue. Other options include 'green', 'teal', 'cyan', 'grape', 'red', 'gray'. You can see the effect from the demo.
+      * **[theme]=" '#0070ba' "** --- Set the theme color. The default color is '#0070ba'. You could provide any valid [8-Digit Hex Codes](https://css-tricks.com/8-digit-hex-codes/) to change the picker theme color. You can see the effect from the demo.
       * **[showSeconds]=" true "** --- Set to show seconds slider in time picker. (The default value is false).
       * **[onlyCurrent]=" true "** --- Set to only show current month days in date picker. (The default value is false).
       * **Important: Do Not forget the single quote inside the double quote when you set the optional attributes string value.**
