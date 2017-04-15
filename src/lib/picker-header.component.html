@@ -1,0 +1,32 @@
+<div class="picker-banner"
+     [ngClass]="{'small-mode': mode === 'dropdown' || mode === 'inline'}"
+     [ngStyle]="{'backgroundColor': themeColor}">
+    <div class="picker-banner-day">
+        <span [hidden]="dialogType === 0">{{ (selectedMoment? selectedMoment : now) | moment: 'dddd'}}</span>
+        <span [hidden]="dialogType !== 0">{{ 'time picker' | translate }}</span>
+    </div>
+    <div class="picker-banner-moment">
+        <div class="moment-date" *ngIf="pickerType === 'both' || pickerType === 'date'"
+             (click)="setDialogType(1)">
+            <div class="big">
+                <span>{{(selectedMoment? selectedMoment : now) | moment: 'Do'}}</span>
+            </div>
+            <div class="small">
+                <span>{{(selectedMoment? selectedMoment : now) | moment: 'MMM'}}</span>
+                <span>{{(selectedMoment? selectedMoment : now) | moment: 'YYYY'}}</span>
+            </div>
+        </div>
+        <div class="moment-time" *ngIf="pickerType === 'both' || pickerType === 'time'"
+             (click)="setDialogType(0)">
+            <div class="big">
+                <span *ngIf="hourTime === '12' && showSeconds">{{(selectedMoment? selectedMoment : now) | moment: 'hh:mm:ss'}}</span>
+                <span *ngIf="hourTime === '12' && !showSeconds">{{(selectedMoment? selectedMoment : now) | moment: 'hh:mm'}}</span>
+                <span *ngIf="hourTime === '24' && showSeconds">{{(selectedMoment? selectedMoment : now) | moment: 'HH:mm:ss'}}</span>
+                <span *ngIf="hourTime === '24' && !showSeconds">{{(selectedMoment? selectedMoment : now) | moment: 'HH:mm'}}</span>
+            </div>
+            <div class="small" *ngIf="hourTime === '12'">
+                <span>{{(selectedMoment? selectedMoment : now) | moment: 'A'}}</span>
+            </div>
+        </div>
+    </div>
+</div>

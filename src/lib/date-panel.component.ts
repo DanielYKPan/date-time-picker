@@ -9,6 +9,7 @@ import * as moment from 'moment/moment';
 import { Moment } from 'moment/moment';
 import { DialogType } from './dialog.component';
 import { PickerService } from './picker.service';
+import { shadeBlendConvert } from './utils';
 
 @Component({
     selector: 'dialog-date-panel',
@@ -25,7 +26,6 @@ export class DatePanelComponent implements OnInit, OnChanges {
     @Output() public onConfirm = new EventEmitter<boolean>();
     @Output() public onSelected = new EventEmitter<Moment>();
 
-    public theme: string;
     public type: DialogType;
     public now: Moment;
     public moment: Moment;
@@ -35,6 +35,7 @@ export class DatePanelComponent implements OnInit, OnChanges {
     public yearList: number[] = [];
     public mode: 'popup' | 'dropdown' | 'inline';
     public onlyCurrent: boolean;
+    public todayIconColor: string;
 
     private locale: string;
 
@@ -50,9 +51,9 @@ export class DatePanelComponent implements OnInit, OnChanges {
     public ngOnInit() {
 
         this.locale = this.service.dtLocale;
-        this.theme = this.service.dtTheme;
         this.mode = this.service.dtMode;
         this.onlyCurrent = this.service.dtOnlyCurrent;
+        this.todayIconColor = shadeBlendConvert(0.4, this.service.dtTheme);
 
         // set moment locale (default is en)
         moment.locale(this.locale);

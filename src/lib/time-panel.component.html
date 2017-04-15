@@ -1,23 +1,30 @@
 <div class="time-panel" [ngClass]="{
     'picker-popup': mode === 'popup',
     'picker-dropdown': mode === 'dropdown',
-    'picker-inline': mode === 'inline',
-    'theme-green': theme === 'green',
-    'theme-teal': theme === 'teal',
-    'theme-grape': theme === 'grape',
-    'theme-cyan': theme === 'cyan',
-    'theme-red': theme === 'red',
-    'theme-gray': theme === 'gray'}">
-    <div class="time-panel-header">
-        <div class="time" *ngIf="showSeconds">{{hourValue | numberFixedLen: 2}} : {{minValue | numberFixedLen: 2}} : {{(secValue | numberFixedLen: 2)}}</div>
-        <div class="time" *ngIf="!showSeconds">{{hourValue | numberFixedLen: 2}} : {{minValue | numberFixedLen: 2}}</div>
+    'picker-inline': mode === 'inline'}">
+    <div class="time-panel-header" [ngStyle]="{'color': themeColor}">
+        <div class="time" *ngIf="showSeconds">{{hourValue | numberFixedLen: 2}} : {{minValue | numberFixedLen: 2}} :
+            {{(secValue | numberFixedLen: 2)}}
+        </div>
+        <div class="time" *ngIf="!showSeconds">{{hourValue | numberFixedLen: 2}} : {{minValue | numberFixedLen: 2}}
+        </div>
         <div class="meridiem" *ngIf="hourTime === '12'">
             <div class="button-group">
-                <button class="button" type="button" [class.active]="meridianValue === 'AM'"
+                <button class="button" type="button"
+                        [ngStyle]="{
+                            'background-color': meridianValue === 'AM' ? themeColor : null,
+                            'border-color': themeColor,
+                            'color': meridianValue === 'AM' ? '#FFFFFF' : themeColor
+                        }"
                         (click)="setMeridian('AM')">
                     AM
                 </button>
-                <button class="button" type="button" [class.active]="meridianValue === 'PM'"
+                <button class="button" type="button"
+                        [ngStyle]="{
+                            'background-color': meridianValue === 'PM' ? themeColor : null,
+                            'border-color': themeColor,
+                            'color': meridianValue === 'PM' ? '#FFFFFF' : themeColor
+                        }"
                         (click)="setMeridian('PM')">
                     PM
                 </button>
@@ -26,19 +33,19 @@
     </div>
     <div class="time-control">
         <div class="title">{{'hour' | translate}}</div>
-        <app-slide-bar [theme]="theme" [floor]="hourFloor" [ceiling]="hourCeiling" [(low)]="hourValue"></app-slide-bar>
+        <app-slide-bar [floor]="hourFloor" [ceiling]="hourCeiling" [(low)]="hourValue"></app-slide-bar>
     </div>
     <div class="time-control">
         <div class="title">{{'minute' | translate}}</div>
-        <app-slide-bar [theme]="theme" [floor]="0" [ceiling]="59" [(low)]="minValue"></app-slide-bar>
+        <app-slide-bar [floor]="0" [ceiling]="59" [(low)]="minValue"></app-slide-bar>
     </div>
 
     <div class="time-control" *ngIf="showSeconds">
         <div class="title">{{'second' | translate}}</div>
-        <app-slide-bar [theme]="theme" [floor]="0" [ceiling]="59" [(low)]="secValue"></app-slide-bar>
+        <app-slide-bar [floor]="0" [ceiling]="59" [(low)]="secValue"></app-slide-bar>
     </div>
 
     <div class="control">
-        <button class="button" type="button" (click)="setTime()">{{'set time' | translate}}</button>
+        <div class="button" (click)="setTime()" pickerBtnHighlight>{{'set time' | translate}}</div>
     </div>
 </div>

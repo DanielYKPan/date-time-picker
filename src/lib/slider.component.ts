@@ -6,6 +6,7 @@ import {
     Component, OnInit, ElementRef, Input, ViewChild, Output, EventEmitter,
     Renderer2, OnDestroy
 } from '@angular/core';
+import { PickerService } from './picker.service';
 
 @Component({
     selector: 'app-slide-bar',
@@ -24,13 +25,13 @@ export class SlideControlComponent implements OnInit, OnDestroy {
     private mouseUpListener: any;
     private touchMoveListener: any;
     private touchEndListener: any;
+    private themeColor: string;
 
     @Input() step: number = 1;
     @Input() floor: number = 0;
     @Input() ceiling: number = 100;
     @Input() precision: number = 0;
     @Input() low: number;
-    @Input() theme: string;
     @Output() lowChange = new EventEmitter<number>(true);
 
     @ViewChild('bar') bar: ElementRef;
@@ -47,7 +48,8 @@ export class SlideControlComponent implements OnInit, OnDestroy {
     private offsetRange = 0;
 
     constructor( private el: ElementRef,
-                 private renderer: Renderer2, ) {
+                 private renderer: Renderer2,
+                 private service: PickerService ) {
         this.movePointer = ( event: any ) => {
             this.move(event)
         };
@@ -64,7 +66,8 @@ export class SlideControlComponent implements OnInit, OnDestroy {
         this.maxValue = this.ceiling;
         this.valueRange = this.maxValue - this.minValue;
         this.offsetRange = this.maxOffset - this.minOffset;
-
+        this.themeColor = this.service.dtTheme;
+        this.renderer.setStyle(this.highlight.nativeElement, 'backgroundColor', this.themeColor);
         this.setPointers();
     }
 

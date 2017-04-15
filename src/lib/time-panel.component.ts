@@ -24,7 +24,7 @@ export class TimePanelComponent implements OnInit {
     hourCeiling: number = 12;
     moment: Moment;
     hourTime: '12' | '24';
-    theme: string;
+    themeColor: string;
     mode: 'popup' | 'dropdown' | 'inline';
     showSeconds: boolean;
 
@@ -35,7 +35,7 @@ export class TimePanelComponent implements OnInit {
 
         this.moment = this.service.moment.clone();
         this.hourTime = this.service.dtHourTime;
-        this.theme = this.service.dtTheme;
+        this.themeColor = this.service.dtTheme;
         this.mode = this.service.dtMode;
         this.showSeconds = this.service.dtShowSeconds;
 
@@ -65,6 +65,11 @@ export class TimePanelComponent implements OnInit {
     }
 
     public setTime(): void {
-        this.onSetTime.emit({hour: this.hourValue, min: this.minValue, sec: this.secValue, meridian: this.meridianValue});
+        this.onSetTime.emit({
+            hour: this.hourValue,
+            min: this.minValue,
+            sec: this.secValue,
+            meridian: this.meridianValue
+        });
     }
 }
