@@ -14,6 +14,7 @@ import { SlideControlComponent } from './slider.component';
 import { NumberFixedLenPipe } from './numberFixedLen.pipe';
 import { TranslatePipe } from './translate.pipe';
 import { HighlightDirective } from './highlight.directive';
+import { PickerHeaderComponent } from './picker-header.component';
 
 @NgModule({
     declarations: [
@@ -23,6 +24,7 @@ import { HighlightDirective } from './highlight.directive';
         DatePanelComponent,
         TimePanelComponent,
         SlideControlComponent,
+        PickerHeaderComponent,
         MomentPipe,
         NumberFixedLenPipe,
         TranslatePipe,

@@ -30,14 +30,11 @@ export class DialogComponent implements OnInit, OnDestroy {
     public show: boolean;
     public initialValue: string;
     public now: Moment;
-    public theme: string;
-    public hourTime: '12' | '24';
     public positionOffset: string;
     public mode: 'popup' | 'dropdown' | 'inline';
     public returnObject: string;
     public dialogType: DialogType;
     public pickerType: 'both' | 'date' | 'time';
-    public showSeconds: boolean;
 
     private subId: Subscription;
 
@@ -47,13 +44,10 @@ export class DialogComponent implements OnInit, OnDestroy {
     }
 
     public ngOnInit() {
-        this.theme = this.service.dtTheme;
-        this.hourTime = this.service.dtHourTime;
         this.positionOffset = this.service.dtPositionOffset;
         this.mode = this.service.dtMode;
         this.returnObject = this.service.dtReturnObject;
         this.pickerType = this.service.dtPickerType;
-        this.showSeconds = this.service.dtShowSeconds;
         this.translate.use(this.service.dtLocale);
         moment.locale(this.service.dtLocale);
 

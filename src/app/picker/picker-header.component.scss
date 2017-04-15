@@ -1,0 +1,107 @@
+@import '../../sass/utils/variables';
+@import '../../sass/utils/functions';
+@import '../../sass/utils/mixins';
+@import './colors';
+
+.picker-banner {
+  width: 100%;
+  color: $white;
+  user-select: none;
+  border-radius: 4px 4px 0 0;
+}
+
+.picker-banner-day {
+  @include when-inside('.small-mode') {
+    @include type-setting(-1);
+  }
+  @include type-setting(1);
+  text-align: center;
+  background: rgba(0, 0, 0, 0.09);
+}
+
+.picker-banner-moment {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+
+  .moment-date,
+  .moment-time {
+    padding: 0 .5rem;
+    cursor: pointer;
+
+    &:hover {
+      color: rgba(255, 255, 255, 0.65);
+    }
+  }
+
+  .moment-date {
+    display: flex;
+    justify-content: center;
+    flex-grow: 1;
+    width: 50%;
+
+    @include respond-to(medium) {
+      justify-content: flex-end;
+    }
+
+    .big, .small {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .big {
+      @include when-inside('.small-mode') {
+        @include type-setting(1);
+      }
+      @include type-setting(4);
+    }
+
+    .small {
+      @include when-inside('.small-mode') {
+        @include type-setting(-2);
+      }
+      flex-direction: column;
+      padding: .3rem .5rem;
+      font-weight: 300;
+    }
+  }
+
+  .moment-time {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+
+    @include when-inside('.small-mode') {
+      width: 50%;
+      justify-content: flex-start;
+    }
+
+    @include respond-to(medium) {
+      width: 50%;
+      justify-content: flex-start;
+    }
+
+    .big, .small {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .big {
+      @include when-inside('.small-mode') {
+        @include type-setting(0);
+      }
+      @include type-setting(3);
+      font-weight: 100;
+    }
+
+    .small {
+      @include when-inside('.small-mode') {
+        @include type-setting(-2);
+      }
+      @include type-setting(1);
+      padding: 0 5px;
+    }
+  }
+}
