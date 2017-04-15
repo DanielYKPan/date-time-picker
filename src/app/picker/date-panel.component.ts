@@ -53,7 +53,7 @@ export class DatePanelComponent implements OnInit, OnChanges {
         this.locale = this.service.dtLocale;
         this.mode = this.service.dtMode;
         this.onlyCurrent = this.service.dtOnlyCurrent;
-        this.todayIconColor = shadeBlendConvert(0.2, this.service.dtTheme);
+        this.todayIconColor = shadeBlendConvert(0.4, this.service.dtTheme);
 
         // set moment locale (default is en)
         moment.locale(this.locale);
