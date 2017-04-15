@@ -22,12 +22,10 @@
             <div class="picker-calendar-row">
                 <div class="picker-day"
                      (click)="select(day)"
-                     [ngClass]="{
-                        'picker-show': day,
-                        'today': day  && day.isSame(now, 'day')
-                        }"
+                     [ngClass]="{'picker-show': day}"
                      *ngFor="let day of calendarDays"
                      pickerCalendarHighlight [day]="day" [selectedMoment]="selectedMoment" [calendarMoment]="moment">
+                    <span *ngIf="day  && day.isSame(now, 'day')" class="today-icon" [ngStyle]="{'border-top-color': todayIconColor}"></span>
                     <span *ngIf="day">{{ day | moment: 'D'}}</span>
                 </div>
             </div>
@@ -57,6 +55,7 @@
     </div>
     <div class="picker-control footer" [class.hidden]="type !== 1">
         <div class="picker-action action-today" (click)="selectToday()">
+            <span class="today-icon" [ngStyle]="{'border-top-color': todayIconColor}"></span>
             <span class="text">{{ 'today' | translate }}</span>
         </div>
         <div class="picker-action action-close" (click)="cancelDialog()" [hidden]="mode === 'inline'"><span
