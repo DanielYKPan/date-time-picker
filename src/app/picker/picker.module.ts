@@ -13,7 +13,7 @@ import { TimePanelComponent } from './time-panel.component';
 import { SlideControlComponent } from './slider.component';
 import { NumberFixedLenPipe } from './numberFixedLen.pipe';
 import { TranslatePipe } from './translate.pipe';
-import { HighlightDirective } from './highlight.directive';
+import { HighlightCalendarDirective } from './highlight-calendar.directive';
 import { PickerHeaderComponent } from './picker-header.component';
 import { HighlightBtnDirective } from './highlight-btn.directive';
 
@@ -29,7 +29,7 @@ import { HighlightBtnDirective } from './highlight-btn.directive';
         MomentPipe,
         NumberFixedLenPipe,
         TranslatePipe,
-        HighlightDirective,
+        HighlightCalendarDirective,
         HighlightBtnDirective,
     ],
     imports: [

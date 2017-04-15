@@ -16,9 +16,9 @@ const white: string = '#FFFFFF';
 const grey: string = '#dddddd';
 
 @Directive({
-    selector: '[pickerHighlight]'
+    selector: '[pickerCalendarHighlight]'
 })
-export class HighlightDirective implements OnChanges, OnInit {
+export class HighlightCalendarDirective implements OnChanges, OnInit {
 
     @Input() public day: Moment;
     @Input() public month: string;

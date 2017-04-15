@@ -27,7 +27,7 @@
                         'today': day  && day.isSame(now, 'day')
                         }"
                      *ngFor="let day of calendarDays"
-                     pickerHighlight [day]="day" [selectedMoment]="selectedMoment" [calendarMoment]="moment">
+                     pickerCalendarHighlight [day]="day" [selectedMoment]="selectedMoment" [calendarMoment]="moment">
                     <span *ngIf="day">{{ day | moment: 'D'}}</span>
                 </div>
             </div>
@@ -37,7 +37,7 @@
                 <span class="picker-month"
                       *ngFor="let month of monthList"
                       (click)="selectMonth(month)"
-                      pickerHighlight [month]="month" [calendarMoment]="moment">
+                      pickerCalendarHighlight [month]="month" [calendarMoment]="moment">
                     {{month}}
                 </span>
             </div>
@@ -48,7 +48,7 @@
                 <span class="picker-year"
                       *ngFor="let year of yearList"
                       (click)="selectYear(year)"
-                      pickerHighlight [year]="year.toString()" [calendarMoment]="moment">
+                      pickerCalendarHighlight [year]="year.toString()" [calendarMoment]="moment">
                     {{year}}
                 </span>
                 <span class="arrow-right" (click)="generateYearList('next')"></span>
