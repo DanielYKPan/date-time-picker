@@ -83,18 +83,26 @@
 
             <div class="row">
                 <h4 class="heading">Choose Different Theme:</h4>
-                <p>Choose different theme color. Colors include 'default', 'green', 'teal', 'cyan', 'grape', 'red', 'gray'. Default Color is blue.
+                <p>Choose different theme color. You could provide any 8-Digit Hex color codes. Default Color is '#0070ba'.
                 </p>
                 <div class="input-control">
-                    <label for="time-input-4">DateTime ([theme]="'grape'"): </label>
+                    <label for="picker-color">Color ([theme]="'{{pickerColor}}'"): </label>
+                    <input class="picker-input"
+                           id="picker-color"
+                           [(colorPicker)]="pickerColor"
+                           [style.background]="pickerColor"
+                           [value]="pickerColor">
+                </div>
+                <div class="input-control">
+                    <label for="time-input-4">DateTime ([theme]="'{{pickerColor}}'"): </label>
                     <input class="picker-input"
                            id="time-input-4"
                            [ngModel]="input4Moment | date: 'MMMM dd, y HH:mm'"
                            [(dateTimePicker)]="input4Moment"
-                           [theme]="'grape'"
+                           [theme]="pickerColor"
                            readonly>
                 </div>
-                <pre class="prettyprint"><code><![CDATA[<input class="picker-input" [ngModel]="moment | date: 'short'" [(dateTimePicker)]="moment"  [theme]="'grape'" readonly>]]></code></pre>
+                <pre class="prettyprint"><code><![CDATA[<input class="picker-input" [ngModel]="moment | date: 'short'" [(dateTimePicker)]="moment"  [theme]="'#0070ba'" readonly>]]></code></pre>
             </div>
 
             <div class="row">

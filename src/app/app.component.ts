@@ -15,6 +15,7 @@ import '../sass/main.scss';
 export class AppComponent implements OnInit {
 
     public moment: Date;
+    public pickerColor: string = '#0070ba';
 
     public input1Moment: any;
     public input2Moment: any;
