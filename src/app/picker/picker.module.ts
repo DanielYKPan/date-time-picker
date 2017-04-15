@@ -15,6 +15,7 @@ import { NumberFixedLenPipe } from './numberFixedLen.pipe';
 import { TranslatePipe } from './translate.pipe';
 import { HighlightDirective } from './highlight.directive';
 import { PickerHeaderComponent } from './picker-header.component';
+import { HighlightBtnDirective } from './highlight-btn.directive';
 
 @NgModule({
     declarations: [
@@ -29,6 +30,7 @@ import { PickerHeaderComponent } from './picker-header.component';
         NumberFixedLenPipe,
         TranslatePipe,
         HighlightDirective,
+        HighlightBtnDirective,
     ],
     imports: [
         CommonModule,

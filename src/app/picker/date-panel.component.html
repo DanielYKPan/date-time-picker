@@ -63,6 +63,7 @@
                 class="text">{{ 'close' | translate }}</span>
         </div>
         <div class="picker-action action-confirm"
+             pickerBtnHighlight
              (click)="confirm()" [hidden]="mode === 'inline' || mode === 'dropdown'"><span class="text">{{ 'confirm' | translate }}</span>
         </div>
     </div>
