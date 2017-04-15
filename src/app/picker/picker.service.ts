@@ -7,6 +7,7 @@ import { DialogType } from './dialog.component';
 import * as moment from 'moment/moment';
 import { Moment } from 'moment/moment';
 import { Observable, Subject } from 'rxjs/Rx';
+import { shadeBlendConvert } from './utils';
 
 @Injectable()
 export class PickerService {
@@ -86,6 +87,10 @@ export class PickerService {
         return this._dtTheme;
     }
 
+    set dtTheme( value: string ) {
+        this._dtTheme = shadeBlendConvert(0, value) || '#0070ba';
+    }
+
     /* Property _dtShowSeconds */
     private _dtShowSeconds: boolean;
 
@@ -115,8 +120,10 @@ export class PickerService {
     }
 
     set selectedMoment( value: Moment ) {
-        this._selectedMoment = value;
-        this.selectedMomentSource.next(value);
+        if (!this._selectedMoment || !this._selectedMoment.isSame(value)) {
+            this._selectedMoment = value;
+            this.selectedMomentSource.next(value);
+        }
     }
 
     constructor() {
@@ -125,17 +132,18 @@ export class PickerService {
     public setPickerOptions( dtLocale: string, dtViewFormat: string, dtReturnObject: string,
                              dtPositionOffset: string, dtMode: 'popup' | 'dropdown' | 'inline',
                              dtHourTime: '12' | '24', dtTheme: string,
-                             dtPickerType: 'both' | 'date' | 'time', dtShowSeconds: boolean, dtOnlyCurrent: boolean ): void {
+                             dtPickerType: 'both' | 'date' | 'time',
+                             dtShowSeconds: boolean, dtOnlyCurrent: boolean ): void {
         this._dtLocale = dtLocale;
         this._dtViewFormat = dtViewFormat;
         this._dtReturnObject = dtReturnObject;
         this._dtPositionOffset = dtPositionOffset;
         this._dtMode = dtMode;
         this._dtHourTime = dtHourTime;
-        this._dtTheme = dtTheme;
         this._dtShowSeconds = dtShowSeconds;
         this._dtOnlyCurrent = dtOnlyCurrent;
         this.dtPickerType = dtPickerType;
+        this.dtTheme = dtTheme;
     }
 
     public setMoment( value: any ): void {

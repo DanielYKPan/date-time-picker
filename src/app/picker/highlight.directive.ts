@@ -3,74 +3,113 @@
  */
 
 import {
-    Directive, ElementRef, HostListener, Input,
-    OnDestroy, OnInit, Renderer2
+    Directive, ElementRef, HostListener, Input, OnChanges,
+    OnInit, Renderer2, SimpleChanges
 } from '@angular/core';
+import * as moment from 'moment/moment';
 import { Moment } from 'moment/moment';
-import { Subscription } from 'rxjs/Rx';
 import { PickerService } from './picker.service';
 import { shadeBlendConvert } from './utils';
+
+const black: string = '#000000';
+const white: string = '#FFFFFF';
+const grey: string = '#dddddd';
 
 @Directive({
     selector: '[pickerHighlight]'
 })
-export class HighlightDirective implements OnInit, OnDestroy {
+export class HighlightDirective implements OnChanges, OnInit {
 
     @Input() public day: Moment;
+    @Input() public month: string;
+    @Input() public year: string;
+    @Input() public selectedMoment: Moment;
+    @Input() public calendarMoment: Moment;
 
-    private selectedMoment: Moment;
-    private subId: Subscription;
-    private lightColor: string;
-    private color: string;
+    private themeLightColor: string;
+    private themeColor: string;
 
     constructor( private el: ElementRef,
                  private renderer: Renderer2,
                  private service: PickerService ) {
+        this.themeColor = this.service.dtTheme;
+        this.themeLightColor = shadeBlendConvert(0.7, this.themeColor);
+        moment.locale(this.service.dtLocale);
+    }
+
+    public ngOnChanges( changes: SimpleChanges ): void {
+
+        if (this.day && changes['selectedMoment'] &&
+            changes['selectedMoment'].currentValue) {
+            if (this.isSelected()) {
+                this.highlight(this.themeColor, white);
+            } else {
+                let color = this.isOutFocus() ? grey : black;
+                this.highlight(null, color);
+            }
+        }
+
+        if (this.month && changes['calendarMoment'] &&
+            changes['calendarMoment'].currentValue) {
+            if (this.isCalendarMonth()) {
+                this.highlight(this.themeColor, white);
+            } else {
+                this.highlight(null, black);
+            }
+        }
+
+        if (this.year && changes['calendarMoment'] &&
+            changes['calendarMoment'].currentValue) {
+            if (this.isCalendarYear()) {
+                this.highlight(this.themeColor, white);
+            } else {
+                this.highlight(null, black);
+            }
+        }
     }
 
     public ngOnInit(): void {
-        this.color = this.service.dtTheme;
-        this.lightColor = shadeBlendConvert(0.7, this.color);
-        this.subId = this.service.selectedMomentChange.subscribe(
-            ( selectedMoment: Moment ) => {
-                this.selectedMoment = selectedMoment;
-                if (this.isSelected()) {
-                    this.highlight(this.color);
-                } else {
-                    this.highlight(null);
-                }
-            }
-        );
-    }
-
-    public ngOnDestroy(): void {
-        if (this.subId) {
-            this.subId.unsubscribe();
+        if (this.isOutFocus()) {
+            this.highlight(null, grey);
         }
     }
 
     @HostListener('mouseenter')
     public onMouseEnter() {
-        if (this.isSelected()) {
+        if (this.isSelected() || this.isCalendarMonth() || this.isCalendarYear()) {
             return;
         }
-        this.highlight(this.lightColor);
+        this.highlight(this.themeLightColor, black);
     }
 
     @HostListener('mouseleave')
     public onMouseLeave() {
-        if (this.isSelected()) {
+        if (this.isSelected() || this.isCalendarMonth() || this.isCalendarYear()) {
             return;
         }
-        this.highlight(null);
+        let color = this.isOutFocus() ? grey : black;
+        this.highlight(null, color);
     }
 
     private isSelected(): boolean {
         return this.day && this.selectedMoment && this.day.isSame(this.selectedMoment, 'day');
     }
 
-    private highlight( color: string ) {
-        this.renderer.setStyle(this.el.nativeElement, 'backgroundColor', color);
+    private isCalendarMonth(): boolean {
+        return this.month && this.calendarMoment && this.month === this.calendarMoment.format('MMM');
+    }
+
+    private isCalendarYear(): boolean {
+        return this.year && this.calendarMoment && this.year === this.calendarMoment.format('YYYY');
+    }
+
+    private isOutFocus(): boolean {
+        return this.day && this.calendarMoment && !this.day.isSame(this.calendarMoment, 'month');
+    }
+
+    private highlight( bgColor: string, color: string ) {
+        this.renderer.setStyle(this.el.nativeElement, 'backgroundColor', bgColor);
+        this.renderer.setStyle(this.el.nativeElement, 'color', color);
     }
 }
 

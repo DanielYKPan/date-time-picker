@@ -24,23 +24,22 @@
                      (click)="select(day)"
                      [ngClass]="{
                         'picker-show': day,
-                        'out-focus': day && !day.isSame(moment, 'month'),
-                        'today': day  && day.isSame(now, 'day'),
-                        'selected': day && selectedMoment && day.isSame(selectedMoment, 'day')
+                        'today': day  && day.isSame(now, 'day')
                         }"
-                     *ngFor="let day of calendarDays" pickerHighlight [day]="day">
+                     *ngFor="let day of calendarDays"
+                     pickerHighlight [day]="day" [selectedMoment]="selectedMoment" [calendarMoment]="moment">
                     <span *ngIf="day">{{ day | moment: 'D'}}</span>
                 </div>
             </div>
         </div>
         <div [hidden]="type !== 2" class="month">
             <div class="picker-calendar-row">
-                            <span class="picker-month"
-                                  *ngFor="let month of monthList"
-                                  [class.selected]="month === (moment | moment: 'MMM')"
-                                  (click)="selectMonth(month)">
-                                {{month}}
-                            </span>
+                <span class="picker-month"
+                      *ngFor="let month of monthList"
+                      (click)="selectMonth(month)"
+                      pickerHighlight [month]="month" [calendarMoment]="moment">
+                    {{month}}
+                </span>
             </div>
         </div>
         <div [hidden]="type !== 3" class="year">
@@ -48,10 +47,10 @@
                 <span class="arrow-left" (click)="generateYearList('prev')"></span>
                 <span class="picker-year"
                       *ngFor="let year of yearList"
-                      [class.selected]="year.toString() === (moment | moment: 'YYYY')"
-                      (click)="selectYear(year)">
-                                {{year}}
-                            </span>
+                      (click)="selectYear(year)"
+                      pickerHighlight [year]="year.toString()" [calendarMoment]="moment">
+                    {{year}}
+                </span>
                 <span class="arrow-right" (click)="generateYearList('next')"></span>
             </div>
         </div>
