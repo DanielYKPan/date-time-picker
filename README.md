@@ -5,7 +5,7 @@
 
 ## Important
 
-**This package now supports Angular 2 and 4**
+**This package supports Angular 4**
 
 ## Updates
 * Set the theme color. The default color is '#0070ba'. You could provide any valid [8-Digit Hex Codes](https://css-tricks.com/8-digit-hex-codes/) to change the picker theme color. You can see the effect from the demo. ([issue #25](https://github.com/DanielYKPan/date-time-picker/issues/25))
