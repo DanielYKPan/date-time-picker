@@ -89,6 +89,13 @@ export class SlideControlComponent implements OnInit, OnDestroy {
         }
     }
 
+    public start( event: any ) {
+        this.mouseMoveListener = this.renderer.listen('document', 'mousemove', this.movePointer);
+        this.touchMoveListener = this.renderer.listen('document', 'touchmove', this.movePointer);
+        this.mouseUpListener = this.renderer.listen('document', 'mouseup', this.stopPointer);
+        this.touchEndListener = this.renderer.listen('document', 'touchend', this.stopPointer);
+    }
+
     private setPointers(): void {
 
         let lowPercentValue, lowOffsetValue;
@@ -106,13 +113,6 @@ export class SlideControlComponent implements OnInit, OnDestroy {
             'width',
             lowOffsetValue + 'px'
         );
-    }
-
-    private start( event: any ) {
-        this.mouseMoveListener = this.renderer.listen('document', 'mousemove', this.movePointer);
-        this.touchMoveListener = this.renderer.listen('document', 'touchmove', this.movePointer);
-        this.mouseUpListener = this.renderer.listen('document', 'mouseup', this.stopPointer);
-        this.touchEndListener = this.renderer.listen('document', 'touchend', this.stopPointer);
     }
 
     private stop() {

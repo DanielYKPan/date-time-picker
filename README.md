@@ -8,12 +8,9 @@
 **This package supports Angular 4**
 
 ## Updates
-* Set the theme color. The default color is '#0070ba'. You could provide any valid [8-Digit Hex Codes](https://css-tricks.com/8-digit-hex-codes/) to change the picker theme color. You can see the effect from the demo. ([issue #25](https://github.com/DanielYKPan/date-time-picker/issues/25))
-* Fix AOT compile error ([issue #15](https://github.com/DanielYKPan/date-time-picker/issues/15))
-* Set to only show current month days in date picker. **[onlyCurrent]=" true "** (The default value is false).
-* Add seconds slider in time picker. If you set **[showSeconds]=" true "** , the time picker would have a slider for configuring the second value of your select moment.
-    The default value is false.
-* Get locale working in the whole picker. Words not from MomentJS in the picker now are also translated.('de', 'en', 'zh_CN', 'zh_HK', 'zh_TW').
+* Update to use Angular 4.1
+* Add locales('lt','ro','ru').
+* Get locale working in the whole picker. Words not from MomentJS in the picker now are also translated.('de', 'en', 'lt', 'ro', 'ru', 'zh_CN', 'zh_HK', 'zh_TW').
    If the locale you are using is not working, please open an issue and help me to build that locale library.
 * This npm package now rename to [ng-pick-datetime](https://www.npmjs.com/package/ng-pick-datetime), this is because this package now support angular 2 and 4. The previous package was named [ng2-date-time-picker](https://www.npmjs.com/package/ng2-date-time-picker).
 
