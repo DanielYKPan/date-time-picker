@@ -14,6 +14,9 @@
     "suppressImplicitAnyIndexErrors": true,
     "lib": [ "es2015", "dom" ]
   },
+  "files": [
+    "./tmp/lib/picker.module.ts"
+  ],
   "exclude": [
     "node_modules",
     "npmdist",
@@ -24,6 +27,7 @@
     "tmp/**/*"
   ],
   "angularCompilerOptions": {
+    "skipTemplateCodegen": true,
     "genDir": "aot"
   }
 }
