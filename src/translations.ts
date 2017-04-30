@@ -5,14 +5,14 @@
 import { InjectionToken } from '@angular/core';
 
 // import translations
-import { LANG_DE_TRANS } from '../locale/de';
-import { LANG_EN_TRANS } from '../locale/en';
-import { LANG_LT_TRANS } from '../locale/lt';
-import { LANG_RO_TRANS } from '../locale/ro';
-import { LANG_RU_TRANS } from '../locale/ru';
-import { LANG_ZHCN_TRANS } from '../locale/zh-cn';
-import { LANG_ZHHK_TRANS } from '../locale/zh-hk';
-import { LANG_ZHTW_TRANS } from '../locale/zh-tw';
+import { LANG_DE_TRANS } from './locale/de';
+import { LANG_EN_TRANS } from './locale/en';
+import { LANG_LT_TRANS } from './locale/lt';
+import { LANG_RO_TRANS } from './locale/ro';
+import { LANG_RU_TRANS } from './locale/ru';
+import { LANG_ZHCN_TRANS } from './locale/zh-cn';
+import { LANG_ZHHK_TRANS } from './locale/zh-hk';
+import { LANG_ZHTW_TRANS } from './locale/zh-tw';
 
 // translation token
 export const TRANSLATIONS = new InjectionToken('translations');

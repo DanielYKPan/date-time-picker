@@ -15,7 +15,7 @@
     "lib": [ "es2015", "dom" ]
   },
   "files": [
-    "./tmp/lib/picker.module.ts"
+    "./tmp/picker.module.ts"
   ],
   "exclude": [
     "node_modules",

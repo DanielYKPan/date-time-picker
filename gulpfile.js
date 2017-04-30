@@ -125,7 +125,7 @@
             'minify.html',
             'inline.template.and.styles.to.component',
             'ngc',
-            'copy.src.to.npmdist.dir',
+            //'copy.src.to.npmdist.dir',
             'copy.dist.to.npmdist',
             'copy.root.files.to.npmdist.dir',
             'copy.assets.to.npmdist.assets',
