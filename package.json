@@ -20,7 +20,7 @@
     "test": "karma start",
     "build": "rimraf dist && webpack --config config/webpack.prod.js --progress --profile --bail",
     "bundle": "webpack --config config/webpack.bundle.js --progress --profile --bail",
-    "roll": "rollup -c rollup.config.js dist/lib/picker.module.js > dist/lib/picker.bundle.js"
+    "rollup": "rollup -c rollup.config.js dist/picker.module.js > dist/picker.bundle.js"
   },
   "jsnext:main": "picker.module.js",
   "module": "picker.module.js",
@@ -82,6 +82,9 @@
     "resolve-url-loader": "^2.0.2",
     "rimraf": "^2.5.2",
     "rollup": "^0.41.6",
+    "rollup-plugin-commonjs": "^8.0.2",
+    "rollup-plugin-node-resolve": "^3.0.0",
+    "rollup-plugin-uglify": "^1.0.2",
     "run-sequence": "^1.2.2",
     "rxjs": "5.0.2",
     "sass-loader": "^4.0.2",
