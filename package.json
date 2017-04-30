@@ -18,7 +18,9 @@
   "scripts": {
     "start": "webpack-dev-server --inline --progress --port 8080",
     "test": "karma start",
-    "build": "rimraf dist && webpack --config config/webpack.prod.js --progress --profile --bail"
+    "build": "rimraf dist && webpack --config config/webpack.prod.js --progress --profile --bail",
+    "bundle": "webpack --config config/webpack.bundle.js --progress --profile --bail",
+    "roll": "rollup -c rollup.config.js dist/lib/picker.module.js > dist/lib/picker.bundle.js"
   },
   "main": "./index.js",
   "types": "./index.d.ts",
@@ -78,6 +80,7 @@
     "raw-loader": "^0.5.1",
     "resolve-url-loader": "^2.0.2",
     "rimraf": "^2.5.2",
+    "rollup": "^0.41.6",
     "run-sequence": "^1.2.2",
     "rxjs": "5.0.2",
     "sass-loader": "^4.0.2",
