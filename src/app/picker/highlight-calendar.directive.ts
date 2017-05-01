@@ -28,13 +28,14 @@ export class HighlightCalendarDirective implements OnChanges, OnInit {
 
     private themeLightColor: string;
     private themeColor: string;
+    private momentFunc = (moment as any).default ? (moment as any).default : moment;
 
     constructor( private el: ElementRef,
                  private renderer: Renderer2,
                  private service: PickerService ) {
         this.themeColor = this.service.dtTheme;
         this.themeLightColor = shadeBlendConvert(0.7, this.themeColor);
-        moment.locale(this.service.dtLocale);
+        this.momentFunc.locale(this.service.dtLocale);
     }
 
     public ngOnChanges( changes: SimpleChanges ): void {
