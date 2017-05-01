@@ -37,6 +37,7 @@ export class DialogComponent implements OnInit, OnDestroy {
     public pickerType: 'both' | 'date' | 'time';
 
     private subId: Subscription;
+    private momentFunc = (moment as any).default ? (moment as any).default : moment;
 
     constructor( private el: ElementRef,
                  private translate: TranslateService,
@@ -49,10 +50,10 @@ export class DialogComponent implements OnInit, OnDestroy {
         this.returnObject = this.service.dtReturnObject;
         this.pickerType = this.service.dtPickerType;
         this.translate.use(this.service.dtLocale);
-        moment.locale(this.service.dtLocale);
+        this.momentFunc.locale(this.service.dtLocale);
 
         // set now value
-        this.now = moment();
+        this.now = this.momentFunc();
         this.subId = this.service.selectedMomentChange.subscribe(
             ( selectedMoment: Moment ) => {
                 this.selectedMoment = selectedMoment;

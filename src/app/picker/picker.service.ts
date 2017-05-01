@@ -126,6 +126,8 @@ export class PickerService {
         }
     }
 
+    private momentFunc = (moment as any).default ? (moment as any).default : moment;
+
     constructor() {
     }
 
@@ -148,11 +150,11 @@ export class PickerService {
 
     public setMoment( value: any ): void {
         if (value) {
-            this._moment = this._dtReturnObject === 'string' ? moment(value, this._dtViewFormat) :
-                moment(value);
+            this._moment = this._dtReturnObject === 'string' ? this.momentFunc(value, this._dtViewFormat) :
+                this.momentFunc(value);
             this.selectedMoment = this._moment.clone();
         } else {
-            this._moment = moment();
+            this._moment = this.momentFunc();
         }
     }
 
