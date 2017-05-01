@@ -25,7 +25,8 @@ export default {
             include: [
                 'node_modules/rxjs/**',
             ],
-        })
+        }),
+        uglify()
     ]
 };
 
