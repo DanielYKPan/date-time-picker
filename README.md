@@ -8,6 +8,7 @@
 **This package supports Angular 4**
 
 ## Updates
+* Reconstruct the package folder. (If you using SystemJS, please follow the instruction below).
 * Update to use Angular 4.1
 * Add locales('lt','ro','ru').
 * Get locale working in the whole picker. Words not from MomentJS in the picker now are also translated.('de', 'en', 'lt', 'ro', 'ru', 'zh_CN', 'zh_HK', 'zh_TW').
@@ -62,7 +63,7 @@ To install this component, follow the procedure:
 
 				// the picker
                 'ng-pick-datetime': {
-                    main: 'index.js',
+                    main: 'picker.bundle.js',
                     defaultExtension: 'js'
                 },
                 // momentJS
