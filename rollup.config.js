@@ -9,6 +9,7 @@ export default {
         '@angular/core',
         '@angular/common',
         '@angular/forms',
+        'moment/moment',
     ],
     onwarn: (warning) => {
         const skip_codes = [
@@ -23,10 +24,8 @@ export default {
         commonjs({
             include: [
                 'node_modules/rxjs/**',
-                'node_modules/moment/**'
             ],
-        }),
-        uglify()
+        })
     ]
 };
 
