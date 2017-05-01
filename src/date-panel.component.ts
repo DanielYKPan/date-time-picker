@@ -38,6 +38,7 @@ export class DatePanelComponent implements OnInit, OnChanges {
     public todayIconColor: string;
 
     private locale: string;
+    private momentFunc = (moment as any).default ? (moment as any).default : moment;
 
     constructor( private service: PickerService ) {
     }
@@ -56,14 +57,14 @@ export class DatePanelComponent implements OnInit, OnChanges {
         this.todayIconColor = shadeBlendConvert(0.4, this.service.dtTheme);
 
         // set moment locale (default is en)
-        moment.locale(this.locale);
+        this.momentFunc.locale(this.locale);
 
         // set week days name array
-        this.dayNames = moment.weekdaysShort(true);
+        this.dayNames = this.momentFunc.weekdaysShort(true);
         // set month name array
-        this.monthList = moment.monthsShort();
+        this.monthList = this.momentFunc.monthsShort();
 
-        this.now = moment();
+        this.now =this.momentFunc();
         this.moment = this.service.moment;
         this.generateCalendar();
     }
@@ -150,7 +151,7 @@ export class DatePanelComponent implements OnInit, OnChanges {
 
     private generateCalendar(): void {
         this.calendarDays = [];
-        let start = 0 - (this.moment.clone().startOf('month').day() + (7 - moment.localeData().firstDayOfWeek())) % 7;
+        let start = 0 - (this.moment.clone().startOf('month').day() + (7 - this.momentFunc.localeData().firstDayOfWeek())) % 7;
         let end = 41 + start; // iterator ending point
 
         for (let i = start; i <= end; i += 1) {

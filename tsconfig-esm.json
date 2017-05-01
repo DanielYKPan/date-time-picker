@@ -1,9 +1,9 @@
 {
   "compilerOptions": {
-    "module": "commonjs",
+    "module": "es2015",
     "target": "es5",
     "declaration": true,
-    "rootDir": "./tmp/date-time-picker",
+    "rootDir": "./tmp",
     "outDir": "./dist",
     "sourceMap": true,
     "emitDecoratorMetadata": true,
@@ -14,12 +14,16 @@
     "suppressImplicitAnyIndexErrors": true,
     "lib": [ "es2015", "dom" ]
   },
+  "files": [
+    "./tmp/picker.module.ts"
+  ],
   "exclude": [
     "node_modules",
     "npmdist",
-    "dist"
+    "dist",
+    "**/**.spec.ts"
   ],
-  "files": [
-    "./tmp/**/*.ts"
+  "include": [
+    "tmp/**/*"
   ]
 }

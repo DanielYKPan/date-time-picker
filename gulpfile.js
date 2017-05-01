@@ -25,7 +25,7 @@
 
     var config = new Config();
 
-    var tsDistProject = ts.createProject('tsconfig.dist.json');
+    var tsDistProject = ts.createProject('tsconfig-esm.json');
 
     const exec = require('child_process').exec;
 
@@ -51,8 +51,8 @@
                 var htmlTpl = fs.readFileSync(htmlFile, 'utf-8');
 
                 return gulp.src([file.path])
-                    .pipe(replace('styleUrls: [' + '\'' + './' +  scssFileName + '\'' + '],', 'styles: [' + '`' + styles + '`' + '],'))
-                    .pipe(replace('templateUrl: ' + '\'' + './' +  htmlFileName + '\'' + ',', 'template: `' + htmlTpl + '`' + ','))
+                    .pipe(replace('styleUrls: [' + '\'' + './' + scssFileName + '\'' + '],', 'styles: [' + '`' + styles + '`' + '],'))
+                    .pipe(replace('templateUrl: ' + '\'' + './' + htmlFileName + '\'' + ',', 'template: `' + htmlTpl + '`' + ','))
                     .pipe(gulp.dest(function (file) {
                         return file.base;
                     }));
@@ -86,6 +86,10 @@
         return gulp.src(['./dist', './npmdist', config.tmpOutputPath], {read: false}).pipe(clean());
     });
 
+    gulp.task('clean.dist', function () {
+        return gulp.src(['./dist'], {read: false}).pipe(clean());
+    });
+
     gulp.task('backup.ts.tmp', function () {
         return gulp.src(config.allTs).pipe(gulp.dest(config.tmpOutputPath));
     });
@@ -102,7 +106,7 @@
         return gulp.src(config.allDistFiles).pipe(gulp.dest('./npmdist'));
     });
 
-    gulp.task('copy.assets.to.npmdist.assets', function() {
+    gulp.task('copy.assets.to.npmdist.assets', function () {
         return gulp.src(config.allAssets).pipe(gulp.dest('./npmdist/assets'));
     });
 
@@ -117,6 +121,15 @@
             ]).pipe(gulp.dest('./npmdist'));
     });
 
+    gulp.task('copy.bundle.to.dist', function () {
+        return gulp.src('./tmp/picker.bundle.js').pipe(gulp.dest('./dist'));
+    });
+
+    gulp.task('bundle', function (cb) {
+        var cmd = 'node_modules/.bin/rollup -c rollup.config.js dist/picker.module.js > tmp/picker.bundle.js';
+        return run_proc(cmd, cb);
+    });
+
     gulp.task('all', function (cb) {
         runSequence(
             'clean',
@@ -124,7 +137,11 @@
             'minify.css',
             'minify.html',
             'inline.template.and.styles.to.component',
+            'tsc.compile.dist',
+            'bundle',
+            'clean.dist',
             'ngc',
+            'copy.bundle.to.dist',
             //'copy.src.to.npmdist.dir',
             'copy.dist.to.npmdist',
             'copy.root.files.to.npmdist.dir',

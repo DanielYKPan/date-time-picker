@@ -1,6 +1,6 @@
 {
   "name": "ng-pick-datetime",
-  "version": "4.1.0",
+  "version": "4.1.1",
   "description": "Angular Date Time Picker",
   "keywords": [
     "Angular",
@@ -25,6 +25,7 @@
   "jsnext:main": "picker.module.js",
   "module": "picker.module.js",
   "types": "picker.module.d.ts",
+  "main": "picker.bundle.js",
   "dependencies": {
     "moment": "^2.17.0"
   },
