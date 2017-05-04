@@ -44,9 +44,11 @@ export class HighlightCalendarDirective implements OnChanges, OnInit {
             changes['selectedMoment'].currentValue) {
             if (this.isSelected()) {
                 this.highlight(this.themeColor, white);
+                this.renderer.addClass(this.el.nativeElement, 'picker-day-selected');
             } else {
                 let color = this.isOutFocus() ? grey : black;
                 this.highlight(null, color);
+                this.renderer.removeClass(this.el.nativeElement, 'picker-day-selected');
             }
         }
 
@@ -54,8 +56,10 @@ export class HighlightCalendarDirective implements OnChanges, OnInit {
             changes['calendarMoment'].currentValue) {
             if (this.isCalendarMonth()) {
                 this.highlight(this.themeColor, white);
+                this.renderer.addClass(this.el.nativeElement, 'picker-month-current');
             } else {
                 this.highlight(null, black);
+                this.renderer.removeClass(this.el.nativeElement, 'picker-month-current');
             }
         }
 
@@ -63,8 +67,10 @@ export class HighlightCalendarDirective implements OnChanges, OnInit {
             changes['calendarMoment'].currentValue) {
             if (this.isCalendarYear()) {
                 this.highlight(this.themeColor, white);
+                this.renderer.addClass(this.el.nativeElement, 'picker-year-current');
             } else {
                 this.highlight(null, black);
+                this.renderer.removeClass(this.el.nativeElement, 'picker-year-current');
             }
         }
     }
