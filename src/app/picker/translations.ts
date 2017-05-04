@@ -7,6 +7,7 @@ import { InjectionToken } from '@angular/core';
 // import translations
 import { LANG_DE_TRANS } from './locale/de';
 import { LANG_EN_TRANS } from './locale/en';
+import { LANG_FR_TRANS } from './locale/fr';
 import { LANG_LT_TRANS } from './locale/lt';
 import { LANG_RO_TRANS } from './locale/ro';
 import { LANG_RU_TRANS } from './locale/ru';
@@ -21,6 +22,7 @@ export const TRANSLATIONS = new InjectionToken('translations');
 export const dictionary = {
     'de': LANG_DE_TRANS,
     'en': LANG_EN_TRANS,
+    'fr': LANG_FR_TRANS,
     'lt': LANG_LT_TRANS,
     'ro': LANG_RO_TRANS,
     'ru': LANG_RU_TRANS,
