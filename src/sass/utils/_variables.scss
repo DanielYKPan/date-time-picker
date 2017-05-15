@@ -99,6 +99,7 @@ $base-url: '/assets/' !default;
 /// @see {mixin} respond-to
 $breakpoints: (
         'small': (min-width: 480px),
+        'max-small': (max-width: 480px),
         'medium': (min-width: 768px),
         'large': (min-width: 1200px),
 ) !default;

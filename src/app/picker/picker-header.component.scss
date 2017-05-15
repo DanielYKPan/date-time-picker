@@ -20,6 +20,10 @@
   @include when-inside('.small-mode') {
     @include type-setting(-1);
   }
+
+  @include respond-to(max-small) {
+    @include type-setting(-1);
+  }
   @include type-setting(1);
   text-align: center;
   background: rgba(0, 0, 0, 0.09);
@@ -60,11 +64,18 @@
       @include when-inside('.small-mode') {
         @include type-setting(1);
       }
+
+      @include respond-to(max-small) {
+        @include type-setting(1);
+      }
       @include type-setting(4);
     }
 
     .small {
       @include when-inside('.small-mode') {
+        @include type-setting(-2);
+      }
+      @include respond-to(max-small) {
         @include type-setting(-2);
       }
       flex-direction: column;
@@ -79,6 +90,11 @@
     width: 100%;
 
     @include when-inside('.small-mode') {
+      width: 50%;
+      justify-content: flex-start;
+    }
+
+    @include respond-to(max-small) {
       width: 50%;
       justify-content: flex-start;
     }
@@ -98,12 +114,20 @@
       @include when-inside('.small-mode') {
         @include type-setting(0);
       }
+
+      @include respond-to(max-small) {
+        @include type-setting(0);
+      }
       @include type-setting(3);
       font-weight: 100;
     }
 
     .small {
       @include when-inside('.small-mode') {
+        @include type-setting(-2);
+      }
+
+      @include respond-to(max-small) {
         @include type-setting(-2);
       }
       @include type-setting(1);
