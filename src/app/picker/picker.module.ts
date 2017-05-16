@@ -16,6 +16,7 @@ import { TranslatePipe } from './translate.pipe';
 import { HighlightCalendarDirective } from './highlight-calendar.directive';
 import { PickerHeaderComponent } from './picker-header.component';
 import { HighlightBtnDirective } from './highlight-btn.directive';
+import { DialogPositionDirective } from './dialog-position.directive';
 
 @NgModule({
     declarations: [
@@ -31,6 +32,7 @@ import { HighlightBtnDirective } from './highlight-btn.directive';
         TranslatePipe,
         HighlightCalendarDirective,
         HighlightBtnDirective,
+        DialogPositionDirective,
     ],
     imports: [
         CommonModule,

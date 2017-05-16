@@ -8,7 +8,7 @@
         'picker-dropdown': mode === 'dropdown',
         'picker-inline': mode === 'inline',
         'small-mode': mode === 'dropdown' || mode === 'inline'}"
-     [ngStyle]="getDialogStyle()">
+     dialogPosition [directiveElementRef]="directiveElementRef">
     <div class="picker-box">
         <dialog-picker-header [dialogType]="dialogType" [selectedMoment]="selectedMoment" [now]="now" (onDialogTypeChange)="toggleDialogType($event)"></dialog-picker-header>
         <div class="picker-content">

@@ -3,7 +3,7 @@
  */
 
 import {
-    Directive, ElementRef, Input, Compiler, ViewContainerRef,
+    Directive, ElementRef, Input, ViewContainerRef,
     ReflectiveInjector, Output, EventEmitter, OnInit, OnChanges, SimpleChanges, ComponentFactoryResolver
 } from '@angular/core';
 import { DialogComponent } from './dialog.component';
@@ -24,6 +24,7 @@ export class DateTimePickerDirective implements OnInit, OnChanges {
     @Input() mode: 'popup' | 'dropdown' | 'inline' = 'popup';
     @Input() hourTime: '12' | '24' = '24'; // determines the hour format (12 or 24)
     @Input() theme: string = '#0070ba'; // theme color
+    @Input() position: 'top' | 'right' | 'bottom' | 'left' = 'bottom'; // picker position in dropdown mode
     @Input() positionOffset: string = '0%';
     @Input() pickerType: 'both' | 'date' | 'time' = 'both';
     @Input() showSeconds: boolean = false;
@@ -32,8 +33,7 @@ export class DateTimePickerDirective implements OnInit, OnChanges {
     private created: boolean = false;
     private dialog: any;
 
-    constructor( private compiler: Compiler,
-                 private vcRef: ViewContainerRef,
+    constructor( private vcRef: ViewContainerRef,
                  private componentFactoryResolver: ComponentFactoryResolver,
                  private el: ElementRef ) {
     }
@@ -66,7 +66,7 @@ export class DateTimePickerDirective implements OnInit, OnChanges {
             const factory = this.componentFactoryResolver.resolveComponentFactory(DialogComponent);
             const injector = ReflectiveInjector.fromResolvedProviders([], this.vcRef.parentInjector);
             const cmpRef = this.vcRef.createComponent(factory, 0, injector, []);
-            cmpRef.instance.setDialog(this, this.el, this.dateTimePicker, this.locale, this.viewFormat, this.returnObject,
+            cmpRef.instance.setDialog(this, this.el, this.dateTimePicker, this.locale, this.viewFormat, this.returnObject, this.position,
                 this.positionOffset, this.mode, this.hourTime, this.theme, this.pickerType, this.showSeconds, this.onlyCurrent);
             this.dialog = cmpRef.instance;
         } else if (this.dialog) {

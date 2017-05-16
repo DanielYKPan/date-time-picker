@@ -59,6 +59,14 @@ export class PickerService {
         }
     }
 
+    /* Property _dtPosition */
+    private _dtPosition: 'top' | 'right' | 'bottom' | 'left';
+
+    get dtPosition(): 'top' | 'right' | 'bottom' | 'left' {
+        return this._dtPosition;
+    }
+
+
     /* Property _dtPositionOffset */
     private _dtPositionOffset: string;
 
@@ -132,6 +140,7 @@ export class PickerService {
     }
 
     public setPickerOptions( dtLocale: string, dtViewFormat: string, dtReturnObject: string,
+                             dtPosition: 'top' | 'right' | 'bottom' | 'left',
                              dtPositionOffset: string, dtMode: 'popup' | 'dropdown' | 'inline',
                              dtHourTime: '12' | '24', dtTheme: string,
                              dtPickerType: 'both' | 'date' | 'time',
@@ -139,6 +148,7 @@ export class PickerService {
         this._dtLocale = dtLocale;
         this._dtViewFormat = dtViewFormat;
         this._dtReturnObject = dtReturnObject;
+        this._dtPosition = dtPosition;
         this._dtPositionOffset = dtPositionOffset;
         this._dtMode = dtMode;
         this._dtHourTime = dtHourTime;
