@@ -8,10 +8,17 @@
 **This package supports Angular 4**
 
 ## Updates
-* Reconstruct the package folder. (If you using SystemJS, please follow the instruction below).
-* Update to use Angular 4.1
-* Add locales('lt','ro','ru').
-* Get locale working in the whole picker. Words not from MomentJS in the picker now are also translated.('de', 'en', 'lt', 'ro', 'ru', 'zh_CN', 'zh_HK', 'zh_TW').
+* Add classes **picker-day-today**, **picker-day-selected**, **picker-month-current**, **picker-year-current**, close [#42].
+* Add locale 'fr', closes [#43].
+* **[position]=" 'bottom' "** --- Set the picker position in dropdown mode. This position means the picker would appear on the bottom ('top', 'left' or 'right') of the your input box.
+  Default is 'bottom'. The options choice could be 'top', 'bottom', 'left', 'right'. (The default value is 'bottom').
+* **[positionOffset]=" '0%' "** --- Set the picker position offset in dropdown mode, closes [#43]. 
+      When you set your position to 'top' or 'bottom', the positionOffset is the percentage of your input box height.
+      When you set your position to 'right' or 'left', the positionOffset is the percentage of your input box width.
+      The value could be minus like '-10%'.
+      (The default value is '0%').
+* fix picker dropdown mode height in mobile device, closes [#45].
+* Get locale working in the whole picker. Words not from MomentJS in the picker now are also translated.('de', 'en', 'fr', 'lt', 'ro', 'ru', 'zh_CN', 'zh_HK', 'zh_TW').
    If the locale you are using is not working, please open an issue and help me to build that locale library.
 * This npm package now rename to [ng-pick-datetime](https://www.npmjs.com/package/ng-pick-datetime), this is because this package now support angular 4. The previous package was named [ng2-date-time-picker](https://www.npmjs.com/package/ng2-date-time-picker).
 
@@ -116,6 +123,13 @@ public setMoment(moment: any): any {
       * **[theme]=" '#0070ba' "** --- Set the theme color. The default color is '#0070ba'. You could provide any valid [8-Digit Hex Codes](https://css-tricks.com/8-digit-hex-codes/) to change the picker theme color. You can see the effect from the demo.
       * **[showSeconds]=" true "** --- Set to show seconds slider in time picker. (The default value is false).
       * **[onlyCurrent]=" true "** --- Set to only show current month days in date picker. (The default value is false).
+      * **[position]=" 'bottom' "** --- Set the picker position in dropdown mode. This position means the picker would appear on the bottom ('top', 'left' or 'right') of your input box.
+        Default is 'bottom'. The option choice could be 'top', 'bottom', 'left', 'right'. (The default value is 'bottom').
+      * **[positionOffset]=" '0%' "** --- Set the picker position offset in dropdown mode. 
+        When you set your position to 'top' or 'bottom', the positionOffset is the percentage of your input box height.
+        When you set your position to 'right' or 'left', the positionOffset is the percentage of your input box width.
+        The value could be minus like '-10%'.
+        (The default value is '0%').
       * **Important: Do Not forget the single quote inside the double quote when you set the optional attributes string value.**
 
 ## Demo
