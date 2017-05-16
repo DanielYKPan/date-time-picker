@@ -30,12 +30,21 @@
     height: $base-line-height * 1.5;
   }
 
+  @include respond-to(max-small) {
+    height: $base-line-height * 1.5;
+  }
+
   display: flex;
   height: $base-line-height * 2;
   width: 100%;
 
   &.footer {
     @include when-inside('.small-mode') {
+      @include type-setting(-1);
+      height: $base-line-height * 2;
+    }
+
+    @include respond-to(max-small) {
       @include type-setting(-1);
       height: $base-line-height * 2;
     }
@@ -119,6 +128,12 @@
       border-bottom: .4em solid transparent;
       border-right: .6em solid $black;
     }
+
+    @include respond-to(max-small) {
+      border-top: .4em solid transparent;
+      border-bottom: .4em solid transparent;
+      border-right: .6em solid $black;
+    }
     content: " ";
     border-top: .5em solid transparent;
     border-bottom: .5em solid transparent;
@@ -131,6 +146,11 @@
 
   .nav-next::before {
     @include when-inside('.small-mode') {
+      border-right: 0;
+      border-left: .6em solid $black;
+    }
+
+    @include respond-to(max-small) {
       border-right: 0;
       border-left: .6em solid $black;
     }
@@ -164,12 +184,20 @@
       @include type-setting(0);
     }
 
+    @include respond-to(max-small) {
+      @include type-setting(0);
+    }
+
     margin-right: .5rem;
     font-weight: 700;
   }
 
   .year {
     @include when-inside('.small-mode') {
+      @include type-setting(-1);
+    }
+
+    @include respond-to(max-small) {
       @include type-setting(-1);
     }
     font-style: italic;
@@ -183,6 +211,10 @@
 
   .picker-year, .picker-month {
     @include when-inside('.small-mode') {
+      @include type-setting(0);
+    }
+
+    @include respond-to(max-small) {
       @include type-setting(0);
     }
     @include type-setting(1);
@@ -200,6 +232,11 @@
       @include type-setting(-1);
       padding-left: 3px;
     }
+
+    @include respond-to(max-small) {
+      @include type-setting(-1);
+      padding-left: 3px;
+    }
     font-weight: 700;
     text-align: left;
     color: #999;
@@ -209,6 +246,11 @@
 
   .picker-day {
     @include when-inside('.small-mode') {
+      @include type-setting(0);
+      height: $base-line-height * 1.5;
+    }
+
+    @include respond-to(max-small) {
       @include type-setting(0);
       height: $base-line-height * 1.5;
     }
@@ -254,6 +296,11 @@
   .arrow-left,
   .arrow-right {
     @include when-inside('.small-mode') {
+      width: 16px;
+      height: 16px;
+    }
+
+    @include respond-to(max-small) {
       width: 16px;
       height: 16px;
     }

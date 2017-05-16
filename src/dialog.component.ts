@@ -20,17 +20,11 @@ export class DialogComponent implements OnInit, OnDestroy {
 
     private selectedMoment: Moment;
     private directiveInstance: any;
-    private directiveElementRef: ElementRef;
-    private top: number;
-    private left: number;
-    private width: string;
-    private height: string = 'auto';
-    private position: string;
 
+    public directiveElementRef: ElementRef;
     public show: boolean;
     public initialValue: string;
     public now: Moment;
-    public positionOffset: string;
     public mode: 'popup' | 'dropdown' | 'inline';
     public returnObject: string;
     public dialogType: DialogType;
@@ -45,7 +39,6 @@ export class DialogComponent implements OnInit, OnDestroy {
     }
 
     public ngOnInit() {
-        this.positionOffset = this.service.dtPositionOffset;
         this.mode = this.service.dtMode;
         this.returnObject = this.service.dtReturnObject;
         this.pickerType = this.service.dtPickerType;
@@ -59,6 +52,7 @@ export class DialogComponent implements OnInit, OnDestroy {
                 this.selectedMoment = selectedMoment;
             }
         );
+        this.show = false;
         this.openDialog(this.initialValue);
     }
 
@@ -70,12 +64,6 @@ export class DialogComponent implements OnInit, OnDestroy {
 
     public openDialog( moment: any ): void {
         this.show = true;
-
-        if (this.mode === 'dropdown') {
-            this.setDialogPosition();
-        } else if (this.mode === 'inline') {
-            this.setInlineDialogPosition();
-        }
         this.dialogType = this.service.dtDialogType;
         this.setSelectedMoment(moment);
         return;
@@ -95,6 +83,7 @@ export class DialogComponent implements OnInit, OnDestroy {
     }
 
     public setDialog( instance: any, elementRef: ElementRef, initialValue: any, dtLocale: string, dtViewFormat: string, dtReturnObject: string,
+                      dtPosition: 'top' | 'right' | 'bottom' | 'left',
                       dtPositionOffset: string, dtMode: 'popup' | 'dropdown' | 'inline',
                       dtHourTime: '12' | '24', dtTheme: string,
                       dtPickerType: 'both' | 'date' | 'time', dtShowSeconds: boolean, dtOnlyCurrent: boolean ): void {
@@ -102,7 +91,7 @@ export class DialogComponent implements OnInit, OnDestroy {
         this.directiveElementRef = elementRef;
         this.initialValue = initialValue;
 
-        this.service.setPickerOptions(dtLocale, dtViewFormat, dtReturnObject,
+        this.service.setPickerOptions(dtLocale, dtViewFormat, dtReturnObject, dtPosition,
             dtPositionOffset, dtMode, dtHourTime, dtTheme, dtPickerType, dtShowSeconds, dtOnlyCurrent);
     }
 
@@ -135,81 +124,6 @@ export class DialogComponent implements OnInit, OnDestroy {
         } else {
             this.confirm(false);
         }
-    }
-
-    public getDialogStyle(): any {
-        if (this.mode === 'popup') {
-            return {}
-        } else {
-            return {
-                'width': this.width,
-                'height': this.height,
-                'top.px': this.top,
-                'left.px': this.left,
-                'position': this.position
-            };
-        }
-    }
-
-    private setDialogPosition() {
-        if (window.innerWidth < 768) {
-            this.position = 'fixed';
-            this.top = 0;
-            this.left = 0;
-            this.width = '100%';
-            this.height = '100%';
-        } else {
-            let node = this.directiveElementRef.nativeElement;
-            let position = 'static';
-            let transform;
-            let parentNode: any = null;
-            let boxDirective;
-
-            while (node !== null && node.tagName !== 'HTML') {
-                position = window.getComputedStyle(node).getPropertyValue("position");
-                transform = window.getComputedStyle(node).getPropertyValue("-webkit-transform");
-                if (position !== 'static' && parentNode === null) {
-                    parentNode = node;
-                }
-                if (position === 'fixed') {
-                    break;
-                }
-                node = node.parentNode;
-            }
-
-            if (position !== 'fixed' || transform) {
-                boxDirective = this.createBox(this.directiveElementRef.nativeElement, true);
-                if (parentNode === null) {
-                    parentNode = node
-                }
-                let boxParent = this.createBox(parentNode, true);
-                this.top = boxDirective.top - boxParent.top;
-                this.left = boxDirective.left - boxParent.left;
-            } else {
-                boxDirective = this.createBox(this.directiveElementRef.nativeElement, false);
-                this.top = boxDirective.top;
-                this.left = boxDirective.left;
-                this.position = 'fixed';
-            }
-
-            this.top += boxDirective.height + 3;
-            this.left += parseInt(this.positionOffset) / 100 * boxDirective.width;
-            this.width = this.directiveElementRef.nativeElement.offsetWidth + 'px';
-        }
-    }
-
-    private setInlineDialogPosition() {
-        this.position = 'relative';
-        this.width = this.directiveElementRef.nativeElement.offsetWidth + 'px';
-    }
-
-    private createBox( element: any, offset: boolean ) {
-        return {
-            top: element.getBoundingClientRect().top + (offset ? window.pageYOffset : 0),
-            left: element.getBoundingClientRect().left + (offset ? window.pageXOffset : 0),
-            width: element.offsetWidth,
-            height: element.offsetHeight
-        };
     }
 
     private returnSelectedMoment(): void {
