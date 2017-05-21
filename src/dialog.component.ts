@@ -98,6 +98,7 @@ export class DialogComponent implements OnInit, OnDestroy {
     public confirm( close: boolean ): void {
         this.returnSelectedMoment();
         if (close === true) {
+            this.confirmSelectedMoment();
             this.cancelDialog();
         } else {
             this.dialogType = this.service.dtDialogType;
@@ -124,6 +125,12 @@ export class DialogComponent implements OnInit, OnDestroy {
         } else {
             this.confirm(false);
         }
+    }
+
+    private confirmSelectedMoment(): void {
+        let m = this.selectedMoment || this.now;
+        let selectedM = this.service.parseToReturnObjectType(m);
+        this.directiveInstance.momentConfirmed(selectedM);
     }
 
     private returnSelectedMoment(): void {

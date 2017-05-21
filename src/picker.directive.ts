@@ -18,6 +18,7 @@ export class DateTimePickerDirective implements OnInit, OnChanges {
 
     @Input('dateTimePicker') dateTimePicker: any;
     @Output('dateTimePickerChange') dateTimePickerChange = new EventEmitter<any>(true);
+    @Output('dateTimePickerConfirm') dateTimePickerConfirm = new EventEmitter<any>(true);
     @Input() locale: string = 'en';
     @Input() viewFormat: string = 'll';
     @Input() returnObject: string = 'js';
@@ -54,6 +55,10 @@ export class DateTimePickerDirective implements OnInit, OnChanges {
 
     public onClick(): void {
         this.openDialog();
+    }
+
+    public momentConfirmed( value: any) {
+        this.dateTimePickerConfirm.emit(value);
     }
 
     public momentChanged( value: any ) {
