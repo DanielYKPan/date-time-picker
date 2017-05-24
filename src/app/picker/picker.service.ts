@@ -2,12 +2,12 @@
  * picker.service
  */
 
-import {Injectable} from '@angular/core';
-import {DialogType} from './dialog.component';
+import { Injectable } from '@angular/core';
+import { DialogType } from './dialog.component';
 import * as moment from 'moment/moment';
-import {Moment} from 'moment/moment';
-import {Observable, Subject} from 'rxjs/Rx';
-import {shadeBlendConvert} from './utils';
+import { Moment } from 'moment/moment';
+import { Observable, Subject } from 'rxjs/Rx';
+import { shadeBlendConvert } from './utils';
 
 @Injectable()
 export class PickerService {
