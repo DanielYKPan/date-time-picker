@@ -36,6 +36,8 @@ export class DatePanelComponent implements OnInit, OnChanges {
     public mode: 'popup' | 'dropdown' | 'inline';
     public onlyCurrent: boolean;
     public todayIconColor: string;
+    public minDate: string;
+    public maxDate: string;
 
     private locale: string;
     private momentFunc = (moment as any).default ? (moment as any).default : moment;
@@ -52,6 +54,8 @@ export class DatePanelComponent implements OnInit, OnChanges {
     public ngOnInit() {
 
         this.locale = this.service.dtLocale;
+        this.minDate = this.service.dtMinDate;
+        this.maxDate = this.service.dtMaxDate;
         this.mode = this.service.dtMode;
         this.onlyCurrent = this.service.dtOnlyCurrent;
         this.todayIconColor = shadeBlendConvert(0.4, this.service.dtTheme);
@@ -161,6 +165,20 @@ export class DatePanelComponent implements OnInit, OnChanges {
             }
             this.calendarDays.push(day);
         }
+    }
+
+    private compare = function(day: any){
+        if(this.minDate){
+            if(moment(day.format()).isBefore(moment(this.minDate).format('YYYY-MM-DD'))){
+                return true;
+            }
+        }
+        if(this.maxDate){
+            if(moment(day.format()).isAfter(moment(this.maxDate).format('YYYY-MM-DD'))){
+                return true;
+            }
+        }
+        return false;
     }
 }
 

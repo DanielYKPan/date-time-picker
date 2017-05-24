@@ -23,6 +23,7 @@
                 <div class="picker-day"
                      (click)="select(day)"
                      [ngClass]="{
+                        'not-selected': compare(day),
                         'picker-show': day,
                         'picker-day-today': day  && day.isSame(now, 'day')
                         }"

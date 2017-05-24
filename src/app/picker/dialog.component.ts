@@ -29,6 +29,8 @@ export class DialogComponent implements OnInit, OnDestroy {
     public returnObject: string;
     public dialogType: DialogType;
     public pickerType: 'both' | 'date' | 'time';
+    public minDate: any;
+    public maxDate: any;
 
     private subId: Subscription;
     private momentFunc = (moment as any).default ? (moment as any).default : moment;
@@ -42,6 +44,8 @@ export class DialogComponent implements OnInit, OnDestroy {
         this.mode = this.service.dtMode;
         this.returnObject = this.service.dtReturnObject;
         this.pickerType = this.service.dtPickerType;
+        this.minDate = this.service.dtMinDate;
+        this.maxDate = this.service.dtMaxDate;
         this.translate.use(this.service.dtLocale);
         this.momentFunc.locale(this.service.dtLocale);
 
@@ -62,15 +66,15 @@ export class DialogComponent implements OnInit, OnDestroy {
         }
     }
 
-    public openDialog( moment: any ): void {
+    public openDialog( moment: any, minDate: any = null, maxDate: any = null): void {
         this.show = true;
         this.dialogType = this.service.dtDialogType;
-        this.setSelectedMoment(moment);
+        this.setSelectedMoment(moment, minDate, maxDate);
         return;
     }
 
-    public setSelectedMoment( moment: any ): void {
-        this.service.setMoment(moment);
+    public setSelectedMoment( moment: any , minDate: any, maxDate: any ): void {
+        this.service.setMoment(moment, minDate, maxDate);
     }
 
     public cancelDialog(): void {
@@ -86,13 +90,13 @@ export class DialogComponent implements OnInit, OnDestroy {
                       dtPosition: 'top' | 'right' | 'bottom' | 'left',
                       dtPositionOffset: string, dtMode: 'popup' | 'dropdown' | 'inline',
                       dtHourTime: '12' | '24', dtTheme: string,
-                      dtPickerType: 'both' | 'date' | 'time', dtShowSeconds: boolean, dtOnlyCurrent: boolean ): void {
+                      dtPickerType: 'both' | 'date' | 'time', dtShowSeconds: boolean, dtOnlyCurrent: boolean , dtMinDate: any, dtMaxDate: any): void {
         this.directiveInstance = instance;
         this.directiveElementRef = elementRef;
         this.initialValue = initialValue;
 
         this.service.setPickerOptions(dtLocale, dtViewFormat, dtReturnObject, dtPosition,
-            dtPositionOffset, dtMode, dtHourTime, dtTheme, dtPickerType, dtShowSeconds, dtOnlyCurrent);
+            dtPositionOffset, dtMode, dtHourTime, dtTheme, dtPickerType, dtShowSeconds, dtOnlyCurrent, dtMinDate, dtMaxDate);
     }
 
     public confirm( close: boolean ): void {

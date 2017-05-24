@@ -1,6 +1,6 @@
-@import '../../sass/utils/variables';
-@import '../../sass/utils/functions';
-@import '../../sass/utils/mixins';
+@import './sass/utils/variables';
+@import './sass/utils/functions';
+@import './sass/utils/mixins';
 @import './colors';
 
 *,
@@ -22,6 +22,10 @@
   flex-direction: column;
   width: 100%;
   height: 100%;
+}
+.not-selected {
+  color:#ddd !important;
+  pointer-events:none
 }
 
 .picker-control {

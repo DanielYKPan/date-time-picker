@@ -29,6 +29,8 @@
                        [ngModel]="momentValue | date: 'short'"
                        [hourTime]="'12'"
                        [locale]="'de'"
+                       [minDate]="'2017-05-06'"
+                       [maxDate]="'2017-05-10'"
                        [showSeconds]="true"
                        [theme]="'#c92a2a'"
                        (dateTimePickerChange)="setDate($event)" readonly>

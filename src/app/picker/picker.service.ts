@@ -2,12 +2,12 @@
  * picker.service
  */
 
-import { Injectable } from '@angular/core';
-import { DialogType } from './dialog.component';
+import {Injectable} from '@angular/core';
+import {DialogType} from './dialog.component';
 import * as moment from 'moment/moment';
-import { Moment } from 'moment/moment';
-import { Observable, Subject } from 'rxjs/Rx';
-import { shadeBlendConvert } from './utils';
+import {Moment} from 'moment/moment';
+import {Observable, Subject} from 'rxjs/Rx';
+import {shadeBlendConvert} from './utils';
 
 @Injectable()
 export class PickerService {
@@ -20,6 +20,20 @@ export class PickerService {
 
     get dtLocale(): string {
         return this._dtLocale;
+    }
+
+    /* Property _dtLocale */
+    private _dtMinDate: string;
+
+    get dtMinDate(): string {
+        return this._dtMinDate;
+    }
+
+    /* Property _dtLocale */
+    private _dtMaxDate: string;
+
+    get dtMaxDate(): string {
+        return this._dtMaxDate;
     }
 
     /* Property _dtViewFormat */
@@ -50,7 +64,7 @@ export class PickerService {
         return this._dtPickerType;
     }
 
-    set dtPickerType( value: 'both' | 'date' | 'time' ) {
+    set dtPickerType(value: 'both' | 'date' | 'time') {
         this._dtPickerType = value;
         if (value === 'both' || value === 'date') {
             this._dtDialogType = DialogType.Date;
@@ -95,7 +109,7 @@ export class PickerService {
         return this._dtTheme;
     }
 
-    set dtTheme( value: string ) {
+    set dtTheme(value: string) {
         this._dtTheme = shadeBlendConvert(0, value) || '#0070ba';
     }
 
@@ -127,7 +141,7 @@ export class PickerService {
         return this._selectedMoment;
     }
 
-    set selectedMoment( value: Moment ) {
+    set selectedMoment(value: Moment) {
         if (!this._selectedMoment || !this._selectedMoment.isSame(value)) {
             this._selectedMoment = value;
             this.selectedMomentSource.next(value);
@@ -139,12 +153,13 @@ export class PickerService {
     constructor() {
     }
 
-    public setPickerOptions( dtLocale: string, dtViewFormat: string, dtReturnObject: string,
-                             dtPosition: 'top' | 'right' | 'bottom' | 'left',
-                             dtPositionOffset: string, dtMode: 'popup' | 'dropdown' | 'inline',
-                             dtHourTime: '12' | '24', dtTheme: string,
-                             dtPickerType: 'both' | 'date' | 'time',
-                             dtShowSeconds: boolean, dtOnlyCurrent: boolean ): void {
+    public setPickerOptions(dtLocale: string, dtViewFormat: string, dtReturnObject: string,
+                            dtPosition: 'top' | 'right' | 'bottom' | 'left',
+                            dtPositionOffset: string, dtMode: 'popup' | 'dropdown' | 'inline',
+                            dtHourTime: '12' | '24', dtTheme: string,
+                            dtPickerType: 'both' | 'date' | 'time',
+                            dtShowSeconds: boolean, dtOnlyCurrent: boolean,
+                            dtMinDate: any, dtMaxDate: any): void {
         this._dtLocale = dtLocale;
         this._dtViewFormat = dtViewFormat;
         this._dtReturnObject = dtReturnObject;
@@ -154,11 +169,13 @@ export class PickerService {
         this._dtHourTime = dtHourTime;
         this._dtShowSeconds = dtShowSeconds;
         this._dtOnlyCurrent = dtOnlyCurrent;
+        this._dtMinDate = dtMinDate;
+        this._dtMaxDate = dtMaxDate;
         this.dtPickerType = dtPickerType;
         this.dtTheme = dtTheme;
     }
 
-    public setMoment( value: any ): void {
+    public setMoment(value: any, minDate: any, maxDate: any): void {
         if (value) {
             this._moment = this._dtReturnObject === 'string' ? this.momentFunc(value, this._dtViewFormat) :
                 this.momentFunc(value);
@@ -166,15 +183,21 @@ export class PickerService {
         } else {
             this._moment = this.momentFunc();
         }
+        if(minDate){
+            this._dtMinDate = minDate;
+        }
+        if(maxDate){
+            this._dtMaxDate = maxDate;
+        }
     }
 
-    public setDate( moment: Moment ): void {
+    public setDate(moment: Moment): void {
         let m = this.selectedMoment ? this.selectedMoment.clone() : this.moment;
         let daysDifference = moment.clone().startOf('date').diff(m.clone().startOf('date'), 'days');
         this.selectedMoment = m.add(daysDifference, 'd');
     }
 
-    public setTime( hour: number, minute: number, second: number, meridian: string ) {
+    public setTime(hour: number, minute: number, second: number, meridian: string) {
         let m = this.selectedMoment ? this.selectedMoment.clone() : this.moment.clone();
 
         if (this.dtHourTime === '12') {
@@ -199,7 +222,7 @@ export class PickerService {
         this.selectedMoment = m;
     }
 
-    public parseToReturnObjectType( selectedMoment: Moment ): any {
+    public parseToReturnObjectType(selectedMoment: Moment): any {
         switch (this.dtReturnObject) {
             case 'string':
                 return selectedMoment.format(this.dtViewFormat);
