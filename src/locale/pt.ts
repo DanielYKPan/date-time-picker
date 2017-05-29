@@ -1,5 +1,5 @@
 /**
- * pt-br
+ * pt-br - Portuguese
  */
 
 export const LANG_PT_TRANS = {
