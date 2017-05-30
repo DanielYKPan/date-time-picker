@@ -21,7 +21,19 @@ export class PickerService {
     get dtLocale(): string {
         return this._dtLocale;
     }
+    /* Property _dtLocale */
+    private _dtMinDate: string;
 
+    get dtMinDate(): string {
+        return this._dtMinDate;
+    }
+
+    /* Property _dtLocale */
+    private _dtMaxDate: string;
+
+    get dtMaxDate(): string {
+        return this._dtMaxDate;
+    }
     /* Property _dtViewFormat */
     private _dtViewFormat: string;
 
@@ -139,12 +151,13 @@ export class PickerService {
     constructor() {
     }
 
-    public setPickerOptions( dtLocale: string, dtViewFormat: string, dtReturnObject: string,
+    public setPickerOptions(dtLocale: string, dtViewFormat: string, dtReturnObject: string,
                              dtPosition: 'top' | 'right' | 'bottom' | 'left',
                              dtPositionOffset: string, dtMode: 'popup' | 'dropdown' | 'inline',
                              dtHourTime: '12' | '24', dtTheme: string,
                              dtPickerType: 'both' | 'date' | 'time',
-                             dtShowSeconds: boolean, dtOnlyCurrent: boolean ): void {
+                             dtShowSeconds: boolean, dtOnlyCurrent: boolean,
+                             dtMinDate: any, dtMaxDate: any): void {
         this._dtLocale = dtLocale;
         this._dtViewFormat = dtViewFormat;
         this._dtReturnObject = dtReturnObject;
@@ -156,15 +169,23 @@ export class PickerService {
         this._dtOnlyCurrent = dtOnlyCurrent;
         this.dtPickerType = dtPickerType;
         this.dtTheme = dtTheme;
+        this._dtMinDate = dtMinDate;
+        this._dtMaxDate = dtMaxDate;
     }
 
-    public setMoment( value: any ): void {
+    public setMoment( value: any, minDate: any, maxDate: any ): void {
         if (value) {
             this._moment = this._dtReturnObject === 'string' ? this.momentFunc(value, this._dtViewFormat) :
                 this.momentFunc(value);
             this.selectedMoment = this._moment.clone();
         } else {
             this._moment = this.momentFunc();
+        }
+        if(minDate){
+            this._dtMinDate = minDate;
+        }
+        if(maxDate){
+            this._dtMaxDate = maxDate;
         }
     }
 
