@@ -21,6 +21,8 @@
 * Get locale working in the whole picker. Words not from MomentJS in the picker now are also translated.('de', 'en', 'fr', 'lt', 'pl', 'pt', 'ro', 'ru', 'zh_CN', 'zh_HK', 'zh_TW').
    If the locale you are using is not working, please open an issue and help me to build that locale library.
 * This npm package now rename to [ng-pick-datetime](https://www.npmjs.com/package/ng-pick-datetime), this is because this package now support angular 4. The previous package was named [ng2-date-time-picker](https://www.npmjs.com/package/ng2-date-time-picker).
+* **[minDate]=" '2017-05-05' "** --- Set the picker minDate.
+* **[maxDate]=" '2017-05-20' "** --- Set the picker maxDate.
 
 ## Other Similar Projects
 
