@@ -5,8 +5,10 @@
 import { InjectionToken } from '@angular/core';
 
 // import translations
+import { LANG_CA_TRANS } from './locale/ca';
 import { LANG_DE_TRANS } from './locale/de';
 import { LANG_EN_TRANS } from './locale/en';
+import { LANG_ES_TRANS } from './locale/es';
 import { LANG_FR_TRANS } from './locale/fr';
 import { LANG_LT_TRANS } from './locale/lt';
 import { LANG_PL_TRANS } from './locale/pl';
@@ -22,8 +24,10 @@ export const TRANSLATIONS = new InjectionToken('translations');
 
 // all translations
 export const dictionary = {
+    'ca': LANG_CA_TRANS,
     'de': LANG_DE_TRANS,
     'en': LANG_EN_TRANS,
+    'es': LANG_ES_TRANS,
     'fr': LANG_FR_TRANS,
     'lt': LANG_LT_TRANS,
     'pl': LANG_PL_TRANS,
