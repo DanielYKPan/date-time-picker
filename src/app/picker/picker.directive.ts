@@ -28,7 +28,7 @@ export class DateTimePickerDirective implements OnInit, OnChanges {
     @Input() positionOffset: string = '0%';
     @Input() pickerType: 'both' | 'date' | 'time' = 'both';
     @Input() showSeconds: boolean = false;
-    @Input() onlyCurrent: boolean = false;
+    @Input() onlyCurrentMonth: boolean = false; // only show current month's days in calendar
 
     private created: boolean = false;
     private dialog: any;
@@ -67,7 +67,7 @@ export class DateTimePickerDirective implements OnInit, OnChanges {
             const injector = ReflectiveInjector.fromResolvedProviders([], this.vcRef.parentInjector);
             const cmpRef = this.vcRef.createComponent(factory, 0, injector, []);
             cmpRef.instance.setDialog(this, this.el, this.dateTimePicker, this.locale, this.viewFormat, this.returnObject, this.position,
-                this.positionOffset, this.mode, this.hourTime, this.theme, this.pickerType, this.showSeconds, this.onlyCurrent);
+                this.positionOffset, this.mode, this.hourTime, this.theme, this.pickerType, this.showSeconds, this.onlyCurrentMonth);
             this.dialog = cmpRef.instance;
         } else if (this.dialog) {
             this.dialog.openDialog(this.dateTimePicker);

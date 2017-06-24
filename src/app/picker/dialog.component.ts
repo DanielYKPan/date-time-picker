@@ -88,13 +88,13 @@ export class DialogComponent implements OnInit, OnDestroy {
                       dtPosition: 'top' | 'right' | 'bottom' | 'left',
                       dtPositionOffset: string, dtMode: 'popup' | 'dropdown' | 'inline',
                       dtHourTime: '12' | '24', dtTheme: string,
-                      dtPickerType: 'both' | 'date' | 'time', dtShowSeconds: boolean, dtOnlyCurrent: boolean ): void {
+                      dtPickerType: 'both' | 'date' | 'time', dtShowSeconds: boolean, dtOnlyCurrentMonth: boolean ): void {
         this.directiveInstance = instance;
         this.directiveElementRef = elementRef;
         this.initialValue = initialValue;
 
         this.service.setPickerOptions(dtLocale, dtViewFormat, dtReturnObject, dtPosition,
-            dtPositionOffset, dtMode, dtHourTime, dtTheme, dtPickerType, dtShowSeconds, dtOnlyCurrent);
+            dtPositionOffset, dtMode, dtHourTime, dtTheme, dtPickerType, dtShowSeconds, dtOnlyCurrentMonth);
     }
 
     public confirm( close: boolean ): void {

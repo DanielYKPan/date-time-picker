@@ -34,7 +34,7 @@ export class DatePanelComponent implements OnInit, OnChanges {
     public monthList: string[];
     public yearList: number[] = [];
     public mode: 'popup' | 'dropdown' | 'inline';
-    public onlyCurrent: boolean;
+    public onlyCurrentMonth: boolean;
     public todayIconColor: string;
 
     private locale: string;
@@ -60,7 +60,7 @@ export class DatePanelComponent implements OnInit, OnChanges {
 
         this.locale = this.service.dtLocale;
         this.mode = this.service.dtMode;
-        this.onlyCurrent = this.service.dtOnlyCurrent;
+        this.onlyCurrentMonth = this.service.dtOnlyCurrentMonth;
         this.todayIconColor = shadeBlendConvert(0.4, this.service.dtTheme);
 
         // set week days name array
@@ -169,7 +169,7 @@ export class DatePanelComponent implements OnInit, OnChanges {
 
         for (let i = start; i <= end; i += 1) {
             let day = this.moment.clone().startOf('month').add(i, 'days');
-            if (this.onlyCurrent && !day.isSame(this.moment, 'month')) {
+            if (this.onlyCurrentMonth && !day.isSame(this.moment, 'month')) {
                 day = null;
             }
             this.calendarDays.push(day);

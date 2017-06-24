@@ -106,11 +106,11 @@ export class PickerService {
         return this._dtShowSeconds;
     }
 
-    /* Property _dtOnlyCurrent */
-    private _dtOnlyCurrent: boolean;
+    /* Property _dtOnlyCurrentMonth */
+    private _dtOnlyCurrentMonth: boolean;
 
-    get dtOnlyCurrent(): boolean {
-        return this._dtOnlyCurrent;
+    get dtOnlyCurrentMonth(): boolean {
+        return this._dtOnlyCurrentMonth;
     }
 
     /* Property _moment */
@@ -144,7 +144,7 @@ export class PickerService {
                              dtPositionOffset: string, dtMode: 'popup' | 'dropdown' | 'inline',
                              dtHourTime: '12' | '24', dtTheme: string,
                              dtPickerType: 'both' | 'date' | 'time',
-                             dtShowSeconds: boolean, dtOnlyCurrent: boolean ): void {
+                             dtShowSeconds: boolean, dtOnlyCurrentMonth: boolean ): void {
         this._dtLocale = dtLocale;
         this._dtViewFormat = dtViewFormat;
         this._dtReturnObject = dtReturnObject;
@@ -153,7 +153,7 @@ export class PickerService {
         this._dtMode = dtMode;
         this._dtHourTime = dtHourTime;
         this._dtShowSeconds = dtShowSeconds;
-        this._dtOnlyCurrent = dtOnlyCurrent;
+        this._dtOnlyCurrentMonth = dtOnlyCurrentMonth;
         this.dtPickerType = dtPickerType;
         this.dtTheme = dtTheme;
     }
