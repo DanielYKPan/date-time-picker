@@ -43,7 +43,6 @@ export class DialogComponent implements OnInit, OnDestroy {
         this.returnObject = this.service.dtReturnObject;
         this.pickerType = this.service.dtPickerType;
         this.translate.use(this.service.dtLocale);
-        this.momentFunc.locale(this.service.dtLocale);
 
         // set now value
         this.now = this.momentFunc();

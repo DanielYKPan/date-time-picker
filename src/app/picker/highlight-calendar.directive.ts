@@ -6,7 +6,6 @@ import {
     Directive, ElementRef, HostListener, Input, OnChanges,
     OnInit, Renderer2, SimpleChanges
 } from '@angular/core';
-import * as moment from 'moment/moment';
 import { Moment } from 'moment/moment';
 import { PickerService } from './picker.service';
 import { shadeBlendConvert } from './utils';
@@ -28,14 +27,12 @@ export class HighlightCalendarDirective implements OnChanges, OnInit {
 
     private themeLightColor: string;
     private themeColor: string;
-    private momentFunc = (moment as any).default ? (moment as any).default : moment;
 
     constructor( private el: ElementRef,
                  private renderer: Renderer2,
                  private service: PickerService ) {
         this.themeColor = this.service.dtTheme;
         this.themeLightColor = shadeBlendConvert(0.7, this.themeColor);
-        this.momentFunc.locale(this.service.dtLocale);
     }
 
     public ngOnChanges( changes: SimpleChanges ): void {
@@ -103,7 +100,8 @@ export class HighlightCalendarDirective implements OnChanges, OnInit {
     }
 
     private isCalendarMonth(): boolean {
-        return this.month && this.calendarMoment && this.month === this.calendarMoment.format('MMM');
+        return this.month && this.calendarMoment &&
+            this.month === this.calendarMoment.locale(this.service.dtLocale).format('MMM');
     }
 
     private isCalendarYear(): boolean {
