@@ -47,6 +47,13 @@ export class DatePanelComponent implements OnInit, OnChanges {
         if (changes['dialogType']) {
             this.type = changes['dialogType'].currentValue;
         }
+
+        // if the selectedMoment input value changes, regenerate the calendar
+        if (changes['selectedMoment']
+            && !changes['selectedMoment'].isFirstChange()) {
+            let moment = changes['selectedMoment'].currentValue;
+            this.generateCalendar(moment);
+        }
     }
 
     public ngOnInit() {
@@ -64,7 +71,7 @@ export class DatePanelComponent implements OnInit, OnChanges {
         // set month name array
         this.monthList = this.momentFunc.monthsShort();
 
-        this.now =this.momentFunc();
+        this.now = this.momentFunc();
         this.moment = this.service.moment;
         this.generateCalendar();
     }
@@ -127,11 +134,6 @@ export class DatePanelComponent implements OnInit, OnChanges {
             return;
         }
 
-        if (moment.year() !== this.moment.year() ||
-            moment.month() !== this.moment.month()) {
-            this.moment = moment.clone();
-            this.generateCalendar();
-        }
         this.onSelected.emit(moment);
     }
 
@@ -149,8 +151,20 @@ export class DatePanelComponent implements OnInit, OnChanges {
         return;
     }
 
-    private generateCalendar(): void {
-        this.calendarDays = [];
+    private generateCalendar( moment?: Moment ): void {
+
+        if (moment) {
+            // if the param moment's year and month are the same as generated calendar's year and month
+            // we don't regenerate the calendar
+            if (moment.year() === this.moment.year()
+                && moment.month() === this.moment.month()) {
+                return;
+            } else {
+                this.moment = moment.clone();
+            }
+        }
+
+        this.calendarDays = []; // clear the calendarDays array
         let start = 0 - (this.moment.clone().startOf('month').day() + (7 - this.momentFunc.localeData().firstDayOfWeek())) % 7;
         let end = 41 + start; // iterator ending point
 

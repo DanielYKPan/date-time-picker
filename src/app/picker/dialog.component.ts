@@ -18,9 +18,9 @@ import { TranslateService } from './translate.service';
 })
 export class DialogComponent implements OnInit, OnDestroy {
 
-    private selectedMoment: Moment;
     private directiveInstance: any;
 
+    public selectedMoment: Moment;
     public directiveElementRef: ElementRef;
     public show: boolean;
     public initialValue: string;
@@ -47,11 +47,14 @@ export class DialogComponent implements OnInit, OnDestroy {
 
         // set now value
         this.now = this.momentFunc();
+
+        // looking at selectedMoment value change
         this.subId = this.service.selectedMomentChange.subscribe(
             ( selectedMoment: Moment ) => {
                 this.selectedMoment = selectedMoment;
             }
         );
+
         this.show = false;
         this.openDialog(this.initialValue);
     }
