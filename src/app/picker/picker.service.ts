@@ -164,12 +164,13 @@ export class PickerService {
                 this.momentFunc(value);
             this.selectedMoment = this._moment.clone();
         } else {
+            this.selectedMoment = null;
             this._moment = this.momentFunc();
         }
     }
 
     public setDate( moment: Moment ): void {
-        let m = this.selectedMoment ? this.selectedMoment.clone() : this.moment;
+        let m = this.selectedMoment ? this.selectedMoment.clone() : this.moment.clone();
         let daysDifference = moment.clone().startOf('date').diff(m.clone().startOf('date'), 'days');
         this.selectedMoment = m.add(daysDifference, 'd');
     }

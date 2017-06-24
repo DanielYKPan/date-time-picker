@@ -62,8 +62,8 @@
             <span class="today-icon" [ngStyle]="{'border-top-color': todayIconColor}"></span>
             <span class="text">{{ 'today' | translate }}</span>
         </div>
-        <div class="picker-action action-close" (click)="cancelDialog()" [hidden]="mode === 'inline'"><span
-                class="text">{{ 'close' | translate }}</span>
+        <div class="picker-action action-close" (click)="clearPickerInput()"><span
+                class="text">{{ 'cancel' | translate }}</span>
         </div>
         <div class="picker-action action-confirm"
              pickerBtnHighlight

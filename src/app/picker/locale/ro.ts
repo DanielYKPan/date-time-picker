@@ -7,6 +7,7 @@ export const LANG_RO_TRANS = {
     'today': 'Astăzi',
     'set time': 'Setează Ora',
     'close': 'Închide',
+    'cancel': 'şterge',
     'confirm': 'Confirmă',
     'hour': 'Oră',
     'minute': 'Minut',

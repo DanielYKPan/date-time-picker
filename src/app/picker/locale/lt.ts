@@ -7,6 +7,7 @@ export const LANG_LT_TRANS = {
     'today': 'Šiandien',
     'set time': 'Nustatyti laiką',
     'close': 'Uždaryti',
+    'cancel': 'Panaikinti',
     'confirm': 'Patvirtinti',
     'hour': 'Valanda',
     'minute': 'Minutė',

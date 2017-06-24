@@ -7,6 +7,7 @@ export const LANG_FR_TRANS = {
     'today': 'Aujourd\'hui',
     'set time': 'Confirmer l\'heure',
     'close': 'Fermer',
+    'cancel': 'Annuler',
     'confirm': 'Confirmer',
     'hour': 'Heure',
     'minute': 'Minute',

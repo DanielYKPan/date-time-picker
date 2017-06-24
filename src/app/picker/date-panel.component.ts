@@ -22,7 +22,7 @@ export class DatePanelComponent implements OnInit, OnChanges {
     @Input() public selectedMoment: Moment;
     @Input() public dialogType: DialogType;
     @Output() public onDialogTypeChange = new EventEmitter<DialogType>();
-    @Output() public onCancelDialog = new EventEmitter<boolean>();
+    @Output() public onClearPickerInput = new EventEmitter<boolean>();
     @Output() public onConfirm = new EventEmitter<boolean>();
     @Output() public onSelected = new EventEmitter<Moment>();
 
@@ -69,7 +69,7 @@ export class DatePanelComponent implements OnInit, OnChanges {
         this.monthList = this.momentFunc.localeData(this.service.dtLocale).monthsShort();
 
         this.now = this.momentFunc();
-        this.moment = this.service.moment;
+        this.moment = this.service.moment.clone();
         this.generateCalendar();
     }
 
@@ -138,13 +138,13 @@ export class DatePanelComponent implements OnInit, OnChanges {
         this.select(this.now);
     }
 
-    public cancelDialog(): void {
-        this.onCancelDialog.emit(true);
+    public confirm(): void {
+        this.onConfirm.emit(true);
         return;
     }
 
-    public confirm(): void {
-        this.onConfirm.emit(true);
+    public clearPickerInput(): void {
+        this.onClearPickerInput.emit(true);
         return;
     }
 
@@ -159,6 +159,8 @@ export class DatePanelComponent implements OnInit, OnChanges {
             } else {
                 this.moment = moment.clone();
             }
+        } else if (moment === null) {
+            this.moment = this.service.moment.clone();
         }
 
         this.calendarDays = []; // clear the calendarDays array

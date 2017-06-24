@@ -7,6 +7,7 @@ export const LANG_RU_TRANS = {
     'today': 'Сегодня',
     'set time': 'Установить Время',
     'close': 'Закрыть',
+    'cancel': 'аннулировать',
     'confirm': 'Подтвердить',
     'hour': 'Час',
     'minute': 'Минута',

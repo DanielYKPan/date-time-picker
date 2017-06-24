@@ -75,7 +75,7 @@ export class DialogComponent implements OnInit, OnDestroy {
         this.service.setMoment(moment);
     }
 
-    public cancelDialog(): void {
+    public closeDialog(): void {
         this.show = false;
         return;
     }
@@ -100,7 +100,7 @@ export class DialogComponent implements OnInit, OnDestroy {
     public confirm( close: boolean ): void {
         this.returnSelectedMoment();
         if (close === true) {
-            this.cancelDialog();
+            this.closeDialog();
         } else {
             this.dialogType = this.service.dtDialogType;
         }
@@ -126,6 +126,13 @@ export class DialogComponent implements OnInit, OnDestroy {
         } else {
             this.confirm(false);
         }
+    }
+
+    public clearPickerInput(): void {
+        this.service.setMoment(null);
+        this.directiveInstance.momentChanged(null);
+        this.closeDialog();
+        return;
     }
 
     private returnSelectedMoment(): void {
