@@ -5,11 +5,13 @@
 import { MomentPipe } from './moment.pipe';
 import * as moment from 'moment/moment';
 import { Moment } from 'moment/moment';
+import { PickerService } from './picker.service';
 
 describe('MomentPipe', () => {
     let defaultFormat: string;
     let nowMoment: Moment;
-    let pipe = new MomentPipe();
+    let service = new PickerService();
+    let pipe = new MomentPipe(service);
 
     beforeEach(() => {
         defaultFormat = 'MMM DD, YYYY';

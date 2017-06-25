@@ -18,9 +18,10 @@ import { TranslateService } from './translate.service';
 })
 export class DialogComponent implements OnInit, OnDestroy {
 
-    private selectedMoment: Moment;
     private directiveInstance: any;
 
+    public autoClose: boolean;
+    public selectedMoment: Moment;
     public directiveElementRef: ElementRef;
     public show: boolean;
     public initialValue: string;
@@ -39,19 +40,22 @@ export class DialogComponent implements OnInit, OnDestroy {
     }
 
     public ngOnInit() {
+        this.autoClose = this.service.dtAutoClose;
         this.mode = this.service.dtMode;
         this.returnObject = this.service.dtReturnObject;
         this.pickerType = this.service.dtPickerType;
         this.translate.use(this.service.dtLocale);
-        this.momentFunc.locale(this.service.dtLocale);
 
         // set now value
         this.now = this.momentFunc();
+
+        // looking at selectedMoment value change
         this.subId = this.service.selectedMomentChange.subscribe(
             ( selectedMoment: Moment ) => {
                 this.selectedMoment = selectedMoment;
             }
         );
+
         this.show = false;
         this.openDialog(this.initialValue);
     }
@@ -73,7 +77,10 @@ export class DialogComponent implements OnInit, OnDestroy {
         this.service.setMoment(moment);
     }
 
-    public cancelDialog(): void {
+    /**
+     * Close the picker dialog
+     * */
+    public closeDialog(): void {
         this.show = false;
         return;
     }
@@ -82,26 +89,27 @@ export class DialogComponent implements OnInit, OnDestroy {
         this.initialValue = value;
     }
 
-    public setDialog( instance: any, elementRef: ElementRef, initialValue: any, dtLocale: string, dtViewFormat: string, dtReturnObject: string,
+    public setDialog( instance: any, elementRef: ElementRef, initialValue: any, dtAutoClose: boolean,
+                      dtLocale: string, dtViewFormat: string, dtReturnObject: string,
                       dtPosition: 'top' | 'right' | 'bottom' | 'left',
                       dtPositionOffset: string, dtMode: 'popup' | 'dropdown' | 'inline',
                       dtHourTime: '12' | '24', dtTheme: string,
-                      dtPickerType: 'both' | 'date' | 'time', dtShowSeconds: boolean, dtOnlyCurrent: boolean ): void {
+                      dtPickerType: 'both' | 'date' | 'time', dtShowSeconds: boolean, dtOnlyCurrentMonth: boolean ): void {
         this.directiveInstance = instance;
         this.directiveElementRef = elementRef;
         this.initialValue = initialValue;
 
-        this.service.setPickerOptions(dtLocale, dtViewFormat, dtReturnObject, dtPosition,
-            dtPositionOffset, dtMode, dtHourTime, dtTheme, dtPickerType, dtShowSeconds, dtOnlyCurrent);
+        this.service.setPickerOptions(dtAutoClose, dtLocale, dtViewFormat, dtReturnObject, dtPosition,
+            dtPositionOffset, dtMode, dtHourTime, dtTheme, dtPickerType, dtShowSeconds, dtOnlyCurrentMonth);
     }
 
-    public confirm( close: boolean ): void {
+    /**
+     * Confirm the selectedMoment
+     * */
+    public confirmSelectedMoment(): void {
         this.returnSelectedMoment();
-        if (close === true) {
-            this.cancelDialog();
-        } else {
-            this.dialogType = this.service.dtDialogType;
-        }
+        this.closeDialog();
+        return;
     }
 
     public toggleDialogType( type: DialogType ): void {
@@ -114,18 +122,31 @@ export class DialogComponent implements OnInit, OnDestroy {
 
     public setDate( moment: Moment ): void {
         this.service.setDate(moment);
-        this.confirm(false);
+        if (this.autoClose || this.mode === 'inline') {
+            this.confirmSelectedMoment();
+        }
     }
 
     public setTime( time: { hour: number, min: number, sec: number, meridian: string } ): void {
         this.service.setTime(time.hour, time.min, time.sec, time.meridian);
-        if (this.service.dtPickerType === 'time') {
-            this.confirm(true);
+        if (this.service.dtPickerType === 'time' && this.autoClose) {
+            this.confirmSelectedMoment();
         } else {
-            this.confirm(false);
+            this.dialogType = this.service.dtDialogType;
         }
     }
 
+    public clearPickerInput(): void {
+        this.service.setMoment(null);
+        this.directiveInstance.momentChanged(null);
+        this.closeDialog();
+        return;
+    }
+
+    /**
+     * the picker directive returns the selected moment
+     *
+     * */
     private returnSelectedMoment(): void {
         let m = this.selectedMoment || this.now;
         let selectedM = this.service.parseToReturnObjectType(m);

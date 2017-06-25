@@ -7,6 +7,7 @@ export const LANG_CA_TRANS = {
     'today': 'Avui',
     'set time': 'Selecciona Temps',
     'close': 'Tancar',
+    'cancel': '‪Cancelar‬',
     'confirm': 'Confirmar',
     'hour': 'Hora',
     'minute': 'Minut',

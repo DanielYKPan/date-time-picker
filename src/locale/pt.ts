@@ -7,6 +7,7 @@ export const LANG_PT_TRANS = {
     'today': 'Hoje',
     'set time': 'Definir tempo',
     'close': 'Fechar',
+    'cancel': 'Cancelar',
     'confirm': 'Confirmar',
     'hour': 'Hora',
     'minute': 'Minuto',

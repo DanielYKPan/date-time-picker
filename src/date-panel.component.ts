@@ -22,10 +22,11 @@ export class DatePanelComponent implements OnInit, OnChanges {
     @Input() public selectedMoment: Moment;
     @Input() public dialogType: DialogType;
     @Output() public onDialogTypeChange = new EventEmitter<DialogType>();
-    @Output() public onCancelDialog = new EventEmitter<boolean>();
+    @Output() public onClearPickerInput = new EventEmitter<boolean>();
     @Output() public onConfirm = new EventEmitter<boolean>();
     @Output() public onSelected = new EventEmitter<Moment>();
 
+    public autoClose: boolean;
     public type: DialogType;
     public now: Moment;
     public moment: Moment;
@@ -34,7 +35,7 @@ export class DatePanelComponent implements OnInit, OnChanges {
     public monthList: string[];
     public yearList: number[] = [];
     public mode: 'popup' | 'dropdown' | 'inline';
-    public onlyCurrent: boolean;
+    public onlyCurrentMonth: boolean;
     public todayIconColor: string;
 
     private locale: string;
@@ -47,25 +48,30 @@ export class DatePanelComponent implements OnInit, OnChanges {
         if (changes['dialogType']) {
             this.type = changes['dialogType'].currentValue;
         }
+
+        // if the selectedMoment input value changes, regenerate the calendar
+        if (changes['selectedMoment']
+            && !changes['selectedMoment'].isFirstChange()) {
+            let moment = changes['selectedMoment'].currentValue;
+            this.generateCalendar(moment);
+        }
     }
 
     public ngOnInit() {
 
+        this.autoClose = this.service.dtAutoClose;
         this.locale = this.service.dtLocale;
         this.mode = this.service.dtMode;
-        this.onlyCurrent = this.service.dtOnlyCurrent;
+        this.onlyCurrentMonth = this.service.dtOnlyCurrentMonth;
         this.todayIconColor = shadeBlendConvert(0.4, this.service.dtTheme);
 
-        // set moment locale (default is en)
-        this.momentFunc.locale(this.locale);
-
         // set week days name array
-        this.dayNames = this.momentFunc.weekdaysShort(true);
+        this.dayNames = this.momentFunc.localeData(this.service.dtLocale).weekdaysShort();
         // set month name array
-        this.monthList = this.momentFunc.monthsShort();
+        this.monthList = this.momentFunc.localeData(this.service.dtLocale).monthsShort();
 
-        this.now =this.momentFunc();
-        this.moment = this.service.moment;
+        this.now = this.momentFunc();
+        this.moment = this.service.moment.clone();
         this.generateCalendar();
     }
 
@@ -127,11 +133,6 @@ export class DatePanelComponent implements OnInit, OnChanges {
             return;
         }
 
-        if (moment.year() !== this.moment.year() ||
-            moment.month() !== this.moment.month()) {
-            this.moment = moment.clone();
-            this.generateCalendar();
-        }
         this.onSelected.emit(moment);
     }
 
@@ -139,24 +140,38 @@ export class DatePanelComponent implements OnInit, OnChanges {
         this.select(this.now);
     }
 
-    public cancelDialog(): void {
-        this.onCancelDialog.emit(true);
-        return;
-    }
-
     public confirm(): void {
         this.onConfirm.emit(true);
         return;
     }
 
-    private generateCalendar(): void {
-        this.calendarDays = [];
+    public clearPickerInput(): void {
+        this.onClearPickerInput.emit(true);
+        return;
+    }
+
+    private generateCalendar( moment?: Moment ): void {
+
+        if (moment) {
+            // if the param moment's year and month are the same as generated calendar's year and month
+            // we don't regenerate the calendar
+            if (moment.year() === this.moment.year()
+                && moment.month() === this.moment.month()) {
+                return;
+            } else {
+                this.moment = moment.clone();
+            }
+        } else if (moment === null) {
+            this.moment = this.service.moment.clone();
+        }
+
+        this.calendarDays = []; // clear the calendarDays array
         let start = 0 - (this.moment.clone().startOf('month').day() + (7 - this.momentFunc.localeData().firstDayOfWeek())) % 7;
         let end = 41 + start; // iterator ending point
 
         for (let i = start; i <= end; i += 1) {
             let day = this.moment.clone().startOf('month').add(i, 'days');
-            if (this.onlyCurrent && !day.isSame(this.moment, 'month')) {
+            if (this.onlyCurrentMonth && !day.isSame(this.moment, 'month')) {
                 day = null;
             }
             this.calendarDays.push(day);

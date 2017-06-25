@@ -4,7 +4,7 @@
 
 import {
     Component, OnInit, ElementRef, Input, ViewChild, Output, EventEmitter,
-    Renderer2, OnDestroy
+    Renderer2, OnDestroy, OnChanges, SimpleChanges
 } from '@angular/core';
 import { PickerService } from './picker.service';
 
@@ -17,7 +17,7 @@ import { PickerService } from './picker.service';
         '(touchstart)': 'start($event)'
     }
 })
-export class SlideControlComponent implements OnInit, OnDestroy {
+export class SlideControlComponent implements OnChanges, OnInit, OnDestroy {
 
     private movePointer: any;
     private stopPointer: any;
@@ -37,6 +37,8 @@ export class SlideControlComponent implements OnInit, OnDestroy {
     @ViewChild('bar') bar: ElementRef;
     @ViewChild('highlight') highlight: ElementRef;
     @ViewChild('lowPointer') lowPointer: ElementRef;
+
+    public lowPointerValue: number;
 
     private pointerHalfWidth = 0;
     private barWidth = 0;
@@ -58,6 +60,14 @@ export class SlideControlComponent implements OnInit, OnDestroy {
         };
     }
 
+    public ngOnChanges( changes: SimpleChanges ): void {
+        if (changes['low']
+            && !changes['low'].isFirstChange()) {
+            let low_cur = changes['low'].currentValue;
+            this.setLowPointers(low_cur);
+        }
+    }
+
     public ngOnInit() {
         this.pointerHalfWidth = this.lowPointer.nativeElement.offsetWidth / 2;
         this.barWidth = this.bar.nativeElement.offsetWidth;
@@ -68,9 +78,12 @@ export class SlideControlComponent implements OnInit, OnDestroy {
         this.offsetRange = this.maxOffset - this.minOffset;
         this.themeColor = this.service.dtTheme;
         this.renderer.setStyle(this.highlight.nativeElement, 'backgroundColor', this.themeColor);
-        this.setPointers();
+        this.setLowPointers(this.low);
     }
 
+    /**
+     * Destroy all listeners
+     * */
     public ngOnDestroy(): void {
         if (this.mouseMoveListener) {
             this.mouseMoveListener();
@@ -89,53 +102,78 @@ export class SlideControlComponent implements OnInit, OnDestroy {
         }
     }
 
-    public start( event: any ) {
+    /**
+     * Listen to document mouse movement(touch movement) and trigger move event
+     * */
+    public start( event: any ): void {
         this.mouseMoveListener = this.renderer.listen('document', 'mousemove', this.movePointer);
         this.touchMoveListener = this.renderer.listen('document', 'touchmove', this.movePointer);
         this.mouseUpListener = this.renderer.listen('document', 'mouseup', this.stopPointer);
         this.touchEndListener = this.renderer.listen('document', 'touchend', this.stopPointer);
     }
 
-    private setPointers(): void {
+    /**
+     * Set low pointer's value
+     * @param pointerValue {number}
+     * @return {void}
+     * */
+    private setLowPointers( pointerValue: number ): void {
+        if (this.lowPointerValue === pointerValue) {
+            return;
+        } else {
+            this.lowPointerValue = pointerValue;
+            this.lowChange.emit(this.lowPointerValue);
+        }
 
-        let lowPercentValue, lowOffsetValue;
-        lowPercentValue = this.percentValue(this.low);
-        lowOffsetValue = this.pixelsToOffset(lowPercentValue);
+        this.setPointerStyle(this.lowPointerValue, this.lowPointer);
+    }
+
+    /**
+     * Set pointer's style
+     * @param pointerValue {number}
+     * @param pointerEle {ElementRef}
+     * @returns {void}
+     * */
+    private setPointerStyle( pointerValue: number, pointerEle: ElementRef ): void {
+        let percentValue, offsetValue;
+        percentValue = this.percentValue(pointerValue);
+        offsetValue = this.pixelsToOffset(percentValue);
 
         this.renderer.setStyle(
-            this.lowPointer.nativeElement,
+            pointerEle.nativeElement,
             'left',
-            lowOffsetValue + 'px'
+            offsetValue + 'px'
         );
 
         this.renderer.setStyle(
             this.highlight.nativeElement,
             'width',
-            lowOffsetValue + 'px'
+            offsetValue + 'px'
         );
     }
 
-    private stop() {
+    /**
+     * Destroy all listeners
+     * */
+    private stop(): void {
         this.mouseMoveListener();
         this.touchMoveListener();
         this.mouseUpListener();
         this.touchEndListener();
     }
 
-    private move( event: any ) {
+    /*
+     * Handle move
+     * */
+    private move( event: any ): void {
         event.preventDefault();
 
-        let lowOldValue = this.low;
         let newOffset = Math.max(Math.min(this.getX(event), this.maxOffset), this.minOffset);
         let newPercent = this.percentOffset(newOffset);
         let newValue = this.minValue + (this.valueRange * newPercent / 100);
         newValue = this.roundStep(newValue, this.precision, this.step, this.floor);
 
-        this.low = newValue;
-        this.setPointers();
-        if (this.low !== lowOldValue) {
-            this.lowChange.emit(this.low);
-        }
+        this.setLowPointers(newValue);
     }
 
     private getX( event: any ): number {

@@ -3,10 +3,11 @@
  */
 
 export const LANG_FR_TRANS = {
-    'time picker': 'Choix du temps',
+    'time picker': 'Choisir l\'heure',
     'today': 'Aujourd\'hui',
-    'set time': 'Modifier l\'heure',
+    'set time': 'Confirmer l\'heure',
     'close': 'Fermer',
+    'cancel': 'Annuler',
     'confirm': 'Confirmer',
     'hour': 'Heure',
     'minute': 'Minute',
