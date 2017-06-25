@@ -2,9 +2,6 @@
 # Angular Date Time Picker
 
 **Angular date time picker - Angular reusable UI component**
-
-## Important
-
 **This package supports Angular 4**
 
 ## Updates
