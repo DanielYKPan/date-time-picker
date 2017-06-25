@@ -129,7 +129,7 @@ export class DialogComponent implements OnInit, OnDestroy {
 
     public setTime( time: { hour: number, min: number, sec: number, meridian: string } ): void {
         this.service.setTime(time.hour, time.min, time.sec, time.meridian);
-        if (this.service.dtPickerType === 'time' && this.autoClose) {
+        if (this.service.dtPickerType === 'time') {
             this.confirmSelectedMoment();
         } else {
             this.dialogType = this.service.dtDialogType;
