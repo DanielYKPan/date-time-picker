@@ -238,6 +238,22 @@
                     <pre class="prettyprint"><code><![CDATA[<input class="picker-input" [ngModel]="moment | date: 'short'" [(dateTimePicker)]="moment" [showSeconds]="true" readonly>]]></code></pre>
                 </div>
             </div>
+
+            <div class="row">
+                <h4 class="heading">Auto Close Picker:</h4>
+                <p>Picker would be automatically close by selecting a day value.</p>
+                <div class="input-control">
+                    <label for="time-input-13">DateTime ([autoClose] = " true "): </label>
+                    <input class="picker-input"
+                           id="time-input-13"
+                           [ngModel]="input13Moment | date: 'MMMM dd, y'"
+                           [(dateTimePicker)]="input13Moment"
+                           [pickerType]=" 'date' "
+                           [autoClose]="true"
+                           readonly>
+                    <pre class="prettyprint"><code><![CDATA[<input class="picker-input" [ngModel]="moment | date: 'short'" [(dateTimePicker)]="moment" [pickerType]=" 'date' "  [autoClose]="true" readonly>]]></code></pre>
+                </div>
+            </div>
         </div>
     </section>
 </main>

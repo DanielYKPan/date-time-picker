@@ -29,6 +29,7 @@ export class AppComponent implements OnInit {
     public input10Moment: any;
     public input11Moment: any;
     public input12Moment: any;
+    public input13Moment: any;
 
     constructor() {
     }
