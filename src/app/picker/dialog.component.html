@@ -19,7 +19,7 @@
                                (onDialogTypeChange)="toggleDialogType($event)"
                                (onSelected)="setDate($event)"
                                (onClearPickerInput)="clearPickerInput()"
-                               (onConfirm)="confirm($event)"></dialog-date-panel>
+                               (onConfirm)="confirmSelectedMoment($event)"></dialog-date-panel>
             <dialog-time-panel *ngIf="pickerType === 'both' || pickerType === 'time'"
                                [ngClass]="{'picker-hidden': dialogType !== 0}"
                                [selectedMoment]="selectedMoment"

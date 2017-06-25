@@ -26,6 +26,7 @@ export class DatePanelComponent implements OnInit, OnChanges {
     @Output() public onConfirm = new EventEmitter<boolean>();
     @Output() public onSelected = new EventEmitter<Moment>();
 
+    public autoClose: boolean;
     public type: DialogType;
     public now: Moment;
     public moment: Moment;
@@ -58,6 +59,7 @@ export class DatePanelComponent implements OnInit, OnChanges {
 
     public ngOnInit() {
 
+        this.autoClose = this.service.dtAutoClose;
         this.locale = this.service.dtLocale;
         this.mode = this.service.dtMode;
         this.onlyCurrentMonth = this.service.dtOnlyCurrentMonth;

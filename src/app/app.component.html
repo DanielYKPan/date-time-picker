@@ -33,10 +33,6 @@
                        [theme]="'#c92a2a'"
                        (dateTimePickerChange)="setDate($event)" readonly>
             </div>
-            <div [dateTimePicker]="momentValue" [mode]="'inline'"
-                 [ngStyle]="{width: '150px'}" [hourTime]="'12'" [locale]="'zh_CN'"
-                 [showSeconds]="true"
-                 (dateTimePickerChange)="setDate($event)"></div>
             <div class="input-control">
                 <label for="time-input2">Time: </label>
                 <input class="picker-input"
@@ -46,6 +42,10 @@
                        [mode]="'dropdown'"
                        (dateTimePickerChange)="setDate($event)" readonly>
             </div>
+            <div [dateTimePicker]="momentValue" [mode]="'inline'"
+                 [ngStyle]="{width: '150px'}" [hourTime]="'12'" [locale]="'zh_CN'"
+                 [showSeconds]="true"
+                 (dateTimePickerChange)="setDate($event)"></div>
         </div>
     </section>
 </main>

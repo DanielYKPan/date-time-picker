@@ -15,6 +15,13 @@ export class PickerService {
     public selectedMomentSource: Subject<Moment> = new Subject<Moment>();
     public selectedMomentChange: Observable<Moment> = this.selectedMomentSource.asObservable();
 
+    /* Property _dtAutoClose */
+    private _dtAutoClose: boolean;
+
+    get dtAutoClose(): boolean {
+        return this._dtAutoClose;
+    }
+
     /* Property _dtLocale */
     private _dtLocale: string;
 
@@ -139,12 +146,13 @@ export class PickerService {
     constructor() {
     }
 
-    public setPickerOptions( dtLocale: string, dtViewFormat: string, dtReturnObject: string,
+    public setPickerOptions( dtAutoClose: boolean, dtLocale: string, dtViewFormat: string, dtReturnObject: string,
                              dtPosition: 'top' | 'right' | 'bottom' | 'left',
                              dtPositionOffset: string, dtMode: 'popup' | 'dropdown' | 'inline',
                              dtHourTime: '12' | '24', dtTheme: string,
                              dtPickerType: 'both' | 'date' | 'time',
                              dtShowSeconds: boolean, dtOnlyCurrentMonth: boolean ): void {
+        this._dtAutoClose = dtAutoClose;
         this._dtLocale = dtLocale;
         this._dtViewFormat = dtViewFormat;
         this._dtReturnObject = dtReturnObject;

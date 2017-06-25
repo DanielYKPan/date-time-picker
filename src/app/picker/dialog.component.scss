@@ -83,7 +83,7 @@
 
 .picker-content {
   @include when-inside('.small-mode') {
-    height: $base-line-height * 13;
+    height: $base-line-height * 14;
   }
   position: relative;
   flex-grow: 1;

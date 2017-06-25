@@ -18,6 +18,8 @@ export class DateTimePickerDirective implements OnInit, OnChanges {
 
     @Input('dateTimePicker') dateTimePicker: any;
     @Output('dateTimePickerChange') dateTimePickerChange = new EventEmitter<any>(true);
+
+    @Input() autoClose: boolean = false; // automatically close the picker after selecting
     @Input() locale: string = 'en';
     @Input() viewFormat: string = 'll';
     @Input() returnObject: string = 'js';
@@ -66,7 +68,8 @@ export class DateTimePickerDirective implements OnInit, OnChanges {
             const factory = this.componentFactoryResolver.resolveComponentFactory(DialogComponent);
             const injector = ReflectiveInjector.fromResolvedProviders([], this.vcRef.parentInjector);
             const cmpRef = this.vcRef.createComponent(factory, 0, injector, []);
-            cmpRef.instance.setDialog(this, this.el, this.dateTimePicker, this.locale, this.viewFormat, this.returnObject, this.position,
+            cmpRef.instance.setDialog(this, this.el, this.dateTimePicker, this.autoClose,
+                this.locale, this.viewFormat, this.returnObject, this.position,
                 this.positionOffset, this.mode, this.hourTime, this.theme, this.pickerType, this.showSeconds, this.onlyCurrentMonth);
             this.dialog = cmpRef.instance;
         } else if (this.dialog) {
