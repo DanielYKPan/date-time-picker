@@ -6,7 +6,7 @@
 
 ## Updates
 * Add locale 'ca', 'es', closes [#66](https://github.com/DanielYKPan/date-time-picker/issues/66).
-* Picker's calendar and time slider would be updated, if [dateTimePicker] value is updated outside the picker. closes [#71](https://github.com/DanielYKPan/date-time-picker/issues/71).
+* Picker's calendar and time slider would be updated, if **[dateTimePicker]** value is updated outside the picker. closes [#71](https://github.com/DanielYKPan/date-time-picker/issues/71).
 * Add picker option **[autoClose]=" false "**. If setting __`[autoClose] = "true"`__, the picker would close and return the moment value by clicking a day in the calendar or confirming the time value in time slider (The default value is 'false'). 
    closes [#72](https://github.com/DanielYKPan/date-time-picker/issues/72).
 * Remove __Close__ button.
