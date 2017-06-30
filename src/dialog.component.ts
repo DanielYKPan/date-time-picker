@@ -127,13 +127,22 @@ export class DialogComponent implements OnInit, OnDestroy {
         }
     }
 
+    /**
+     * Set the picker time value
+     * @param time { {hour: number, min: number, sec: number, meridian: string} }
+     * @return {void}
+     * */
     public setTime( time: { hour: number, min: number, sec: number, meridian: string } ): void {
+        // set the picker selectedMoment time value
         this.service.setTime(time.hour, time.min, time.sec, time.meridian);
-        if (this.service.dtPickerType === 'time') {
+
+        if (this.service.dtPickerType === 'time' || this.mode === 'inline' || this.autoClose) {
             this.confirmSelectedMoment();
-        } else {
-            this.dialogType = this.service.dtDialogType;
         }
+
+        // reset the dialog's type
+        this.dialogType = this.service.dtDialogType;
+        return;
     }
 
     public clearPickerInput(): void {
