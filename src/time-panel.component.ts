@@ -3,21 +3,19 @@
  */
 
 import {
-    Component, OnInit, ChangeDetectionStrategy, Output, EventEmitter, Input, OnChanges,
-    SimpleChanges
+    Component, OnInit, Output, EventEmitter, OnDestroy
 } from '@angular/core';
 import { Moment } from 'moment/moment';
 import { PickerService } from './picker.service';
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
     selector: 'dialog-time-panel',
-    changeDetection: ChangeDetectionStrategy.OnPush,
     templateUrl: './time-panel.component.html',
     styleUrls: ['./time-panel.component.scss'],
 })
-export class TimePanelComponent implements OnChanges, OnInit {
+export class TimePanelComponent implements OnInit, OnDestroy {
 
-    @Input() public selectedMoment: Moment;
     @Output() onSetTime = new EventEmitter<{ hour: number, min: number, sec: number, meridian: string }>();
 
     hourValue: number;
@@ -26,32 +24,32 @@ export class TimePanelComponent implements OnChanges, OnInit {
     meridianValue: string;
     hourFloor: number = 1;
     hourCeiling: number = 12;
-    moment: Moment;
+    timeSliderMoment: Moment;
     hourTime: '12' | '24';
     themeColor: string;
     mode: 'popup' | 'dropdown' | 'inline';
     showSeconds: boolean;
 
+    private subId: Subscription;
+
     constructor( private service: PickerService ) {
     }
 
-    public ngOnChanges( changes: SimpleChanges ): void {
-        if (changes['selectedMoment']
-            && !changes['selectedMoment'].isFirstChange()) {
-            let moment = changes['selectedMoment'].currentValue;
-            this.setTimePickerTimeValue(moment);
-        }
-    }
-
     public ngOnInit() {
-
-        this.moment = this.service.moment.clone();
         this.hourTime = this.service.dtHourTime;
         this.themeColor = this.service.dtTheme;
         this.mode = this.service.dtMode;
         this.showSeconds = this.service.dtShowSeconds;
 
-        this.setTimePickerTimeValue();
+        this.subId = this.service.selectedMomentChange.subscribe(
+            ( data ) => {
+                this.setTimePickerTimeValue(data);
+            }
+        );
+    }
+
+    public ngOnDestroy(): void {
+        this.subId.unsubscribe();
     }
 
     public setMeridian( meridian: string ): void {
@@ -67,29 +65,31 @@ export class TimePanelComponent implements OnChanges, OnInit {
         });
     }
 
-    private setTimePickerTimeValue(moment?: Moment) {
-        if(moment) {
-            this.moment = moment.clone();
+    private setTimePickerTimeValue( moment?: Moment ) {
+        if (moment) {
+            this.timeSliderMoment = moment.clone();
+        } else {
+            this.timeSliderMoment = this.service.now;
         }
 
         if (this.hourTime === '12') {
-            if (this.moment.hours() <= 11) {
-                this.hourValue = this.moment.hours();
-            } else if (this.moment.hours() > 12) {
-                this.hourValue = this.moment.hours() - 12;
-            } else if (this.moment.hours() === 0 || this.moment.hours() === 12) {
+            if (this.timeSliderMoment.hours() <= 11) {
+                this.hourValue = this.timeSliderMoment.hours();
+            } else if (this.timeSliderMoment.hours() > 12) {
+                this.hourValue = this.timeSliderMoment.hours() - 12;
+            } else if (this.timeSliderMoment.hours() === 0 || this.timeSliderMoment.hours() === 12) {
                 this.hourValue = 12;
             }
         }
 
         if (this.hourTime === '24') {
-            this.hourValue = this.moment.hours();
+            this.hourValue = this.timeSliderMoment.hours();
             this.hourFloor = 0;
             this.hourCeiling = 23;
         }
 
-        this.minValue = this.moment.minutes();
-        this.secValue = this.moment.seconds();
-        this.meridianValue = this.moment.clone().locale('en').format('A');
+        this.minValue = this.timeSliderMoment.minutes();
+        this.secValue = this.timeSliderMoment.seconds();
+        this.meridianValue = this.timeSliderMoment.clone().locale('en').format('A');
     }
 }

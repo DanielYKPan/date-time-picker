@@ -2,26 +2,21 @@
  * picker-header.component
  */
 
-import {
-    ChangeDetectionStrategy, Component, ElementRef, EventEmitter,
-    Input, OnInit, Output, ViewChild
-} from '@angular/core';
+import { Component,EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { PickerService } from './picker.service';
 import { DialogType } from './dialog.component';
 import { Moment } from 'moment';
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
     selector: 'dialog-picker-header',
     templateUrl: './picker-header.component.html',
     styleUrls: ['./picker-header.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 
-export class PickerHeaderComponent implements OnInit {
+export class PickerHeaderComponent implements OnInit, OnDestroy {
 
     @Input() public dialogType: DialogType;
-    @Input() public selectedMoment: Moment;
-    @Input() public now: Moment;
     @Output() public onDialogTypeChange = new EventEmitter<DialogType>();
 
     public hourTime: '12' | '24';
@@ -29,6 +24,9 @@ export class PickerHeaderComponent implements OnInit {
     public pickerType: 'both' | 'date' | 'time';
     public mode: 'popup' | 'dropdown' | 'inline';
     public themeColor: string;
+    public now: Moment;
+    public selectedMoment: Moment;
+    private subId: Subscription;
 
     constructor( private service: PickerService ) {
     }
@@ -39,6 +37,15 @@ export class PickerHeaderComponent implements OnInit {
         this.pickerType = this.service.dtPickerType;
         this.mode = this.service.dtMode;
         this.themeColor = this.service.dtTheme;
+        this.now = this.service.now;
+
+        this.subId = this.service.selectedMomentChange.subscribe(
+            (data) => this.selectedMoment = data
+        );
+    }
+
+    public ngOnDestroy(): void {
+        this.subId.unsubscribe();
     }
 
     public setDialogType( type: DialogType ) {

@@ -3,10 +3,8 @@
  */
 
 import { Component, OnInit, ElementRef, OnDestroy } from '@angular/core';
-import * as moment from 'moment/moment';
 import { Moment } from 'moment/moment';
 import { PickerService } from './picker.service';
-import { Subscription } from 'rxjs/Rx';
 import { TRANSLATION_PROVIDERS } from './translations';
 import { TranslateService } from './translate.service';
 
@@ -23,16 +21,13 @@ export class DialogComponent implements OnInit, OnDestroy {
     public autoClose: boolean;
     public selectedMoment: Moment;
     public directiveElementRef: ElementRef;
-    public show: boolean;
+    public show: boolean = false;
     public initialValue: string;
     public now: Moment;
     public mode: 'popup' | 'dropdown' | 'inline';
     public returnObject: string;
     public dialogType: DialogType;
     public pickerType: 'both' | 'date' | 'time';
-
-    private subId: Subscription;
-    private momentFunc = (moment as any).default ? (moment as any).default : moment;
 
     constructor( private el: ElementRef,
                  private translate: TranslateService,
@@ -44,31 +39,20 @@ export class DialogComponent implements OnInit, OnDestroy {
         this.mode = this.service.dtMode;
         this.returnObject = this.service.dtReturnObject;
         this.pickerType = this.service.dtPickerType;
+        this.dialogType = this.service.dtDialogType;
         this.translate.use(this.service.dtLocale);
 
         // set now value
-        this.now = this.momentFunc();
+        this.now = this.service.now;
 
-        // looking at selectedMoment value change
-        this.subId = this.service.selectedMomentChange.subscribe(
-            ( selectedMoment: Moment ) => {
-                this.selectedMoment = selectedMoment;
-            }
-        );
-
-        this.show = false;
         this.openDialog(this.initialValue);
     }
 
     public ngOnDestroy(): void {
-        if (this.subId) {
-            this.subId.unsubscribe();
-        }
     }
 
     public openDialog( moment: any ): void {
         this.show = true;
-        this.dialogType = this.service.dtDialogType;
         this.setSelectedMoment(moment);
         return;
     }
@@ -94,13 +78,15 @@ export class DialogComponent implements OnInit, OnDestroy {
                       dtPosition: 'top' | 'right' | 'bottom' | 'left',
                       dtPositionOffset: string, dtMode: 'popup' | 'dropdown' | 'inline',
                       dtHourTime: '12' | '24', dtTheme: string,
-                      dtPickerType: 'both' | 'date' | 'time', dtShowSeconds: boolean, dtOnlyCurrentMonth: boolean ): void {
+                      dtPickerType: 'both' | 'date' | 'time', dtShowSeconds: boolean,
+                      dtOnlyCurrentMonth: boolean, dtMinDate: string, dtMaxDate: string ): void {
         this.directiveInstance = instance;
         this.directiveElementRef = elementRef;
         this.initialValue = initialValue;
 
         this.service.setPickerOptions(dtAutoClose, dtLocale, dtViewFormat, dtReturnObject, dtPosition,
-            dtPositionOffset, dtMode, dtHourTime, dtTheme, dtPickerType, dtShowSeconds, dtOnlyCurrentMonth);
+            dtPositionOffset, dtMode, dtHourTime, dtTheme, dtPickerType, dtShowSeconds,
+            dtOnlyCurrentMonth, dtMinDate, dtMaxDate);
     }
 
     /**
@@ -121,9 +107,11 @@ export class DialogComponent implements OnInit, OnDestroy {
     }
 
     public setDate( moment: Moment ): void {
-        this.service.setDate(moment);
-        if (this.autoClose || this.mode === 'inline') {
+        let done = this.service.setDate(moment);
+        if (done && (this.autoClose || this.mode === 'inline')) {
             this.confirmSelectedMoment();
+        } else {
+            return;
         }
     }
 
@@ -157,9 +145,11 @@ export class DialogComponent implements OnInit, OnDestroy {
      *
      * */
     private returnSelectedMoment(): void {
-        let m = this.selectedMoment || this.now;
-        let selectedM = this.service.parseToReturnObjectType(m);
-        this.directiveInstance.momentChanged(selectedM);
+        let selectedM = this.service.parseToReturnObjectType();
+        if (selectedM) {
+            this.directiveInstance.momentChanged(selectedM);
+        }
+        return;
     }
 }
 

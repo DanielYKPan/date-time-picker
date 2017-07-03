@@ -10,11 +10,10 @@
         'small-mode': mode === 'dropdown' || mode === 'inline'}"
      dialogPosition [directiveElementRef]="directiveElementRef">
     <div class="picker-box">
-        <dialog-picker-header [dialogType]="dialogType" [selectedMoment]="selectedMoment" [now]="now" (onDialogTypeChange)="toggleDialogType($event)"></dialog-picker-header>
+        <dialog-picker-header [dialogType]="dialogType" (onDialogTypeChange)="toggleDialogType($event)"></dialog-picker-header>
         <div class="picker-content">
             <dialog-date-panel *ngIf="pickerType === 'both' || pickerType === 'date'"
                                [ngClass]="{'picker-hidden': dialogType === 0}"
-                               [selectedMoment]="selectedMoment"
                                [dialogType]="dialogType"
                                (onDialogTypeChange)="toggleDialogType($event)"
                                (onSelected)="setDate($event)"
@@ -22,7 +21,6 @@
                                (onConfirm)="confirmSelectedMoment($event)"></dialog-date-panel>
             <dialog-time-panel *ngIf="pickerType === 'both' || pickerType === 'time'"
                                [ngClass]="{'picker-hidden': dialogType !== 0}"
-                               [selectedMoment]="selectedMoment"
                                (onSetTime)="setTime($event)"></dialog-time-panel>
         </div>
     </div>

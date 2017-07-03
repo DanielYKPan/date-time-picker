@@ -267,6 +267,10 @@
       cursor: pointer;
     }
 
+    &.picker-day-invalid {
+      cursor: not-allowed;
+    }
+
     .today-icon {
       position: absolute;
       right: 2px;

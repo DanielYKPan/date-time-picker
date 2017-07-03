@@ -6,13 +6,14 @@ import { Injectable } from '@angular/core';
 import { DialogType } from './dialog.component';
 import * as moment from 'moment/moment';
 import { Moment } from 'moment/moment';
-import { Observable, Subject } from 'rxjs/Rx';
+import { Observable } from 'rxjs/Rx';
 import { shadeBlendConvert } from './utils';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 @Injectable()
 export class PickerService {
 
-    public selectedMomentSource: Subject<Moment> = new Subject<Moment>();
+    public selectedMomentSource: BehaviorSubject<Moment> = new BehaviorSubject<Moment>(null);
     public selectedMomentChange: Observable<Moment> = this.selectedMomentSource.asObservable();
 
     /* Property _dtAutoClose */
@@ -120,28 +121,39 @@ export class PickerService {
         return this._dtOnlyCurrentMonth;
     }
 
-    /* Property _moment */
-    private _moment: Moment;
+    /* Property _dtMinDate */
+    private _dtMinDate: Moment;
 
-    get moment(): Moment {
-        return this._moment;
+    get dtMinDate(): Moment {
+        return this._dtMinDate;
+    }
+
+    /* Property _dtMaxDate */
+    private _dtMaxDate: Moment;
+
+    get dtMaxDate(): Moment {
+        return this._dtMaxDate;
     }
 
     /* Property _selectedMoment */
     private _selectedMoment: Moment;
-
-    get selectedMoment(): Moment {
-        return this._selectedMoment;
-    }
-
     set selectedMoment( value: Moment ) {
-        if (!this._selectedMoment || !this._selectedMoment.isSame(value)) {
-            this._selectedMoment = value;
-            this.selectedMomentSource.next(value);
+        if (value === null) {
+            this._selectedMoment = null;
+        } else if (!this._selectedMoment || !this._selectedMoment.isSame(value)) {
+            this._selectedMoment = value.clone();
         }
+        this.selectedMomentSource.next(this._selectedMoment);
     }
 
     private momentFunc = (moment as any).default ? (moment as any).default : moment;
+
+    /* Property _now */
+    private _now: Moment = this.momentFunc();
+
+    get now(): Moment {
+        return this._now.clone();
+    }
 
     constructor() {
     }
@@ -151,7 +163,8 @@ export class PickerService {
                              dtPositionOffset: string, dtMode: 'popup' | 'dropdown' | 'inline',
                              dtHourTime: '12' | '24', dtTheme: string,
                              dtPickerType: 'both' | 'date' | 'time',
-                             dtShowSeconds: boolean, dtOnlyCurrentMonth: boolean ): void {
+                             dtShowSeconds: boolean, dtOnlyCurrentMonth: boolean,
+                             dtMinDate: string, dtMaxDate: string ): void {
         this._dtAutoClose = dtAutoClose;
         this._dtLocale = dtLocale;
         this._dtViewFormat = dtViewFormat;
@@ -162,29 +175,39 @@ export class PickerService {
         this._dtHourTime = dtHourTime;
         this._dtShowSeconds = dtShowSeconds;
         this._dtOnlyCurrentMonth = dtOnlyCurrentMonth;
+        this._dtMinDate = this.momentFunc(dtMinDate, "YYYY-MM-DD");
+        this._dtMaxDate = this.momentFunc(dtMaxDate, "YYYY-MM-DD");
         this.dtPickerType = dtPickerType;
         this.dtTheme = dtTheme;
     }
 
     public setMoment( value: any ): void {
         if (value) {
-            this._moment = this._dtReturnObject === 'string' ? this.momentFunc(value, this._dtViewFormat) :
+            this.selectedMoment = this._dtReturnObject === 'string' ?
+                this.momentFunc(value, this._dtViewFormat) :
                 this.momentFunc(value);
-            this.selectedMoment = this._moment.clone();
         } else {
             this.selectedMoment = null;
-            this._moment = this.momentFunc();
         }
     }
 
-    public setDate( moment: Moment ): void {
-        let m = this.selectedMoment ? this.selectedMoment.clone() : this.moment.clone();
+    /**
+     * Set the date moment to selectedMoment
+     * @param moment
+     * @returns {boolean}
+     * */
+    public setDate( moment: Moment ): boolean {
+        if (!this.isValidDate(moment)) {
+            return false;
+        }
+        let m = this._selectedMoment ? this._selectedMoment.clone() : this._now;
         let daysDifference = moment.clone().startOf('date').diff(m.clone().startOf('date'), 'days');
         this.selectedMoment = m.add(daysDifference, 'd');
+        return true;
     }
 
     public setTime( hour: number, minute: number, second: number, meridian: string ) {
-        let m = this.selectedMoment ? this.selectedMoment.clone() : this.moment.clone();
+        let m = this._selectedMoment ? this._selectedMoment.clone() : this._now;
 
         if (this.dtHourTime === '12') {
             if (meridian === 'AM') {
@@ -208,29 +231,58 @@ export class PickerService {
         this.selectedMoment = m;
     }
 
-    public parseToReturnObjectType( selectedMoment: Moment ): any {
+    public parseToReturnObjectType(): any {
+        if (!this._selectedMoment) {
+            return;
+        }
         switch (this.dtReturnObject) {
             case 'string':
-                return selectedMoment.format(this.dtViewFormat);
+                return this._selectedMoment.format(this.dtViewFormat);
 
             case 'moment':
-                return selectedMoment;
+                return this._selectedMoment;
 
             case 'json':
-                return selectedMoment.toJSON();
+                return this._selectedMoment.toJSON();
 
             case 'array':
-                return selectedMoment.toArray();
+                return this._selectedMoment.toArray();
 
             case 'iso':
-                return selectedMoment.toISOString();
+                return this._selectedMoment.toISOString();
 
             case 'object':
-                return selectedMoment.toObject();
+                return this._selectedMoment.toObject();
 
             case 'js':
             default:
-                return selectedMoment.toDate();
+                return this._selectedMoment.toDate();
         }
+    }
+
+    /**
+     * Check if the provided moment is valid between minDate and maxDate
+     * @param moment
+     * @returns {boolean}
+     * */
+    public isValidDate( moment: Moment ): boolean {
+        let isValid = true;
+        if (this._dtMinDate.isValid()) {
+            isValid = isValid && this.momentFunc(moment).isSameOrAfter(this._dtMinDate);
+        }
+        if (this._dtMaxDate.isValid()) {
+            isValid = isValid && this.momentFunc(moment).isSameOrBefore(this._dtMaxDate);
+        }
+        return isValid
+    }
+
+    /**
+     * Check if the days is the same day
+     * @param day_1 {Moment}
+     * @param day_2 {Moment}
+     * @returns {boolean}
+     * */
+    public isTheSameDay( day_1: Moment, day_2: Moment ): boolean {
+        return day_1 && day_2 && day_1.isSame(day_2, 'date');
     }
 }
