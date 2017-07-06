@@ -7,7 +7,7 @@ import { BrowserModule }  from '@angular/platform-browser';
 import { AppComponent } from './app.component';
 import { FormsModule } from "@angular/forms";
 import { ColorPickerModule } from 'angular2-color-picker';
-import { DateTimePickerModule } from 'ng-pick-datetime';
+import { DateTimePickerModule } from '../../npmdist/picker.module';
 
 @NgModule({
     imports: [
