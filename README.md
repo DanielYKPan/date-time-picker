@@ -5,11 +5,14 @@
 **This package supports Angular 4**
 
 ## Updates
+* Added **[minMoment]** and **[maxMoment]** to restrict the range of date or time, closes
+   [#41](https://github.com/DanielYKPan/date-time-picker/issues/41), [#77](https://github.com/DanielYKPan/date-time-picker/issues/77)
+* Added **(dataTimePickerError)** to emit a message whenever a invalid date or time is being selected.
 * Fixed picker hover issue and position issue in IE 11. closes [#48](https://github.com/DanielYKPan/date-time-picker/issues/48), [#64](https://github.com/DanielYKPan/date-time-picker/issues/64), 
    [#70](https://github.com/DanielYKPan/date-time-picker/issues/70).
+* Fixed time panel slider not working properly. closes [#74](https://github.com/DanielYKPan/date-time-picker/issues/74).
 * Fixed Time picker does not update in 'inline' view, closes [#75](https://github.com/DanielYKPan/date-time-picker/issues/75).
 * Fixed German translation error, closes [#76](https://github.com/DanielYKPan/date-time-picker/issues/76).
-* Fixed time panel slider not working properly. closes [#74](https://github.com/DanielYKPan/date-time-picker/issues/74).
 
 ## Important
 * Get locale working in the whole picker. Words not from MomentJS in the picker now are also translated.( 'ca', 'de', 'en', 'es', 'fr', 'lt', 'pl', 'pt', 'ro', 'ru', 'zh_CN', 'zh_HK', 'zh_TW').
@@ -116,17 +119,25 @@ public setMoment(moment: any): any {
     * **[mode]=" 'popup' "** --- Set the date-time picker mode. Default is 'popup'. 
         The options choice could be 'popup', 'dropdown', 'inline'. 
         If you set it as 'inline', the date-time-picker would always show on your web page as a html element (In inline mode, you could set width = '250px' to make the the picker smaller or bigger. picker width are set between 250px and 300px ).
+    * **[minMoment]= "'2017-09-21 19:30:00''" / [maxMoment]** -- Set minimum date / time and maximum date / time that is selectable. The format is **YYYY-MM-DD HH:mm:ss**(or **YYYY-MM-DD** for only setting date value).
+        <br />
+        For example, if the ideal min date and time is **September 21st, 2017 19:30**, the format string is **'2017-09-21 19:30:00'**(The default value is 'null'). 
+        If you want to know whether a user selected a invalid date or time, you could use **(dateTimePickerError)="DoWhateverFn($event)"** to catch an error message.
     * **[onlyCurrentMonth]=" true "** --- Set to only show current month days in date picker. (The default value is false).
     * **[pickerType]=" 'both' "** --- You can set the default dialogType to 'date' or 'time' or 'both'. 
         When you leave it as default ([pickerType]=" 'both' "), the date-time-picker dialog would display the date calendar and time slider (you could toggle between them). 
         If you set it as 'date' or 'time', the date-time-picker dialog would only display date calendar or time slider.
     * **[position]=" 'bottom' "** --- Set the picker position in dropdown mode. This position means the picker would appear on the bottom ('top', 'left' or 'right') of your input box. 
         Default is 'bottom'. The option choice could be 'top', 'bottom', 'left', 'right'. (The default value is 'bottom').
-    * **[positionOffset]=" '0%' "** --- Set the picker position offset in dropdown mode. 
-        When you set your position to 'top' or 'bottom', the positionOffset is the percentage of your input box height.
-        When you set your position to 'right' or 'left', the positionOffset is the percentage of your input box width.
-        The value could be minus like '-10%'.
-        (The default value is '0%').
+    * **[positionOffset]=" '0%' "** --- Set the picker position offset in dropdown mode.
+        <br />
+        When you set your position to 'top' or 'bottom', the [positionOffset] is the percentage of your input box width and 
+        it would modify the distance between the picker and the input box horizontally.
+        <br />
+        When you set your position to 'right' or 'left', the [positionOffset] is the percentage of your input box height and 
+        it would modify the distance between the picker and the input box vertically.
+        <br />
+        The value could be minus like '-10%'.(The default value is '0%').
     * **[returnObject]=" 'js' "** --- You can set the return object type when you pick a moment from date-time-picker. 
         (Default value is 'js', this means the default return object type is javascript Date object. 
         The other options are: string, moment, json, array, iso and object).
@@ -134,7 +145,9 @@ public setMoment(moment: any): any {
     * **[theme]=" '#0070ba' "** --- Set the theme color. The default color is '#0070ba'. You could provide any valid [8-Digit Hex Codes](https://css-tricks.com/8-digit-hex-codes/) to change the picker theme color. You can see the effect from the demo.
     * **[viewFormat]=" 'll' "** --- If you set your returnObject as 'string', you need to set the viewFormat. (Default value is 'll'. You can get more inform about the format from [MomentJS](http://momentjs.com/docs/#/parsing/string-format/)).
     * **Important: Do Not forget the single quote inside the double quote when you set the optional attributes string value.**
-
+ * Emit Events
+    * **(dateTimePickerChange)** --- emit a value whenever a date or time is selected.
+    * **(dateTimePickerError)** --- emit a message whenever a invalid date or time is selected.
 ## Demo
 Online demo is [here](https://danielykpan.github.io/date-time-picker/)
 

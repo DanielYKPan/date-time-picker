@@ -121,18 +121,18 @@ export class PickerService {
         return this._dtOnlyCurrentMonth;
     }
 
-    /* Property _dtMinDate */
-    private _dtMinDate: Moment;
+    /* Property _dtMinMoment */
+    private _dtMinMoment: Moment;
 
-    get dtMinDate(): Moment {
-        return this._dtMinDate;
+    get dtMinMoment(): Moment {
+        return this._dtMinMoment;
     }
 
-    /* Property _dtMaxDate */
-    private _dtMaxDate: Moment;
+    /* Property _dtMaxMoment */
+    private _dtMaxMoment: Moment;
 
-    get dtMaxDate(): Moment {
-        return this._dtMaxDate;
+    get dtMaxMoment(): Moment {
+        return this._dtMaxMoment;
     }
 
     /* Property _selectedMoment */
@@ -164,7 +164,7 @@ export class PickerService {
                              dtHourTime: '12' | '24', dtTheme: string,
                              dtPickerType: 'both' | 'date' | 'time',
                              dtShowSeconds: boolean, dtOnlyCurrentMonth: boolean,
-                             dtMinDate: string, dtMaxDate: string ): void {
+                             dtMinMoment: string, dtMaxMoment: string ): void {
         this._dtAutoClose = dtAutoClose;
         this._dtLocale = dtLocale;
         this._dtViewFormat = dtViewFormat;
@@ -175,8 +175,8 @@ export class PickerService {
         this._dtHourTime = dtHourTime;
         this._dtShowSeconds = dtShowSeconds;
         this._dtOnlyCurrentMonth = dtOnlyCurrentMonth;
-        this._dtMinDate = this.momentFunc(dtMinDate, "YYYY-MM-DD");
-        this._dtMaxDate = this.momentFunc(dtMaxDate, "YYYY-MM-DD");
+        this.setMinMoment(dtMinMoment);
+        this.setMaxMoment(dtMaxMoment);
         this.dtPickerType = dtPickerType;
         this.dtTheme = dtTheme;
     }
@@ -197,38 +197,54 @@ export class PickerService {
      * @returns {boolean}
      * */
     public setDate( moment: Moment ): boolean {
-        if (!this.isValidDate(moment)) {
-            return false;
-        }
         let m = this._selectedMoment ? this._selectedMoment.clone() : this._now;
         let daysDifference = moment.clone().startOf('date').diff(m.clone().startOf('date'), 'days');
-        this.selectedMoment = m.add(daysDifference, 'd');
-        return true;
+        m = m.clone().add(daysDifference, 'd');
+        if (!this.isValidMoment(m)) {
+            return false;
+        } else {
+            this.selectedMoment = m;
+            return true;
+        }
     }
 
-    public setTime( hour: number, minute: number, second: number, meridian: string ) {
+    /**
+     * Set the time moment to selectedMoment
+     * @param hour {number}
+     * @param minute {number}
+     * @param second {number}
+     * @param meridian {string}
+     * @returns {boolean}
+     * */
+    public setTime( hour: number, minute: number, second: number, meridian: string ): boolean {
         let m = this._selectedMoment ? this._selectedMoment.clone() : this._now;
 
         if (this.dtHourTime === '12') {
             if (meridian === 'AM') {
                 if (hour === 12) {
-                    m.hours(0);
+                    m = m.clone().hours(0);
                 } else {
-                    m.hours(hour);
+                    m = m.clone().hours(hour);
                 }
             } else {
                 if (hour === 12) {
-                    m.hours(12);
+                    m = m.clone().hours(12);
                 } else {
-                    m.hours(hour + 12);
+                    m = m.clone().hours(hour + 12);
                 }
             }
         } else if (this.dtHourTime === '24') {
-            m.hours(hour);
+            m = m.clone().hours(hour);
         }
-        m.minutes(minute);
-        m.seconds(second);
-        this.selectedMoment = m;
+        m = m.clone().minutes(minute);
+        m = m.clone().seconds(second);
+
+        if (!this.isValidMoment(m)) {
+            return false;
+        } else {
+            this.selectedMoment = m;
+            return true;
+        }
     }
 
     public parseToReturnObjectType(): any {
@@ -267,11 +283,29 @@ export class PickerService {
      * */
     public isValidDate( moment: Moment ): boolean {
         let isValid = true;
-        if (this._dtMinDate.isValid()) {
-            isValid = isValid && this.momentFunc(moment).isSameOrAfter(this._dtMinDate);
+        if (this._dtMinMoment) {
+            let minDate = this._dtMinMoment.clone().startOf('day');
+            isValid = isValid && this.momentFunc(moment).isSameOrAfter(minDate);
         }
-        if (this._dtMaxDate.isValid()) {
-            isValid = isValid && this.momentFunc(moment).isSameOrBefore(this._dtMaxDate);
+        if (this._dtMaxMoment) {
+            let maxDate = this._dtMaxMoment.clone().endOf('day');
+            isValid = isValid && this.momentFunc(moment).isSameOrBefore(maxDate);
+        }
+        return isValid
+    }
+
+    /**
+     * Check if the provided moment is valid between minMoment and maxMoment
+     * @param moment
+     * @returns {boolean}
+     * */
+    public isValidMoment( moment: Moment ): boolean {
+        let isValid = true;
+        if (this._dtMinMoment) {
+            isValid = isValid && this.momentFunc(moment).isSameOrAfter(this._dtMinMoment);
+        }
+        if (this._dtMaxMoment) {
+            isValid = isValid && this.momentFunc(moment).isSameOrBefore(this._dtMaxMoment);
         }
         return isValid
     }
@@ -284,5 +318,31 @@ export class PickerService {
      * */
     public isTheSameDay( day_1: Moment, day_2: Moment ): boolean {
         return day_1 && day_2 && day_1.isSame(day_2, 'date');
+    }
+
+    /**
+     * Set property _dtMinMoment value
+     * */
+    private setMinMoment( minString: string): void {
+        if (this.momentFunc(minString, "YYYY-MM-DD HH:mm:ss", true).isValid()) {
+            this._dtMinMoment = this.momentFunc(minString, "YYYY-MM-DD HH:mm:ss", true);
+        } else if (this.momentFunc(minString, "YYYY-MM-DD", true).isValid()) {
+            this._dtMinMoment = this.momentFunc(minString, "YYYY-MM-DD", true);
+        } else {
+            this._dtMinMoment = null;
+        }
+    }
+
+    /**
+     * Set property _dtMaxMoment value
+     * */
+    private setMaxMoment(maxString: string): void {
+        if (this.momentFunc(maxString, "YYYY-MM-DD HH:mm:ss", true).isValid()) {
+            this._dtMaxMoment = this.momentFunc(maxString, "YYYY-MM-DD HH:mm:ss", true);
+        } else if (this.momentFunc(maxString, "YYYY-MM-DD", true).isValid()) {
+            this._dtMaxMoment = this.momentFunc(maxString, "YYYY-MM-DD", true).endOf('day');
+        } else {
+            this._dtMaxMoment = null;
+        }
     }
 }

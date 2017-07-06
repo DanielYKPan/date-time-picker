@@ -18,6 +18,7 @@ export class DateTimePickerDirective implements OnInit, OnChanges {
 
     @Input('dateTimePicker') dateTimePicker: any;
     @Output('dateTimePickerChange') dateTimePickerChange = new EventEmitter<any>(true);
+    @Output('dateTimePickerError') dateTimePickerError = new EventEmitter<any>(true);
 
     @Input() autoClose: boolean = false; // automatically close the picker after selecting
     @Input() locale: string = 'en';
@@ -26,8 +27,8 @@ export class DateTimePickerDirective implements OnInit, OnChanges {
     @Input() mode: 'popup' | 'dropdown' | 'inline' = 'popup';
     @Input() hourTime: '12' | '24' = '24'; // determines the hour format (12 or 24)
     @Input() theme: string = '#0070ba'; // theme color
-    @Input() minDate: string = null; // Min date could be selected
-    @Input() maxDate: string = null; // Max date could be selected
+    @Input() minMoment: string = null; // Min moment could be selected
+    @Input() maxMoment: string = null; // Max moment could be selected
     @Input() position: 'top' | 'right' | 'bottom' | 'left' = 'bottom'; // picker position in dropdown mode
     @Input() positionOffset: string = '0%';
     @Input() pickerType: 'both' | 'date' | 'time' = 'both';
@@ -64,6 +65,15 @@ export class DateTimePickerDirective implements OnInit, OnChanges {
         this.dateTimePickerChange.emit(value);
     }
 
+    /**
+     * Emit an event indicating something wrong
+     * @param error {any}
+     * */
+    public sendError(error: any): void {
+        this.dateTimePickerError.emit(error);
+        return;
+    }
+
     private openDialog(): void {
         if (!this.created) {
             this.created = true;
@@ -73,7 +83,7 @@ export class DateTimePickerDirective implements OnInit, OnChanges {
             cmpRef.instance.setDialog(this, this.el, this.dateTimePicker, this.autoClose,
                 this.locale, this.viewFormat, this.returnObject, this.position,
                 this.positionOffset, this.mode, this.hourTime, this.theme, this.pickerType, this.showSeconds,
-                this.onlyCurrentMonth, this.minDate, this.maxDate);
+                this.onlyCurrentMonth, this.minMoment, this.maxMoment);
             this.dialog = cmpRef.instance;
         } else if (this.dialog) {
             this.dialog.openDialog(this.dateTimePicker);

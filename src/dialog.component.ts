@@ -79,14 +79,14 @@ export class DialogComponent implements OnInit, OnDestroy {
                       dtPositionOffset: string, dtMode: 'popup' | 'dropdown' | 'inline',
                       dtHourTime: '12' | '24', dtTheme: string,
                       dtPickerType: 'both' | 'date' | 'time', dtShowSeconds: boolean,
-                      dtOnlyCurrentMonth: boolean, dtMinDate: string, dtMaxDate: string ): void {
+                      dtOnlyCurrentMonth: boolean, dtMinMoment: string, dtMaxMoment: string ): void {
         this.directiveInstance = instance;
         this.directiveElementRef = elementRef;
         this.initialValue = initialValue;
 
         this.service.setPickerOptions(dtAutoClose, dtLocale, dtViewFormat, dtReturnObject, dtPosition,
             dtPositionOffset, dtMode, dtHourTime, dtTheme, dtPickerType, dtShowSeconds,
-            dtOnlyCurrentMonth, dtMinDate, dtMaxDate);
+            dtOnlyCurrentMonth, dtMinMoment, dtMaxMoment);
     }
 
     /**
@@ -108,10 +108,15 @@ export class DialogComponent implements OnInit, OnDestroy {
 
     public setDate( moment: Moment ): void {
         let done = this.service.setDate(moment);
-        if (done && (this.autoClose || this.mode === 'inline')) {
-            this.confirmSelectedMoment();
+
+        if (done) {
+            if (this.autoClose || this.mode === 'inline') {
+                this.confirmSelectedMoment();
+                return;
+            }
         } else {
-            return;
+            // emit an error message
+            this.directiveInstance.sendError("The selected moment is invalid.");
         }
     }
 
@@ -122,15 +127,19 @@ export class DialogComponent implements OnInit, OnDestroy {
      * */
     public setTime( time: { hour: number, min: number, sec: number, meridian: string } ): void {
         // set the picker selectedMoment time value
-        this.service.setTime(time.hour, time.min, time.sec, time.meridian);
+        let done = this.service.setTime(time.hour, time.min, time.sec, time.meridian);
 
-        if (this.service.dtPickerType === 'time' || this.mode === 'inline' || this.autoClose) {
-            this.confirmSelectedMoment();
+        if (done) {
+            if (this.service.dtPickerType === 'time' || this.mode === 'inline' || this.autoClose) {
+                this.confirmSelectedMoment();
+            }
+            // reset the dialog's type
+            this.dialogType = this.service.dtDialogType;
+            return;
+        } else {
+            // emit an error message
+            this.directiveInstance.sendError("The selected moment is invalid.");
         }
-
-        // reset the dialog's type
-        this.dialogType = this.service.dtDialogType;
-        return;
     }
 
     public clearPickerInput(): void {
