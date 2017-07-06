@@ -82,6 +82,27 @@
             </div>
 
             <div class="row">
+                <h4 class="heading">Set minMoment and maxMoment:</h4>
+                <p>minMoment and maxMoment would define what valid moment could be selected from the picker.
+                    The format is "YYYY-MM-DD HH:mm:ss" (or "YYYY-MM-DD" for only defining min date and max date).
+                    In the example, the minMoment is September 7th, 2017 19:30:40('2017-09-07 19:30:40') and the maxMoment is
+                    September 17th, 2017 22:50:00 ('2017-09-17 22:50:00').
+                </p>
+                <div class="input-control">
+                    <label for="time-input-14">DateTime ([minMoment]="'2017-09-07 19:30:40'" [maxMoment]="'2017-09-17 22:50:00'"): </label>
+                    <input class="picker-input"
+                           id="time-input-14"
+                           [ngModel]="input14Moment | date: 'MMMM dd, y HH:mm'"
+                           [(dateTimePicker)]="input14Moment"
+                           [minMoment]="'2017-09-07 19:30:40'"
+                           [maxMoment]="'2017-09-17 22:50:00'"
+                           [mode]="'dropdown'"
+                           readonly>
+                </div>
+                <pre class="prettyprint"><code><![CDATA[<input class="picker-input" [ngModel]="moment | date: 'short'" [(dateTimePicker)]="moment" [mode]="'dropdown'" [minMoment]="'2017-09-07 19:30:40'" [maxMoment]="'2017-09-17 22:50:00'" readonly>]]></code></pre>
+            </div>
+
+            <div class="row">
                 <h4 class="heading">Choose Different Theme:</h4>
                 <p>Choose different theme color. You could provide any 8-Digit Hex color codes. Default Color is '#0070ba'.
                 </p>

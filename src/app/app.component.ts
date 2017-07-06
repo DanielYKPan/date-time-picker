@@ -30,6 +30,7 @@ export class AppComponent implements OnInit {
     public input11Moment: any;
     public input12Moment: any;
     public input13Moment: any;
+    public input14Moment: any = new Date(2017, 8, 10, 13, 30, 30);
 
     constructor() {
     }
