@@ -33,16 +33,16 @@
     </div>
     <div class="time-control">
         <div class="title">{{'hour' | translate}}</div>
-        <app-slide-bar [floor]="hourFloor" [ceiling]="hourCeiling" [(low)]="hourValue"></app-slide-bar>
+        <app-slide-bar [(ngModel)]="hourValue" [min]="hourFloor" [max]="hourCeiling" [style]="{width: '80%'}"></app-slide-bar>
     </div>
     <div class="time-control">
         <div class="title">{{'minute' | translate}}</div>
-        <app-slide-bar [floor]="0" [ceiling]="59" [(low)]="minValue"></app-slide-bar>
+        <app-slide-bar [(ngModel)]="minValue" [min]="0" [max]="59" [style]="{width: '80%'}"></app-slide-bar>
     </div>
 
     <div class="time-control" *ngIf="showSeconds">
         <div class="title">{{'second' | translate}}</div>
-        <app-slide-bar [floor]="0" [ceiling]="59" [(low)]="secValue"></app-slide-bar>
+        <app-slide-bar [(ngModel)]="secValue" [min]="0" [max]="59" [style]="{width: '80%'}"></app-slide-bar>
     </div>
 
     <div class="control">

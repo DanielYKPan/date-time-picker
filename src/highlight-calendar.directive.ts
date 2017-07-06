@@ -50,7 +50,7 @@ export class HighlightCalendarDirective implements OnChanges, OnInit, OnDestroy 
                 this.originalDayColor = grey;
                 this.renderer.addClass(this.el.nativeElement, 'picker-day-out-focus');
             }
-            this.highlight(null, this.originalDayColor);
+            this.highlight('transparent', this.originalDayColor);
         }
 
         if (this.month && changes['calendarMoment'] &&
@@ -59,7 +59,7 @@ export class HighlightCalendarDirective implements OnChanges, OnInit, OnDestroy 
                 this.highlight(this.themeColor, white);
                 this.renderer.addClass(this.el.nativeElement, 'picker-month-current');
             } else {
-                this.highlight(null, black);
+                this.highlight('transparent', black);
                 this.renderer.removeClass(this.el.nativeElement, 'picker-month-current');
             }
         }
@@ -70,7 +70,7 @@ export class HighlightCalendarDirective implements OnChanges, OnInit, OnDestroy 
                 this.highlight(this.themeColor, white);
                 this.renderer.addClass(this.el.nativeElement, 'picker-year-current');
             } else {
-                this.highlight(null, black);
+                this.highlight('transparent', black);
                 this.renderer.removeClass(this.el.nativeElement, 'picker-year-current');
             }
         }
@@ -109,7 +109,7 @@ export class HighlightCalendarDirective implements OnChanges, OnInit, OnDestroy 
             return;
         }
         let color = this.isOutFocus() ? grey : black;
-        this.highlight(null, color);
+        this.highlight('transparent', color);
     }
 
     private isCalendarMonth(): boolean {
@@ -132,7 +132,7 @@ export class HighlightCalendarDirective implements OnChanges, OnInit, OnDestroy 
 
     private highlightSelectedDay() {
         if (this.selectedElm) {
-            this.highlight(null, this.originalDayColor);
+            this.highlight('transparent', this.originalDayColor);
             this.renderer.removeClass(this.selectedElm.nativeElement, 'picker-day-selected');
             this.selectedElm = null;
         }

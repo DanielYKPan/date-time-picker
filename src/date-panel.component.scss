@@ -240,7 +240,7 @@
     font-weight: 700;
     text-align: left;
     color: #999;
-    width: calc(100% / 7);
+    width: 14%;
     padding-left: 10px;
   }
 
@@ -261,7 +261,7 @@
     align-items: center;
     position: relative;
     height: $base-line-height * 2;
-    width: calc(100% / 7);
+    width: 14%;
 
     &.picker-show {
       cursor: pointer;

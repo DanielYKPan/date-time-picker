@@ -3,205 +3,163 @@
  */
 
 import {
-    Component, OnInit, ElementRef, Input, ViewChild, Output, EventEmitter,
-    Renderer2, OnDestroy, OnChanges, SimpleChanges
+    Component, OnInit, ElementRef, Input, ViewChild,
+    Renderer2, OnDestroy, forwardRef, AfterViewInit
 } from '@angular/core';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { PickerService } from './picker.service';
+
+export const SLIDER_VALUE_ACCESSOR: any = {
+    provide: NG_VALUE_ACCESSOR,
+    useExisting: forwardRef(() => SlideControlComponent),
+    multi: true
+};
 
 @Component({
     selector: 'app-slide-bar',
     templateUrl: './slider.component.html',
     styleUrls: ['./slider.component.scss'],
-    host: {
-        '(mousedown)': 'start($event)',
-        '(touchstart)': 'start($event)'
-    }
+    providers: [SLIDER_VALUE_ACCESSOR],
 })
-export class SlideControlComponent implements OnChanges, OnInit, OnDestroy {
+export class SlideControlComponent implements OnInit, AfterViewInit, OnDestroy, ControlValueAccessor {
 
-    private movePointer: any;
-    private stopPointer: any;
-    private mouseMoveListener: any;
+    @Input() min: number = 0;
+    @Input() max: number = 100;
+    @Input() style: any;
+    @ViewChild('slider') sliderElm: ElementRef;
+
+    public handleValue: number;
+    public isDragging: boolean = false;
+    public initX: number;
+    public sliderWidth: number;
+    public startHandleValue: number;
+    public startX: number;
+    public themeColor: string;
+    public value: number = 0;
+
+    public onModelChange: Function = () => {
+    };
+    public onModelTouched: Function = () => {
+    };
+    private dragListener: any;
     private mouseUpListener: any;
-    private touchMoveListener: any;
-    private touchEndListener: any;
-    private themeColor: string;
 
-    @Input() step: number = 1;
-    @Input() floor: number = 0;
-    @Input() ceiling: number = 100;
-    @Input() precision: number = 0;
-    @Input() low: number;
-    @Output() lowChange = new EventEmitter<number>(true);
-
-    @ViewChild('bar') bar: ElementRef;
-    @ViewChild('highlight') highlight: ElementRef;
-    @ViewChild('lowPointer') lowPointer: ElementRef;
-
-    public lowPointerValue: number;
-
-    private pointerHalfWidth = 0;
-    private barWidth = 0;
-    private minOffset = 0;
-    private maxOffset = 0;
-    private minValue = 0;
-    private maxValue = 0;
-    private valueRange = 0;
-    private offsetRange = 0;
-
-    constructor( private el: ElementRef,
-                 private renderer: Renderer2,
+    constructor( private renderer: Renderer2,
                  private service: PickerService ) {
-        this.movePointer = ( event: any ) => {
-            this.move(event)
-        };
-        this.stopPointer = () => {
-            this.stop()
-        };
     }
 
-    public ngOnChanges( changes: SimpleChanges ): void {
-        if (changes['low']
-            && !changes['low'].isFirstChange()) {
-            let low_cur = changes['low'].currentValue;
-            this.setLowPointers(low_cur);
-        }
-    }
-
-    public ngOnInit() {
-        this.pointerHalfWidth = this.lowPointer.nativeElement.offsetWidth / 2;
-        this.barWidth = this.bar.nativeElement.offsetWidth;
-        this.maxOffset = this.barWidth - this.lowPointer.nativeElement.offsetWidth;
-        this.minValue = this.floor;
-        this.maxValue = this.ceiling;
-        this.valueRange = this.maxValue - this.minValue;
-        this.offsetRange = this.maxOffset - this.minOffset;
+    public ngOnInit(): void {
         this.themeColor = this.service.dtTheme;
-        this.renderer.setStyle(this.highlight.nativeElement, 'backgroundColor', this.themeColor);
-        this.setLowPointers(this.low);
     }
 
-    /**
-     * Destroy all listeners
-     * */
     public ngOnDestroy(): void {
-        if (this.mouseMoveListener) {
-            this.mouseMoveListener();
-        }
-
-        if (this.mouseUpListener) {
-            this.mouseUpListener();
-        }
-
-        if (this.touchMoveListener) {
-            this.touchMoveListener();
-        }
-
-        if (this.touchEndListener) {
-            this.touchEndListener();
-        }
-    }
-
-    /**
-     * Listen to document mouse movement(touch movement) and trigger move event
-     * */
-    public start( event: any ): void {
-        this.mouseMoveListener = this.renderer.listen('document', 'mousemove', this.movePointer);
-        this.touchMoveListener = this.renderer.listen('document', 'touchmove', this.movePointer);
-        this.mouseUpListener = this.renderer.listen('document', 'mouseup', this.stopPointer);
-        this.touchEndListener = this.renderer.listen('document', 'touchend', this.stopPointer);
-    }
-
-    /**
-     * Set low pointer's value
-     * @param pointerValue {number}
-     * @return {void}
-     * */
-    private setLowPointers( pointerValue: number ): void {
-        if (this.lowPointerValue === pointerValue) {
-            return;
-        } else {
-            this.lowPointerValue = pointerValue;
-            this.lowChange.emit(this.lowPointerValue);
-        }
-
-        this.setPointerStyle(this.lowPointerValue, this.lowPointer);
-    }
-
-    /**
-     * Set pointer's style
-     * @param pointerValue {number}
-     * @param pointerEle {ElementRef}
-     * @returns {void}
-     * */
-    private setPointerStyle( pointerValue: number, pointerEle: ElementRef ): void {
-        let percentValue, offsetValue;
-        percentValue = this.percentValue(pointerValue);
-        offsetValue = this.pixelsToOffset(percentValue);
-
-        this.renderer.setStyle(
-            pointerEle.nativeElement,
-            'left',
-            offsetValue + 'px'
-        );
-
-        this.renderer.setStyle(
-            this.highlight.nativeElement,
-            'width',
-            offsetValue + 'px'
-        );
-    }
-
-    /**
-     * Destroy all listeners
-     * */
-    private stop(): void {
-        this.mouseMoveListener();
-        this.touchMoveListener();
+        this.dragListener();
         this.mouseUpListener();
-        this.touchEndListener();
     }
 
-    /*
-     * Handle move
-     * */
-    private move( event: any ): void {
+    public ngAfterViewInit(): void {
+        this.dragListener = this.renderer.listen('document', 'mousemove', ( event ) => {
+            if (this.isDragging) {
+                this.handleChange(event);
+            }
+        });
+
+        this.mouseUpListener = this.renderer.listen('document', 'mouseup', ( event ) => {
+            if (this.isDragging) {
+                this.isDragging = false;
+            }
+        });
+    }
+
+    public onMouseDown( event: any ) {
+        this.isDragging = true;
+        this.updateSliderData();
         event.preventDefault();
-
-        let newOffset = Math.max(Math.min(this.getX(event), this.maxOffset), this.minOffset);
-        let newPercent = this.percentOffset(newOffset);
-        let newValue = this.minValue + (this.valueRange * newPercent / 100);
-        newValue = this.roundStep(newValue, this.precision, this.step, this.floor);
-
-        this.setLowPointers(newValue);
     }
 
-    private getX( event: any ): number {
-        return (event.pageX !== undefined ? event.pageX : event.touches[0].pageX) - this.el.nativeElement.getBoundingClientRect().left - this.pointerHalfWidth;
+    public onTouchStart( event: any ): void {
+        let touchObj = event.changedTouches[0];
+        this.startHandleValue = this.handleValue;
+        this.isDragging = true;
+        this.startX = parseInt(touchObj.clientX, 10);
+        this.sliderWidth = this.sliderElm.nativeElement.offsetWidth;
+        event.preventDefault();
     }
 
-    private roundStep( value: number, precision: number, step: number, floor: number ) {
-        let remainder = (value - floor) % step;
-        let steppedValue = remainder > (step / 2) ? value + step - remainder : value - remainder;
-        let decimals = Math.pow(10, precision);
-        let roundedValue = steppedValue * decimals / decimals;
-        return parseFloat(roundedValue.toFixed(precision));
+    public onTouchMove( event: any ): void {
+        let touchObj = event.changedTouches[0];
+        let handleValue;
+        handleValue = Math.floor(((parseInt(touchObj.clientX, 10) - this.startX) * 100) / (this.sliderWidth)) + this.startHandleValue;
+        this.setValueFromHandle(event, handleValue);
+        event.preventDefault();
     }
 
-    private contain( value: number ): number {
-        if (isNaN(value)) return value;
-        return Math.min(Math.max(0, value), 100);
+    public updateSliderData(): void {
+        let rect = this.sliderElm.nativeElement.getBoundingClientRect();
+        this.initX = rect.left;
+        this.sliderWidth = this.sliderElm.nativeElement.offsetWidth;
+        return;
     }
 
-    private percentValue( value: number ): number {
-        return this.contain(((value - this.minValue) / this.valueRange) * 100);
-    };
+    public writeValue( value: any ): void {
+        if (value !== this.value) {
+            this.updateValue(value);
+            this.updateHandleValue();
+        }
+    }
 
-    private percentOffset( offset: number ): number {
-        return this.contain(((offset - this.minOffset) / this.offsetRange) * 100);
-    };
+    public registerOnChange( fn: Function ): void {
+        this.onModelChange = fn;
+    }
 
-    private pixelsToOffset( percent: number ): number {
-        return percent * this.offsetRange / 100;
-    };
+    public registerOnTouched( fn: Function ): void {
+        this.onModelTouched = fn;
+    }
+
+    public setDisabledState( isDisabled: boolean ): void {
+    }
+
+    private handleChange( event: any ): void {
+        let handleValue = this.calculateHandleValue(event);
+        this.setValueFromHandle(event, handleValue);
+        return;
+    }
+
+    private calculateHandleValue( event: any ): number {
+        return Math.floor(((event.pageX - this.initX) * 100) / (this.sliderWidth));
+    }
+
+    private setValueFromHandle( event: any, handleValue: number ): void {
+        let newValue = this.getValueFromHandle(handleValue);
+        this.handleValue = handleValue;
+        this.updateValue(newValue, event);
+        return;
+    }
+
+    private getValueFromHandle( handleValue: number ): number {
+        return (this.max - this.min) * (handleValue / 100) + this.min;
+    }
+
+    private updateHandleValue(): void {
+        if (this.value < this.min) {
+            this.handleValue = 0;
+        } else if (this.value > this.max) {
+            this.handleValue = 100;
+        } else {
+            this.handleValue = (this.value - this.min) * 100 / (this.max - this.min);
+        }
+        return;
+    }
+
+    private updateValue( val: number, event?: any ): void {
+        if (val < this.min) {
+            val = this.min;
+            this.handleValue = 0;
+        } else if (val > this.max) {
+            val = this.max;
+            this.handleValue = 100;
+        }
+        this.value = Math.floor(val);
+        this.onModelChange(this.value);
+    }
 }

@@ -52,13 +52,13 @@
 .title {
   @include when-inside('.picker-inline') {
     @include type-setting(-1);
-    margin: 5px auto;
+    margin: 0 auto 1rem;
   }
 
   @include when-inside('.picker-dropdown') {
     @include respond-to(medium) {
       @include type-setting(-1);
-      margin: 5px auto;
+      margin: 0 auto 1rem;
     }
   }
   @include type-setting(1);

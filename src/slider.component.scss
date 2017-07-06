@@ -6,35 +6,29 @@
   box-sizing: border-box;
 }
 
-:host {
-  display: block;
+.yk-slider {
   position: relative;
   height: 4px;
-  width: 80%;
-  margin: 10px auto 20px auto;
-  vertical-align: middle;
+  width: 100px;
+  background: #ccc;
+  border-radius: 10px;
+  margin: 0 auto;
+  cursor: default;
+  user-select: none;
 }
 
-.bar {
-  width: 100%;
+.yk-slider-bar {
+  position: absolute;
+  left: 0;
+  width: 0;
   height: 100%;
   border-radius: 10px;
-  background: #ccc;
-  overflow: hidden;
-
-  .highlight {
-    position: absolute;
-    left: 0;
-    width: 0;
-    height: 100%;
-    border-radius: 10px;
-  }
 }
 
-.handle {
+.yk-slider-handle {
   position: absolute;
   top: -10px;
-  left: 0;
+  margin-left: -12.5px;
   width: 25px;
   height: 25px;
   display: flex;

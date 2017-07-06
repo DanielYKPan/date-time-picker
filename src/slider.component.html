@@ -1,4 +1,8 @@
-<div class="bar" #bar>
-    <div class="highlight" #highlight></div>
+<div class="yk-slider" [ngStyle]="style" #slider>
+    <span class="yk-slider-bar" [ngStyle]="{'width':handleValue + '%', backgroundColor: themeColor}"></span>
+    <span class="yk-slider-handle" [ngStyle]="{'left':handleValue + '%'}"
+         (mousedown)="onMouseDown($event)"
+         (touchstart)="onTouchStart($event)"
+         (touchmove)="onTouchMove($event)"
+         (touchend)="isDragging=false">{{value}}</span>
 </div>
-<div class="handle low" #lowPointer><span>{{lowPointerValue}}</span></div>

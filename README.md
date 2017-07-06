@@ -5,13 +5,11 @@
 **This package supports Angular 4**
 
 ## Updates
-* Add locale 'ca', 'es', closes [#66](https://github.com/DanielYKPan/date-time-picker/issues/66).
-* Picker's calendar and time slider would be updated, if **[dateTimePicker]** value is updated outside the picker. closes [#71](https://github.com/DanielYKPan/date-time-picker/issues/71).
-* Add picker option **[autoClose]=" false "**. If setting __`[autoClose] = "true"`__, the picker would close and return the moment value by clicking a day in the calendar or confirming the time value in time slider (The default value is 'false'). 
-   closes [#72](https://github.com/DanielYKPan/date-time-picker/issues/72).
-* Remove __Close__ button.
-* Add __Cancel__ button. The picker would return __null__ value, after clicking cancel button.
-* Change option **[onlyCurrent]** to **[onlyCurrentMonth]**.
+* Fixed picker hover issue and position issue in IE 11. closes [#48](https://github.com/DanielYKPan/date-time-picker/issues/48), [#64](https://github.com/DanielYKPan/date-time-picker/issues/64), 
+   [#70](https://github.com/DanielYKPan/date-time-picker/issues/70).
+* Fixed Time picker does not update in 'inline' view, closes [#75](https://github.com/DanielYKPan/date-time-picker/issues/75).
+* Fixed German translation error, closes [#76](https://github.com/DanielYKPan/date-time-picker/issues/76).
+* Fixed time panel slider not working properly. closes [#74](https://github.com/DanielYKPan/date-time-picker/issues/74).
 
 ## Important
 * Get locale working in the whole picker. Words not from MomentJS in the picker now are also translated.( 'ca', 'de', 'en', 'es', 'fr', 'lt', 'pl', 'pt', 'ro', 'ru', 'zh_CN', 'zh_HK', 'zh_TW').
