@@ -34,6 +34,7 @@ export class HighlightCalendarDirective implements OnChanges, OnInit, OnDestroy 
         if (changes['day'] && changes['day'].currentValue) {
             this.renderer.addClass(this.el.nativeElement, 'day-show');
 
+            this.highlightInvalidDays();
             if (this.isToday(this.day)) {
                 this.renderer.addClass(this.el.nativeElement, 'day-today');
             }
