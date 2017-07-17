@@ -12,10 +12,8 @@ import { DatePanelComponent } from './date-panel.component';
 import { TimePanelComponent } from './time-panel.component';
 import { SlideControlComponent } from './slider.component';
 import { NumberFixedLenPipe } from './numberFixedLen.pipe';
-import { TranslatePipe } from './translate.pipe';
 import { HighlightCalendarDirective } from './highlight-calendar.directive';
 import { PickerHeaderComponent } from './picker-header.component';
-import { HighlightBtnDirective } from './highlight-btn.directive';
 import { DialogPositionDirective } from './dialog-position.directive';
 
 @NgModule({
@@ -29,9 +27,7 @@ import { DialogPositionDirective } from './dialog-position.directive';
         PickerHeaderComponent,
         MomentPipe,
         NumberFixedLenPipe,
-        TranslatePipe,
         HighlightCalendarDirective,
-        HighlightBtnDirective,
         DialogPositionDirective,
     ],
     imports: [

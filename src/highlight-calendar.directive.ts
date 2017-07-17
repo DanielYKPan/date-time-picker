@@ -3,17 +3,12 @@
  */
 
 import {
-    Directive, ElementRef, HostListener, Input, OnChanges, OnDestroy,
+    Directive, ElementRef, Input, OnChanges, OnDestroy,
     OnInit, Renderer2, SimpleChanges
 } from '@angular/core';
 import { Moment } from 'moment/moment';
 import { PickerService } from './picker.service';
-import { shadeBlendConvert } from './utils';
 import { Subscription } from 'rxjs/Subscription';
-
-const black: string = '#000000';
-const white: string = '#FFFFFF';
-const grey: string = '#dddddd';
 
 @Directive({
     selector: '[pickerCalendarHighlight]'
@@ -25,9 +20,6 @@ export class HighlightCalendarDirective implements OnChanges, OnInit, OnDestroy 
     @Input() public year: string;
     @Input() public calendarMoment: Moment;
 
-    private themeLightColor: string;
-    private themeColor: string;
-    private originalDayColor: string = black;
     private selectedElm: any;
     private subId: Subscription;
     private selectedMoment: Moment;
@@ -35,81 +27,53 @@ export class HighlightCalendarDirective implements OnChanges, OnInit, OnDestroy 
     constructor( private el: ElementRef,
                  private renderer: Renderer2,
                  private service: PickerService ) {
-        this.themeColor = this.service.dtTheme;
-        this.themeLightColor = shadeBlendConvert(0.7, this.themeColor);
     }
 
     public ngOnChanges( changes: SimpleChanges ): void {
 
         if (changes['day'] && changes['day'].currentValue) {
-            if (!this.service.isValidDate(this.day)) {
-                this.originalDayColor = grey;
-                this.renderer.addClass(this.el.nativeElement, 'picker-day-invalid');
+            this.renderer.addClass(this.el.nativeElement, 'day-show');
+
+            if (this.isToday(this.day)) {
+                this.renderer.addClass(this.el.nativeElement, 'day-today');
             }
+
             if (this.isOutFocus()) {
-                this.originalDayColor = grey;
-                this.renderer.addClass(this.el.nativeElement, 'picker-day-out-focus');
+                this.renderer.addClass(this.el.nativeElement, 'out-focus');
             }
-            this.highlight('transparent', this.originalDayColor);
         }
 
         if (this.month && changes['calendarMoment'] &&
             changes['calendarMoment'].currentValue) {
             if (this.isCalendarMonth()) {
-                this.highlight(this.themeColor, white);
-                this.renderer.addClass(this.el.nativeElement, 'picker-month-current');
+                this.renderer.addClass(this.el.nativeElement, 'selected');
             } else {
-                this.highlight('transparent', black);
-                this.renderer.removeClass(this.el.nativeElement, 'picker-month-current');
+                this.renderer.removeClass(this.el.nativeElement, 'selected');
             }
         }
 
         if (this.year && changes['calendarMoment'] &&
             changes['calendarMoment'].currentValue) {
             if (this.isCalendarYear()) {
-                this.highlight(this.themeColor, white);
-                this.renderer.addClass(this.el.nativeElement, 'picker-year-current');
+                this.renderer.addClass(this.el.nativeElement, 'selected');
             } else {
-                this.highlight('transparent', black);
-                this.renderer.removeClass(this.el.nativeElement, 'picker-year-current');
+                this.renderer.removeClass(this.el.nativeElement, 'selected');
             }
         }
     }
 
     public ngOnInit(): void {
-        this.subId = this.service.selectedMomentChange.subscribe(
-            (data) => {
+        this.subId = this.service.refreshCalendar.subscribe(
+            ( data ) => {
                 this.selectedMoment = data;
                 this.highlightSelectedDay();
+                this.highlightInvalidDays();
             }
         );
     }
 
     public ngOnDestroy(): void {
         this.subId.unsubscribe();
-    }
-
-    @HostListener('mouseenter')
-    public onMouseEnter() {
-        if (!this.service.isValidDate(this.day) ||
-            this.service.isTheSameDay(this.day, this.selectedMoment) ||
-            this.isCalendarMonth() ||
-            this.isCalendarYear()) {
-            return;
-        }
-        this.highlight(this.themeLightColor, black);
-    }
-
-    @HostListener('mouseleave')
-    public onMouseLeave() {
-        if (!this.service.isValidDate(this.day) ||
-            this.service.isTheSameDay(this.day, this.selectedMoment) ||
-            this.isCalendarMonth() ||
-            this.isCalendarYear()) {
-            return;
-        }
-        let color = this.isOutFocus() ? grey : black;
-        this.highlight('transparent', color);
     }
 
     private isCalendarMonth(): boolean {
@@ -125,22 +89,27 @@ export class HighlightCalendarDirective implements OnChanges, OnInit, OnDestroy 
         return this.day && this.calendarMoment && !this.day.isSame(this.calendarMoment, 'month');
     }
 
-    private highlight( bgColor: string, color: string ) {
-        this.renderer.setStyle(this.el.nativeElement, 'backgroundColor', bgColor);
-        this.renderer.setStyle(this.el.nativeElement, 'color', color);
+    private isToday( day: Moment ): boolean {
+        return this.service.isTheSameDay(day, this.service.now);
     }
 
     private highlightSelectedDay() {
         if (this.selectedElm) {
-            this.highlight('transparent', this.originalDayColor);
-            this.renderer.removeClass(this.selectedElm.nativeElement, 'picker-day-selected');
+            this.renderer.removeClass(this.selectedElm.nativeElement, 'selected');
             this.selectedElm = null;
         }
 
         if (this.service.isTheSameDay(this.day, this.selectedMoment)) {
-            this.highlight(this.themeColor, white);
-            this.renderer.addClass(this.el.nativeElement, 'picker-day-selected');
+            this.renderer.addClass(this.el.nativeElement, 'selected');
             this.selectedElm = this.el;
+        }
+    }
+
+    private highlightInvalidDays(): void {
+        this.renderer.removeClass(this.el.nativeElement, 'day-invalid');
+
+        if (!this.service.isValidDate(this.day)) {
+            this.renderer.addClass(this.el.nativeElement, 'day-invalid');
         }
     }
 }

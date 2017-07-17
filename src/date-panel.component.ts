@@ -9,7 +9,6 @@ import * as moment from 'moment/moment';
 import { Moment } from 'moment/moment';
 import { DialogType } from './dialog.component';
 import { PickerService } from './picker.service';
-import { shadeBlendConvert } from './utils';
 import { Subscription } from 'rxjs/Subscription';
 
 @Component({
@@ -21,15 +20,13 @@ export class DatePanelComponent implements OnInit, OnChanges, OnDestroy {
 
     @Input() public dialogType: DialogType;
     @Output() public onDialogTypeChange = new EventEmitter<DialogType>();
-    @Output() public onClearPickerInput = new EventEmitter<boolean>();
+    @Output() public onClosePicker = new EventEmitter<boolean>();
     @Output() public onConfirm = new EventEmitter<boolean>();
     @Output() public onSelected = new EventEmitter<Moment>();
 
     public autoClose: boolean;
     public type: DialogType;
     public now: Moment;
-    public todayIconColor: string;
-    public selectedMoment: Moment;
     public calendarMoment: Moment;
     public calendarDays: Moment[];
     public dayNames: string[];
@@ -57,20 +54,26 @@ export class DatePanelComponent implements OnInit, OnChanges, OnDestroy {
         this.locale = this.service.dtLocale;
         this.mode = this.service.dtMode;
         this.onlyCurrentMonth = this.service.dtOnlyCurrentMonth;
-        this.todayIconColor = shadeBlendConvert(0.4, this.service.dtTheme);
 
         // set week days name array
-        this.dayNames = this.momentFunc.localeData(this.service.dtLocale).weekdaysShort();
+        // MomentJS issue #4066
+        this.momentFunc.locale(this.locale);
+        this.dayNames = this.momentFunc.weekdaysShort(true);
+        this.momentFunc.locale('en');
+
         // set month name array
         this.monthList = this.momentFunc.localeData(this.service.dtLocale).monthsShort();
 
         this.now = this.service.now;
+        this.setCalendarMoment();
+        this.generateCalendar();
 
-        this.subId = this.service.selectedMomentChange.subscribe(
+        this.subId = this.service.refreshCalendar.subscribe(
             ( data ) => {
-                this.selectedMoment = data;
-                this.setCalendarMoment(data);
-                this.generateCalendar();
+                let done = this.setCalendarMoment(data);
+                if (done) {
+                    this.generateCalendar();
+                }
             }
         );
     }
@@ -80,16 +83,25 @@ export class DatePanelComponent implements OnInit, OnChanges, OnDestroy {
     }
 
     public prevMonth(): void {
+        if (this.service.dtDisabled) {
+            return;
+        }
         this.calendarMoment = this.calendarMoment.clone().subtract(1, 'M');
         this.generateCalendar();
     }
 
     public nextMonth(): void {
+        if (this.service.dtDisabled) {
+            return;
+        }
         this.calendarMoment = this.calendarMoment.clone().add(1, 'M');
         this.generateCalendar();
     }
 
     public selectMonth( month: string ): void {
+        if (this.service.dtDisabled) {
+            return;
+        }
         this.calendarMoment = this.calendarMoment.clone().month(month);
         this.generateCalendar();
         this.toggleDialogType(DialogType.Month);
@@ -97,6 +109,9 @@ export class DatePanelComponent implements OnInit, OnChanges, OnDestroy {
     }
 
     public selectYear( year: number ): void {
+        if (this.service.dtDisabled) {
+            return;
+        }
         this.calendarMoment = this.calendarMoment.clone().year(year);
         this.generateCalendar();
         this.toggleDialogType(DialogType.Year);
@@ -104,6 +119,9 @@ export class DatePanelComponent implements OnInit, OnChanges, OnDestroy {
     }
 
     public toggleDialogType( type: DialogType ): void {
+        if (this.service.dtDisabled) {
+            return;
+        }
         this.onDialogTypeChange.emit(type);
         if (type === DialogType.Year) {
             this.generateYearList();
@@ -129,54 +147,48 @@ export class DatePanelComponent implements OnInit, OnChanges, OnDestroy {
     }
 
     public select( moment: Moment ): void {
-        if (!moment) {
-            return;
-        } else if (this.selectedMoment &&
-            this.selectedMoment.clone().startOf('date') === moment) {
+        if (!moment || this.service.dtDisabled) {
             return;
         }
 
         this.onSelected.emit(moment);
     }
 
-    public selectToday(): void {
-        this.select(this.now);
-    }
-
     public confirm(): void {
+        if (this.service.dtDisabled) {
+            return;
+        }
         this.onConfirm.emit(true);
         return;
     }
 
-    public clearPickerInput(): void {
-        this.onClearPickerInput.emit(true);
+    public closePicker(): void {
+        this.onClosePicker.emit(true);
         return;
     }
 
-    public isToday(day: Moment): boolean {
-        return this.service.isTheSameDay(day, this.now);
-    }
-
-    private setCalendarMoment(moment: Moment): void {
+    private setCalendarMoment(moment?: Moment): boolean {
         if (moment) {
             // if the param moment's year and month are the same as generated calendar's year and month
             // we don't regenerate the calendar
             if (this.calendarMoment &&
                 moment.year() === this.calendarMoment.year()
                 && moment.month() === this.calendarMoment.month()) {
-                return;
+                return false;
             } else {
                 this.calendarMoment = moment.clone();
+                return true;
             }
         } else {
             this.calendarMoment = this.momentFunc();
+            return true;
         }
     }
 
     private generateCalendar(): void {
         this.calendarDays = []; // clear the calendarDays array
         let start = 0 - (this.calendarMoment.clone().startOf('month').day() +
-            (7 - this.momentFunc.localeData().firstDayOfWeek())) % 7;
+            (7 - this.momentFunc.localeData(this.service.dtLocale).firstDayOfWeek())) % 7;
         let end = 41 + start; // iterator ending point
 
         for (let i = start; i <= end; i += 1) {

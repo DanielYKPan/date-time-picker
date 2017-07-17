@@ -1,6 +1,6 @@
-<div class="yk-slider" [ngStyle]="style" #slider>
-    <span class="yk-slider-bar" [ngStyle]="{'width':handleValue + '%', backgroundColor: themeColor}"></span>
-    <span class="yk-slider-handle" [ngStyle]="{'left':handleValue + '%'}"
+<div class="owl-time-slider" [ngStyle]="style" #slider>
+    <span class="owl-time-slider-bar" [ngStyle]="{'height':handleValue + '%'}"></span>
+    <span class="owl-time-slider-handle" [ngStyle]="{'bottom':handleValue + '%'}"
          (mousedown)="onMouseDown($event)"
          (touchstart)="onTouchStart($event)"
          (touchmove)="onTouchMove($event)"

@@ -7,7 +7,6 @@ import {
     Renderer2, OnDestroy, forwardRef, AfterViewInit
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { PickerService } from './picker.service';
 
 export const SLIDER_VALUE_ACCESSOR: any = {
     provide: NG_VALUE_ACCESSOR,
@@ -30,11 +29,10 @@ export class SlideControlComponent implements OnInit, AfterViewInit, OnDestroy, 
 
     public handleValue: number;
     public isDragging: boolean = false;
-    public initX: number;
-    public sliderWidth: number;
+    public initY: number;
+    public sliderHeight: number;
     public startHandleValue: number;
-    public startX: number;
-    public themeColor: string;
+    public startY: number;
     public value: number = 0;
 
     public onModelChange: Function = () => {
@@ -44,12 +42,10 @@ export class SlideControlComponent implements OnInit, AfterViewInit, OnDestroy, 
     private dragListener: any;
     private mouseUpListener: any;
 
-    constructor( private renderer: Renderer2,
-                 private service: PickerService ) {
+    constructor( private renderer: Renderer2 ) {
     }
 
     public ngOnInit(): void {
-        this.themeColor = this.service.dtTheme;
     }
 
     public ngOnDestroy(): void {
@@ -81,23 +77,23 @@ export class SlideControlComponent implements OnInit, AfterViewInit, OnDestroy, 
         let touchObj = event.changedTouches[0];
         this.startHandleValue = this.handleValue;
         this.isDragging = true;
-        this.startX = parseInt(touchObj.clientX, 10);
-        this.sliderWidth = this.sliderElm.nativeElement.offsetWidth;
+        this.startY = parseInt(touchObj.clientY, 10);
+        this.sliderHeight = this.sliderElm.nativeElement.offsetHeight;
         event.preventDefault();
     }
 
     public onTouchMove( event: any ): void {
         let touchObj = event.changedTouches[0];
         let handleValue;
-        handleValue = Math.floor(((parseInt(touchObj.clientX, 10) - this.startX) * 100) / (this.sliderWidth)) + this.startHandleValue;
+        handleValue = Math.floor(((this.startY - parseInt(touchObj.clientY, 10)) * 100) / (this.sliderHeight)) + this.startHandleValue;
         this.setValueFromHandle(event, handleValue);
         event.preventDefault();
     }
 
     public updateSliderData(): void {
         let rect = this.sliderElm.nativeElement.getBoundingClientRect();
-        this.initX = rect.left;
-        this.sliderWidth = this.sliderElm.nativeElement.offsetWidth;
+        this.initY = rect.top + this.getWindowScrollTop();
+        this.sliderHeight = this.sliderElm.nativeElement.offsetHeight;
         return;
     }
 
@@ -126,7 +122,7 @@ export class SlideControlComponent implements OnInit, AfterViewInit, OnDestroy, 
     }
 
     private calculateHandleValue( event: any ): number {
-        return Math.floor(((event.pageX - this.initX) * 100) / (this.sliderWidth));
+        return Math.floor(((this.initY + this.sliderHeight) - event.pageY) * 100 / (this.sliderHeight));
     }
 
     private setValueFromHandle( event: any, handleValue: number ): void {
@@ -161,5 +157,10 @@ export class SlideControlComponent implements OnInit, AfterViewInit, OnDestroy, 
         }
         this.value = Math.floor(val);
         this.onModelChange(this.value);
+    }
+
+    public getWindowScrollTop(): number {
+        let doc = document.documentElement;
+        return (window.pageYOffset || doc.scrollTop) - (doc.clientTop || 0);
     }
 }

@@ -3,28 +3,16 @@
 @import './sass/utils/mixins';
 @import './colors';
 
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-}
-
-.picker-overlay {
+.owl-moment-overlay {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
   display: block;
-  background-color: $light-dark;
-  z-index: 999999;
-
-  &.picker-overlay-dropdown {
-    background-color: transparent;
-  }
 }
 
-.picker-popup {
+.owl-picker-popup {
   @include respond-to(medium) {
     top: 30px;
     height: auto;
@@ -33,90 +21,40 @@
   position: fixed;
   top: 0;
   left: 50%;
-  width: 100vw;
-  max-width: 520px;
   height: 100%;
   overflow: hidden;
-  background-color: $white;
-  box-shadow: 0 5px 15px $light-dark;
-  border-radius: 5px;
-  z-index: 9999999;
-  transform: translate(-50%, 0);
-  animation: slideDown 0.3s cubic-bezier(.13, .68, 1, 1.53);
 }
 
-.picker-dropdown {
-  @include respond-to('medium') {
-    max-width: 300px;
-  }
-  max-width: 100vw;
-  min-width: 250px;
-  border: #777 solid 1px;
+.owl-picker-dropdown {
   position: absolute;
-  z-index: 9999999;
-  user-select: none;
-  background-color: $white;
-  border-radius: 5px;
-  animation: popover 0.3s ease-in-out;
 }
 
-.picker-inline {
-  max-width: 300px;
-  min-width: 250px;
-  border: #777 solid 1px;
+.owl-picker-inline {
   position: relative;
   user-select: none;
-  background-color: $white;
-  border-radius: 5px;
   display: inline-block;
 }
 
-.picker-box {
+.owl-moment-picker-box {
   display: flex;
   flex-direction: column;
-  font-family: 'Open Sans';
   width: 100%;
   height: 100%;
-  color: $black;
   user-select: none;
 }
 
-.picker-content {
+.owl-moment-picker-content {
+
   @include when-inside('.small-mode') {
     height: $base-line-height * 14;
   }
+
   position: relative;
   flex-grow: 1;
   width: 100%;
   height: $base-line-height * 19;
 
-  .picker-hidden {
-    visibility: hidden;
-  }
-}
-
-@keyframes popover {
-  0% {
-    opacity: 0;
-    transform: translateY(-50px) scale(0.8);
-  }
-  80% {
-    opacity: 1;
-    transform: translateY(10px) scale(1.05);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0px) scale(1);
-  }
-}
-
-@keyframes slideDown {
-  0% {
-    opacity: 0;
-    transform: translate(-50%, -100%);
-  }
-  100% {
-    opacity: 1;
-    transform: translate(-50%, 0);
+  .owl-picker-hidden {
+    display: none;
   }
 }

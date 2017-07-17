@@ -7,20 +7,30 @@ import { DialogType } from './dialog.component';
 import * as moment from 'moment/moment';
 import { Moment } from 'moment/moment';
 import { Observable } from 'rxjs/Rx';
-import { shadeBlendConvert } from './utils';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Subject } from 'rxjs/Subject';
 
 @Injectable()
 export class PickerService {
 
-    public selectedMomentSource: BehaviorSubject<Moment> = new BehaviorSubject<Moment>(null);
-    public selectedMomentChange: Observable<Moment> = this.selectedMomentSource.asObservable();
+    public refreshCalendarSource: Subject<Moment> = new Subject<Moment>();
+    public refreshCalendar: Observable<Moment> = this.refreshCalendarSource.asObservable();
 
     /* Property _dtAutoClose */
     private _dtAutoClose: boolean;
 
     get dtAutoClose(): boolean {
         return this._dtAutoClose;
+    }
+
+    /* Property _dtDisabled */
+    private _dtDisabled: boolean;
+
+    get dtDisabled(): boolean {
+        return this._dtDisabled;
+    }
+
+    set dtDisabled( value: boolean ) {
+        this._dtDisabled = value;
     }
 
     /* Property _dtLocale */
@@ -96,17 +106,6 @@ export class PickerService {
         return this._dtHourTime;
     }
 
-    /* Property _dtTheme */
-    private _dtTheme: string;
-
-    get dtTheme(): string {
-        return this._dtTheme;
-    }
-
-    set dtTheme( value: string ) {
-        this._dtTheme = shadeBlendConvert(0, value) || '#0070ba';
-    }
-
     /* Property _dtShowSeconds */
     private _dtShowSeconds: boolean;
 
@@ -140,10 +139,11 @@ export class PickerService {
     set selectedMoment( value: Moment ) {
         if (value === null) {
             this._selectedMoment = null;
+            this.refreshCalendarSource.next(this._selectedMoment);
         } else if (!this._selectedMoment || !this._selectedMoment.isSame(value)) {
             this._selectedMoment = value.clone();
+            this.refreshCalendarSource.next(this._selectedMoment);
         }
-        this.selectedMomentSource.next(this._selectedMoment);
     }
 
     private momentFunc = (moment as any).default ? (moment as any).default : moment;
@@ -161,7 +161,7 @@ export class PickerService {
     public setPickerOptions( dtAutoClose: boolean, dtLocale: string, dtViewFormat: string, dtReturnObject: string,
                              dtPosition: 'top' | 'right' | 'bottom' | 'left',
                              dtPositionOffset: string, dtMode: 'popup' | 'dropdown' | 'inline',
-                             dtHourTime: '12' | '24', dtTheme: string,
+                             dtHourTime: '12' | '24',
                              dtPickerType: 'both' | 'date' | 'time',
                              dtShowSeconds: boolean, dtOnlyCurrentMonth: boolean,
                              dtMinMoment: string, dtMaxMoment: string ): void {
@@ -178,14 +178,18 @@ export class PickerService {
         this.setMinMoment(dtMinMoment);
         this.setMaxMoment(dtMaxMoment);
         this.dtPickerType = dtPickerType;
-        this.dtTheme = dtTheme;
     }
 
     public setMoment( value: any ): void {
         if (value) {
-            this.selectedMoment = this._dtReturnObject === 'string' ?
+            let m = this._dtReturnObject === 'string' ?
                 this.momentFunc(value, this._dtViewFormat) :
                 this.momentFunc(value);
+            if (m.isValid()) {
+                this.selectedMoment = m.clone();
+            } else {
+                this.selectedMoment = null;
+            }
         } else {
             this.selectedMoment = null;
         }
@@ -197,6 +201,13 @@ export class PickerService {
      * @returns {boolean}
      * */
     public setDate( moment: Moment ): boolean {
+
+        // Check if the moment's day has already been selected
+        if (this._selectedMoment &&
+            this._selectedMoment.isSame(moment, 'day')) {
+            return true;
+        }
+
         let m = this._selectedMoment ? this._selectedMoment.clone() : this._now;
         let daysDifference = moment.clone().startOf('date').diff(m.clone().startOf('date'), 'days');
         m = m.clone().add(daysDifference, 'd');
@@ -321,9 +332,20 @@ export class PickerService {
     }
 
     /**
+     * Reset the minMoment and maxMoment
+     * @param minString
+     * @param maxString
+     * */
+    public resetMinMaxMoment( minString: string, maxString: string ): void {
+        this.setMinMoment(minString);
+        this.setMaxMoment(maxString);
+        this.refreshCalendarSource.next(this._selectedMoment);
+    }
+
+    /**
      * Set property _dtMinMoment value
      * */
-    private setMinMoment( minString: string): void {
+    private setMinMoment( minString: string ): void {
         if (this.momentFunc(minString, "YYYY-MM-DD HH:mm:ss", true).isValid()) {
             this._dtMinMoment = this.momentFunc(minString, "YYYY-MM-DD HH:mm:ss", true);
         } else if (this.momentFunc(minString, "YYYY-MM-DD", true).isValid()) {
@@ -336,7 +358,7 @@ export class PickerService {
     /**
      * Set property _dtMaxMoment value
      * */
-    private setMaxMoment(maxString: string): void {
+    private setMaxMoment( maxString: string ): void {
         if (this.momentFunc(maxString, "YYYY-MM-DD HH:mm:ss", true).isValid()) {
             this._dtMaxMoment = this.momentFunc(maxString, "YYYY-MM-DD HH:mm:ss", true);
         } else if (this.momentFunc(maxString, "YYYY-MM-DD", true).isValid()) {

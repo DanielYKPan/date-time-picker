@@ -19,8 +19,6 @@ export class DialogPositionDirective implements OnInit, AfterViewInit {
     private mode: 'popup' | 'dropdown' | 'inline';
     private top: number;
     private left: number;
-    private width: string;
-    private height: string = 'auto';
     private position: string;
 
     constructor( private el: ElementRef,
@@ -32,8 +30,6 @@ export class DialogPositionDirective implements OnInit, AfterViewInit {
         this.dialogPosition = this.service.dtPosition;
         this.dialogPositionOffset = this.service.dtPositionOffset;
         this.mode = this.service.dtMode;
-        this.width = this.directiveElementRef.nativeElement.offsetWidth + 'px';
-        this.setDialogStyle();
     }
 
     public ngAfterViewInit(): void {
@@ -41,10 +37,8 @@ export class DialogPositionDirective implements OnInit, AfterViewInit {
         this.dialogWidth = this.el.nativeElement.offsetWidth;
         if (this.mode === 'dropdown') {
             this.setDropDownDialogPosition();
-        } else if (this.mode === 'inline') {
-            this.setInlineDialogPosition();
+            this.setDialogStyle();
         }
-        this.setDialogStyle();
     }
 
     private setDropDownDialogPosition() {
@@ -52,8 +46,6 @@ export class DialogPositionDirective implements OnInit, AfterViewInit {
             this.position = 'fixed';
             this.top = 0;
             this.left = 0;
-            this.width = '100%';
-            this.height = '100%';
         } else {
             let node = this.directiveElementRef.nativeElement;
             let position = 'static';
@@ -113,21 +105,10 @@ export class DialogPositionDirective implements OnInit, AfterViewInit {
         };
     }
 
-    private setInlineDialogPosition() {
-        this.position = 'relative';
-        this.width = this.directiveElementRef.nativeElement.offsetWidth + 'px';
-    }
-
     private setDialogStyle(): void {
-        if (this.mode === 'popup') {
-            return;
-        } else {
-            this.renderer.setStyle(this.el.nativeElement, 'width', this.width);
-            this.renderer.setStyle(this.el.nativeElement, 'height', this.height);
-            this.renderer.setStyle(this.el.nativeElement, 'top', this.top + 'px');
-            this.renderer.setStyle(this.el.nativeElement, 'left', this.left + 'px');
-            this.renderer.setStyle(this.el.nativeElement, 'position', this.position);
-            return;
-        }
+        this.renderer.setStyle(this.el.nativeElement, 'top', this.top + 'px');
+        this.renderer.setStyle(this.el.nativeElement, 'left', this.left + 'px');
+        this.renderer.setStyle(this.el.nativeElement, 'position', this.position);
+        return;
     }
 }

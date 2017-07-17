@@ -3,39 +3,31 @@
 @import './sass/utils/mixins';
 @import './colors';
 
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-}
-
-.picker-banner {
+.owl-moment-picker-header {
   width: 100%;
-  color: $white;
   user-select: none;
-  border-radius: 4px 4px 0 0;
 }
 
-.picker-banner-day {
-  @include when-inside('.small-mode') {
-    @include type-setting(-1);
-  }
+.owl-moment-picker-banner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: $base-line-height;
 
-  @include respond-to(max-small) {
-    @include type-setting(-1);
+  .svg-wrapper {
+    width: $base-line-height * 0.8;
+    height: $base-line-height * 0.8;
   }
-  @include type-setting(1);
-  text-align: center;
-  background: rgba(0, 0, 0, 0.09);
 }
 
-.picker-banner-moment {
+.owl-moment-picker-moment {
   display: flex;
   flex-wrap: wrap;
+  min-height: $base-line-height * 2;
   width: 100%;
 
-  .moment-date,
-  .moment-time {
+  .owl-moment-date,
+  .owl-moment-time {
     padding: 0 .5rem;
     cursor: pointer;
 
@@ -44,7 +36,7 @@
     }
   }
 
-  .moment-date {
+  .owl-moment-date {
     display: flex;
     justify-content: center;
     flex-grow: 1;
@@ -60,31 +52,14 @@
       align-items: center;
     }
 
-    .big {
-      @include when-inside('.small-mode') {
-        @include type-setting(1);
-      }
-
-      @include respond-to(max-small) {
-        @include type-setting(1);
-      }
-      @include type-setting(4);
-    }
-
     .small {
-      @include when-inside('.small-mode') {
-        @include type-setting(-2);
-      }
-      @include respond-to(max-small) {
-        @include type-setting(-2);
-      }
       flex-direction: column;
       padding: .3rem .5rem;
       font-weight: 300;
     }
   }
 
-  .moment-time {
+  .owl-moment-time {
     display: flex;
     justify-content: center;
     width: 100%;
@@ -108,30 +83,6 @@
       display: flex;
       justify-content: center;
       align-items: center;
-    }
-
-    .big {
-      @include when-inside('.small-mode') {
-        @include type-setting(0);
-      }
-
-      @include respond-to(max-small) {
-        @include type-setting(0);
-      }
-      @include type-setting(3);
-      font-weight: 100;
-    }
-
-    .small {
-      @include when-inside('.small-mode') {
-        @include type-setting(-2);
-      }
-
-      @include respond-to(max-small) {
-        @include type-setting(-2);
-      }
-      @include type-setting(1);
-      padding: 0 5px;
     }
   }
 }

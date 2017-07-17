@@ -11,6 +11,7 @@
         autoprefixer = require('autoprefixer'),
         postcss = require('gulp-postcss'),
         cleancss = require('gulp-clean-css'),
+        rename = require('gulp-rename'),
         pixrem = require('pixrem'),
         runSequence = require('run-sequence'),
         path = require('path'),
@@ -82,6 +83,20 @@
             .pipe(gulp.dest(config.tmpOutputPath));
     });
 
+    gulp.task('minify.css.theme', function () {
+        var processors = [
+            pixrem(),
+            autoprefixer({browsers: ['last 8 version', '> 1%', 'ie 9', 'ie 8', 'ie 7', 'ios 6', 'Firefox <= 20'], cascade: false})
+        ];
+
+        return gulp.src('./src/sass/picker.scss')
+            .pipe(sass())
+            .pipe(postcss(processors))
+            .pipe(cleancss({compatibility: 'ie8'}))
+            .pipe(rename({suffix: '.min'}))
+            .pipe(gulp.dest(config.tmpOutputPath + '/styles'));
+    });
+
     gulp.task('clean', function () {
         return gulp.src(['./dist', './npmdist', config.tmpOutputPath], {read: false}).pipe(clean());
     });
@@ -125,6 +140,10 @@
         return gulp.src('./tmp/picker.bundle.js').pipe(gulp.dest('./dist'));
     });
 
+    gulp.task('copy.resources.to.dist', function () {
+        return gulp.src('./tmp/styles/**').pipe(gulp.dest('./dist/styles'));
+    });
+
     gulp.task('bundle', function (cb) {
         var cmd = 'node_modules/.bin/rollup -c rollup.config.js dist/picker.module.js > tmp/picker.bundle.js';
         return run_proc(cmd, cb);
@@ -135,6 +154,7 @@
             'clean',
             'backup.ts.tmp',
             'minify.css',
+            'minify.css.theme',
             'minify.html',
             'inline.template.and.styles.to.component',
             'tsc.compile.dist',
@@ -142,6 +162,7 @@
             'clean.dist',
             'ngc',
             'copy.bundle.to.dist',
+            'copy.resources.to.dist',
             //'copy.src.to.npmdist.dir',
             'copy.dist.to.npmdist',
             'copy.root.files.to.npmdist.dir',

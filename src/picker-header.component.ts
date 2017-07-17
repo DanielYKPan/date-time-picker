@@ -23,7 +23,6 @@ export class PickerHeaderComponent implements OnInit, OnDestroy {
     public showSeconds: boolean;
     public pickerType: 'both' | 'date' | 'time';
     public mode: 'popup' | 'dropdown' | 'inline';
-    public themeColor: string;
     public now: Moment;
     public selectedMoment: Moment;
     private subId: Subscription;
@@ -36,10 +35,9 @@ export class PickerHeaderComponent implements OnInit, OnDestroy {
         this.showSeconds = this.service.dtShowSeconds;
         this.pickerType = this.service.dtPickerType;
         this.mode = this.service.dtMode;
-        this.themeColor = this.service.dtTheme;
         this.now = this.service.now;
 
-        this.subId = this.service.selectedMomentChange.subscribe(
+        this.subId = this.service.refreshCalendar.subscribe(
             (data) => this.selectedMoment = data
         );
     }

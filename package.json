@@ -54,6 +54,7 @@
     "gulp-flatmap": "^1.0.0",
     "gulp-htmlmin": "^3.0.0",
     "gulp-postcss": "^6.2.0",
+    "gulp-rename": "^1.2.2",
     "gulp-replace": "^0.5.4",
     "gulp-sass": "^2.3.2",
     "gulp-sourcemaps": "^1.9.1",

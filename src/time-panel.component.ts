@@ -26,8 +26,6 @@ export class TimePanelComponent implements OnInit, OnDestroy {
     hourCeiling: number = 12;
     timeSliderMoment: Moment;
     hourTime: '12' | '24';
-    themeColor: string;
-    mode: 'popup' | 'dropdown' | 'inline';
     showSeconds: boolean;
 
     private subId: Subscription;
@@ -37,11 +35,10 @@ export class TimePanelComponent implements OnInit, OnDestroy {
 
     public ngOnInit() {
         this.hourTime = this.service.dtHourTime;
-        this.themeColor = this.service.dtTheme;
-        this.mode = this.service.dtMode;
         this.showSeconds = this.service.dtShowSeconds;
+        this.setTimePickerTimeValue(this.service.selectedMoment);
 
-        this.subId = this.service.selectedMomentChange.subscribe(
+        this.subId = this.service.refreshCalendar.subscribe(
             ( data ) => {
                 this.setTimePickerTimeValue(data);
             }
@@ -53,10 +50,16 @@ export class TimePanelComponent implements OnInit, OnDestroy {
     }
 
     public setMeridian( meridian: string ): void {
+        if (this.service.dtDisabled) {
+            return;
+        }
         this.meridianValue = meridian;
     }
 
     public setTime(): void {
+        if (this.service.dtDisabled) {
+            return;
+        }
         this.onSetTime.emit({
             hour: this.hourValue,
             min: this.minValue,

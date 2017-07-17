@@ -1,0 +1,412 @@
+@import './utils/variables';
+@import './utils/functions';
+@import './utils/mixins';
+
+$white: #FFFFFF;
+$grey: #dddddd;
+$light-dark: hsla(0, 0%, 0%, .3);
+$black: #000000;
+$blue: #0070ba;
+$green: #2b8a3e;
+$teal: #087f5b;
+$cyan: #0b7285;
+$grape: #862e9c;
+$red: #c92a2a;
+$gray: #212529;
+
+.owl-widget,
+.owl-widget * {
+  box-sizing: border-box;
+}
+
+.owl-moment-overlay {
+  background-color: $light-dark;
+  z-index: 999999;
+
+  &.owl-moment-overlay-dropdown {
+    background-color: transparent;
+  }
+}
+
+.owl-moment-picker {
+  @include type-setting(0);
+  font-family: 'Open Sans';
+  color: $black;
+  border-radius: 5px;
+  overflow: hidden;
+  background-color: $white;
+  user-select: none;
+
+  &.owl-picker-inline {
+    width: 250px;
+    border: #777 solid 1px;
+  }
+
+  &.owl-picker-popup {
+    @include respond-to(medium) {
+      top: 30px;
+      height: auto;
+    }
+    width: 100vw;
+    max-width: 520px;
+    box-shadow: 0 5px 15px $light-dark;
+    z-index: 9999999;
+    transform: translate(-50%, 0);
+    animation: slideDown 0.3s cubic-bezier(.13, .68, 1, 1.53);
+  }
+
+  &.owl-picker-dropdown {
+    @include respond-to('medium') {
+      width: 300px;
+      height: auto;
+    }
+    width: 100vw;
+    height: 100%;
+    border: #777 solid 1px;
+    z-index: 9999999;
+    animation: popover 0.3s ease-in-out;
+  }
+
+  .owl-svg-icon {
+    background-color: $white;
+    fill: $blue;
+
+    &:hover {
+      fill: darken($blue, 10%);
+    }
+  }
+
+  .owl-svg-icon-light {
+    fill: $white;
+  }
+}
+
+.owl-moment-picker-header {
+  color: $white;
+  background-color: $blue;
+  border-radius: 5px 5px 0 0;
+}
+
+.owl-moment-picker-banner {
+  @include respond-to(max-small) {
+    @include type-setting(-1);
+  }
+  background: rgba(0, 0, 0, 0.09);
+}
+
+.owl-moment-picker-moment {
+  .owl-moment-date {
+    .big {
+      @include respond-to(max-small) {
+        @include type-setting(1);
+      }
+      @include type-setting(4);
+    }
+
+    .small {
+      @include respond-to(max-small) {
+        @include type-setting(-2);
+      }
+      font-weight: 300;
+    }
+  }
+
+  .owl-moment-time {
+    .big {
+      @include respond-to(max-small) {
+        @include type-setting(0);
+      }
+      @include type-setting(3);
+      font-weight: 100;
+    }
+
+    .small {
+      @include respond-to(max-small) {
+        @include type-setting(-2);
+      }
+      @include type-setting(1);
+      padding: 0 5px;
+    }
+  }
+}
+
+.owl-moment-picker {
+
+  .owl-control-nav {
+
+    & > * {
+      position: absolute;
+      top: 50%;
+      right: auto;
+      bottom: auto;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    .nav-prev::before,
+    .nav-next::before {
+      @include when-inside('.small-mode') {
+        border-top: .4em solid transparent;
+        border-bottom: .4em solid transparent;
+        border-right: .6em solid $black;
+      }
+
+      @include respond-to(max-small) {
+        border-top: .4em solid transparent;
+        border-bottom: .4em solid transparent;
+        border-right: .6em solid $black;
+      }
+      content: " ";
+      border-top: .5em solid transparent;
+      border-bottom: .5em solid transparent;
+      border-right: .75em solid $black;
+      width: 0;
+      height: 0;
+      display: block;
+      margin: 0 auto;
+    }
+
+    .nav-next::before {
+      @include when-inside('.small-mode') {
+        border-right: 0;
+        border-left: .6em solid $black;
+      }
+
+      @include respond-to(max-small) {
+        border-right: 0;
+        border-left: .6em solid $black;
+      }
+      border-right: 0;
+      border-left: .75em solid $black;
+    }
+  }
+
+  .owl-control-content {
+    .month-control,
+    .year-control {
+      display: inline-block;
+      cursor: pointer;
+      transition: transform 200ms ease;
+
+      &:hover {
+        transform: scale(1.2);
+      }
+    }
+
+    .month-control {
+      @include type-setting(1);
+
+      @include respond-to(max-small) {
+        @include type-setting(0);
+      }
+
+      margin-right: .5rem;
+      font-weight: 700;
+    }
+
+    .year-control {
+      @include respond-to(max-small) {
+        @include type-setting(-1);
+      }
+      font-style: italic;
+      color: #999;
+    }
+  }
+}
+
+.owl-date-panel-calendar {
+  .owl-date-panel-weekday {
+    @include respond-to(max-small) {
+      @include type-setting(-1);
+      padding-left: 3px;
+    }
+    font-weight: 700;
+    text-align: left;
+    color: #999;
+    width: 14%;
+    padding-left: 10px;
+  }
+
+  .owl-date-panel-day,
+  .owl-date-panel-month,
+  .owl-date-panel-year {
+
+    &.selected {
+      background-color: $blue;
+      color: $white;
+    }
+
+    &.day-show:not(.selected):not(.day-invalid):hover {
+      background-color: lighten($blue, 50%);
+      color: $black;
+    }
+  }
+
+  .owl-date-panel-day {
+    @include respond-to(max-small) {
+      @include type-setting(0);
+      height: $base-line-height * 1.5;
+    }
+
+    @include type-setting(1);
+    height: $base-line-height * 2;
+    width: 14%;
+
+    &.out-focus {
+      color: $grey;
+    }
+
+    &.day-invalid:not(.out-focus) {
+      color: #acacac;
+      cursor: not-allowed;
+    }
+
+    &.day-show {
+      cursor: pointer;
+    }
+
+    &.day-today:before {
+      content: '';
+      display: block;
+      position: absolute;
+      right: 2px;
+      top: 2px;
+      border-top: .5em solid lighten($blue, 20%);
+      border-left: .5em solid transparent;
+    }
+  }
+
+  .owl-date-panel-month,
+  .owl-date-panel-year {
+    @include respond-to(max-small) {
+      @include type-setting(0);
+    }
+
+    @include type-setting(1);
+    height: $base-line-height * 2;
+  }
+}
+
+.owl-time-panel {
+  .owl-time-panel-inform {
+    color: $blue;
+
+    .time-inform:not(.meridiem-inform) {
+      @include type-setting(1);
+    }
+
+    .meridiem-inform {
+      .meridiem-button {
+        border: 1px solid $blue;
+        background: $white;
+        border-radius: 3px;
+        color: $blue;
+
+        &.meridiem-button-on {
+          background-color: $blue;
+          color: $white
+        }
+      }
+    }
+  }
+
+  .owl-time-slider {
+    background: #ccc;
+  }
+
+  .owl-time-slider-bar {
+    background-color: $blue;
+  }
+
+  .owl-time-slider-handle {
+    background: $white;
+    color: $black;
+  }
+}
+
+//////////////////// small mode
+
+.owl-moment-picker {
+  &.small-mode {
+
+    .owl-moment-picker-banner {
+      @include type-setting(-1);
+    }
+
+    .owl-moment-picker-moment {
+      .owl-moment-date {
+        .big {
+          @include type-setting(1);
+        }
+
+        .small {
+          @include type-setting(-2);
+        }
+      }
+
+      .owl-moment-time {
+        .big {
+          @include type-setting(0);
+        }
+
+        .small {
+          @include type-setting(-2);
+        }
+      }
+    }
+
+    .owl-control-content {
+      .month-control {
+        @include type-setting(0);
+      }
+
+      .year-control {
+        @include type-setting(-1);
+      }
+    }
+
+    .owl-date-panel-calendar {
+      .owl-date-panel-weekday {
+        @include type-setting(-1);
+        padding-left: 3px;
+      }
+
+      .owl-date-panel-day {
+        @include type-setting(0);
+        height: $base-line-height * 1.5;
+      }
+
+      .owl-date-panel-month,
+      .owl-date-panel-year {
+        @include type-setting(0);
+      }
+    }
+
+  }
+}
+
+@keyframes popover {
+  0% {
+    opacity: 0;
+    transform: translateY(-50px) scale(0.8);
+  }
+  80% {
+    opacity: 1;
+    transform: translateY(10px) scale(1.05);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0px) scale(1);
+  }
+}
+
+@keyframes slideDown {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -100%);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}

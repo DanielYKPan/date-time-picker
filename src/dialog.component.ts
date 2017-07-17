@@ -5,14 +5,12 @@
 import { Component, OnInit, ElementRef, OnDestroy } from '@angular/core';
 import { Moment } from 'moment/moment';
 import { PickerService } from './picker.service';
-import { TRANSLATION_PROVIDERS } from './translations';
-import { TranslateService } from './translate.service';
 
 @Component({
     selector: 'date-time-dialog',
     templateUrl: './dialog.component.html',
     styleUrls: ['./dialog.component.scss'],
-    providers: [PickerService, TRANSLATION_PROVIDERS, TranslateService],
+    providers: [PickerService],
 })
 export class DialogComponent implements OnInit, OnDestroy {
 
@@ -30,7 +28,6 @@ export class DialogComponent implements OnInit, OnDestroy {
     public pickerType: 'both' | 'date' | 'time';
 
     constructor( private el: ElementRef,
-                 private translate: TranslateService,
                  private service: PickerService ) {
     }
 
@@ -40,20 +37,17 @@ export class DialogComponent implements OnInit, OnDestroy {
         this.returnObject = this.service.dtReturnObject;
         this.pickerType = this.service.dtPickerType;
         this.dialogType = this.service.dtDialogType;
-        this.translate.use(this.service.dtLocale);
 
         // set now value
         this.now = this.service.now;
 
-        this.openDialog(this.initialValue);
     }
 
     public ngOnDestroy(): void {
     }
 
-    public openDialog( moment: any ): void {
+    public openDialog(): void {
         this.show = true;
-        this.setSelectedMoment(moment);
         return;
     }
 
@@ -73,19 +67,18 @@ export class DialogComponent implements OnInit, OnDestroy {
         this.initialValue = value;
     }
 
-    public setDialog( instance: any, elementRef: ElementRef, initialValue: any, dtAutoClose: boolean,
+    public setDialog( instance: any, elementRef: ElementRef, dtAutoClose: boolean,
                       dtLocale: string, dtViewFormat: string, dtReturnObject: string,
                       dtPosition: 'top' | 'right' | 'bottom' | 'left',
                       dtPositionOffset: string, dtMode: 'popup' | 'dropdown' | 'inline',
-                      dtHourTime: '12' | '24', dtTheme: string,
+                      dtHourTime: '12' | '24',
                       dtPickerType: 'both' | 'date' | 'time', dtShowSeconds: boolean,
                       dtOnlyCurrentMonth: boolean, dtMinMoment: string, dtMaxMoment: string ): void {
         this.directiveInstance = instance;
         this.directiveElementRef = elementRef;
-        this.initialValue = initialValue;
 
         this.service.setPickerOptions(dtAutoClose, dtLocale, dtViewFormat, dtReturnObject, dtPosition,
-            dtPositionOffset, dtMode, dtHourTime, dtTheme, dtPickerType, dtShowSeconds,
+            dtPositionOffset, dtMode, dtHourTime, dtPickerType, dtShowSeconds,
             dtOnlyCurrentMonth, dtMinMoment, dtMaxMoment);
     }
 
@@ -107,6 +100,11 @@ export class DialogComponent implements OnInit, OnDestroy {
     }
 
     public setDate( moment: Moment ): void {
+
+        if (this.service.dtDisabled) {
+            return;
+        }
+
         let done = this.service.setDate(moment);
 
         if (done) {
@@ -126,6 +124,11 @@ export class DialogComponent implements OnInit, OnDestroy {
      * @return {void}
      * */
     public setTime( time: { hour: number, min: number, sec: number, meridian: string } ): void {
+
+        if (this.service.dtDisabled) {
+            return;
+        }
+
         // set the picker selectedMoment time value
         let done = this.service.setTime(time.hour, time.min, time.sec, time.meridian);
 
@@ -142,11 +145,12 @@ export class DialogComponent implements OnInit, OnDestroy {
         }
     }
 
-    public clearPickerInput(): void {
-        this.service.setMoment(null);
-        this.directiveInstance.momentChanged(null);
-        this.closeDialog();
-        return;
+    public setPickerDisableStatus( isDisabled: boolean ): void {
+        this.service.dtDisabled = isDisabled;
+    }
+
+    public resetMinMaxMoment( minString: string, maxString: string ) {
+        this.service.resetMinMaxMoment(minString, maxString);
     }
 
     /**
