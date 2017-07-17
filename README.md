@@ -5,18 +5,16 @@
 **This package supports Angular 4**
 
 ## Updates
-* Added **[minMoment]** and **[maxMoment]** to restrict the range of date or time, closes
-   [#41](https://github.com/DanielYKPan/date-time-picker/issues/41), [#77](https://github.com/DanielYKPan/date-time-picker/issues/77)
-* Added **(dataTimePickerError)** to emit a message whenever a invalid date or time is being selected.
-* Fixed picker hover issue and position issue in IE 11. closes [#48](https://github.com/DanielYKPan/date-time-picker/issues/48), [#64](https://github.com/DanielYKPan/date-time-picker/issues/64), 
-   [#70](https://github.com/DanielYKPan/date-time-picker/issues/70).
-* Fixed time panel slider not working properly. closes [#74](https://github.com/DanielYKPan/date-time-picker/issues/74).
-* Fixed Time picker does not update in 'inline' view, closes [#75](https://github.com/DanielYKPan/date-time-picker/issues/75).
-* Fixed German translation error, closes [#76](https://github.com/DanielYKPan/date-time-picker/issues/76).
+* Binding to **[(ngModel)]** instead **[dateTimePicker]**
+* Separate picker styles into **picker.min.css**. In this case, people could easily overwrite the 
+    picker's theme (like picker's color, background color, or fonts ect) in their own project's css files.
+* Delete **[theme]** option.
+* Change emit event names, **onChange($event)**, **onError($event)**.
+* Fixed cancel button clear input issue, closes [#81](https://github.com/DanielYKPan/date-time-picker/issues/81).
+* Fixed minMoment and maxMoment not update issue, closes [#82](https://github.com/DanielYKPan/date-time-picker/issues/82).
+* Fixed Starting of week issue, closes [#84](https://github.com/DanielYKPan/date-time-picker/issues/84).
 
 ## Important
-* Get locale working in the whole picker. Words not from MomentJS in the picker now are also translated.( 'ca', 'de', 'en', 'es', 'fr', 'lt', 'pl', 'pt', 'ro', 'ru', 'zh_CN', 'zh_HK', 'zh_TW').
-   If the locale you are using is not working, please open an issue and help me to build that locale library.
 * This npm package now rename to [ng-pick-datetime](https://www.npmjs.com/package/ng-pick-datetime), this is because this package now support angular 4. The previous package was named [ng2-date-time-picker](https://www.npmjs.com/package/ng2-date-time-picker).
 
 ## Other Similar Projects
@@ -33,7 +31,8 @@ This picker uses [MomentJS](http://momentjs.com/)
 To install this component, follow the procedure:
 
 1. __Install with [npm](https://www.npmjs.com):`npm install ng-pick-datetime --save`__
-2. Add __DateTimePickerModule__ import to your __@NgModule__ like example below
+2. Add ``` <link rel="stylesheet" type="text/css" href="/node_modules/ng-pick-datetime/styles/picker.min.css" />``` in your index.html
+3. Add __DateTimePickerModule__ import to your __@NgModule__ like example below
     ```js
     import { NgModule } from '@angular/core';
     import { BrowserModule } from '@angular/platform-browser';
@@ -48,8 +47,8 @@ To install this component, follow the procedure:
     })
     export class MyTestAppModule {}
     ```
-3. This picker use MomentJS. Remember to load MomentJS when you load your project from webpack or systemjs.**
-4. If you are using __systemjs__ package loader add the following ng-pick-datetime properties to the __System.config__:
+4. This picker use MomentJS. Remember to load MomentJS when you load your project from webpack or systemjs.**
+5. If you are using __systemjs__ package loader add the following ng-pick-datetime properties to the __System.config__:
     ```js
     (function (global) {
         System.config({
@@ -85,12 +84,12 @@ To install this component, follow the procedure:
 Use the following snippet inside your template. For example:
 
 ```html
-<input [ngModel]="momentValue | date: 'short'" [(dateTimePicker)]="momentValue" readonly />
+<input [value]="momentValue | date: 'short'" [(ngModel)]="momentValue" dateTimePicker />
 ```
 <p>Or:</p>
 
 ```html
-<input [ngModel]="momentValue | date: 'short'" [dateTimePicker]="momentValue" (dateTimePickerChange)="setMoment($event)" readonly />
+<input [value]="momentValue | date: 'short'" [(ngModel)]="momentValue" dateTimePicker (onChange)="setMoment($event)" />
 ```
 ```typescript
 public setMoment(moment: any): any {
@@ -101,12 +100,13 @@ public setMoment(moment: any): any {
 
  * Create a normal HTML Input and put it anywhere you want (like inside a form you already created). 
  * You may set the HTML Input to **readonly**, so you can only change the date value from the pop-up date-time picker.
- * Use **dateTimePicker** directive from our DateTimePickerModule `[(dateTimePicker)]="momentValue"`. This is the two way binding feature from AngularJS.
+ * Use **dateTimePicker** directive from our DateTimePickerModule `dateTimePicker` and bind your variable to picker via `[(ngModel)]='momentValue'`. 
+    This is the two way binding feature from AngularJS.
     Firstly, the local variable 'momentValue' would be bind to our 'dateTimePicker' directive Input and shows in the popup picker dialog.
     Once you select your new moment value and confirm it, the local variable 'momentValue' would be updated. Or if you want to deal
-    with the return new moment value from our directive before update the local variable, your can separate it like this `[dateTimePicker]="momentValue" (dateTimePickerChange)="setMoment($event)"`
- * Use `[ngModel]="momentValue"` from Angular built-in FormsModule to bind the moment value to the input value. 
- * Inside `[ngModel]="momentValue | date: 'short' "`, we use the date pipe from Angular built-in Pipes to transform the Javascript Date Object to more friendly formats.
+    with the return new moment value from our directive before update the local variable, your can separate it like this `[ngModel]="momentValue" (onChange)="setMoment($event)"`
+ * Use `[value]="momentValue"` from bind the moment value to the input value. 
+ * Inside `[value]="momentValue | date: 'short' "`, we use the date pipe from Angular built-in Pipes to transform the Javascript Date Object to more friendly formats.
     We only use this built-in date pipe when we set the 'dateTimePicker' return object as Javascript Date Object.
  * Optional attributes:
     * **[autoClose]=" false "** --- The picker would not close or return the value by selecting a day in the calendar. 
@@ -142,12 +142,17 @@ public setMoment(moment: any): any {
         (Default value is 'js', this means the default return object type is javascript Date object. 
         The other options are: string, moment, json, array, iso and object).
     * **[showSeconds]=" true "** --- Set to show seconds slider in time picker. (The default value is false).
-    * **[theme]=" '#0070ba' "** --- Set the theme color. The default color is '#0070ba'. You could provide any valid [8-Digit Hex Codes](https://css-tricks.com/8-digit-hex-codes/) to change the picker theme color. You can see the effect from the demo.
     * **[viewFormat]=" 'll' "** --- If you set your returnObject as 'string', you need to set the viewFormat. (Default value is 'll'. You can get more inform about the format from [MomentJS](http://momentjs.com/docs/#/parsing/string-format/)).
     * **Important: Do Not forget the single quote inside the double quote when you set the optional attributes string value.**
  * Emit Events
-    * **(dateTimePickerChange)** --- emit a value whenever a date or time is selected.
-    * **(dateTimePickerError)** --- emit a message whenever a invalid date or time is selected.
+    * **(onChange)** --- emit a value whenever a date or time is selected.
+    * **(onError)** --- emit a message whenever a invalid date or time is selected.
+    
+## Theme
+The picker now separate its styles into **./node_modules/ng-pick-datetime/styles/picker.min.css**.
+You could inspect the picker's classes from your browser's dev tool and overwrite them in your project's css files.
+
+
 ## Demo
 Online demo is [here](https://danielykpan.github.io/date-time-picker/)
 
