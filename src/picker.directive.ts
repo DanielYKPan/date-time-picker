@@ -5,7 +5,7 @@
 import {
     Directive, ElementRef, Input, ViewContainerRef,
     ReflectiveInjector, Output, EventEmitter, OnInit, OnChanges, SimpleChanges, ComponentFactoryResolver, forwardRef,
-    OnDestroy
+    OnDestroy, HostListener
 } from '@angular/core';
 import { DialogComponent } from './dialog.component';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
@@ -19,7 +19,8 @@ export const PICKER_VALUE_ACCESSOR: any = {
 @Directive({
     selector: '[dateTimePicker]',
     host: {
-        '(click)': 'onClick()',
+        '(mousedown)': 'onClick($event)',
+        '(touchdown)': 'onClick($event)',
     },
     providers: [PICKER_VALUE_ACCESSOR],
 })
@@ -98,7 +99,8 @@ export class DateTimePickerDirective implements OnInit, OnChanges, OnDestroy, Co
         }
     }
 
-    public onClick(): void {
+    public onClick(event: Event): void {
+        event.preventDefault();
         if (!this.disabled) {
             this.openDialog();
         }
