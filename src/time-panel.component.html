@@ -22,13 +22,13 @@
     </div>
     <div class="owl-time-panel-sliders">
         <div class="owl-time-panel-slider">
-            <app-slide-bar [(ngModel)]="hourValue" [min]="hourFloor" [max]="hourCeiling" [style]="{height: '90%'}"></app-slide-bar>
+            <app-slide-bar #hourPicker [min]="hourFloor" [max]="hourCeiling" [style]="{height: '90%'}"></app-slide-bar>
         </div>
         <div class="owl-time-panel-slider">
-            <app-slide-bar [(ngModel)]="minValue" [min]="0" [max]="59" [style]="{height: '90%'}"></app-slide-bar>
+            <app-slide-bar #minPicker [min]="0" [max]="59" [style]="{height: '90%'}"></app-slide-bar>
         </div>
         <div class="owl-time-panel-slider" *ngIf="showSeconds">
-            <app-slide-bar [(ngModel)]="secValue" [min]="0" [max]="59" [style]="{height: '90%'}"></app-slide-bar>
+            <app-slide-bar #secPicker [min]="0" [max]="59" [style]="{height: '90%'}"></app-slide-bar>
         </div>
     </div>
 

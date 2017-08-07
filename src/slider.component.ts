@@ -97,6 +97,11 @@ export class SlideControlComponent implements OnInit, AfterViewInit, OnDestroy, 
         return;
     }
 
+    public updateData(value: any): void {
+        this.updateValue(value);
+        this.updateHandleValue();
+    }
+
     public writeValue( value: any ): void {
         if (value !== this.value) {
             this.updateValue(value);
