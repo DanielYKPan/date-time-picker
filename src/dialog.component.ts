@@ -48,6 +48,7 @@ export class DialogComponent implements OnInit, OnDestroy {
 
     public openDialog(): void {
         this.show = true;
+        this.service.refreshCalendarSource.next(this.service.selectedMoment);
         return;
     }
 
