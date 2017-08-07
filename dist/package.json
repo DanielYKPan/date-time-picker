@@ -1,0 +1,166 @@
+{
+  "_args": [
+    [
+      {
+        "raw": "ng-pick-datetime@4.3.0",
+        "scope": null,
+        "escapedName": "ng-pick-datetime",
+        "name": "ng-pick-datetime",
+        "rawSpec": "4.3.0",
+        "spec": "4.3.0",
+        "type": "version"
+      },
+      "E:\\Project\\MadonnaCollections-Frontend"
+    ]
+  ],
+  "_from": "ng-pick-datetime@4.3.0",
+  "_id": "ng-pick-datetime@4.3.0",
+  "_inCache": true,
+  "_location": "/ng-pick-datetime",
+  "_nodeVersion": "6.10.1",
+  "_npmOperationalInternal": {
+    "host": "s3://npm-registry-packages",
+    "tmp": "tmp/ng-pick-datetime-4.3.0.tgz_1500373264284_0.1012237030081451"
+  },
+  "_npmUser": {
+    "name": "daniel_pan",
+    "email": "myron.yk.pan@gmail.com"
+  },
+  "_npmVersion": "3.10.10",
+  "_phantomChildren": {},
+  "_requested": {
+    "raw": "ng-pick-datetime@4.3.0",
+    "scope": null,
+    "escapedName": "ng-pick-datetime",
+    "name": "ng-pick-datetime",
+    "rawSpec": "4.3.0",
+    "spec": "4.3.0",
+    "type": "version"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/ng-pick-datetime/-/ng-pick-datetime-4.3.0.tgz",
+  "_shasum": "9ceb210b5105685f9fe7b900c6e4b85a744595d5",
+  "_shrinkwrap": null,
+  "_spec": "ng-pick-datetime@4.3.0",
+  "_where": "E:\\Project\\MadonnaCollections-Frontend",
+  "author": {
+    "name": "daniel pan",
+    "email": "myron.yk.pan@gmail.com"
+  },
+  "bugs": {
+    "url": "https://github.com/DanielYKPan/date-time-picker/issues"
+  },
+  "dependencies": {
+    "moment": "^2.17.0"
+  },
+  "description": "Angular Date Time Picker",
+  "devDependencies": {
+    "@angular/common": "^4.2.4",
+    "@angular/compiler": "^4.2.4",
+    "@angular/compiler-cli": "^4.2.4",
+    "@angular/core": "^4.2.4",
+    "@angular/forms": "^4.2.4",
+    "@angular/platform-browser": "^4.2.4",
+    "@angular/platform-browser-dynamic": "^4.2.4",
+    "@angular/platform-server": "^4.2.4",
+    "@types/jasmine": "^2.5.36",
+    "@types/node": "^7.0.0",
+    "@types/selenium-webdriver": "~2.53.39",
+    "angular2-template-loader": "^0.6.0",
+    "autoprefixer": "^6.5.3",
+    "awesome-typescript-loader": "^3.0.4",
+    "core-js": "^2.4.1",
+    "css-loader": "^0.26.1",
+    "extract-text-webpack-plugin": "~2.0.0-rc.3",
+    "file-loader": "^0.9.0",
+    "gulp": "^3.9.1",
+    "gulp-clean": "^0.3.2",
+    "gulp-clean-css": "^2.0.13",
+    "gulp-flatmap": "^1.0.0",
+    "gulp-htmlmin": "^3.0.0",
+    "gulp-postcss": "^6.2.0",
+    "gulp-rename": "^1.2.2",
+    "gulp-replace": "^0.5.4",
+    "gulp-sass": "^2.3.2",
+    "gulp-sourcemaps": "^1.9.1",
+    "gulp-typescript": "^3.1.3",
+    "html-loader": "^0.4.3",
+    "html-webpack-plugin": "^2.28.0",
+    "jasmine-core": "^2.5.2",
+    "json-loader": "^0.5.4",
+    "karma": "^1.2.0",
+    "karma-chrome-launcher": "^2.0.0",
+    "karma-jasmine": "^1.0.2",
+    "karma-jasmine-html-reporter": "^0.2.2",
+    "karma-phantomjs-launcher": "^1.0.2",
+    "karma-sourcemap-loader": "^0.3.7",
+    "karma-webpack": "^2.0.1",
+    "merge2": "^1.0.2",
+    "node-sass": "^3.13.0",
+    "null-loader": "^0.1.1",
+    "phantomjs-prebuilt": "^2.1.7",
+    "pixrem": "^3.0.2",
+    "postcss-loader": "^1.1.1",
+    "promise-loader": "^1.0.0",
+    "raw-loader": "^0.5.1",
+    "resolve-url-loader": "^2.0.2",
+    "rimraf": "^2.5.2",
+    "rollup": "^0.41.6",
+    "rollup-plugin-commonjs": "^8.0.2",
+    "rollup-plugin-node-resolve": "^3.0.0",
+    "rollup-plugin-uglify": "^1.0.2",
+    "run-sequence": "^1.2.2",
+    "rxjs": "5.0.2",
+    "sass-loader": "^4.0.2",
+    "style-loader": "^0.13.1",
+    "to-string-loader": "^1.1.5",
+    "typescript": "~2.2.1",
+    "web-animations-js": "^2.2.2",
+    "webpack": "2.2.1",
+    "webpack-dev-server": "2.4.1",
+    "webpack-merge": "~3.0.0",
+    "zone.js": "^0.8.4"
+  },
+  "directories": {},
+  "dist": {
+    "shasum": "9ceb210b5105685f9fe7b900c6e4b85a744595d5",
+    "tarball": "https://registry.npmjs.org/ng-pick-datetime/-/ng-pick-datetime-4.3.0.tgz"
+  },
+  "homepage": "https://github.com/DanielYKPan/date-time-picker#readme",
+  "jsnext:main": "picker.module.js",
+  "keywords": [
+    "Angular",
+    "datepicker",
+    "date picker",
+    "timepicker",
+    "time picker"
+  ],
+  "license": "MIT",
+  "main": "picker.bundle.js",
+  "maintainers": [
+    {
+      "name": "daniel_pan",
+      "email": "myron.yk.pan@gmail.com"
+    }
+  ],
+  "module": "picker.module.js",
+  "name": "ng-pick-datetime",
+  "optionalDependencies": {},
+  "readme": "ERROR: No README data found!",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DanielYKPan/date-time-picker.git"
+  },
+  "scripts": {
+    "build": "rimraf dist && webpack --config config/webpack.prod.js --progress --profile --bail",
+    "bundle": "webpack --config config/webpack.bundle.js --progress --profile --bail",
+    "rollup": "rollup -c rollup.config.js dist/picker.module.js > dist/picker.bundle.js",
+    "start": "webpack-dev-server --inline --progress --port 8080",
+    "test": "karma start"
+  },
+  "types": "picker.module.d.ts",
+  "version": "4.3.0"
+}

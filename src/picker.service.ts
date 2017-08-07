@@ -145,6 +145,9 @@ export class PickerService {
             this.refreshCalendarSource.next(this._selectedMoment);
         }
     }
+    get selectedMoment(): Moment {
+        return this._selectedMoment;
+    }
 
     private momentFunc = (moment as any).default ? (moment as any).default : moment;
 
