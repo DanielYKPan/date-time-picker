@@ -109,7 +109,9 @@ export class TimePanelComponent implements OnInit, OnDestroy {
         this.minValue = this.timeSliderMoment.minutes();
         this.minPicker.updateData(this.minValue);
         this.secValue = this.timeSliderMoment.seconds();
-        this.secPicker.updateData(this.secValue);
+        if (this.secPicker) {
+            this.secPicker.updateData(this.secValue);
+        }
         this.meridianValue = this.timeSliderMoment.clone().locale('en').format('A');
     }
 }
