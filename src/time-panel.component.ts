@@ -3,11 +3,17 @@
  */
 
 import {
-    Component, OnInit, Output, EventEmitter, OnDestroy
+    Component,
+    OnInit,
+    Output,
+    EventEmitter,
+    OnDestroy,
+    ViewChild
 } from '@angular/core';
 import { Moment } from 'moment/moment';
 import { PickerService } from './picker.service';
 import { Subscription } from 'rxjs/Subscription';
+import { SlideControlComponent } from './slider.component';
 
 @Component({
     selector: 'dialog-time-panel',
@@ -15,6 +21,14 @@ import { Subscription } from 'rxjs/Subscription';
     styleUrls: ['./time-panel.component.scss'],
 })
 export class TimePanelComponent implements OnInit, OnDestroy {
+    @ViewChild('hourPicker')
+    public hourPicker: SlideControlComponent;
+
+    @ViewChild('minPicker')
+    public minPicker: SlideControlComponent;
+
+    @ViewChild('secPicker')
+    public secPicker: SlideControlComponent;
 
     @Output() onSetTime = new EventEmitter<{ hour: number, min: number, sec: number, meridian: string }>();
 
@@ -87,12 +101,17 @@ export class TimePanelComponent implements OnInit, OnDestroy {
 
         if (this.hourTime === '24') {
             this.hourValue = this.timeSliderMoment.hours();
+            this.hourPicker.updateData(this.hourValue);
             this.hourFloor = 0;
             this.hourCeiling = 23;
         }
 
         this.minValue = this.timeSliderMoment.minutes();
+        this.minPicker.updateData(this.minValue);
         this.secValue = this.timeSliderMoment.seconds();
+        if (this.secPicker) {
+            this.secPicker.updateData(this.secValue);
+        }
         this.meridianValue = this.timeSliderMoment.clone().locale('en').format('A');
     }
 }
