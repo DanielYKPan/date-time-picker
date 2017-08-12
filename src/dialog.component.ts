@@ -16,6 +16,7 @@ export class DialogComponent implements OnInit, OnDestroy {
 
     private directiveInstance: any;
 
+    public disabled: boolean;
     public autoClose: boolean;
     public selectedMoment: Moment;
     public directiveElementRef: ElementRef;
@@ -148,6 +149,7 @@ export class DialogComponent implements OnInit, OnDestroy {
 
     public setPickerDisableStatus( isDisabled: boolean ): void {
         this.service.dtDisabled = isDisabled;
+        this.disabled = isDisabled;
     }
 
     public resetMinMaxMoment( minString: string, maxString: string ) {
