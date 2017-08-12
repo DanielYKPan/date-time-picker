@@ -10,6 +10,7 @@ import { Moment } from 'moment/moment';
 import { DialogType } from './dialog.component';
 import { PickerService } from './picker.service';
 import { Subscription } from 'rxjs/Subscription';
+import 'rxjs/add/operator/distinctUntilChanged';
 
 @Component({
     selector: 'dialog-date-panel',
@@ -68,7 +69,9 @@ export class DatePanelComponent implements OnInit, OnChanges, OnDestroy {
         this.setCalendarMoment();
         this.generateCalendar();
 
-        this.subId = this.service.refreshCalendar.subscribe(
+        this.subId = this.service.refreshCalendar
+            .distinctUntilChanged()
+            .subscribe(
             ( data ) => {
                 let done = this.setCalendarMoment(data);
                 if (done) {

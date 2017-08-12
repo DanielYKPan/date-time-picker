@@ -8,6 +8,7 @@ import {
 import { Moment } from 'moment/moment';
 import { PickerService } from './picker.service';
 import { Subscription } from 'rxjs/Subscription';
+import 'rxjs/add/operator/distinctUntilChanged';
 
 @Component({
     selector: 'dialog-time-panel',
@@ -38,7 +39,9 @@ export class TimePanelComponent implements OnInit, OnDestroy {
         this.showSeconds = this.service.dtShowSeconds;
         this.setTimePickerTimeValue(this.service.selectedMoment);
 
-        this.subId = this.service.refreshCalendar.subscribe(
+        this.subId = this.service.refreshCalendar
+            .distinctUntilChanged()
+            .subscribe(
             ( data ) => {
                 this.setTimePickerTimeValue(data);
             }

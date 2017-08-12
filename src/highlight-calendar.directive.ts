@@ -9,6 +9,7 @@ import {
 import { Moment } from 'moment/moment';
 import { PickerService } from './picker.service';
 import { Subscription } from 'rxjs/Subscription';
+import 'rxjs/add/operator/distinctUntilChanged';
 
 @Directive({
     selector: '[pickerCalendarHighlight]'
@@ -64,7 +65,9 @@ export class HighlightCalendarDirective implements OnChanges, OnInit, OnDestroy 
     }
 
     public ngOnInit(): void {
-        this.subId = this.service.refreshCalendar.subscribe(
+        this.subId = this.service.refreshCalendar
+            .distinctUntilChanged()
+            .subscribe(
             ( data ) => {
                 this.selectedMoment = data;
                 this.highlightSelectedDay();

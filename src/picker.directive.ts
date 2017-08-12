@@ -5,7 +5,7 @@
 import {
     Directive, ElementRef, Input, ViewContainerRef,
     ReflectiveInjector, Output, EventEmitter, OnInit, OnChanges, SimpleChanges, ComponentFactoryResolver, forwardRef,
-    OnDestroy, HostListener
+    OnDestroy, AfterViewInit
 } from '@angular/core';
 import { DialogComponent } from './dialog.component';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
@@ -24,7 +24,7 @@ export const PICKER_VALUE_ACCESSOR: any = {
     },
     providers: [PICKER_VALUE_ACCESSOR],
 })
-export class DateTimePickerDirective implements OnInit, OnChanges, OnDestroy, ControlValueAccessor {
+export class DateTimePickerDirective implements OnInit, AfterViewInit, OnChanges, OnDestroy, ControlValueAccessor {
 
     @Output('onChange') onChange = new EventEmitter<any>(true);
     @Output('onError') onError = new EventEmitter<any>(true);
@@ -69,7 +69,10 @@ export class DateTimePickerDirective implements OnInit, OnChanges, OnDestroy, Co
 
     public ngOnInit(): void {
         this.generateComponent();
-        if (this.mode === 'inline') {
+    }
+
+    public ngAfterViewInit(): void {
+        if (this.dialog && this.mode === 'inline') {
             this.openDialog();
         }
     }
@@ -99,7 +102,7 @@ export class DateTimePickerDirective implements OnInit, OnChanges, OnDestroy, Co
         }
     }
 
-    public onClick(event: Event): void {
+    public onClick( event: Event ): void {
         event.preventDefault();
         if (!this.disabled) {
             this.openDialog();
@@ -130,7 +133,7 @@ export class DateTimePickerDirective implements OnInit, OnChanges, OnDestroy, Co
         return;
     }
 
-    private generateComponent():void {
+    private generateComponent(): void {
         if (!this.container) {
             this.created = true;
             const factory = this.componentFactoryResolver.resolveComponentFactory(DialogComponent);

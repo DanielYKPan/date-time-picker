@@ -7,6 +7,7 @@ import { PickerService } from './picker.service';
 import { DialogType } from './dialog.component';
 import { Moment } from 'moment';
 import { Subscription } from 'rxjs/Subscription';
+import 'rxjs/add/operator/distinctUntilChanged';
 
 @Component({
     selector: 'dialog-picker-header',
@@ -37,7 +38,9 @@ export class PickerHeaderComponent implements OnInit, OnDestroy {
         this.mode = this.service.dtMode;
         this.now = this.service.now;
 
-        this.subId = this.service.refreshCalendar.subscribe(
+        this.subId = this.service.refreshCalendar
+            .distinctUntilChanged()
+            .subscribe(
             (data) => this.selectedMoment = data
         );
     }

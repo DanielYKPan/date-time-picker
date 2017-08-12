@@ -139,11 +139,10 @@ export class PickerService {
     set selectedMoment( value: Moment ) {
         if (value === null) {
             this._selectedMoment = null;
-            this.refreshCalendarSource.next(this._selectedMoment);
         } else if (!this._selectedMoment || !this._selectedMoment.isSame(value)) {
             this._selectedMoment = value.clone();
-            this.refreshCalendarSource.next(this._selectedMoment);
         }
+        this.emitSelectedMoment();
     }
 
     private momentFunc = (moment as any).default ? (moment as any).default : moment;
@@ -256,6 +255,14 @@ export class PickerService {
             this.selectedMoment = m;
             return true;
         }
+    }
+
+    /**
+     * Emit the selected moment
+     *
+     * */
+    public emitSelectedMoment(): void {
+        this.refreshCalendarSource.next(this._selectedMoment);
     }
 
     public parseToReturnObjectType(): any {

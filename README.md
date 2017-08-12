@@ -13,6 +13,7 @@
 * Fixed cancel button clear input issue, closes [#81](https://github.com/DanielYKPan/date-time-picker/issues/81).
 * Fixed minMoment and maxMoment not update issue, closes [#82](https://github.com/DanielYKPan/date-time-picker/issues/82).
 * Fixed Starting of week issue, closes [#84](https://github.com/DanielYKPan/date-time-picker/issues/84).
+* Fixed reactive forms incorrect initial value, closes [#93](https://github.com/DanielYKPan/date-time-picker/issues/93), [#99](https://github.com/DanielYKPan/date-time-picker/issues/99), [#105](https://github.com/DanielYKPan/date-time-picker/issues/105).
 
 ## Important
 * This npm package now rename to [ng-pick-datetime](https://www.npmjs.com/package/ng-pick-datetime), this is because this package now support angular 4. The previous package was named [ng2-date-time-picker](https://www.npmjs.com/package/ng2-date-time-picker).
