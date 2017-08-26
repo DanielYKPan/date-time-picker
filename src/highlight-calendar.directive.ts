@@ -67,7 +67,6 @@ export class HighlightCalendarDirective implements OnChanges, OnInit, OnDestroy 
 
     public ngOnInit(): void {
         this.subId = this.service.refreshCalendar
-            .distinctUntilChanged()
             .subscribe(
             ( data ) => {
                 this.selectedMoment = data;
