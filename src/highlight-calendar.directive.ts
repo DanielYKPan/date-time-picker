@@ -36,6 +36,7 @@ export class HighlightCalendarDirective implements OnChanges, OnInit, OnDestroy 
             this.renderer.addClass(this.el.nativeElement, 'day-show');
 
             this.highlightInvalidDays();
+            this.highlightSelectedDay();
             if (this.isToday(this.day)) {
                 this.renderer.addClass(this.el.nativeElement, 'day-today');
             }
@@ -103,7 +104,7 @@ export class HighlightCalendarDirective implements OnChanges, OnInit, OnDestroy 
             this.selectedElm = null;
         }
 
-        if (this.service.isTheSameDay(this.day, this.selectedMoment)) {
+        if (this.service.isTheSameDay(this.day)) {
             this.renderer.addClass(this.el.nativeElement, 'selected');
             this.selectedElm = this.el;
         }

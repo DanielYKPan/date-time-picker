@@ -334,8 +334,12 @@ export class PickerService {
      * @param day_2 {Moment}
      * @returns {boolean}
      * */
-    public isTheSameDay( day_1: Moment, day_2: Moment ): boolean {
-        return day_1 && day_2 && day_1.isSame(day_2, 'date');
+    public isTheSameDay( day_1: Moment, day_2?: Moment ): boolean {
+        if(day_2) {
+            return day_1 && day_2 && day_1.isSame(day_2, 'date');
+        }else {
+            return day_1 && this._selectedMoment && day_1.isSame(this._selectedMoment, 'date');
+        }
     }
 
     /**

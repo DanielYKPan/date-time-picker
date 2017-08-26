@@ -10,6 +10,7 @@
     picker's theme (like picker's color, background color, or fonts ect) in their own project's css files.
 * Delete **[theme]** option.
 * Change emit event names, **onChange($event)**, **onError($event)**.
+* Fixed selected day not highlight issue.
 * Fixed cancel button clear input issue, closes [#81](https://github.com/DanielYKPan/date-time-picker/issues/81).
 * Fixed minMoment and maxMoment not update issue, closes [#82](https://github.com/DanielYKPan/date-time-picker/issues/82).
 * Fixed Starting of week issue, closes [#84](https://github.com/DanielYKPan/date-time-picker/issues/84).
