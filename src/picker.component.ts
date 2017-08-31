@@ -33,7 +33,6 @@ import {
     setSeconds,
     isBefore,
     isAfter,
-    compareAsc,
     startOfDay,
     format,
 } from 'date-fns';
@@ -836,12 +835,10 @@ export class DateTimePickerComponent implements OnInit, AfterViewInit, OnDestroy
         }
 
         if (isValid && this.min) {
-            //isValid = isValid && compareAsc(date, startOfDay(this.min)) > -1;
             isValid = isValid && !isBefore(date, startOfDay(this.min));
         }
 
         if (isValid && this.max) {
-            //isValid = isValid && compareAsc(startOfDay(this.max), date) > -1;
             isValid = isValid && !isAfter(date, startOfDay(this.max));
         }
         return isValid;

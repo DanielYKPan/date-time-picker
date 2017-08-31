@@ -51,7 +51,6 @@ export default {
                     'setSeconds',
                     'isBefore',
                     'isAfter',
-                    'compareAsc',
                     'startOfDay',
                     'format',]
             }
