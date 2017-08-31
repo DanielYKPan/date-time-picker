@@ -14,8 +14,22 @@ import '../sass/main.scss';
 
 export class AppComponent implements OnInit {
 
-    public moment: Date;
+    public moment: Date = new Date();
+
+    public min = new Date(2017, 7, 9);
+    public max = new Date(2017, 8, 10);
+    public disabledDates = [new Date(2017, 7, 9),
+        new Date(2017, 7, 12), new Date(2017, 7, 15), new Date(2017, 7, 20)];
+
     public pickerColor: string = '#0070ba';
+
+    public es = {
+        firstDayOfWeek: 1,
+        dayNames: [ "domingo","lunes","martes","miércoles","jueves","viernes","sábado" ],
+        dayNamesShort: [ "dom","lun","mar","mié","jue","vie","sáb" ],
+        monthNames: [ "enero","febrero","marzo","abril","mayo","junio","julio","agosto","septiembre","octubre","noviembre","diciembre" ],
+        monthNamesShort: [ "ene","feb","mar","abr","may","jun","jul","ago","sep","oct","nov","dic" ]
+    };
 
     public input1Moment: any;
     public input2Moment: any;

@@ -74,31 +74,20 @@ main {
   width: 100%;
 
   .row {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
     margin-bottom: $base-line-height * 3;
-    h4 {
-      @include type-setting(1);
-      margin: 0;
-    }
   }
 
   .input-control {
+    width: 30%;
+    min-width: 200px;
     margin: $base-line-height 0 0;
   }
 
   label {
     display: block;
-  }
-
-  .picker-input {
-
-    width: 250px;
-    height: $base-line-height * 2;
-    padding: 0 1rem;
-    border-radius: 2rem;
-    border: 1px solid darken($mid-grey, 10%);
-    cursor: pointer;
-    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
-    transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
   }
 }
 
