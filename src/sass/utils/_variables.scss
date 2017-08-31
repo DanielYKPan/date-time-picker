@@ -4,7 +4,7 @@
 
 /// Base font size
 /// @type Size
-$base-font-size: 16px;
+$base-font-size: 1rem;
 
 /// Base line height
 /// @type Size
@@ -16,43 +16,43 @@ $base-line-height: 1.25 * $base-font-size;
 /// @type Map
 $type-settings: (
         -2: (
-                font-size: .5 * $base-font-size,
+                font-size: .5rem,
                 line-height: $base-line-height/2,
         ),
         -1: (
-                font-size: .75 * $base-font-size,
+                font-size: .75rem,
                 line-height: $base-line-height,
         ),
         0: (
-                font-size: 1 * $base-font-size,
+                font-size: 1rem,
                 line-height: $base-line-height,
         ),
         1: (
-                font-size: 1.333 * $base-font-size,
+                font-size: 1.333rem,
                 line-height: $base-line-height * 2,
         ),
         2: (
-                font-size: 1.778 * $base-font-size,
+                font-size: 1.778rem,
                 line-height: $base-line-height * 2,
         ),
         3: (
-                font-size: 2.37 * $base-font-size,
+                font-size: 2.37rem,
                 line-height: $base-line-height * 2
         ),
         4: (
-                font-size: 3.16 * $base-font-size,
+                font-size: 3.16rem,
                 line-height: $base-line-height * 3
         ),
         5: (
-                font-size: 4.21 * $base-font-size,
+                font-size: 4.21rem,
                 line-height: $base-line-height * 4
         ),
         6: (
-                font-size: 5.62 * $base-font-size,
+                font-size: 5.62rem,
                 line-height: $base-line-height * 5
         ),
         7: (
-                font-size: 7.49 * $base-font-size,
+                font-size: 7.49rem,
                 line-height: $base-line-height * 6
         )
 );

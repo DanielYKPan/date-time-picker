@@ -1,0 +1,138 @@
+.owl-dateTime {
+  display: inline-block;
+  position: relative;
+  width: 100%;
+}
+
+.owl-dateTime-input {
+  width: 100%;
+  padding-right: 1.5em;
+}
+
+.owl-dateTime-cancel {
+  position: absolute;
+  top: 50%;
+  right: .1em;
+  border-radius: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: inherit;
+}
+
+.owl-dateTime-dialog {
+  position: absolute;
+
+  &.owl-dateTime-dialogInline {
+    position: relative;
+  }
+}
+
+.owl-dateTime-dialogHeader {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.owl-calendar-wrapper,
+.owl-timer-wrapper {
+  position: relative;
+  width: 100%;
+  padding: .2em .5em;
+}
+
+.owl-calendar-control {
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+  height: 2em;
+
+  .owl-calendar-controlNav {
+    position: relative;
+    cursor: pointer;
+    width: 12.5%;
+  }
+
+  .owl-calendar-controlContent {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 75%;
+    height: 100%;
+  }
+}
+
+.owl-calendar {
+
+  position: relative;
+  min-height: 13.7em;
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  tbody td {
+    position: relative;
+    text-align: center;
+
+    a {
+      display: block;
+      width: 100%;
+      height: 100%;
+      text-decoration: none;
+      color: inherit;
+    }
+  }
+
+  .owl-calendar-yearArrow {
+    position: absolute;
+    top: 50%;
+    width: 1.5em;
+    height: 1.5em;
+    transform: translateY(-50%);
+    cursor: pointer;
+
+    &.left {
+      left: -.5em;
+    }
+
+    &.right {
+      right: -.5em;
+    }
+  }
+}
+
+.owl-timer-wrapper {
+  position: relative;
+  display: flex;
+  justify-content: center;
+
+  .owl-timer {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 25%;
+    height: 100%;
+  }
+
+  .owl-timer-control {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 30%;
+    width: 100%;
+    cursor: pointer;
+
+    .icon:before {
+      margin: 0;
+    }
+  }
+
+  .owl-timer-input {
+    width: 60%;
+    height: 100%;
+  }
+}

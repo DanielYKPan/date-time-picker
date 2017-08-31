@@ -1,0 +1,157 @@
+<div [ngClass]="'owl-dateTime owl-widget'"
+     [class]="styleClass"
+     [ngStyle]="style"
+     #container>
+    <input *ngIf="!inline" type="text" [class]="inputStyleClass"
+           [ngClass]="{
+            'owl-dateTime-input owl-inputtext owl-state-default owl-corner-all': true,
+            'owl-state-focus': focus
+            }"
+           [ngStyle]="inputStyle"
+           [attr.placeholder]="placeHolder"
+           [attr.tabindex]="tabIndex" [attr.id]="inputId"
+           [attr.required]="required"
+           [disabled]="disabled"
+           [value]="formattedValue"
+           (focus)="onInputFocus($event)" (blur)="onInputBlur($event)" (click)="onInputClick($event)" readonly>
+    <i *ngIf="!inline" class="owl-dateTime-cancel icon icon-cancel" [hidden]="!value" (click)="clearValue($event)"></i>
+    <div class="owl-dateTime-dialog owl-state-default owl-corner-all"
+         [ngClass]="{'owl-dateTime-dialogInline': inline}"
+         [ngStyle]="{'display': inline ? 'inline-block' : null}"
+         [@fadeInOut]="dialogVisible? 'visible' : (!inline? 'hidden': null)"
+         (click)="onDialogClick($event)" #dialog>
+        <div *ngIf="showHeader" class="owl-dateTime-dialogHeader owl-corner-top">
+            <span *ngIf="value; else elseBlock">{{formattedValue}}</span>
+            <ng-template #elseBlock><span>{{placeHolder}}</span></ng-template>
+        </div>
+        <div *ngIf="type ==='both' || type === 'calendar'" class="owl-calendar-wrapper owl-corner-all">
+            <div class="owl-calendar-control">
+                <div class="owl-calendar-controlNav">
+                    <span class="nav-prev" (click)="prevMonth($event)"></span>
+                </div>
+                <div class="owl-calendar-controlContent">
+                    <span class="month-control" (click)="changeDialogType(2)">{{pickerMoment | date: "MMMM"}}</span>
+                    <span class="year-control" (click)="changeDialogType(3)">{{pickerMoment | date: "y"}}</span>
+                </div>
+                <div class="owl-calendar-controlNav">
+                    <span class="nav-next" (click)="nextMonth($event)"></span>
+                </div>
+            </div>
+            <div class="owl-calendar" [hidden]="dialogType !== 1">
+                <table class="owl-calendar-day">
+                    <thead>
+                    <tr class="owl-weekdays">
+                        <th *ngFor="let weekDay of calendarWeekdays" class="owl-weekday" scope="col">
+                            <span>{{weekDay}}</span>
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr class="owl-days" *ngFor="let week of calendarDays">
+                        <td *ngFor="let day of week" class="owl-day"
+                            [ngClass]="{
+                        'owl-calendar-selected': isSelectedDay(day),
+                        'owl-calendar-invalid': !isValidDay(day),
+                        'owl-calendar-outFocus': !isDayInCurrentMonth(day),
+                        'owl-calendar-hidden': !showOtherMonths && !isInCurrentMonth(day),
+                        'owl-day-today': isToday(day)
+                    }" (click)="selectDate($event, day)">
+                            <a>{{day | date: 'd'}}</a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="owl-calendar" [hidden]="dialogType !== 2">
+                <table class="owl-calendar-month">
+                    <tbody>
+                    <tr class="owl-months" *ngFor="let months of calendarMonths; let i = index">
+                        <td *ngFor="let month of months; let j = index" class="owl-month"
+                            [ngClass]="{'owl-calendar-selected': isCurrentMonth(i*3 + j)}"
+                            (click)="selectMonth(i*3 + j)">
+                            <a>{{month}}</a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="owl-calendar" [hidden]="dialogType !== 3">
+                <table class="owl-calendar-year">
+                    <tbody>
+                    <tr class="owl-years" *ngFor="let years of calendarYears">
+                        <td class="owl-year" *ngFor="let year of years"
+                            [ngClass]="{'owl-calendar-selected': isCurrentYear(+year)}"
+                            (click)="selectYear(+year)">
+                            <a>{{year}}</a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div class="owl-calendar-yearArrow left" (click)="generateYearList('prev')">
+                    <i class="icon icon-left-open"></i>
+                </div>
+                <div class="owl-calendar-yearArrow right" (click)="generateYearList('next')">
+                    <i class="icon icon-right-open"></i>
+                </div>
+            </div>
+        </div>
+        <div *ngIf="type ==='both' || type === 'timer'" class="owl-timer-wrapper owl-corner-all">
+            <div class="owl-timer owl-hours">
+                <div class="owl-timer-control" (click)="setHours($event, 'increase', hoursInput)">
+                    <i class="icon icon-up-open"></i>
+                </div>
+                <div class="owl-timer-text">
+                    <input class="owl-timer-input owl-inputtext owl-state-default owl-corner-all"
+                           placeholder="hh"
+                           onfocus="this.select()"
+                           [ngModel]="hourValue | numberFixedLen : 2"
+                           (blur)="onTimerInputBlur($event, hoursInput, 'hours', hourValue)" #hoursInput>
+                </div>
+                <div class="owl-timer-control" (click)="setHours($event, 'decrease', hoursInput)">
+                    <i class="icon icon-down-open"></i>
+                </div>
+            </div>
+            <div class="owl-timer owl-minutes">
+                <div class="owl-timer-divider">
+                    <span class="owl-timer-dot dot-top"></span>
+                    <span class="owl-timer-dot dot-bottom"></span>
+                </div>
+                <div class="owl-timer-control" (click)="setMinutes($event, 'increase', minutesInput)">
+                    <i class="icon icon-up-open"></i>
+                </div>
+                <div class="owl-timer-text">
+                    <input class="owl-timer-input owl-inputtext owl-state-default owl-corner-all"
+                           placeholder="mm"
+                           onfocus="this.select()"
+                           [ngModel]="minValue | numberFixedLen : 2"
+                           (blur)="onTimerInputBlur($event, minutesInput, 'minutes', minValue)" #minutesInput>
+                </div>
+                <div class="owl-timer-control" (click)="setMinutes($event, 'decrease', minutesInput)">
+                    <i class="icon icon-down-open"></i>
+                </div>
+            </div>
+            <div *ngIf="showSecondsTimer" class="owl-timer owl-seconds">
+                <div class="owl-timer-divider">
+                    <span class="owl-timer-dot dot-top"></span>
+                    <span class="owl-timer-dot dot-bottom"></span>
+                </div>
+                <div class="owl-timer-control" (click)="setSeconds($event, 'increase', secondsInput)">
+                    <i class="icon icon-up-open"></i>
+                </div>
+                <div class="owl-timer-text">
+                    <input class="owl-timer-input owl-inputtext owl-state-default owl-corner-all"
+                           placeholder="ss"
+                           onfocus="this.select()"
+                           [ngModel]="secValue | numberFixedLen : 2"
+                           (blur)="onTimerInputBlur($event, secondsInput, 'seconds', secValue)" #secondsInput>
+                </div>
+                <div class="owl-timer-control" (click)="setSeconds($event, 'decrease', secondsInput)">
+                    <i class="icon icon-down-open"></i>
+                </div>
+            </div>
+            <div *ngIf="hourFormat === '12'" class="owl-timer owl-meridian">
+                <button class="owl-btn owl-meridian-btn" (click)="toggleMeridian($event)">{{meridianValue}}</button>
+            </div>
+        </div>
+    </div>
+</div>

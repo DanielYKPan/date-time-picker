@@ -6,10 +6,10 @@ export default {
     format: 'umd',
     moduleName: 'ng-pick-datetime',
     external: [
+        '@angular/animations',
         '@angular/core',
         '@angular/common',
         '@angular/forms',
-        'moment/moment',
     ],
     onwarn: (warning) => {
         const skip_codes = [
@@ -24,7 +24,37 @@ export default {
         commonjs({
             include: [
                 'node_modules/rxjs/**',
+                'node_modules/date-fns/**',
             ],
+            namedExports: {
+                'node_modules/date-fns/index.js': [
+                    'parse',
+                    'isValid',
+                    'startOfMonth',
+                    'getDay',
+                    'addDays',
+                    'addMonths',
+                    'isSameDay',
+                    'isSameMonth',
+                    'isToday',
+                    'getMonth',
+                    'setMonth',
+                    'getYear',
+                    'addYears',
+                    'differenceInCalendarDays',
+                    'setYear',
+                    'getHours',
+                    'setHours',
+                    'getMinutes',
+                    'setMinutes',
+                    'getSeconds',
+                    'setSeconds',
+                    'isBefore',
+                    'isAfter',
+                    'compareAsc',
+                    'startOfDay',
+                    'format',]
+            }
         }),
         uglify()
     ]

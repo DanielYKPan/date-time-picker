@@ -94,7 +94,7 @@
             .pipe(postcss(processors))
             .pipe(cleancss({compatibility: 'ie8'}))
             .pipe(rename({suffix: '.min'}))
-            .pipe(gulp.dest(config.tmpOutputPath + '/styles'));
+            .pipe(gulp.dest(config.tmpOutputPath + '/style'));
     });
 
     gulp.task('clean', function () {
@@ -121,8 +121,8 @@
         return gulp.src(config.allDistFiles).pipe(gulp.dest('./npmdist'));
     });
 
-    gulp.task('copy.assets.to.npmdist.assets', function () {
-        return gulp.src(config.allAssets).pipe(gulp.dest('./npmdist/assets'));
+    gulp.task('copy.assets.to.dist.assets', function () {
+        return gulp.src(config.allAssets).pipe(gulp.dest('./dist/assets'));
     });
 
     gulp.task('copy.root.files.to.npmdist.dir', function () {
@@ -140,8 +140,8 @@
         return gulp.src('./tmp/picker.bundle.js').pipe(gulp.dest('./dist'));
     });
 
-    gulp.task('copy.resources.to.dist', function () {
-        return gulp.src('./tmp/styles/**').pipe(gulp.dest('./dist/styles'));
+    gulp.task('copy.resources.to.dist.assets', function () {
+        return gulp.src('./tmp/style/**').pipe(gulp.dest('./dist/assets/style'));
     });
 
     gulp.task('bundle', function (cb) {
@@ -162,11 +162,10 @@
             'clean.dist',
             'ngc',
             'copy.bundle.to.dist',
-            'copy.resources.to.dist',
-            //'copy.src.to.npmdist.dir',
+            'copy.assets.to.dist.assets',
+            'copy.resources.to.dist.assets',
             'copy.dist.to.npmdist',
             'copy.root.files.to.npmdist.dir',
-            'copy.assets.to.npmdist.assets',
             'delete.tmp',
             cb
         )
