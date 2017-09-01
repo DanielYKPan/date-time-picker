@@ -79,6 +79,12 @@ main {
     margin-bottom: $base-line-height * 3;
   }
 
+  .column-half {
+    width: 50%;
+    min-width: 300px;
+    padding: 0 1em;
+  }
+
   .input-control {
     width: 33.33%;
     min-width: 200px;
@@ -88,6 +94,17 @@ main {
 
   label {
     display: block;
+  }
+
+  .calendar-btn {
+    display: inline-block;
+    width: 2em;
+    height: 2em;
+    line-height: 2em;
+    text-align: center;
+    border-radius: .5em;
+    background-color: #00B5AD;
+    cursor: pointer;
   }
 }
 

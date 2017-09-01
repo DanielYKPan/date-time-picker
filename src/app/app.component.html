@@ -109,9 +109,16 @@
             </div>
 
             <div class="row">
-                <div class="input-control">
+                <div class="column-half">
                     <label for="input10">Inline:</label>
                     <owl-date-time [(ngModel)]="input10Moment" [showHeader]="true" [inline]="true" [inputId]="'input10'"></owl-date-time>
+                </div>
+                <div class="column-half">
+                    <owl-date-time [(ngModel)]="input10Moment" [showHeader]="true" [inputId]="'input10'">
+                        <div class="calendar-btn">
+                            <i class="fa fa-calendar" aria-hidden="true"></i>
+                        </div>
+                    </owl-date-time>
                 </div>
             </div>
         </div>
