@@ -75,15 +75,15 @@ main {
 
   .row {
     display: flex;
-    justify-content: space-between;
     flex-wrap: wrap;
     margin-bottom: $base-line-height * 3;
   }
 
   .input-control {
-    width: 30%;
+    width: 33.33%;
     min-width: 200px;
     margin: $base-line-height 0 0;
+    padding: 0 1rem;
   }
 
   label {
