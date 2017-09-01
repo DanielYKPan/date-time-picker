@@ -49,7 +49,7 @@ export interface LocaleSettings {
     dateFns: any;
 }
 
-enum DialogType {
+export enum DialogType {
     Time,
     Date,
     Month,
