@@ -21,7 +21,7 @@
         <i class="owl-dateTime-cancel icon icon-cancel" [hidden]="!value" (click)="clearValue($event)"></i>
     </div>
     <!-- Workaround of ng-content default content (angular issue #12530) -->
-    <div #customTemp (click)="onInputClick($event)">
+    <div class="owl-dateTime-customTemp" #customTemp (click)="onInputClick($event)">
         <ng-content></ng-content>
     </div>
     <div class="owl-dateTime-dialog owl-state-default owl-corner-all"
