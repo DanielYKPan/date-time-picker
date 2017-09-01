@@ -1,9 +1,3 @@
-.owl-dateTime {
-  display: inline-block;
-  position: relative;
-  width: 100%;
-}
-
 .owl-dateTime-input {
   width: 100%;
   padding-right: 1.5em;
@@ -19,12 +13,12 @@
   color: inherit;
 }
 
+.owl-dateTime-inputWrapper {
+  position: relative;
+}
+
 .owl-dateTime-dialog {
   position: absolute;
-
-  &.owl-dateTime-dialogInline {
-    position: relative;
-  }
 }
 
 .owl-dateTime-dialogHeader {

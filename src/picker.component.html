@@ -1,22 +1,30 @@
-<div [ngClass]="'owl-dateTime owl-widget'"
+<div [ngClass]="{
+     'owl-dateTime owl-widget': true,
+     'owl-dateTime-inline': inline
+     }"
      [class]="styleClass"
      [ngStyle]="style"
      #container>
-    <input *ngIf="!inline" type="text" [class]="inputStyleClass"
-           [ngClass]="{
+    <div *ngIf="!inline && customTemp.children.length == 0" class="owl-dateTime-inputWrapper">
+        <input type="text" [class]="inputStyleClass"
+               [ngClass]="{
             'owl-dateTime-input owl-inputtext owl-state-default owl-corner-all': true,
             'owl-state-focus': focus
             }"
-           [ngStyle]="inputStyle"
-           [attr.placeholder]="placeHolder"
-           [attr.tabindex]="tabIndex" [attr.id]="inputId"
-           [attr.required]="required"
-           [disabled]="disabled"
-           [value]="formattedValue"
-           (focus)="onInputFocus($event)" (blur)="onInputBlur($event)" (click)="onInputClick($event)" readonly>
-    <i *ngIf="!inline" class="owl-dateTime-cancel icon icon-cancel" [hidden]="!value" (click)="clearValue($event)"></i>
+               [ngStyle]="inputStyle"
+               [attr.placeholder]="placeHolder"
+               [attr.tabindex]="tabIndex" [attr.id]="inputId"
+               [attr.required]="required"
+               [disabled]="disabled"
+               [value]="formattedValue"
+               (focus)="onInputFocus($event)" (blur)="onInputBlur($event)" (click)="onInputClick($event)" readonly>
+        <i class="owl-dateTime-cancel icon icon-cancel" [hidden]="!value" (click)="clearValue($event)"></i>
+    </div>
+    <!-- Workaround of ng-content default content (angular issue #12530) -->
+    <div #customTemp (click)="onInputClick($event)">
+        <ng-content></ng-content>
+    </div>
     <div class="owl-dateTime-dialog owl-state-default owl-corner-all"
-         [ngClass]="{'owl-dateTime-dialogInline': inline}"
          [ngStyle]="{'display': inline ? 'inline-block' : null}"
          [@fadeInOut]="dialogVisible? 'visible' : (!inline? 'hidden': null)"
          (click)="onDialogClick($event)" #dialog>
@@ -30,8 +38,8 @@
                     <span class="nav-prev" (click)="prevMonth($event)"></span>
                 </div>
                 <div class="owl-calendar-controlContent">
-                    <span class="month-control" (click)="changeDialogType(2)">{{pickerMoment | date: "MMMM"}}</span>
-                    <span class="year-control" (click)="changeDialogType(3)">{{pickerMoment | date: "y"}}</span>
+                    <span class="month-control" (click)="changeDialogType(2)">{{pickerMonth}}</span>
+                    <span class="year-control" (click)="changeDialogType(3)">{{pickerYear}}</span>
                 </div>
                 <div class="owl-calendar-controlNav">
                     <span class="nav-next" (click)="nextMonth($event)"></span>
@@ -48,15 +56,15 @@
                     </thead>
                     <tbody>
                     <tr class="owl-days" *ngFor="let week of calendarDays">
-                        <td *ngFor="let day of week" class="owl-day"
+                        <td *ngFor="let d of week" class="owl-day"
                             [ngClass]="{
-                        'owl-calendar-selected': isSelectedDay(day),
-                        'owl-calendar-invalid': !isValidDay(day),
-                        'owl-calendar-outFocus': !isDayInCurrentMonth(day),
-                        'owl-calendar-hidden': !showOtherMonths && !isInCurrentMonth(day),
-                        'owl-day-today': isToday(day)
-                    }" (click)="selectDate($event, day)">
-                            <a>{{day | date: 'd'}}</a>
+                        'owl-calendar-selected': isSelectedDay(d.date),
+                        'owl-calendar-invalid': !isValidDay(d.date),
+                        'owl-calendar-outFocus': d.otherMonth,
+                        'owl-calendar-hidden': d.hide,
+                        'owl-day-today': d.today
+                    }" (click)="selectDate($event, d.date)">
+                            <a>{{d.num}}</a>
                         </td>
                     </tr>
                     </tbody>

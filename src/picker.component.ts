@@ -13,6 +13,7 @@ import {
     parse,
     isValid,
     startOfMonth,
+    getDate,
     getDay,
     addDays,
     addMonths,
@@ -33,6 +34,7 @@ import {
     setSeconds,
     isBefore,
     isAfter,
+    compareAsc,
     startOfDay,
     format,
 } from 'date-fns';
@@ -47,7 +49,7 @@ export interface LocaleSettings {
     dateFns: any;
 }
 
-export enum DialogType {
+enum DialogType {
     Time,
     Date,
     Month,
@@ -297,7 +299,7 @@ export class DateTimePickerComponent implements OnInit, AfterViewInit, OnDestroy
     @ViewChild('textInput') textInputElm: ElementRef;
     @ViewChild('dialog') dialogElm: ElementRef;
 
-    public calendarDays: Array<Date[]>;
+    public calendarDays: Array<any[]>;
     public calendarWeekdays: string[];
     public calendarMonths: Array<string[]>;
     public calendarYears: Array<string[]> = [];
@@ -307,6 +309,8 @@ export class DateTimePickerComponent implements OnInit, AfterViewInit, OnDestroy
     public formattedValue: string = '';
     public value: any;
     public pickerMoment: Date;
+    public pickerMonth: string;
+    public pickerYear: string;
 
     public hourValue: number;
     public minValue: number;
@@ -620,7 +624,20 @@ export class DateTimePickerComponent implements OnInit, AfterViewInit, OnDestroy
      * */
     public setHours( event: any, val: 'increase' | 'decrease' | number, input?: HTMLInputElement ): boolean {
 
-        let value = this.value ? (this.value.length ? this.value[this.valueIndex] : this.value) : null;
+        let value;
+        if (this.value) {
+            if (this.value.length) {
+                value = this.value[this.valueIndex];
+            } else {
+                value = this.value;
+            }
+        } else {
+            if (this.type === 'timer') {
+                value = new Date();
+            } else {
+                value = null;
+            }
+        }
 
         if (this.disabled || !value) {
             event.preventDefault();
@@ -668,7 +685,20 @@ export class DateTimePickerComponent implements OnInit, AfterViewInit, OnDestroy
      * */
     public setMinutes( event: any, val: 'increase' | 'decrease' | number, input?: HTMLInputElement ): boolean {
 
-        let value = this.value ? (this.value.length ? this.value[this.valueIndex] : this.value) : null;
+        let value;
+        if (this.value) {
+            if (this.value.length) {
+                value = this.value[this.valueIndex];
+            } else {
+                value = this.value;
+            }
+        } else {
+            if (this.type === 'timer') {
+                value = new Date();
+            } else {
+                value = null;
+            }
+        }
 
         if (this.disabled || !value) {
             event.preventDefault();
@@ -716,7 +746,20 @@ export class DateTimePickerComponent implements OnInit, AfterViewInit, OnDestroy
      * */
     public setSeconds( event: any, val: 'increase' | 'decrease' | number, input?: HTMLInputElement ): boolean {
 
-        let value = this.value ? (this.value.length ? this.value[this.valueIndex] : this.value) : null;
+        let value;
+        if (this.value) {
+            if (this.value.length) {
+                value = this.value[this.valueIndex];
+            } else {
+                value = this.value;
+            }
+        } else {
+            if (this.type === 'timer') {
+                value = new Date();
+            } else {
+                value = null;
+            }
+        }
 
         if (this.disabled || !value) {
             event.preventDefault();
@@ -750,24 +793,6 @@ export class DateTimePickerComponent implements OnInit, AfterViewInit, OnDestroy
 
         event.preventDefault();
         return done;
-    }
-
-    /**
-     * Check if the date is on the current month
-     * @param {Date} date
-     * @return {Boolean}
-     * */
-    public isDayInCurrentMonth( date: Date ): boolean {
-        return isSameMonth(date, this.pickerMoment);
-    }
-
-    /**
-     * Check if the date is today
-     * @param {Date} date
-     * @return {Boolean}
-     * */
-    public isToday( date: Date ): boolean {
-        return isToday(date);
     }
 
     /**
@@ -842,15 +867,6 @@ export class DateTimePickerComponent implements OnInit, AfterViewInit, OnDestroy
             isValid = isValid && !isAfter(date, startOfDay(this.max));
         }
         return isValid;
-    }
-
-    /**
-     * Check if the day is in the current pickerMoment's month
-     * @param {Date} date
-     * @return {boolean}
-     * */
-    public isInCurrentMonth( date: Date ): boolean {
-        return isSameMonth(date, this.pickerMoment);
     }
 
     /**
@@ -1081,17 +1097,27 @@ export class DateTimePickerComponent implements OnInit, AfterViewInit, OnDestroy
         let startDateOfMonth = startOfMonth(this.pickerMoment);
         let startWeekdayOfMonth = getDay(startDateOfMonth);
 
-        let dayNum = 0 - (startWeekdayOfMonth + (7 - this.locale.firstDayOfWeek)) % 7;
+        let dayDiff = 0 - (startWeekdayOfMonth + (7 - this.locale.firstDayOfWeek)) % 7;
 
         for (let i = 1; i < 7; i++) {
             let week = [];
             for (let j = 0; j < 7; j++) {
-                let date = addDays(startDateOfMonth, dayNum);
-                week.push(date);
-                dayNum += 1;
+                let date = addDays(startDateOfMonth, dayDiff);
+                let inOtherMonth = !isSameMonth(date, this.pickerMoment);
+                week.push({
+                    date,
+                    num: getDate(date),
+                    today: isToday(date),
+                    otherMonth: inOtherMonth,
+                    hide: !this.showOtherMonths && inOtherMonth,
+                });
+                dayDiff += 1;
             }
             this.calendarDays.push(week);
         }
+
+        this.pickerMonth = this.locale.monthNames[getMonth(this.pickerMoment)];
+        this.pickerYear = getYear(this.pickerMoment).toString();
     }
 
     /**
@@ -1233,16 +1259,16 @@ export class DateTimePickerComponent implements OnInit, AfterViewInit, OnDestroy
             this.onModelChange(this.value);
         } else if (this.dataType === 'string') {
             if (this.value && this.value.length) {
-                let formatted=[];
+                let formatted = [];
                 for (let v of this.value) {
                     if (v) {
                         formatted.push(format(v, this.dateFormat, {locale: this.locale.dateFns}));
-                    }else {
+                    } else {
                         formatted.push(null);
                     }
                 }
                 this.onModelChange(formatted);
-            }else {
+            } else {
                 this.onModelChange(format(this.value, this.dateFormat, {locale: this.locale.dateFns}));
             }
         }

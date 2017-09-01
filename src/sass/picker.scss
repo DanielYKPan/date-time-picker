@@ -98,9 +98,25 @@ $blue: #0070ba;
   }
 }
 
+.owl-dateTime {
+  display: inline-block;
+  position: relative;
+  width: 100%;
+
+  &.owl-dateTime-inline {
+    width: auto;
+
+    .owl-dateTime-dialog {
+      position: relative;
+      z-index: auto;
+    }
+  }
+}
+
 .owl-dateTime-dialog {
   width: 300px;
   user-select: none;
+  z-index: 99999;
 }
 
 .owl-dateTime-dialogHeader {

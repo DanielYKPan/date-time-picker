@@ -31,6 +31,7 @@ export default {
                     'parse',
                     'isValid',
                     'startOfMonth',
+                    'getDate',
                     'getDay',
                     'addDays',
                     'addMonths',
