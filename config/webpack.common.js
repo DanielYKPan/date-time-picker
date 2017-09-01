@@ -6,6 +6,7 @@ var webpack = require('webpack');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var helpers = require('./helpers');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
     entry: {
@@ -72,6 +73,19 @@ module.exports = {
     },
 
     plugins: [
+
+        /**
+         * Plugin: CopyWebpackPlugin
+         * Description: Copy files and directories in webpack.
+         *
+         * Copies project static assets.
+         *
+         * See: https://www.npmjs.com/package/copy-webpack-plugin
+         */
+        new CopyWebpackPlugin([
+                { from: 'src/assets', to: 'assets' }
+            ]
+        ),
 
         // Workaround for angular/angular#11580
         new webpack.ContextReplacementPlugin(
