@@ -1193,7 +1193,7 @@ export class DateTimePickerComponent implements OnInit, AfterViewInit, OnDestroy
             return;
         }
 
-        if (value && !isSameMonth(value, this.pickerMoment)) {
+        if (value && (!this.calendarDays || !isSameMonth(value, this.pickerMoment))) {
             this.pickerMoment = setMonth(this.pickerMoment, getMonth(value));
             this.pickerMoment = setYear(this.pickerMoment, getYear(value));
             this.generateCalendar();
