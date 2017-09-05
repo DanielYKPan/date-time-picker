@@ -10,7 +10,7 @@
   font-style: normal;
 }
 
-[class^="icon-"]:before, [class*=" icon-"]:before {
+[class^="owl-icon-"]:before, [class*=" owl-icon-"]:before {
   font-family: "fontello";
   font-style: normal;
   font-weight: normal;
@@ -45,11 +45,11 @@
   /* text-shadow: 1px 1px 1px rgba(127, 127, 127, 0.3); */
 }
 
-.icon-cancel:before { content: '\e802'; } /* '' */
-.icon-up-open:before { content: '\e805'; } /* '' */
-.icon-down-open:before { content: '\e80b'; } /* '' */
-.icon-left-open:before { content: '\e817'; } /* '' */
-.icon-right-open:before { content: '\e818'; } /* '' */
+.owl-icon-cancel:before { content: '\e802'; } /* '' */
+.owl-icon-up-open:before { content: '\e805'; } /* '' */
+.owl-icon-down-open:before { content: '\e80b'; } /* '' */
+.owl-icon-left-open:before { content: '\e817'; } /* '' */
+.owl-icon-right-open:before { content: '\e818'; } /* '' */
 
 $white: #FFFFFF;
 $black: #000000;
