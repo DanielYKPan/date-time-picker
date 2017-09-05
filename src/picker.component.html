@@ -18,7 +18,7 @@
                [disabled]="disabled"
                [value]="formattedValue"
                (focus)="onInputFocus($event)" (blur)="onInputBlur($event)" (click)="onInputClick($event)" readonly>
-        <i class="owl-dateTime-cancel icon icon-cancel" [hidden]="!value" (click)="clearValue($event)"></i>
+        <i class="owl-dateTime-cancel owl-icon owl-icon-cancel" [hidden]="!value" (click)="clearValue($event)"></i>
     </div>
     <!-- Workaround of ng-content default content (angular issue #12530) -->
     <div [ngClass]="{'owl-dateTime-customTemp': customTemp.children.length !== 0}" #customTemp (click)="onInputClick($event)">
@@ -96,17 +96,17 @@
                     </tbody>
                 </table>
                 <div class="owl-calendar-yearArrow left" (click)="generateYearList('prev')">
-                    <i class="icon icon-left-open"></i>
+                    <i class="owl-icon owl-icon-left-open"></i>
                 </div>
                 <div class="owl-calendar-yearArrow right" (click)="generateYearList('next')">
-                    <i class="icon icon-right-open"></i>
+                    <i class="owl-icon owl-icon-right-open"></i>
                 </div>
             </div>
         </div>
         <div *ngIf="type ==='both' || type === 'timer'" class="owl-timer-wrapper owl-corner-all">
             <div class="owl-timer owl-hours">
                 <div class="owl-timer-control" (click)="setHours($event, 'increase', hoursInput)">
-                    <i class="icon icon-up-open"></i>
+                    <i class="owl-icon owl-icon-up-open"></i>
                 </div>
                 <div class="owl-timer-text">
                     <input class="owl-timer-input owl-inputtext owl-state-default owl-corner-all"
@@ -116,7 +116,7 @@
                            (blur)="onTimerInputBlur($event, hoursInput, 'hours', hourValue)" #hoursInput>
                 </div>
                 <div class="owl-timer-control" (click)="setHours($event, 'decrease', hoursInput)">
-                    <i class="icon icon-down-open"></i>
+                    <i class="owl-icon owl-icon-down-open"></i>
                 </div>
             </div>
             <div class="owl-timer owl-minutes">
@@ -125,7 +125,7 @@
                     <span class="owl-timer-dot dot-bottom"></span>
                 </div>
                 <div class="owl-timer-control" (click)="setMinutes($event, 'increase', minutesInput)">
-                    <i class="icon icon-up-open"></i>
+                    <i class="owl-icon owl-icon-up-open"></i>
                 </div>
                 <div class="owl-timer-text">
                     <input class="owl-timer-input owl-inputtext owl-state-default owl-corner-all"
@@ -135,7 +135,7 @@
                            (blur)="onTimerInputBlur($event, minutesInput, 'minutes', minValue)" #minutesInput>
                 </div>
                 <div class="owl-timer-control" (click)="setMinutes($event, 'decrease', minutesInput)">
-                    <i class="icon icon-down-open"></i>
+                    <i class="owl-icon owl-icon-down-open"></i>
                 </div>
             </div>
             <div *ngIf="showSecondsTimer" class="owl-timer owl-seconds">
@@ -144,7 +144,7 @@
                     <span class="owl-timer-dot dot-bottom"></span>
                 </div>
                 <div class="owl-timer-control" (click)="setSeconds($event, 'increase', secondsInput)">
-                    <i class="icon icon-up-open"></i>
+                    <i class="owl-icon owl-icon-up-open"></i>
                 </div>
                 <div class="owl-timer-text">
                     <input class="owl-timer-input owl-inputtext owl-state-default owl-corner-all"
@@ -154,7 +154,7 @@
                            (blur)="onTimerInputBlur($event, secondsInput, 'seconds', secValue)" #secondsInput>
                 </div>
                 <div class="owl-timer-control" (click)="setSeconds($event, 'decrease', secondsInput)">
-                    <i class="icon icon-down-open"></i>
+                    <i class="owl-icon owl-icon-down-open"></i>
                 </div>
             </div>
             <div *ngIf="hourFormat === '12'" class="owl-timer owl-meridian">
