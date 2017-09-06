@@ -1,4 +1,5 @@
-## Angular Date Time Picker ##
+Angular Date Time Picker
+========================
 
 **Angular date time picker - Angular reusable UI component**
 **This package supports Angular 4**
@@ -208,7 +209,7 @@ export class MyModel {
 
 Dependencies
 -------
-None.
+[date-fns](https://date-fns.org/)
 
 
 ----------
