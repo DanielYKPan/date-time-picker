@@ -6,6 +6,7 @@
     "rootDir": "./tmp",
     "outDir": "./dist",
     "sourceMap": true,
+    "sourceRoot": "./tmp",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "moduleResolution": "node",
