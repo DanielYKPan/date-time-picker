@@ -274,6 +274,13 @@ export class DateTimePickerComponent implements OnInit, AfterViewInit, OnDestroy
     @Input() hourFormat: '12' | '24' = '24';
 
     /**
+     * Reset time when a date is selected
+     * @default false
+     * @type boolean
+     */
+    @Input() resetTime = false;
+
+    /**
      * When it is set to false, only show current month's days in calendar
      * @default true
      * @type {boolean}
@@ -492,6 +499,11 @@ export class DateTimePickerComponent implements OnInit, AfterViewInit, OnDestroy
         // check if the selected date is valid
         if (this.isValidValue(date)) {
             temp = date;
+            if (this.resetTime) {
+                temp.setHours(0,0, 0, 0);
+            } else {
+                temp.setHours(this.hourValue, this.minValue, this.secValue, 0);
+            }
         } else {
             if (isSameDay(date, this._min)) {
                 temp = this._min;
