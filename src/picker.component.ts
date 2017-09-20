@@ -3,7 +3,6 @@
  */
 
 import {
-    AfterViewInit,
     Component, ElementRef, EventEmitter, forwardRef, Input, OnDestroy, OnInit, Output, Renderer2,
     ViewChild
 } from '@angular/core';
@@ -49,7 +48,7 @@ export interface LocaleSettings {
     dateFns: any;
 }
 
-export enum DialogType {
+enum DialogType {
     Time,
     Date,
     Month,
@@ -83,7 +82,7 @@ export const DATETIMEPICKER_VALUE_ACCESSOR: any = {
     ],
 })
 
-export class DateTimePickerComponent implements OnInit, AfterViewInit, OnDestroy, ControlValueAccessor {
+export class DateTimePickerComponent implements OnInit, OnDestroy, ControlValueAccessor {
 
     /**
      * Type of the value to write back to ngModel
@@ -339,14 +338,8 @@ export class DateTimePickerComponent implements OnInit, AfterViewInit, OnDestroy
 
     public ngOnInit() {
         this.pickerMoment = new Date();
-
-        if (this.type === 'both' || this.type === 'calendar') {
-            this.generateWeekDays();
-            this.generateMonthList();
-        }
-    }
-
-    public ngAfterViewInit(): void {
+        this.generateWeekDays();
+        this.generateMonthList();
         this.updateCalendar(this.value);
         this.updateTimer(this.value);
     }
@@ -1123,13 +1116,19 @@ export class DateTimePickerComponent implements OnInit, AfterViewInit, OnDestroy
     /**
      * Generate the calendar weekdays array
      * */
-    private generateWeekDays() {
+    private generateWeekDays(): void {
+
+        if (this.type === 'timer') {
+            return;
+        }
+
         this.calendarWeekdays = [];
         let dayIndex = this.locale.firstDayOfWeek;
         for (let i = 0; i < 7; i++) {
             this.calendarWeekdays.push(this.locale.dayNamesShort[dayIndex]);
             dayIndex = (dayIndex == 6) ? 0 : ++dayIndex;
         }
+        return;
     }
 
     /**
@@ -1137,6 +1136,11 @@ export class DateTimePickerComponent implements OnInit, AfterViewInit, OnDestroy
      * @return {void}
      * */
     private generateMonthList(): void {
+
+        if (this.type === 'timer') {
+            return;
+        }
+
         this.calendarMonths = [];
         let monthIndex = 0;
         for (let i = 0; i < 4; i++) {
@@ -1147,6 +1151,8 @@ export class DateTimePickerComponent implements OnInit, AfterViewInit, OnDestroy
             }
             this.calendarMonths.push(months);
         }
+
+        return;
     }
 
     /**
