@@ -5,23 +5,17 @@ Angular Date Time Picker
 **This package supports Angular 4**
 
 
-----------
-
 Breaking Changes
 -------
  - This picker is complete changed in version 5.
  - This picker now is no longer as a directive added into a text input. Instead, it is a stand along component that includes a text input and a dropdown calendar-time picker. You could see more details down below.
  - This picker now does not use [MomentJS](http://momentjs.com/). Instead, it is using [date-fns](https://date-fns.org/). [Here is why.](https://github.com/date-fns/date-fns/issues/275#issuecomment-264934189)
 
-----------
-
 Description
 -------
 Simple Angular date time picker. Online demo is [here](https://danielykpan.github.io/date-time-picker/). 
 This picker is responsive design, so feel free to try it in your desktops, tablets and mobile devices. 
 This picker uses  [date-fns](https://date-fns.org/).
-
-----------
 
 How to Use
 -------
@@ -70,15 +64,37 @@ How to Use
   5. Add picker component to your component:
 ```<owl-date-time [(ngModel)]="moment" ></owl-date-time>```
 
-----------
+Animation
+-------
+This picker uses angular animations to improve the user experience, 
+starting with Angular 4 animations have their own module so you need to import BrowserAnimationsModule to your application. 
+If you prefer to disable animation effect, use NoopAnimationsModule instead.
+
+`npm install @angular/animations --save`
+
+`
+import {BrowserModule} from '@angular/platform-browser';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+
+@NgModule({
+    imports: [
+        BrowserModule,
+        BrowserAnimationsModule,
+        //...
+    ],
+    //...
+})
+export class YourAppModule { }
+`
 
 Properties
 -------
 
-
 |Name|Type|Required|Default|Description|
 |:--- |:--- |:--- |:--- |:--- |
+|`autoClose`|boolean|Optional|`false`| When specified, the calendar would be close when selected a date |
 |`dataType`|string|Optional|`'date'`| Type of the value to write back to ngModel. Default type is Javascript Date object. You could change it as string type |
+|`defaultMoment`|Date / string|Optional|`null`| Set the calendar's default month and year and timer picker's default value if the field is blank.|
 |`dateFormat`|string|Optional|`YYYY/MM/DD HH:mm`| Format of the date. You could find more in [this](https://date-fns.org/v1.28.5/docs/format).|
 |`disabled`|boolean|Optional|`false`| When specified, disables the component.|
 |`disabledDates`|Array-Date[]|Optional|`null`|Array with dates that should be disabled (not selectable).|
@@ -93,7 +109,9 @@ Properties
 |`max`|Date / string|Optional|`null`|Set the maximum date/time that is selectable.|
 |`min`|Date / string|Optional|`null`|Set the minimum date/time that is selectable.|
 |`placeHolder`|string|Optional|`'yyyy/mm/dd hh:mm'`|Placeholder text for the input.|
+|`readonlyInput`|boolean|Optional|`true`|When specified to false, allows to enter the date manually with keyboard.|
 |`required`|boolean|Optional|`false`|When present, it specifies that an input field must be filled out before submitting the form.|
+|`showButtons`|boolean|Optional|`false`|When specified, the picker would have a confirm button and close button.|
 |`selectionMode`|string|Optional|`'single'`|Defines the quantity of the selection, valid values are "single", "multiple" and "range".|
 |`showHeader`|boolean|Optional|`false`|Defines whether to show the picker dialog header.|
 |`showOtherMonths`|boolean|Optional|`true`|When it is set to false, it would only show current month's days in calendar.|
@@ -103,8 +121,6 @@ Properties
 |`tabIndex`|number|Optional|`null`|Index of the element in tabbing order.|
 |`type`|string|Optional|`'both'`|Specify the type of the date-time picker, valid value are 'both', 'calendar' and 'timer'.|
 
-----------
-
 Events
 -------
 
@@ -113,8 +129,6 @@ Events
 |`onBlur`|event: Blur event|Callback to invoke on blur of input field|
 |`onFocus`|event: Focus event|Callback to invoke on focus of input field.|
 |`onInvalid`|originalEvent: event, value: invalid date-time value|Callback to invoke when a invalid date-time value is selected.|
-
-----------
 
 Styling
 -------
@@ -126,8 +140,6 @@ Following is the list of structural style classes.
 |`owl-dateTime`|Wrapper of the whole element|
 |`owl-dateTime-input`|Input element|
 |`owl-dateTime-dialog`|Wrapper of the dropdown dialog|
-
-----------
 
 DateFormat
 -------
@@ -153,8 +165,6 @@ Following options can be a part of the format.
  - YYYY - year(2015, 2016, 2017 ...)
  
 Your could learn more about this from [here](https://date-fns.org/v1.28.5/docs/format).
-
-----------
 
 Localization
 -------
@@ -205,14 +215,9 @@ export class MyModel {
 }
 ```
 
-----------
-
 Dependencies
 -------
 [date-fns](https://date-fns.org/)
-
-
-----------
 
 Theme
 -------
@@ -220,23 +225,14 @@ Theme
 The picker now separate its styles into **./node_modules/ng-pick-datetime/assets/style/picker.min.css**.
 You could inspect the picker's classes from your browser's dev tool and overwrite them in your project's css files.
 
-
-----------
-
 Demo
 -------
 
 Online demo is [here](https://danielykpan.github.io/date-time-picker/)
 
-
-----------
-
 License
 -------
 * License: MIT
-
-
-----------
 
 Author
 -------
