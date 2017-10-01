@@ -223,6 +223,13 @@ export class DateTimePickerComponent implements OnInit, OnDestroy, ControlValueA
     @Input() selectionMode: 'single' | 'multiple' | 'range' = 'single';
 
     /**
+     * When specify, the picker would have a confirm button and cancel button
+     * @default false
+     * @type {boolean}
+     * */
+    @Input() showButtons: boolean;
+
+    /**
      * Whether to show the picker dialog header
      * @default false
      * @type {Boolean}
@@ -297,6 +304,11 @@ export class DateTimePickerComponent implements OnInit, OnDestroy, ControlValueA
      * Callback to invoke when dropdown gets focus.
      * */
     @Output() onFocus = new EventEmitter<any>();
+
+    /**
+     * Callback to invoke when dropdown dialog close.
+     * */
+    @Output() onClose = new EventEmitter<any>();
 
     /**
      * Callback to invoke when dropdown loses focus.
@@ -497,6 +509,27 @@ export class DateTimePickerComponent implements OnInit, OnDestroy, ControlValueA
      * */
     public onDialogClick( event: any ): void {
         this.dialogClick = true;
+    }
+
+    /**
+     * Handle click event on the confirm button
+     * @param {any} event
+     * @return {void}
+     * */
+    public onConfirmClick( event: any ): void {
+        this.updateModel(this.value);
+        this.hide(event);
+        return;
+    }
+
+    /**
+     * Handle click event on the close button
+     * @param {any} event
+     * @return {void}
+     * */
+    public onCloseClick( event: any ): void {
+        this.hide(event);
+        return;
     }
 
     /**
@@ -1013,7 +1046,6 @@ export class DateTimePickerComponent implements OnInit, OnDestroy, ControlValueA
 
         if (!done) {
             input.value = this.numFixedLenPipe.transform(modelValue, 2);
-            input.focus();
             return;
         }
         event.preventDefault();
@@ -1047,10 +1079,12 @@ export class DateTimePickerComponent implements OnInit, OnDestroy, ControlValueA
 
     /**
      * Hide the dialog
+     * @param {any} event
      * @return {void}
      * */
-    private hide(): void {
+    private hide( event: any ): void {
         this.dialogVisible = false;
+        this.onClose.emit({event});
         this.unbindDocumentClickListener();
         return;
     }
@@ -1099,9 +1133,9 @@ export class DateTimePickerComponent implements OnInit, OnDestroy, ControlValueA
     private bindDocumentClickListener(): void {
         let firstClick = true;
         if (!this.documentClickListener) {
-            this.documentClickListener = this.renderer.listen('document', 'click', () => {
+            this.documentClickListener = this.renderer.listen('document', 'click', ( event: any ) => {
                 if (!firstClick && !this.dialogClick) {
-                    this.hide();
+                    this.hide(event);
                 }
 
                 firstClick = false;
