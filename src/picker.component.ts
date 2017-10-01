@@ -85,6 +85,13 @@ export const DATETIMEPICKER_VALUE_ACCESSOR: any = {
 export class DateTimePickerComponent implements OnInit, OnDestroy, ControlValueAccessor {
 
     /**
+     * When specify, the calendar would be close when selected a date
+     * @default false
+     * @type {boolean}
+     * */
+    @Input() autoClose: boolean;
+
+    /**
      * Type of the value to write back to ngModel
      * @default 'date' -- Javascript Date type
      * @type {'string' | 'date'}
@@ -648,6 +655,10 @@ export class DateTimePickerComponent implements OnInit, OnDestroy, ControlValueA
                 this.updateTimer(this.value);
             }
             this.updateFormattedValue();
+        }
+
+        if (this.autoClose) {
+            this.hide(event);
         }
     }
 
