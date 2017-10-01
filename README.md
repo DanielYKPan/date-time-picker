@@ -72,20 +72,20 @@ If you prefer to disable animation effect, use NoopAnimationsModule instead.
 
 `npm install @angular/animations --save`
 
-`
-import {BrowserModule} from '@angular/platform-browser';
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-
-@NgModule({
-    imports: [
-        BrowserModule,
-        BrowserAnimationsModule,
+```js
+    import {BrowserModule} from '@angular/platform-browser';
+    import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+    
+    @NgModule({
+        imports: [
+            BrowserModule,
+            BrowserAnimationsModule,
+            //...
+        ],
         //...
-    ],
-    //...
-})
-export class YourAppModule { }
-`
+    })
+    export class YourAppModule { }
+```
 
 Properties
 -------
