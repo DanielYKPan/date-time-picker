@@ -99,11 +99,11 @@ export class DateTimePickerComponent implements OnInit, OnDestroy, ControlValueA
     @Input() dateFormat: string = 'YYYY/MM/DD HH:mm';
 
     /**
-     * Set the date to highlight on first opening if the field is blank
-     * @default now
+     * Set the calendar's default month and year and timer picker's default value if the field is blank
+     * @default null
      * @type {Date | string}
      * */
-    @Input() defaultMoment: Date | string = new Date();
+    @Input() defaultMoment: Date | string;
 
     /**
      * When present, it specifies that the component should be disabled
@@ -197,6 +197,13 @@ export class DateTimePickerComponent implements OnInit, OnDestroy, ControlValueA
      * @type {String}
      * */
     @Input() placeHolder: string = 'yyyy/mm/dd hh:mm';
+
+    /**
+     * When specified to false, allows to enter the date manually with keyboard
+     * @default true
+     * @type {boolean}
+     * */
+    @Input() readonlyInput: boolean = true;
 
     /**
      * When present, it specifies that an input field must be filled out before submitting the form
@@ -334,6 +341,7 @@ export class DateTimePickerComponent implements OnInit, OnDestroy, ControlValueA
     private dialogClick: boolean;
     private documentClickListener: Function;
     private valueIndex: number = 0;
+    private inputValueChanged: boolean = false; // a flag to indicate if the text input value was changed
     private onModelChange: Function = () => {
     };
     private onModelTouched: Function = () => {
@@ -348,8 +356,8 @@ export class DateTimePickerComponent implements OnInit, OnDestroy, ControlValueA
 
         this.generateWeekDays();
         this.generateMonthList();
-        this.updateCalendar(this.value);
-        this.updateTimer(this.value);
+        this.generateCalendar();
+        this.updateTimer(null);
     }
 
     public ngOnDestroy(): void {
@@ -384,6 +392,53 @@ export class DateTimePickerComponent implements OnInit, OnDestroy, ControlValueA
 
     public setDisabledState( isDisabled: boolean ): void {
         this.disabled = isDisabled;
+    }
+
+    /**
+     * Handle input value change event on the text input
+     * @param {any} event
+     * @return {void}
+     * */
+    public onInputUpdate( event: any ): void {
+
+        this.inputValueChanged = true;
+        let value = this.parseValueFromString(event.target.value);
+
+        if (!value) {
+            this.value = null;
+        } else if (this.isSingleSelection()) {
+            if (!this.isValidValue(value)) {
+                value = null;
+            }
+            this.value = value;
+            this.updateCalendar(this.value);
+            this.updateTimer(this.value);
+        } else if (this.isMultiSelection()) {
+            for (let i = 0; i < value.length; i++) {
+                if (!this.isValidValue(value[i])) {
+                    value[i] = null;
+                }
+            }
+            this.value = value;
+            this.updateCalendar(this.value[0]);
+            this.updateTimer(this.value[0]);
+        } else if (this.isRangeSelection()) {
+            for (let i = 0; i < value.length; i++) {
+                if (!this.isValidValue(value[i])) {
+                    value[i] = null;
+                }
+            }
+
+            // check if the first date time is after the second one
+            if (value[0] && value [1] && isAfter(value[0], value[1])) {
+                value[1] = null;
+            }
+            this.value = value;
+            this.updateCalendar(this.value[0]);
+            this.updateTimer(this.value[0]);
+        }
+
+        this.updateModel(this.value);
     }
 
     /**
@@ -425,6 +480,10 @@ export class DateTimePickerComponent implements OnInit, OnDestroy, ControlValueA
      * */
     public onInputBlur( event: any ): void {
         this.focus = false;
+        if (this.inputValueChanged) {
+            this.updateFormattedValue();
+            this.inputValueChanged = false;
+        }
         this.onModelTouched();
         this.onBlur.emit(event);
         event.preventDefault();
@@ -1230,13 +1289,13 @@ export class DateTimePickerComponent implements OnInit, OnDestroy, ControlValueA
             return false;
         }
 
-        if (!value) {
+        if (!value && !this.defaultMoment) {
             this.hourValue = null;
             this.minValue = null;
             this.secValue = null;
             return true;
         }
-        let time = value;
+        let time = value || this.parseToDate(this.defaultMoment);
         let hours = getHours(time);
 
         if (this.hourFormat === '12') {
@@ -1422,5 +1481,36 @@ export class DateTimePickerComponent implements OnInit, OnDestroy, ControlValueA
             h = win.innerHeight || e.clientHeight || g.clientHeight;
 
         return {width: w, height: h};
+    }
+
+    /**
+     * Parse a string to date value
+     * @param text {string}
+     * @return Date | Date[]
+     * */
+    private parseValueFromString( text: string ): any {
+        if (!text || text.trim().length === 0) {
+            return null;
+        }
+
+        let value: any;
+
+        if (this.isSingleSelection()) {
+            value = this.parseToDate(text);
+        } else if (this.isMultiSelection()) {
+            let tokens = text.split(',');
+            value = [];
+            for (let token of tokens) {
+                value.push(this.parseToDate(token.trim()));
+            }
+        } else if (this.isRangeSelection()) {
+            let tokens = text.split(' - ');
+            value = [];
+            for (let i = 0; i < tokens.length; i++) {
+                value[i] = this.parseToDate(tokens[i].trim());
+            }
+        }
+
+        return value;
     }
 }

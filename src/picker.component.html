@@ -17,7 +17,9 @@
                [attr.required]="required"
                [disabled]="disabled"
                [value]="formattedValue"
-               (focus)="onInputFocus($event)" (blur)="onInputBlur($event)" (click)="onInputClick($event)" readonly>
+               [readonly]="readonlyInput"
+               (focus)="onInputFocus($event)" (blur)="onInputBlur($event)"
+               (click)="onInputClick($event)" (input)="onInputUpdate($event)">
         <i class="owl-dateTime-cancel icon icon-cancel" [hidden]="!value" (click)="clearValue($event)"></i>
     </div>
     <!-- Workaround of ng-content default content (angular issue #12530) -->
