@@ -99,6 +99,13 @@ export class DateTimePickerComponent implements OnInit, OnDestroy, ControlValueA
     @Input() dateFormat: string = 'YYYY/MM/DD HH:mm';
 
     /**
+     * Set the date to highlight on first opening if the field is blank
+     * @default now
+     * @type {Date | string}
+     * */
+    @Input() defaultMoment: Date | string = new Date();
+
+    /**
      * When present, it specifies that the component should be disabled
      * @default false
      * @type {Boolean}
@@ -337,7 +344,8 @@ export class DateTimePickerComponent implements OnInit, OnDestroy, ControlValueA
     }
 
     public ngOnInit() {
-        this.pickerMoment = new Date();
+        this.pickerMoment = this.defaultMoment ? this.parseToDate(this.defaultMoment) : new Date();
+
         this.generateWeekDays();
         this.generateMonthList();
         this.updateCalendar(this.value);
