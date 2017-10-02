@@ -100,6 +100,7 @@ Properties
 |`disabledDates`|Array-Date[]|Optional|`null`|Array with dates that should be disabled (not selectable).|
 |`disabledDays`|Array-number[]|Optional|`null`|Array with weekday numbers that should be disabled (not selectable). Start from 0(Sunday) to 6(Saturday).|
 |`hourFormat`|string|Optional|`'24'`|Specify the hour format, valid values are '12' and '24'.|
+|`resetTime`|boolean|Optional|`false`|Reset the time when a date is selected.|
 |`inline`|boolean|Optional|`false`|When enabled, displays the picker as inline. Default is false for popup mode.|
 |`inputId`|string|Optional|`null`|Identifier of the focus input to match a label defined for the component.|
 |`inputStyle`|Object|Optional|`null`|Inline style of the picker text input.|
