@@ -13,6 +13,7 @@ import {
     isValid,
     startOfMonth,
     getDate,
+    setDate,
     getDay,
     addDays,
     addMonths,
@@ -29,8 +30,10 @@ import {
     setHours,
     getMinutes,
     setMinutes,
+    addMinutes,
     getSeconds,
     setSeconds,
+    addSeconds,
     isBefore,
     isAfter,
     compareAsc,
@@ -106,7 +109,7 @@ export class DateTimePickerComponent implements OnInit, OnDestroy, ControlValueA
     @Input() dateFormat: string = 'YYYY/MM/DD HH:mm';
 
     /**
-     * Set the calendar's default month and year and timer picker's default value if the field is blank
+     * Set the date to highlight and timer picker default value on first opening if the field is blank
      * @default null
      * @type {Date | string}
      * */
@@ -313,19 +316,29 @@ export class DateTimePickerComponent implements OnInit, OnDestroy, ControlValueA
     @Output() onFocus = new EventEmitter<any>();
 
     /**
-     * Callback to invoke when dropdown dialog close.
-     * */
-    @Output() onClose = new EventEmitter<any>();
-
-    /**
      * Callback to invoke when dropdown loses focus.
      * */
     @Output() onBlur = new EventEmitter<any>();
 
     /**
+     * Callback to invoke when input value is clear.
+     * */
+    @Output() onClear = new EventEmitter<any>();
+
+    /**
+     * Callback to invoke when dropdown dialog close.
+     * */
+    @Output() onClose = new EventEmitter<any>();
+
+    /**
      * Callback to invoke when a invalid date is selected.
      * */
     @Output() onInvalid = new EventEmitter<any>();
+
+    /**
+     * Callback to invoke when a date or time is selected.
+     * */
+    @Output() onSelect = new EventEmitter<any>();
 
     @ViewChild('container') containerElm: ElementRef;
     @ViewChild('textInput') textInputElm: ElementRef;
@@ -474,7 +487,7 @@ export class DateTimePickerComponent implements OnInit, OnDestroy, ControlValueA
 
         this.dialogClick = true;
         if (!this.dialogVisible) {
-            this.show();
+            this.show(event);
         }
         event.preventDefault();
         return;
@@ -540,6 +553,49 @@ export class DateTimePickerComponent implements OnInit, OnDestroy, ControlValueA
     }
 
     /**
+     * Handle click event on calendar date
+     * @param {any} event
+     * @param {Date} date
+     * @return {void}
+     * */
+    public onSelectDate( event: any, date: Date ): void {
+        if (this.disabled || !date) {
+            event.preventDefault();
+            return;
+        }
+
+        // handle set date based on the current selection mode
+        let selected;
+        if (this.isSingleSelection()) {
+            selected = this.setDateOnSingleSelection(date);
+        } else if (this.isRangeSelection()) {
+            selected = this.setDateOnRangeSelection(date);
+        } else if (this.isMultiSelection()) {
+            selected = this.setDateOnMultiSelection(date);
+        }
+
+        if (selected) {
+            this.updateModel(selected);
+            if (this.value instanceof Array) {
+                this.updateCalendar(this.value[this.valueIndex]);
+                this.updateTimer(this.value[this.valueIndex]);
+                this.onSelect.emit({event, value: this.value[this.valueIndex]});
+            } else {
+                this.updateCalendar(this.value);
+                this.updateTimer(this.value);
+                this.onSelect.emit({event, value: this.value});
+            }
+            this.updateFormattedValue();
+        }
+
+        // hide the dialog if the autoClose is set to true
+        if (this.autoClose) {
+            this.hide(event);
+        }
+
+    }
+
+    /**
      * Go to previous month
      * @param {any} event
      * @return {void}
@@ -573,93 +629,6 @@ export class DateTimePickerComponent implements OnInit, OnDestroy, ControlValueA
         this.generateCalendar();
         event.preventDefault();
         return;
-    }
-
-    /**
-     * Select a date
-     * @param {any} event
-     * @param {Date} date
-     * @return {void}
-     * */
-    public selectDate( event: any, date: Date ): void {
-
-        if (this.disabled || !date) {
-            event.preventDefault();
-            return;
-        }
-
-        let temp: Date;
-        // check if the selected date is valid
-        if (this.isValidValue(date)) {
-            temp = date;
-        } else {
-            if (isSameDay(date, this._min)) {
-                temp = this._min;
-            } else if (isSameDay(date, this._max)) {
-                temp = this._max;
-            } else {
-                this.onInvalid.emit({originalEvent: event, value: date});
-                return;
-            }
-        }
-
-        let selected;
-        if (this.isSingleSelection()) {
-            if (!isSameDay(this.value, temp)) {
-                selected = temp;
-            }
-        } else if (this.isRangeSelection()) {
-            if (this.value && this.value.length) {
-                let startDate = this.value[0];
-                let endDate = this.value[1];
-
-                if (!endDate && temp.getTime() > startDate.getTime()) {
-                    endDate = temp;
-                    this.valueIndex = 1;
-                } else {
-                    startDate = temp;
-                    endDate = null;
-                    this.valueIndex = 0;
-                }
-                selected = [startDate, endDate];
-            } else {
-                selected = [temp, null];
-                this.valueIndex = 0;
-            }
-        } else if (this.isMultiSelection()) {
-
-            // check if it exceeds the maxDateCount limit
-            if (this.maxDateCount && this.value &&
-                this.value.length && this.value.length >= this.maxDateCount) {
-                this.onInvalid.emit({originalEvent: event, value: 'Exceed max date count.'});
-                return;
-            }
-
-            if (this.isSelectedDay(temp)) {
-                selected = this.value.filter(( d: Date ) => {
-                    return !isSameDay(d, temp);
-                });
-            } else {
-                selected = this.value ? [...this.value, temp] : [temp];
-                this.valueIndex = selected.length - 1;
-            }
-        }
-
-        if (selected) {
-            this.updateModel(selected);
-            if (this.value instanceof Array) {
-                this.updateCalendar(this.value[this.valueIndex]);
-                this.updateTimer(this.value[this.valueIndex]);
-            } else {
-                this.updateCalendar(this.value);
-                this.updateTimer(this.value);
-            }
-            this.updateFormattedValue();
-        }
-
-        if (this.autoClose) {
-            this.hide(event);
-        }
     }
 
     /**
@@ -767,6 +736,7 @@ export class DateTimePickerComponent implements OnInit, OnDestroy, ControlValueA
         let done = this.setSelectedTime(selectedTime);
 
         // Focus the input and select its value when model updated
+        // TODO: should run outside angular.
         if (input) {
             setTimeout(() => {
                 input.focus();
@@ -1073,14 +1043,16 @@ export class DateTimePickerComponent implements OnInit, OnDestroy, ControlValueA
         this.updateModel(null);
         this.updateTimer(this.value);
         this.updateFormattedValue();
+        this.onClear.emit({event});
         event.preventDefault();
     }
 
     /**
      * Show the dialog
+     * @param {any} event
      * @return {void}
      * */
-    private show(): void {
+    private show( event: any ): void {
         this.alignDialog();
         this.dialogVisible = true;
         this.dialogType = DialogType.Date;
@@ -1435,23 +1407,239 @@ export class DateTimePickerComponent implements OnInit, OnDestroy, ControlValueA
      * @param {Date} val
      * @return {boolean}
      * */
-    public setSelectedTime( val: Date ): boolean {
+    private setSelectedTime( val: Date ): boolean {
         let done;
-        if (this.isValidValue(val)) {
+        let selected;
+
+        if (this.isSingleSelection()) {
+            selected = this.setTimeOnSingleSelection(val);
+        } else if (this.isRangeSelection()) {
+            selected = this.setTimeOnRangeSelection(val);
+        } else if (this.isMultiSelection()) {
+            selected = this.setTimeOnMultiSelection(val);
+        }
+
+        if (selected) {
+            this.value = selected;
+            done = this.updateModel(this.value);
             if (this.value instanceof Array) {
-                this.value[this.valueIndex] = val;
-                done = this.updateModel(this.value);
                 done = done && this.updateTimer(this.value[this.valueIndex]);
             } else {
-                done = this.updateModel(val);
                 done = done && this.updateTimer(this.value);
             }
+            this.onSelect.emit({event, value: this.value});
             this.updateFormattedValue();
         } else {
             this.onInvalid.emit({originalEvent: event, value: val});
             done = false;
         }
         return done;
+    }
+
+    /**
+     * set date value on single selection mode
+     * @param {Date} moment
+     * @return {Date}
+     * */
+    private setDateOnSingleSelection( moment: Date ): Date {
+
+        if (!moment || isSameDay(this.value, moment)) {
+            return null;
+        }
+
+        let temp;
+        if (this.value) {
+            let date = getDate(moment);
+            let month = getMonth(moment);
+            let year = getYear(moment);
+
+            temp = setYear(this.value, year);
+            temp = setMonth(temp, month);
+            temp = setDate(temp, date);
+        } else {
+            temp = moment;
+        }
+
+        if (this.isValidValue(temp)) {
+            return temp;
+        } else {
+            if (isSameDay(temp, this._min)) {
+                return this._min;
+            } else if (isSameDay(temp, this._max)) {
+                return this._max;
+            } else {
+                this.onInvalid.emit({originalEvent: event, value: moment});
+                return null;
+            }
+        }
+    }
+
+    /**
+     * Set time value on single selection mode
+     * @param {Date} moment
+     * @return {Date}
+     * */
+    private setTimeOnSingleSelection( moment: Date ): Date {
+        if (!moment) {
+            return null;
+        }
+        return this.isValidValue(moment) ? moment : null;
+    }
+
+    /**
+     * set date value on range selection mode
+     * @param {Date} moment
+     * @return {Date[]} -- range selection value
+     * */
+    private setDateOnRangeSelection( moment: Date ): Date[] {
+
+        if (!moment) {
+            return null;
+        }
+
+        let temp;
+
+        // the the param moment is valid
+        if (this.isValidValue(moment)) {
+            temp = moment;
+        } else {
+            if (isSameDay(moment, this._min)) {
+                temp = this._min;
+            } else if (isSameDay(moment, this._max)) {
+                temp = this._max;
+            } else {
+                this.onInvalid.emit({originalEvent: event, value: moment});
+                return null;
+            }
+        }
+
+        // check if the current value has value
+        if (this.value && this.value.length) {
+            let startMoment = this.value[0];
+            let endMoment = this.value[1];
+
+            // check if there is endMoment value
+            if (!endMoment && differenceInCalendarDays(temp, startMoment) > 0) {
+                // if the param moment calendar day is after startMoment calendar day,
+                // set the endMoment as moment.
+                endMoment = temp;
+                this.valueIndex = 1;
+            } else if (!endMoment && differenceInCalendarDays(temp, startMoment) === 0) {
+                // if the param moment calendar day is the same as startMoment calendar day,
+                // set the endMoment as 1 minute(or 1 second) after current startMoment
+                temp = this.showSecondsTimer ? addSeconds(startMoment, 1) : addMinutes(startMoment, 1);
+
+                // check if the temp value is valid
+                endMoment = this.isValidValue(temp) ? temp : null;
+                this.valueIndex = 1;
+            } else {
+                startMoment = temp;
+                endMoment = null;
+                this.valueIndex = 0;
+            }
+            return [startMoment, endMoment]
+        } else {
+            this.valueIndex = 0;
+            return [temp, null];
+        }
+    }
+
+    /**
+     * Set time value on range selection
+     * @param {Date} moment
+     * @return {Date[]}
+     * */
+    private setTimeOnRangeSelection( moment: Date ): Date[] {
+
+        if (!moment) {
+            return null;
+        }
+
+        if (this.isValidValue(moment)) {
+            // check if the param moment value is after the start moment of the range
+            if (this.valueIndex > 0 && isAfter(moment, this.value[0])) {
+                return [this.value[0], moment];
+            } else {
+
+                // if the param moment value is before the start moment of the range,
+                // we reset the start moment of the range to the param moment value
+                // and the the end moment of the range to null
+                return [moment, null];
+            }
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * Set date value on multiple selection mode
+     * @param {Date} moment
+     * @return {Date[]}
+     * */
+    private setDateOnMultiSelection( moment: Date ): Date[] {
+
+        if (!moment) {
+            return null;
+        }
+
+        // check if it exceeds the maxDateCount limit
+        if (this.maxDateCount && this.value &&
+            this.value.length && this.value.length >= this.maxDateCount) {
+            this.onInvalid.emit({originalEvent: event, value: 'Exceed max date count.'});
+            return null;
+        }
+
+        // if the param moment's date has been selected,
+        // we deselect that date.
+        if (this.isSelectedDay(moment)) {
+            return this.value.filter(( d: Date ) => {
+                return !isSameDay(d, temp);
+            });
+        }
+
+        let temp: Date;
+        // check if the selected date is valid
+        if (this.isValidValue(moment)) {
+            temp = moment;
+        } else {
+            if (isSameDay(moment, this._min)) {
+                temp = this._min;
+            } else if (isSameDay(moment, this._max)) {
+                temp = this._max;
+            } else {
+                this.onInvalid.emit({originalEvent: event, value: moment});
+                return null;
+            }
+        }
+
+        let selected = this.value ? [...this.value, temp] : [temp];
+        this.valueIndex = selected.length - 1;
+
+        return selected;
+    }
+
+    /**
+     * Set time value on multiple selection mode
+     * @param {Date} moment
+     * @return {Date[]}
+     * */
+    private setTimeOnMultiSelection( moment: Date ): Date[] {
+        if (!moment) {
+            return null;
+        }
+
+        if (this.isValidValue(moment)) {
+            let selected = this.value.map(( m: Date, index: number ) => {
+                if (index === this.valueIndex) {
+                    return moment;
+                } else {
+                    return m;
+                }
+            });
+            return selected;
+        } else {
+            return null;
+        }
     }
 
     private isValidValue( value: Date ): boolean {
@@ -1505,29 +1693,6 @@ export class DateTimePickerComponent implements OnInit, OnDestroy, ControlValueA
         return this.selectionMode === 'multiple'
     }
 
-    private getHiddenElementDimensions( element: any ): any {
-        let dimensions: any = {};
-        element.style.visibility = 'hidden';
-        element.style.display = 'block';
-        dimensions.width = element.offsetWidth;
-        dimensions.height = element.offsetHeight;
-        element.style.display = 'none';
-        element.style.visibility = 'visible';
-
-        return dimensions;
-    }
-
-    private getViewport(): any {
-        let win = window,
-            d = document,
-            e = d.documentElement,
-            g = d.getElementsByTagName('body')[0],
-            w = win.innerWidth || e.clientWidth || g.clientWidth,
-            h = win.innerHeight || e.clientHeight || g.clientHeight;
-
-        return {width: w, height: h};
-    }
-
     /**
      * Parse a string to date value
      * @param text {string}
@@ -1557,5 +1722,28 @@ export class DateTimePickerComponent implements OnInit, OnDestroy, ControlValueA
         }
 
         return value;
+    }
+
+    private getHiddenElementDimensions( element: any ): any {
+        let dimensions: any = {};
+        element.style.visibility = 'hidden';
+        element.style.display = 'block';
+        dimensions.width = element.offsetWidth;
+        dimensions.height = element.offsetHeight;
+        element.style.display = 'none';
+        element.style.visibility = 'visible';
+
+        return dimensions;
+    }
+
+    private getViewport(): any {
+        let win = window,
+            d = document,
+            e = d.documentElement,
+            g = d.getElementsByTagName('body')[0],
+            w = win.innerWidth || e.clientWidth || g.clientWidth,
+            h = win.innerHeight || e.clientHeight || g.clientHeight;
+
+        return {width: w, height: h};
     }
 }
