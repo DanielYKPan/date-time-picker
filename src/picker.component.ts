@@ -1593,7 +1593,7 @@ export class DateTimePickerComponent implements OnInit, OnDestroy, ControlValueA
         // we deselect that date.
         if (this.isSelectedDay(moment)) {
             return this.value.filter(( d: Date ) => {
-                return !isSameDay(d, temp);
+                return !isSameDay(d, moment);
             });
         }
 
