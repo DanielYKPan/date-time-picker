@@ -3,7 +3,7 @@
  */
 
 import {
-    Component, ElementRef, EventEmitter, forwardRef, Input, OnDestroy, OnInit, Output, Renderer2,
+    Component, ElementRef, EventEmitter, forwardRef, Input, NgZone, OnDestroy, OnInit, Output, Renderer2,
     ViewChild
 } from '@angular/core';
 import { animate, state, style, transition, trigger } from '@angular/animations';
@@ -380,6 +380,7 @@ export class DateTimePickerComponent implements OnInit, OnDestroy, ControlValueA
     };
 
     constructor( private renderer: Renderer2,
+                 private ngZone: NgZone,
                  private numFixedLenPipe: NumberFixedLenPipe ) {
     }
 
@@ -736,11 +737,10 @@ export class DateTimePickerComponent implements OnInit, OnDestroy, ControlValueA
         let done = this.setSelectedTime(selectedTime);
 
         // Focus the input and select its value when model updated
-        // TODO: should run outside angular.
         if (input) {
-            setTimeout(() => {
+            this.runTimeoutOutsideZone(() => {
                 input.focus();
-            }, 0);
+            }, 0)
         }
 
         event.preventDefault();
@@ -799,9 +799,9 @@ export class DateTimePickerComponent implements OnInit, OnDestroy, ControlValueA
 
         // Focus the input and select its value when model updated
         if (input) {
-            setTimeout(() => {
+            this.runTimeoutOutsideZone(() => {
                 input.focus();
-            }, 0);
+            }, 0)
         }
 
         event.preventDefault();
@@ -860,9 +860,9 @@ export class DateTimePickerComponent implements OnInit, OnDestroy, ControlValueA
 
         // Focus the input and select its value when model updated
         if (input) {
-            setTimeout(() => {
+            this.runTimeoutOutsideZone(() => {
                 input.focus();
-            }, 0);
+            }, 0)
         }
 
         event.preventDefault();
@@ -1722,6 +1722,22 @@ export class DateTimePickerComponent implements OnInit, OnDestroy, ControlValueA
         }
 
         return value;
+    }
+
+    /**
+     * Runs a timeout outside of the Angular zone to avoid triggering the change detection.
+     * @param {Function} fn
+     * @param {number} delay -- optional
+     * @return {void}
+     */
+    private runTimeoutOutsideZone( fn: Function, delay?: number ): void {
+        if (!delay) {
+            delay = 0;
+        }
+
+        this.ngZone.runOutsideAngular(() => {
+            return setTimeout(fn, delay);
+        });
     }
 
     private getHiddenElementDimensions( element: any ): any {
