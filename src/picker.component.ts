@@ -681,7 +681,7 @@ export class DateTimePickerComponent implements OnInit, OnDestroy, ControlValueA
         }
 
         let selectedTime = setHours(value, hours);
-        this.setSelectedTime(selectedTime);
+        this.setSelectedTime(event, selectedTime);
         event.preventDefault();
         return;
     }
@@ -734,7 +734,7 @@ export class DateTimePickerComponent implements OnInit, OnDestroy, ControlValueA
         }
 
         let selectedTime = setHours(value, hours);
-        let done = this.setSelectedTime(selectedTime);
+        let done = this.setSelectedTime(event, selectedTime);
 
         // Focus the input and select its value when model updated
         if (input) {
@@ -795,7 +795,7 @@ export class DateTimePickerComponent implements OnInit, OnDestroy, ControlValueA
         }
 
         let selectedTime = setMinutes(value, minutes);
-        let done = this.setSelectedTime(selectedTime);
+        let done = this.setSelectedTime(event, selectedTime);
 
         // Focus the input and select its value when model updated
         if (input) {
@@ -856,7 +856,7 @@ export class DateTimePickerComponent implements OnInit, OnDestroy, ControlValueA
         }
 
         let selectedTime = setSeconds(value, seconds);
-        let done = this.setSelectedTime(selectedTime);
+        let done = this.setSelectedTime(event, selectedTime);
 
         // Focus the input and select its value when model updated
         if (input) {
@@ -1404,10 +1404,11 @@ export class DateTimePickerComponent implements OnInit, OnDestroy, ControlValueA
 
     /**
      * Set the time
+     * @param {any} event
      * @param {Date} val
      * @return {boolean}
      * */
-    private setSelectedTime( val: Date ): boolean {
+    private setSelectedTime(event: any, val: Date ): boolean {
         let done;
         let selected;
 

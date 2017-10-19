@@ -25,7 +25,7 @@ $blue: #0070ba;
 }
 */
 
-[class^="icon-"]:before, [class*=" icon-"]:before {
+[class^="icon-owl-"]:before, [class*=" icon-owl-"]:before {
   font-family: "fontello";
   font-style: normal;
   font-weight: normal;
@@ -303,19 +303,20 @@ $blue: #0070ba;
 
   .owl-timer-dot {
     display: block;
-    width: .3em;
-    height: .3em;
+    width: .4em;
+    height: .4em;
     position: absolute;
     left: 50%;
     border-radius: 50%;
     transform: translateX(-50%);
+    background-color: #555555;
 
     &.dot-top {
-      top: 38%;
+      top: 30%;
     }
 
     &.dot-bottom {
-      bottom: 38%;
+      bottom: 30%;
     }
   }
 }
