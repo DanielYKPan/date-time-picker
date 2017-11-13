@@ -27,7 +27,7 @@
   "types": "picker.module.d.ts",
   "main": "picker.bundle.js",
   "dependencies": {
-    "date-fns": "^1.28.5"
+    "date-fns": "^2.0.0-alpha.7g"
   },
   "devDependencies": {
     "@angular/animations": "^4.2.4",
