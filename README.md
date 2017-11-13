@@ -99,6 +99,7 @@ Properties
 |`disabled`|boolean|Optional|`false`| When specified, disables the component.|
 |`disabledDates`|Array-Date[]|Optional|`null`|Array with dates that should be disabled (not selectable).|
 |`disabledDays`|Array-number[]|Optional|`null`|Array with weekday numbers that should be disabled (not selectable). Start from 0(Sunday) to 6(Saturday).|
+|`hideClearButton`|boolean|Optional|`false`|When specified to true, the picker's input clear icon would be hidden.|
 |`hourFormat`|string|Optional|`'24'`|Specify the hour format, valid values are '12' and '24'.|
 |`inline`|boolean|Optional|`false`|When enabled, displays the picker as inline. Default is false for popup mode.|
 |`inputId`|string|Optional|`null`|Identifier of the focus input to match a label defined for the component.|
@@ -129,6 +130,10 @@ Events
 |`onBlur`|event: Blur event|Callback to invoke on blur of input field|
 |`onFocus`|event: Focus event|Callback to invoke on focus of input field.|
 |`onInvalid`|originalEvent: event, value: invalid date-time value|Callback to invoke when a invalid date-time value is selected.|
+|`onSelect`|event: event, value: selected date-time value|Callback to invoke when a picker's date-time value is changed.|
+|`onConfirm`|originalEvent: event, value: selected date-time value|Callback to invoke when a confirm button is clicked.|
+|`onClear`|originalEvent: event, value: null|Callback to invoke when a clear button is clicked.|
+|`onClose`|event: event|Callback to invoke when picker dialog is closed.|
 
 Styling
 -------
