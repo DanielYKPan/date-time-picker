@@ -19,7 +19,6 @@ import {
     addMonths,
     isSameDay,
     isSameMonth,
-    isToday,
     getMonth,
     setMonth,
     getYear,
@@ -135,6 +134,13 @@ export class DateTimePickerComponent implements OnInit, OnDestroy, ControlValueA
      * @type {number[]}
      * */
     @Input() disabledDays: number[];
+
+    /**
+     * Hide the clear button on input
+     * @default false
+     * @type {boolean}
+     * */
+    @Input() hideClearButton: boolean = false;
 
     /**
      * When enabled, displays the calendar as inline
@@ -272,7 +278,7 @@ export class DateTimePickerComponent implements OnInit, OnDestroy, ControlValueA
      * @default null
      * @type {Number}
      * */
-    @Input() tabIndex: number;
+    @Input() tabIndex: number = 0;
 
     /**
      * Set the type of the dateTime picker
@@ -331,6 +337,11 @@ export class DateTimePickerComponent implements OnInit, OnDestroy, ControlValueA
     @Output() onClose = new EventEmitter<any>();
 
     /**
+     * Callback to invoke when confirm button clicked
+     * */
+    @Output() onConfirm = new EventEmitter<any>();
+
+    /**
      * Callback to invoke when a invalid date is selected.
      * */
     @Output() onInvalid = new EventEmitter<any>();
@@ -378,6 +389,7 @@ export class DateTimePickerComponent implements OnInit, OnDestroy, ControlValueA
     };
     private onModelTouched: Function = () => {
     };
+    private now: Date;
 
     constructor( private renderer: Renderer2,
                  private ngZone: NgZone,
@@ -385,7 +397,8 @@ export class DateTimePickerComponent implements OnInit, OnDestroy, ControlValueA
     }
 
     public ngOnInit() {
-        this.pickerMoment = this.defaultMoment ? this.parseToDate(this.defaultMoment) : new Date();
+        this.now = new Date();
+        this.pickerMoment = this.defaultMoment ? this.parseToDate(this.defaultMoment) : this.now;
 
         this.generateWeekDays();
         this.generateMonthList();
@@ -539,7 +552,14 @@ export class DateTimePickerComponent implements OnInit, OnDestroy, ControlValueA
      * */
     public onConfirmClick( event: any ): void {
         this.updateModel(this.value);
+        this.updateFormattedValue();
+        this.onConfirm.next({
+            originalEvent: event,
+            value: this.value
+        });
         this.hide(event);
+        event.stopPropagation();
+        event.preventDefault();
         return;
     }
 
@@ -550,6 +570,8 @@ export class DateTimePickerComponent implements OnInit, OnDestroy, ControlValueA
      * */
     public onCloseClick( event: any ): void {
         this.hide(event);
+        event.stopPropagation();
+        event.preventDefault();
         return;
     }
 
@@ -576,7 +598,14 @@ export class DateTimePickerComponent implements OnInit, OnDestroy, ControlValueA
         }
 
         if (selected) {
-            this.updateModel(selected);
+
+            if (!this.showButtons) {
+                this.updateModel(selected);
+                this.updateFormattedValue();
+            } else {
+                this.value = selected;
+            }
+
             if (this.value instanceof Array) {
                 this.updateCalendar(this.value[this.valueIndex]);
                 this.updateTimer(this.value[this.valueIndex]);
@@ -586,7 +615,7 @@ export class DateTimePickerComponent implements OnInit, OnDestroy, ControlValueA
                 this.updateTimer(this.value);
                 this.onSelect.emit({event, value: this.value});
             }
-            this.updateFormattedValue();
+
         }
 
         // hide the dialog if the autoClose is set to true
@@ -1043,7 +1072,7 @@ export class DateTimePickerComponent implements OnInit, OnDestroy, ControlValueA
         this.updateModel(null);
         this.updateTimer(this.value);
         this.updateFormattedValue();
-        this.onClear.emit({event});
+        this.onClear.emit({originalEvent: event, value: this.value});
         event.preventDefault();
     }
 
@@ -1152,7 +1181,7 @@ export class DateTimePickerComponent implements OnInit, OnDestroy, ControlValueA
 
         let parsedVal;
         if (typeof val === 'string') {
-            parsedVal = parse(val);
+            parsedVal = parse(val, this.dateFormat, this.now);
         } else {
             parsedVal = val;
         }
@@ -1184,7 +1213,7 @@ export class DateTimePickerComponent implements OnInit, OnDestroy, ControlValueA
                 week.push({
                     date,
                     num: getDate(date),
-                    today: isToday(date),
+                    today: isSameDay(this.now, date),
                     otherMonth: inOtherMonth,
                     hide: !this.showOtherMonths && inOtherMonth,
                 });
@@ -1408,7 +1437,7 @@ export class DateTimePickerComponent implements OnInit, OnDestroy, ControlValueA
      * @param {Date} val
      * @return {boolean}
      * */
-    private setSelectedTime(event: any, val: Date ): boolean {
+    private setSelectedTime( event: any, val: Date ): boolean {
         let done;
         let selected;
 
@@ -1422,14 +1451,20 @@ export class DateTimePickerComponent implements OnInit, OnDestroy, ControlValueA
 
         if (selected) {
             this.value = selected;
-            done = this.updateModel(this.value);
+
+            if (!this.showButtons) {
+                done = this.updateModel(this.value);
+                this.updateFormattedValue();
+            } else {
+                done = true;
+            }
+
             if (this.value instanceof Array) {
                 done = done && this.updateTimer(this.value[this.valueIndex]);
             } else {
                 done = done && this.updateTimer(this.value);
             }
             this.onSelect.emit({event, value: this.value});
-            this.updateFormattedValue();
         } else {
             this.onInvalid.emit({originalEvent: event, value: val});
             done = false;

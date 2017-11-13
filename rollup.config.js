@@ -38,7 +38,6 @@ export default {
                     'addMonths',
                     'isSameDay',
                     'isSameMonth',
-                    'isToday',
                     'getMonth',
                     'setMonth',
                     'getYear',
