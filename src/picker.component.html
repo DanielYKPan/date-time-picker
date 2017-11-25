@@ -168,10 +168,10 @@
         </div>
         <div *ngIf="showButtons" class="owl-dateTime-btnWrapper">
             <div class="owl-dateTime-btn owl-corner-bottomLeft owl-dateTime-btnConfirm"
-                 (click)="onConfirmClick($event)">Confirm
+                 (click)="onConfirmClick($event)">{{locale.btnConfirm}}
             </div>
             <div class="owl-dateTime-btn owl-corner-bottomRight owl-dateTime-btnClose" (click)="onCloseClick($event)">
-                Close
+                {{locale.btnClose}}
             </div>
         </div>
     </div>
