@@ -572,17 +572,12 @@ export class DateTimePickerComponent implements OnInit, OnDestroy, ControlValueA
      * */
     public onNowClick( event: any ): void {
         // Set current date
-
-        console.log(this.value);
-
         if(this.value instanceof Array){
             this.value = [];
             this.value[0] = new Date();
         } else {
             this.value = new Date();
         }
-
-        console.log(this.value);
 
         // Update the calendar
         this.updateCalendar(this.value);
