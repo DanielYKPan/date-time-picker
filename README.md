@@ -11,6 +11,11 @@ Breaking Changes
  - This picker now is no longer as a directive added into a text input. Instead, it is a stand along component that includes a text input and a dropdown calendar-time picker. You could see more details down below.
  - This picker now does not use [MomentJS](http://momentjs.com/). Instead, it is using [date-fns](https://date-fns.org/). [Here is why.](https://github.com/date-fns/date-fns/issues/275#issuecomment-264934189)
 
+Latest Update
+-------
+I am working on a way that the picker would add dynamically. In this way, the picker component would not have the input element and users could use their own input template (such as Angular Material, issue[#161](https://github.com/DanielYKPan/date-time-picker/issues/161)).
+In the next major update, the picker would use [Javascript Intl](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl) to have better internationalization support.
+
 Description
 -------
 Simple Angular date time picker. Online demo is [here](https://danielykpan.github.io/date-time-picker/). 
