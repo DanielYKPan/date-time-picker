@@ -39,15 +39,15 @@
         </div>
         <div *ngIf="type ==='both' || type === 'calendar'" class="owl-calendar-wrapper owl-corner-all">
             <div class="owl-calendar-control">
-                <div class="owl-calendar-controlNav">
-                    <span class="nav-prev" (click)="prevMonth($event)"></span>
+                <div class="owl-calendar-controlNav" (click)="prevMonth($event)">
+                    <i class="icon icon-owl-left-open"></i>
                 </div>
                 <div class="owl-calendar-controlContent">
                     <span class="month-control" (click)="changeDialogType(2)">{{pickerMonth}}</span>
                     <span class="year-control" (click)="changeDialogType(3)">{{pickerYear}}</span>
                 </div>
-                <div class="owl-calendar-controlNav">
-                    <span class="nav-next" (click)="nextMonth($event)"></span>
+                <div class="owl-calendar-controlNav" (click)="nextMonth($event)">
+                    <i class="icon icon-owl-right-open"></i>
                 </div>
             </div>
             <div class="owl-calendar" [hidden]="dialogType !== 1">

@@ -43,6 +43,9 @@
 
   .owl-calendar-controlNav {
     position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     cursor: pointer;
     width: 12.5%;
   }
@@ -126,6 +129,7 @@
   }
 
   .owl-timer-input {
+    display: block;
     width: 60%;
     height: 100%;
   }

@@ -157,33 +157,6 @@ $blue: #0070ba;
 }
 
 .owl-calendar-control {
-  .owl-calendar-controlNav {
-    .nav-prev,
-    .nav-next {
-      position: absolute;
-      top: 50%;
-      right: auto;
-      bottom: auto;
-      left: 50%;
-      transform: translate(-50%, -50%);
-
-      &:before {
-        content: " ";
-        border-top: .5em solid transparent;
-        border-bottom: .5em solid transparent;
-        border-right: .75em solid $black;
-        width: 0;
-        height: 0;
-        display: block;
-        margin: 0 auto;
-      }
-    }
-
-    .nav-next:before {
-      border-right: 0;
-      border-left: .75em solid $black;
-    }
-  }
 
   .owl-calendar-controlContent {
     .month-control,
