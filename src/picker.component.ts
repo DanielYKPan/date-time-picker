@@ -1181,7 +1181,7 @@ export class DateTimePickerComponent implements OnInit, OnDestroy, ControlValueA
 
         let parsedVal;
         if (typeof val === 'string') {
-            parsedVal = parse(val, this.dateFormat, this.now);
+            parsedVal = parse(val);
         } else {
             parsedVal = val;
         }
