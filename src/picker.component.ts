@@ -317,6 +317,13 @@ export class DateTimePickerComponent implements OnInit, OnDestroy, ControlValueA
     @Input() showOtherMonths: boolean = true;
 
     /**
+     * Minute increment
+     * @default 1
+     * @type {number}
+     */
+    @Input() minuteIncrement = 1;
+
+    /**
      * Callback to invoke when dropdown gets focus.
      * */
     @Output() onFocus = new EventEmitter<any>();
@@ -810,9 +817,9 @@ export class DateTimePickerComponent implements OnInit, OnDestroy, ControlValueA
 
         let minutes = getMinutes(value);
         if (val === 'increase') {
-            minutes += 1;
+            minutes += this.minuteIncrement;
         } else if (val === 'decrease') {
-            minutes -= 1;
+            minutes -= this.minuteIncrement;
         } else {
             minutes = val;
         }
