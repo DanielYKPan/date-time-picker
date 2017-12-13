@@ -48,6 +48,7 @@ export interface LocaleSettings {
     monthNames: string[];
     monthNamesShort: string[];
     dateFns: any;
+    btnNow: string;
 }
 
 export enum DialogType {
@@ -379,7 +380,8 @@ export class DateTimePickerComponent implements OnInit, OnDestroy, ControlValueA
         dayNamesShort: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
         monthNames: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
         monthNamesShort: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-        dateFns: null
+        dateFns: null,
+        btnNow: "Now"
     };
     private dialogClick: boolean;
     private documentClickListener: Function;
@@ -558,6 +560,29 @@ export class DateTimePickerComponent implements OnInit, OnDestroy, ControlValueA
             value: this.value
         });
         this.hide(event);
+        event.stopPropagation();
+        event.preventDefault();
+        return;
+    }
+    
+    /**
+     * Handle click event on the now button
+     * @param {any} event
+     * @return {void}
+     * */
+    public onNowClick( event: any ): void {
+        // Set current date
+        if(this.value instanceof Array){
+            this.value = [];
+            this.value[0] = new Date();
+        } else {
+            this.value = new Date();
+        }
+
+        // Update the calendar
+        this.updateCalendar(this.value);
+        this.updateTimer(this.value);
+
         event.stopPropagation();
         event.preventDefault();
         return;
