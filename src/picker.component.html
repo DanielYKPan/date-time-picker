@@ -163,7 +163,7 @@
                 </div>
             </div>
             <div *ngIf="hourFormat === '12'" class="owl-timer owl-meridian">
-                <button class="owl-btn owl-meridian-btn" (click)="toggleMeridian($event)">{{meridianValue}}</button>
+                <button type="button" class="owl-btn owl-meridian-btn" (click)="toggleMeridian($event)">{{meridianValue}}</button>
             </div>
         </div>
         <div *ngIf="showButtons" class="owl-dateTime-btnWrapper">
