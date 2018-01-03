@@ -8,7 +8,7 @@
     <div *ngIf="!inline && customTemp.children.length == 0" class="owl-dateTime-inputWrapper">
         <input type="text" [class]="inputStyleClass"
                [ngClass]="{
-            'owl-datetime-input owl-datetime-main-input': true,
+            'owl-dateTime-input owl-dateTime-main-input': true,
             'owl-state-focus': focus
             }"
                [ngStyle]="inputStyle"
@@ -114,7 +114,7 @@
                     <i class="icon icon-owl-up-open"></i>
                 </div>
                 <div class="owl-timer-text">
-                    <input class="owl-datetime-input owl-timer-input"
+                    <input class="owl-dateTime-input owl-timer-input"
                            placeholder="hh"
                            onfocus="this.select()"
                            [ngModel]="hourValue | numberFixedLen : 2"
@@ -133,7 +133,7 @@
                     <i class="icon icon-owl-up-open"></i>
                 </div>
                 <div class="owl-timer-text">
-                    <input class="owl-datetime-input owl-timer-input"
+                    <input class="owl-dateTime-input owl-timer-input"
                            placeholder="mm"
                            onfocus="this.select()"
                            [ngModel]="minValue | numberFixedLen : 2"
@@ -152,7 +152,7 @@
                     <i class="icon icon-owl-up-open"></i>
                 </div>
                 <div class="owl-timer-text">
-                    <input class="owl-datetime-input owl-timer-input"
+                    <input class="owl-dateTime-input owl-timer-input"
                            placeholder="ss"
                            onfocus="this.select()"
                            [ngModel]="secValue | numberFixedLen : 2"
