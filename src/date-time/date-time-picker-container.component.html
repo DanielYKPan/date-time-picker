@@ -1,0 +1,66 @@
+<div [owlFocusTrap]="picker.pickerMode !== 'inline'"
+     class="owl-dt-container-inner">
+
+    <owl-date-time-calendar
+            *ngIf="pickerType === 'both' || pickerType === 'calendar'"
+            class="owl-dt-container-row"
+            [firstDayOfWeek]="picker.firstDayOfWeek"
+            [(pickerMoment)]="pickerMoment"
+            [selected]="picker.selected"
+            [selecteds]="picker.selecteds"
+            [selectMode]="picker.selectMode"
+            [minDate]="picker.minDateTime"
+            [maxDate]="picker.maxDateTime"
+            [dateFilter]="picker.dateTimeFilter"
+            [startView]="picker.startView"
+            (selectedChange)="dateSelected($event)"></owl-date-time-calendar>
+
+    <owl-date-time-timer
+            *ngIf="pickerType === 'both' || pickerType === 'timer'"
+            class="owl-dt-container-row"
+            [pickerMoment]="pickerMoment"
+            [minDateTime]="picker.minDateTime"
+            [maxDateTime]="picker.maxDateTime"
+            [showSecondsTimer]="picker.showSecondsTimer"
+            [stepHour]="picker.stepHour"
+            [stepMinute]="picker.stepMinute"
+            [stepSecond]="picker.stepSecond"
+            (selectedChange)="timeSelected($event)"></owl-date-time-timer>
+
+    <div *ngIf="picker.selectMode === 'range'"
+         role="radiogroup"
+         class="owl-dt-container-info owl-dt-container-row"
+         (click)="toggleRangeActiveIndex()">
+        <div role="radio"
+             [attr.aria-checked]="activeSelectedIndex === 0"
+             class="owl-dt-container-range owl-dt-container-from"
+             [ngClass]="{'owl-dt-container-info-active': activeSelectedIndex === 0}">
+            <span class="owl-dt-container-info-label">{{fromLabel}}:</span>
+            <span class="owl-dt-container-info-value">{{fromFormattedValue}}</span>
+        </div>
+        <div role="radio"
+             [attr.aria-checked]="activeSelectedIndex === 1"
+             class="owl-dt-container-range owl-dt-container-to"
+             [ngClass]="{'owl-dt-container-info-active': activeSelectedIndex === 1}">
+            <span class="owl-dt-container-info-label">{{toLabel}}:</span>
+            <span class="owl-dt-container-info-value">{{toFormattedValue}}</span>
+        </div>
+    </div>
+
+    <div *ngIf="showControlButtons" class="owl-dt-container-buttons owl-dt-container-row">
+        <button class="owl-dt-control-button owl-dt-container-control-button"
+                tabindex="0"
+                (click)="onCancelClicked($event)">
+            <span class="owl-dt-control-button-content" tabindex="-1">
+                {{cancelLabel}}
+            </span>
+        </button>
+        <button class="owl-dt-control-button owl-dt-container-control-button"
+                tabindex="0"
+                (click)="onSetClicked($event)">
+            <span class="owl-dt-control-button-content" tabindex="-1">
+                {{setLabel}}
+            </span>
+        </button>
+    </div>
+</div>

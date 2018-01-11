@@ -1,283 +1,255 @@
-$white: #FFFFFF;
-$black: #000000;
-$grey: #dddddd;
-$blue: #0070ba;
-
-@font-face {
-  font-family: 'fontello';
-  src: url('../font/fontello.eot?81091010');
-  src: url('../font/fontello.eot?81091010#iefix') format('embedded-opentype'),
-  url('../font/fontello.woff2?81091010') format('woff2'),
-  url('../font/fontello.woff?81091010') format('woff'),
-  url('../font/fontello.ttf?81091010') format('truetype'),
-  url('../font/fontello.svg?81091010#fontello') format('svg');
-  font-weight: normal;
-  font-style: normal;
-}
-/* Chrome hack: SVG is rendered more smooth in Windozze. 100% magic, uncomment if you need it. */
-/* Note, that will break hinting! In other OS-es font will be not as sharp as it could be */
-/*
-@media screen and (-webkit-min-device-pixel-ratio:0) {
-  @font-face {
-    font-family: 'fontello';
-    src: url('../font/fontello.svg?81091010#fontello') format('svg');
-  }
-}
-*/
-
-[class^="icon-owl-"]:before, [class*=" icon-owl-"]:before {
-  font-family: "fontello";
-  font-style: normal;
-  font-weight: normal;
-  speak: none;
-
-  display: inline-block;
-  text-decoration: inherit;
-  width: 1em;
-  margin-right: .2em;
-  text-align: center;
-  /* opacity: .8; */
-
-  /* For safety - reset parent styles, that can break glyph codes*/
-  font-variant: normal;
-  text-transform: none;
-
-  /* fix buttons height, for twitter bootstrap */
-  line-height: 1em;
-
-  /* Animation center compensation - margins should be symmetric */
-  /* remove if not needed */
-  margin-left: .2em;
-
-  /* you can be more comfortable with increased icons size */
-  /* font-size: 120%; */
-
-  /* Font smoothing. That was taken from TWBS */
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-
-  /* Uncomment for 3D effect */
-  /* text-shadow: 1px 1px 1px rgba(127, 127, 127, 0.3); */
+.owl-overlay-container,
+.owl-global-overlay-wrapper {
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
 }
 
-.icon-owl-cancel:before { content: '\e802'; } /* '' */
-.icon-owl-up-open:before { content: '\e805'; } /* '' */
-.icon-owl-down-open:before { content: '\e80b'; } /* '' */
-.icon-owl-left-open:before { content: '\e817'; } /* '' */
-.icon-owl-right-open:before { content: '\e818'; } /* '' */
+.owl-overlay-container {
+  position: fixed;
+  z-index: 1000;
+}
 
+.owl-global-overlay-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  z-index: 1000;
+}
 
-.owl-widget,
-.owl-widget * {
+.owl-overlay-panel {
+  position: absolute;
+  pointer-events: auto;
+  box-sizing: border-box;
+  z-index: 1000;
+}
+
+.owl-overlay-backdrop {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  pointer-events: auto;
+  -webkit-tap-highlight-color: transparent;
+  transition: opacity .4s cubic-bezier(.25, .8, .25, 1);
+  opacity: .5;
+}
+
+.owl-overlay-dark-backdrop {
+  background: rgba(0, 0, 0, .6);
+}
+
+.owl-overlay.transparent-backdrop {
+  background: none;
+}
+
+.owl-global-transparent-backdrop {
+  background: none;
+}
+
+.owl-overlay-pane {
+  position: absolute;
+  pointer-events: auto;
+  z-index: 1000;
   box-sizing: border-box;
 }
 
-.owl-widget {
+.owl-global-scrollblock {
+  height: 100%;
+  overflow: hidden;
+}
+
+$theme-color: #3f51b5;
+
+.owl-dt-container,
+.owl-dt-container * {
+  box-sizing: border-box;
+}
+
+.owl-dt-container {
+  display: block;
+  background: #ffffff;
+  pointer-events: auto;
+  z-index: 1000;
+}
+
+.owl-dt-container-row {
+  border-bottom: 1px solid rgba(0, 0, 0, .12);
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.owl-dt-calendar {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.owl-dt-calendar-control {
+  display: flex;
+  align-items: center;
   font-size: 1em;
-}
-
-.owl-state-focus {
-  box-shadow: 0px 0px 5px #1f89ce;
-}
-
-.owl-corner-all {
-  border-radius: 3px;
-}
-
-.owl-corner-top {
-  border-top-left-radius: 3px;
-  border-top-right-radius: 3px;
-}
-
-.owl-corner-bottomLeft {
-  border-bottom-left-radius: 3px;
-}
-
-.owl-corner-bottomRight {
-  border-bottom-right-radius: 3px;
-}
-
-.owl-state-default {
-  border: 1px solid #d6d6d6;
-  background: #ffffff;
-  color: #555555;
-}
-
-.owl-dateTime {
-  display: inline-block;
-  position: relative;
   width: 100%;
+  padding: .5em;
+  color: #000000;
 
-  &.owl-dateTime-inline {
-    width: auto;
-
-    .owl-dateTime-dialog {
-      position: relative;
-      z-index: auto;
-    }
-  }
-}
-
-.owl-datetime-input {
-  font-size: inherit;
-  line-height: 100%;
-  margin: 0;
-  outline: medium none;
-  padding: 0 .25em;
-  transition: .2s;
-  border: 1px solid #d6d6d6;
-  background: #ffffff;
-  color: #555555;
-  border-radius: 3px;
-
-  &:focus,
-  &.owl-state-focus {
-    box-shadow: 0 0 5px #1f89ce;
-  }
-}
-
-.owl-datetime-main-input {
-  width: 100%;
-  height: 1.5em;
-  line-height: 1.5em;
-  padding-right: 1.5em;
-}
-
-.owl-dateTime-dialog {
-  width: 19em;
-  user-select: none;
-  z-index: 99999;
-}
-
-.owl-dateTime-dialogHeader {
-  height: 2.5em;
-  padding: .25em;
-  background-color: rgba(0, 0, 0, .1);
-  overflow-y: auto;
-}
-
-.owl-calendar-control {
-
-  .owl-calendar-controlContent {
-    .month-control,
-    .year-control {
-      display: inline-block;
-      cursor: pointer;
-      transition: transform 200ms ease;
-
-      &:hover {
-        transform: scale(1.2);
-      }
-    }
-
-    .month-control {
-      font-size: 1em;
-      margin-right: .8rem;
-      font-weight: 700;
-    }
-
-    .year-control {
-      font-size: .8em;
-      font-style: italic;
-      color: #999;
-    }
-  }
-}
-
-.owl-calendar {
-  tbody td {
-    &.owl-calendar-selected {
-      background-color: $blue;
-      color: $white;
-    }
-
-    &.owl-calendar-invalid {
-      color: #acacac;
-    }
-
-    &.owl-calendar-outFocus {
-      color: $grey;
-    }
-
-    &.owl-calendar-hidden {
-      visibility: hidden;
-    }
-
-    &:not(.owl-calendar-selected):not(.owl-calendar-invalid):hover {
-      background-color: lighten($blue, 50%);
-      color: $black;
-    }
-  }
-}
-
-.owl-years,
-.owl-months {
-  td.owl-year,
-  td.owl-month {
-    font-size: 1.2em;
-    height: 2.5em;
-    width: 33.33%;
-    line-height: 2.5em;
-  }
-}
-
-.owl-weekdays {
-  th.owl-weekday {
-    height: 1em;
-    line-height: 1em;
-    text-align: left;
-    font-size: .7em;
-    color: #999;
-  }
-}
-
-.owl-days {
-  td.owl-day {
-    height: 2em;
-    width: calc(100% / 7);
-    line-height: 2em;
-
-    &.owl-day-today:before {
-      content: '';
-      display: block;
-      position: absolute;
-      right: 2px;
-      top: 2px;
-      border-top: .5em solid lighten($blue, 20%);
-      border-left: .5em solid transparent;
-    }
-  }
-}
-
-.owl-timer-wrapper {
-  height: 5.4em;
-  background-color: rgba(0, 0, 0, .1);
-
-  .owl-timer-text {
+  .owl-dt-calendar-control-content {
+    flex: 1 1 auto;
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 100%;
-    height: 40%;
-    font-size: 1.5em;
-  }
 
-  .owl-meridian-btn {
-    font-size: .8em;
-    color: $blue;
-    background-image: none;
-    background-color: transparent;
-    border-color: $blue;
+    .owl-dt-calendar-control-button {
+      padding: 0 .8em;
 
-    &:hover {
-      color: $white;
-      background-color: $blue;
-      border-color: $blue;
+      &:hover {
+        background-color: rgba(0, 0, 0, .12);;
+      }
     }
   }
 }
 
-.owl-timer-divider {
+.owl-dt-calendar-main {
+  flex: 1 1 auto;
+  padding: 0 .5em .5em;
+  outline: 0;
+}
+
+.owl-dt-calendar-table {
+  width: 100%;
+  border-collapse: collapse;
+  border-spacing: 0;
+
+  .owl-dt-calendar-header {
+    color: rgba(0, 0, 0, .4);
+
+    .owl-dt-weekdays {
+      th {
+        font-size: .7em;
+        font-weight: 400;
+        text-align: center;
+        padding-bottom: 1em;
+      }
+    }
+
+    .owl-dt-calendar-table-divider {
+      position: relative;
+      height: 1px;
+      padding-bottom: .5em;
+
+      &:after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -.5em;
+        right: -.5em;
+        height: 1px;
+        background: rgba(0, 0, 0, .12);
+      }
+    }
+  }
+
+  .owl-dt-calendar-cell {
+    position: relative;
+    height: 0;
+    line-height: 0;
+    text-align: center;
+    outline: 0;
+    cursor: pointer;
+    color: rgba(0, 0, 0, .85);
+  }
+
+  .owl-dt-calendar-cell-content {
+    position: absolute;
+    top: 5%;
+    left: 5%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    width: 90%;
+    height: 90%;
+    font-size: .8em;
+    line-height: 1;
+    border: 1px solid transparent;
+    border-radius: 999px;
+    color: inherit;
+  }
+
+  .owl-dt-calendar-cell-out {
+    opacity: .2;
+  }
+
+  .owl-dt-calendar-cell-today:not(.owl-dt-calendar-cell-selected) {
+    border-color: rgba(0, 0, 0, .4);
+  }
+
+  .owl-dt-calendar-cell-selected {
+    color: hsla(0, 0%, 100%, .85);
+    background-color: $theme-color;
+
+    &.owl-dt-calendar-cell-today {
+      box-shadow: inset 0 0 0 1px hsla(0, 0%, 100%, .85);
+    }
+  }
+
+  .owl-dt-calendar-cell-disabled {
+    cursor: default;
+
+    & > .owl-dt-calendar-cell-content:not(.owl-dt-calendar-cell-selected) {
+      color: rgba(0, 0, 0, .4);
+    }
+
+    & > .owl-dt-calendar-cell-content.owl-dt-calendar-cell-selected {
+      opacity: .4;
+    }
+
+    & > .owl-dt-calendar-cell-today:not(.owl-dt-calendar-cell-selected) {
+      border-color: rgba(0, 0, 0, .2);
+    }
+  }
+
+  .owl-dt-calendar-cell-active:focus > .owl-dt-calendar-cell-content:not(.owl-dt-calendar-cell-selected),
+  :not(.owl-dt-calendar-cell-disabled):hover > .owl-dt-calendar-cell-content:not(.owl-dt-calendar-cell-selected) {
+    background-color: rgba(0, 0, 0, .04);
+  }
+}
+
+.owl-dt-timer {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  height: 6em;
+  padding: .5em;
+  outline: none;
+}
+
+.owl-dt-timer-box {
+  position: relative;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  width: 25%;
+  height: 100%;
+}
+
+.owl-dt-timer-content {
+  flex: 1 1 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  font-size: 1.2em;
+}
+
+.owl-dt-timer-divider {
   display: inline-block;
   align-self: flex-end;
   position: absolute;
@@ -285,49 +257,211 @@ $blue: #0070ba;
   height: 100%;
   left: -.3em;
 
-  .owl-timer-dot {
+  &:before,
+  &:after {
+    content: '';
     display: block;
-    width: .4em;
-    height: .4em;
+    width: .3em;
+    height: .3em;
     position: absolute;
     left: 50%;
     border-radius: 50%;
     transform: translateX(-50%);
-    background-color: #555555;
+    background-color: currentColor;
+  }
 
-    &.dot-top {
-      top: 30%;
+  &:before {
+    top: 38%;
+  }
+
+  &:after {
+    bottom: 38%;
+  }
+}
+
+.owl-dt-control-button {
+  user-select: none;
+  cursor: pointer;
+  outline: none;
+  border: none;
+  -webkit-tap-highlight-color: transparent;
+  display: inline-block;
+  white-space: nowrap;
+  text-decoration: none;
+  vertical-align: baseline;
+  margin: 0;
+  padding: 0;
+  background-color: transparent;
+  color: inherit;
+
+  .owl-dt-control-button-content {
+    position: relative;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    outline: none;
+  }
+
+  &:focus > .owl-dt-control-button-content {
+    background-color: rgba(0, 0, 0, .12);
+  }
+
+  &:not(:-moz-focusring):focus > .owl-dt-control-button-content {
+    box-shadow: none;
+  }
+}
+
+.owl-dt-control-period-button {
+  .owl-dt-control-button-content {
+    height: 2em;
+    padding: .3em .5em;
+    border-radius: 3px;
+    transition: background-color 100ms linear;
+  }
+
+  &:hover > .owl-dt-control-button-content {
+    background-color: rgba(0, 0, 0, .12);
+  }
+}
+
+.owl-dt-control-arrow-button {
+  .owl-dt-control-button-content {
+    padding: 0;
+    border-radius: 50%;
+    width: 1.5em;
+    height: 1.5em;
+  }
+
+  &[disabled] {
+    color: rgba(0, 0, 0, .4);
+    cursor: default;
+  }
+
+  svg {
+    width: .8em;
+    height: .8em;
+    fill: currentColor;
+  }
+}
+
+.owl-dt-inline-container {
+  display: inline-block;
+  position: relative;
+  width: 300px;
+  box-shadow: 0 5px 5px -3px rgba(0, 0, 0, .2),
+  0 8px 10px 1px rgba(0, 0, 0, .14),
+  0 3px 14px 2px rgba(0, 0, 0, .12);
+}
+
+.owl-dt-popup-container {
+  position: relative;
+  width: 300px;
+  box-shadow: 0 5px 5px -3px rgba(0, 0, 0, .2),
+  0 8px 10px 1px rgba(0, 0, 0, .14),
+  0 3px 14px 2px rgba(0, 0, 0, .12);
+
+  .owl-dt-calendar,
+  .owl-dt-timer {
+    width: 100%;
+  }
+
+  .owl-dt-calendar {
+    height: 340px;
+  }
+}
+
+.owl-dt-dialog-container {
+  max-height: 85vh;
+
+  .owl-dt-calendar {
+    min-width: 250px;
+    min-height: 330px;
+    max-width: 750px;
+    max-height: 750px;
+  }
+
+  .owl-dt-timer {
+    min-width: 250px;
+    max-width: 750px;
+  }
+}
+
+@media all and (orientation: landscape) {
+  .owl-dt-dialog-container {
+    .owl-dt-calendar {
+      width: 60vh;
+      height: 60vh;
     }
 
-    &.dot-bottom {
-      bottom: 30%;
+    .owl-dt-timer {
+      width: 60vh;
     }
   }
 }
 
-.owl-dateTime-btnWrapper {
-  height: 3em;
-  line-height: 3em;
-  text-align: center;
-  cursor: pointer;
-  user-select: none;
-
-  .owl-dateTime-btn {
-    height: 100%;
-    width: 50%;
-    color: $white;
-    background-color: $blue;
-
-    &:hover {
-      background-color: darken($blue, 5%);
+@media all and (orientation: portrait) {
+  .owl-dt-dialog-container {
+    .owl-dt-calendar {
+      width: 80vw;
+      height: 80vw;
     }
 
-    &:first-child {
-      border-right: 1px solid darken($blue, 5%);
-    }
-
-    &:last-child {
-      border-left: 1px solid darken($blue, 5%);
+    .owl-dt-timer {
+      width: 80vw;
     }
   }
+}
+
+.owl-dt-container-buttons {
+  display: flex;
+  width: 100%;
+  height: 2em;
+  color: $theme-color;
+}
+
+.owl-dt-container-control-button {
+  width: 50%;
+  height: 100%;
+  border-radius: 0;
+
+  .owl-dt-control-button-content {
+    height: 100%;
+    width: 100%;
+    transition: background-color 100ms linear;
+  }
+
+  &:hover {
+    .owl-dt-control-button-content {
+      background-color: rgba(0, 0, 0, .1);
+    }
+  }
+}
+
+.owl-dt-container-info {
+  padding: 0 .5em;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+
+  .owl-dt-container-range {
+    display: flex;
+    justify-content: space-between;
+    padding: .5em 0;
+    font-size: .8em;
+
+    &:last-child {
+      border-top: 1px solid rgba(0, 0, 0, 0.12);
+    }
+  }
+
+  .owl-dt-container-info-active {
+    color: $theme-color;
+  }
+}
+
+.owl-dt-container-disabled,
+.owl-dt-trigger-disabled {
+  opacity: 0.35;
+  filter: Alpha(Opacity=35);
+  background-image: none;
+  cursor: default !important;
 }

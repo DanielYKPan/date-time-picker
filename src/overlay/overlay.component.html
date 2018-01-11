@@ -1,0 +1,13 @@
+<div *ngIf="hasBackdrop"
+     [ngClass]="{
+        'owl-overlay-backdrop': true,
+        'owl-overlay-transparent-backdrop': transparentBackdrop,
+        'owl-overlay-dark-backdrop': !transparentBackdrop
+        }"
+     [class]="backdropClass"
+     [ngStyle]="backdropStyle"
+     [@backdropAnimate]="state"
+     (click)="onBackdropClick($event)"></div>
+<ng-template owlPortalContainer
+             (containerAttached)="onPaneAttached()"
+             (containerDestroyed)="onPaneDestroyed()"></ng-template>

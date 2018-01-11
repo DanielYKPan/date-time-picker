@@ -1,0 +1,21 @@
+<table class="owl-dt-calendar-table">
+    <thead class="owl-dt-calendar-header">
+    <tr class="owl-dt-weekdays">
+        <th *ngFor="let weekday of weekdays"
+            [attr.aria-label]="weekday.long"
+            class="owl-dt-weekday" scope="col">
+            <span>{{weekday.short}}</span>
+        </th>
+    </tr>
+    <tr>
+        <th class="owl-dt-calendar-table-divider" aria-hidden="true" colspan="7"></th>
+    </tr>
+    </thead>
+    <tbody owl-date-time-calendar-body role="grid"
+           [rows]="days" [todayValue]="todayDate"
+           [selectedValues]="selectedDates"
+           [selectMode]="selectMode"
+           [activeCell]="activeCell"
+           (selectedValueChange)="dateSelected($event)">
+    </tbody>
+</table>

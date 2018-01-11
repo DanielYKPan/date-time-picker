@@ -1,0 +1,27 @@
+<owl-date-time-timer-box
+        [upBtnAriaLabel]="upHourButtonLabel"
+        [downBtnAriaLabel]="downHourButtonLabel"
+        [upBtnDisabled]="!upHourEnabled()"
+        [downBtnDisabled]="!downHourEnabled()"
+        [boxValue]="hourValue" [min]="0" [max]="23"
+        [step]="stepHour"
+        (boxValueChange)="setHourValue($event)"></owl-date-time-timer-box>
+<owl-date-time-timer-box
+        [showDivider]="true"
+        [upBtnAriaLabel]="upMinuteButtonLabel"
+        [downBtnAriaLabel]="downMinuteButtonLabel"
+        [upBtnDisabled]="!upMinuteEnabled()"
+        [downBtnDisabled]="!downMinuteEnabled()"
+        [boxValue]="minuteValue" [min]="0" [max]="59"
+        [step]="stepMinute"
+        (boxValueChange)="setMinuteValue($event)"></owl-date-time-timer-box>
+<owl-date-time-timer-box
+        *ngIf="showSecondsTimer"
+        [showDivider]="true"
+        [upBtnAriaLabel]="upSecondButtonLabel"
+        [downBtnAriaLabel]="downSecondButtonLabel"
+        [upBtnDisabled]="!upSecondEnabled()"
+        [downBtnDisabled]="!downSecondEnabled()"
+        [boxValue]="secondValue" [min]="0" [max]="59"
+        [step]="stepSecond"
+        (boxValueChange)="setSecondValue($event)"></owl-date-time-timer-box>

@@ -145,7 +145,7 @@
     });
 
     gulp.task('bundle', function (cb) {
-        var cmd = 'node_modules/.bin/rollup -c rollup.config.js dist/picker.module.js > tmp/picker.bundle.js';
+        var cmd = 'node_modules/.bin/rollup -c rollup.config.js dist/picker.js > tmp/picker.bundle.js';
         return run_proc(cmd, cb);
     });
 

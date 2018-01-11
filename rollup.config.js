@@ -10,6 +10,7 @@ export default {
         '@angular/core',
         '@angular/common',
         '@angular/forms',
+        'moment/moment',
     ],
     onwarn: (warning) => {
         const skip_codes = [
@@ -24,39 +25,7 @@ export default {
         commonjs({
             include: [
                 'node_modules/rxjs/**',
-                'node_modules/date-fns/**',
             ],
-            namedExports: {
-                'node_modules/date-fns/index.js': [
-                    'parse',
-                    'isValid',
-                    'startOfMonth',
-                    'getDate',
-                    'setDate',
-                    'getDay',
-                    'addDays',
-                    'addMonths',
-                    'isSameDay',
-                    'isSameMonth',
-                    'getMonth',
-                    'setMonth',
-                    'getYear',
-                    'addYears',
-                    'differenceInCalendarDays',
-                    'setYear',
-                    'getHours',
-                    'setHours',
-                    'getMinutes',
-                    'setMinutes',
-                    'addMinutes',
-                    'getSeconds',
-                    'setSeconds',
-                    'addSeconds',
-                    'isBefore',
-                    'isAfter',
-                    'startOfDay',
-                    'format',]
-            }
         }),
         uglify()
     ]

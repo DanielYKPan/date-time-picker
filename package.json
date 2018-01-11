@@ -1,6 +1,6 @@
 {
   "name": "ng-pick-datetime",
-  "version": "5.0.0-beta.15",
+  "version": "5.1.0-beta.1",
   "description": "Angular Date Time Picker",
   "keywords": [
     "Angular",
@@ -20,11 +20,11 @@
     "test": "karma start",
     "build": "rimraf dist && webpack --config config/webpack.prod.js --progress --profile --bail",
     "bundle": "webpack --config config/webpack.bundle.js --progress --profile --bail",
-    "rollup": "rollup -c rollup.config.js dist/picker.module.js > dist/picker.bundle.js"
+    "rollup": "rollup -c rollup.config.js dist/picker.js > dist/picker.bundle.js"
   },
-  "jsnext:main": "picker.module.js",
-  "module": "picker.module.js",
-  "types": "picker.module.d.ts",
+  "jsnext:main": "picker.js",
+  "module": "picker.js",
+  "types": "picker.d.ts",
   "main": "picker.bundle.js",
   "dependencies": {
     "date-fns": "^1.29.0"

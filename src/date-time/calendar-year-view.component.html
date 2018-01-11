@@ -1,0 +1,16 @@
+<table class="owl-dt-calendar-table">
+    <thead class="owl-dt-calendar-header">
+    <tr>
+        <th class="owl-dt-calendar-table-divider" aria-hidden="true" colspan="3"></th>
+    </tr>
+    </thead>
+    <tbody owl-date-time-calendar-body role="grid"
+           [allowDisabledCellSelection]="true"
+           [rows]="months" [numCols]="3" [cellRatio]="3 / 7"
+           [activeCell]="activeCell"
+           [todayValue]="todayMonth"
+           [selectedValues]="selectedMonths"
+           [selectMode]="selectMode"
+           (selectedValueChange)="monthSelected($event)">
+    </tbody>
+</table>
