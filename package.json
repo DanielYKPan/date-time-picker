@@ -1,5 +1,5 @@
 {
-  "name": "ng-pick-datetime",
+  "name": "ng-pick-datetime-demo",
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
@@ -24,6 +24,7 @@
     "@angular/platform-browser-dynamic": "^5.0.0",
     "@angular/router": "^5.0.0",
     "core-js": "^2.4.1",
+    "ng-pick-datetime": "^5.1.0-alpha-0",
     "prismjs": "^1.9.0",
     "rxjs": "^5.5.2",
     "zone.js": "^0.8.14"

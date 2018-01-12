@@ -4,7 +4,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
-import { OwlDateTimeModule, OwlNativeDateTimeModule } from '../../npmdist/date-time';
+import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 import { MatTabsModule } from '@angular/material';
 import { CodeHighlightDirective } from './code-highlight.directive';
 
