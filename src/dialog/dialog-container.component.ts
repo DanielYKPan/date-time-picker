@@ -17,7 +17,6 @@ import { take } from 'rxjs/operators';
 
 const zoomFadeIn = {opacity: 0, transform: 'translateX({{ x }}) translateY({{ y }}) scale({{scale}})'};
 const zoomFadeInFrom = {...zoomFadeIn, transformOrigin: '{{ ox }} {{ oy }}'};
-const easeInFor = ( duration: number ) => `${duration}ms cubic-bezier(0.35, 0, 0.25, 1)`;
 
 @Component({
     selector: 'owl-dialog-container',
@@ -27,7 +26,7 @@ const easeInFor = ( duration: number ) => `${duration}ms cubic-bezier(0.35, 0, 0
             transition('void => enter', [
                 query('.owl-overlay-dialog-container', style(zoomFadeInFrom)),
                 query('.owl-overlay-dialog-container',
-                    animate(easeInFor(300), style('*'))
+                    animate('300ms cubic-bezier(0.35, 0, 0.25, 1)', style('*'))
                 ),
                 query('.owl-overlay-dialog-container',
                     animate(150, keyframes([

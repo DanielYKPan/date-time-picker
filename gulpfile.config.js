@@ -19,6 +19,7 @@
             this.tmpOutputPath = this.source + 'tmp';
             this.alltmpTs = this.source + 'tmp/**/*.ts';
             this.alltmpSpecTs = this.source + 'tmp/**/*spec.ts';
+            this.alltmpResources = this.source + 'tmp/assets/**';
 
             this.allDistFiles = this.source + 'dist/**/*.*';
 

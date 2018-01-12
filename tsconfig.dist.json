@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "module": "es2015",
+    "module": "commonjs",
     "target": "es5",
     "declaration": true,
     "rootDir": "./tmp",
@@ -14,16 +14,12 @@
     "suppressImplicitAnyIndexErrors": true,
     "lib": [ "es2015", "dom" ]
   },
-  "files": [
-    "./tmp/picker.ts"
-  ],
   "exclude": [
     "node_modules",
     "npmdist",
-    "dist",
-    "**/**.spec.ts"
+    "dist"
   ],
-  "include": [
-    "tmp/**/*"
+  "files": [
+    "./tmp/**/*.ts"
   ]
 }

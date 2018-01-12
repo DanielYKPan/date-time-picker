@@ -5,81 +5,58 @@
 (function () {
     'use strict';
 
-    var gulp = require('gulp'),
+    let gulp = require('gulp'),
+        runSequence = require('run-sequence'),
         clean = require('gulp-clean'),
         sass = require('gulp-sass'),
-        autoprefixer = require('autoprefixer'),
         postcss = require('gulp-postcss'),
         cleancss = require('gulp-clean-css'),
-        rename = require('gulp-rename'),
         pixrem = require('pixrem'),
-        runSequence = require('run-sequence'),
+        autoprefixer = require('autoprefixer'),
+        rename = require('gulp-rename'),
+        htmlmin = require('gulp-htmlmin'),
+        flatmap = require('gulp-flatmap'),
         path = require('path'),
         fs = require('fs'),
-        flatmap = require('gulp-flatmap'),
-        htmlmin = require('gulp-htmlmin'),
         replace = require('gulp-replace'),
         ts = require('gulp-typescript'),
-        merge = require('merge2'),
         sourcemaps = require('gulp-sourcemaps'),
+        merge = require('merge2'),
         Config = require('./gulpfile.config');
 
-    var config = new Config();
+    let config = new Config();
 
-    var tsDistProject = ts.createProject('tsconfig-esm.json');
+    let tsDistProject = ts.createProject('tsconfig.dist.json');
 
     const exec = require('child_process').exec;
 
-    gulp.task('tsc.compile.dist', function () {
-        var tsResult = tsDistProject.src().pipe(sourcemaps.init()).pipe(tsDistProject());
-        return merge([
-            tsResult.js.pipe(gulp.dest('dist')),
-            tsResult.js.pipe(sourcemaps.write('./', {includeContent: false})).pipe(gulp.dest('dist')),
-            tsResult.dts.pipe(gulp.dest('dist'))
-        ]);
+    gulp.task('clean', function () {
+        return gulp.src(['./npmdist', config.tmpOutputPath], {read: false}).pipe(clean());
     });
 
-    gulp.task('inline.template.and.styles.to.component', function () {
-        return gulp.src('./tmp/**/*.component.ts')
-            .pipe(flatmap(function (stream, file) {
-                var tsFile = file.path;
-                var htmlFile = tsFile.slice(0, -2) + 'html';
-                var htmlFileName = path.parse(htmlFile).base;
-                var cssFile = tsFile.slice(0, -2) + 'css';
-                var scssFile = tsFile.slice(0, -2) + 'scss';
-                var scssFileName = path.parse(scssFile).base;
-                var styles = fs.readFileSync(cssFile, 'utf-8');
-                var htmlTpl = fs.readFileSync(htmlFile, 'utf-8');
+    gulp.task('clean.dist', function () {
+        return gulp.src(['./dist'], {read: false}).pipe(clean());
+    });
 
-                return gulp.src([file.path])
-                    .pipe(replace('styleUrls: [' + '\'' + './' + scssFileName + '\'' + '],', 'styles: [' + '`' + styles + '`' + '],'))
-                    .pipe(replace('templateUrl: ' + '\'' + './' + htmlFileName + '\'' + ',', 'template: `' + htmlTpl + '`' + ','))
-                    .pipe(gulp.dest(function (file) {
-                        return file.base;
-                    }));
-            }));
+    gulp.task('backup.ts.tmp', function () {
+        return gulp.src(config.allTs).pipe(gulp.dest(config.tmpOutputPath));
+    });
+
+    gulp.task('copy.assets.to.tmp', function () {
+        return gulp.src('./src/assets/**/**').pipe(gulp.dest('./tmp/assets'));
     });
 
     gulp.task('minify.css', function () {
 
-        var processors = [
+        let processors = [
             pixrem(),
-            autoprefixer({
-                browsers: ['last 8 version', '> 1%', 'ie 9', 'ie 8', 'ie 7', 'ios 6', 'Firefox <= 20'],
-                cascade: false
-            })
+            autoprefixer({browsers: ['last 8 version', '> 1%', 'ie 9', 'ie 8', 'ie 7', 'ios 6', 'Firefox <= 20'], cascade: false})
         ];
 
         return gulp.src(config.allSass)
             .pipe(sass())
             .pipe(postcss(processors))
             .pipe(cleancss({compatibility: 'ie8'}))
-            .pipe(gulp.dest(config.tmpOutputPath));
-    });
-
-    gulp.task('minify.html', function () {
-        return gulp.src(config.allHtml)
-            .pipe(htmlmin({collapseWhitespace: true, caseSensitive: true}))
             .pipe(gulp.dest(config.tmpOutputPath));
     });
 
@@ -94,38 +71,72 @@
             .pipe(postcss(processors))
             .pipe(cleancss({compatibility: 'ie8'}))
             .pipe(rename({suffix: '.min'}))
-            .pipe(gulp.dest(config.tmpOutputPath + '/style'));
+            .pipe(gulp.dest(config.tmpOutputPath + '/assets/style'));
     });
 
-    gulp.task('clean', function () {
-        return gulp.src(['./dist', './npmdist', config.tmpOutputPath], {read: false}).pipe(clean());
+    gulp.task('minify.html', function() {
+        return gulp.src(config.allHtml)
+            .pipe(htmlmin({collapseWhitespace: true, caseSensitive: true}))
+            .pipe(gulp.dest(config.tmpOutputPath));
     });
 
-    gulp.task('clean.dist', function () {
-        return gulp.src(['./dist'], {read: false}).pipe(clean());
+    gulp.task('inline.template.and.styles.to.component', function () {
+        return gulp.src('./tmp/**/*.component.ts')
+            .pipe(flatmap(function (stream, file) {
+                let tsFile = file.path;
+                let htmlFile = tsFile.slice(0, -2) + 'html';
+                let htmlFileName = path.parse(htmlFile).base;
+                let cssFile = tsFile.slice(0, -2) + 'css';
+                let scssFile = tsFile.slice(0, -2) + 'scss';
+                let scssFileName = path.parse(scssFile).base;
+                let styles = fs.readFileSync(cssFile, 'utf-8');
+                let htmlTpl = fs.readFileSync(htmlFile, 'utf-8');
+
+                return gulp.src([file.path])
+                    .pipe(replace('styleUrls: [' + '\'' + './' + scssFileName + '\'' + '],', 'styles: [' + '`' + styles + '`' + '],'))
+                    .pipe(replace('templateUrl: ' + '\'' + './' + htmlFileName + '\'' + ',', 'template: `' + htmlTpl + '`' + ','))
+                    .pipe(gulp.dest(function (file) {
+                        return file.base;
+                    }));
+            }));
     });
 
-    gulp.task('backup.ts.tmp', function () {
-        return gulp.src(config.allTs).pipe(gulp.dest(config.tmpOutputPath));
+    gulp.task('tsc.compile.dist', function () {
+        let tsResult = tsDistProject.src().pipe(sourcemaps.init()).pipe(tsDistProject());
+        return merge([
+            tsResult.js.pipe(gulp.dest('dist')),
+            tsResult.js.pipe(sourcemaps.write('./', {includeContent: false})).pipe(gulp.dest('dist')),
+            tsResult.dts.pipe(gulp.dest('dist'))
+        ]);
+    });
+
+    gulp.task('bundle', function (cb) {
+        var cmd = 'node_modules/.bin/rollup -c rollup.config.js dist/picker.js > tmp/picker.bundle.js';
+        return run_proc(cmd, cb);
     });
 
     gulp.task('delete.tmp', function () {
         return gulp.src([config.tmpOutputPath], {read: false}).pipe(clean());
     });
 
-    gulp.task('copy.src.to.npmdist.dir', function () {
-        return gulp.src([config.alltmpTs, '!' + config.alltmpSpecTs]).pipe(gulp.dest('./npmdist/src'));
+    gulp.task('ngc', function (cb) {
+        let cmd = 'node_modules/.bin/ngc -p tsconfig-aot.json';
+        return run_proc(cmd, cb);
+    });
+
+    gulp.task('copy.bundle.to.dist', function () {
+        return gulp.src('./tmp/picker.bundle.js').pipe(gulp.dest('./dist'));
+    });
+
+    gulp.task('copy.resources.to.dist', function () {
+        return gulp.src(config.alltmpResources).pipe(gulp.dest('./dist/assets'));
     });
 
     gulp.task('copy.dist.to.npmdist', function () {
         return gulp.src(config.allDistFiles).pipe(gulp.dest('./npmdist'));
     });
 
-    gulp.task('copy.assets.to.dist.assets', function () {
-        return gulp.src(config.allAssets).pipe(gulp.dest('./dist/assets'));
-    });
-
-    gulp.task('copy.root.files.to.npmdist.dir', function () {
+    gulp.task('copy.root.files.to.npmdist.dir', function() {
         return gulp.src(
             [
                 './index.ts',
@@ -136,23 +147,12 @@
             ]).pipe(gulp.dest('./npmdist'));
     });
 
-    gulp.task('copy.bundle.to.dist', function () {
-        return gulp.src('./tmp/picker.bundle.js').pipe(gulp.dest('./dist'));
-    });
-
-    gulp.task('copy.resources.to.dist.assets', function () {
-        return gulp.src('./tmp/style/**').pipe(gulp.dest('./dist/assets/style'));
-    });
-
-    gulp.task('bundle', function (cb) {
-        var cmd = 'node_modules/.bin/rollup -c rollup.config.js dist/picker.js > tmp/picker.bundle.js';
-        return run_proc(cmd, cb);
-    });
-
     gulp.task('all', function (cb) {
         runSequence(
             'clean',
+            'clean.dist',
             'backup.ts.tmp',
+            'copy.assets.to.tmp',
             'minify.css',
             'minify.css.theme',
             'minify.html',
@@ -162,18 +162,12 @@
             'clean.dist',
             'ngc',
             'copy.bundle.to.dist',
-            'copy.assets.to.dist.assets',
-            'copy.resources.to.dist.assets',
+            'copy.resources.to.dist',
             'copy.dist.to.npmdist',
             'copy.root.files.to.npmdist.dir',
             'delete.tmp',
             cb
         )
-    });
-
-    gulp.task('ngc', function (cb) {
-        var cmd = 'node_modules/.bin/ngc -p tsconfig-aot.json';
-        return run_proc(cmd, cb);
     });
 
     const run_proc = function (cmd, callBack, options) {
