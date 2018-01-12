@@ -11,12 +11,104 @@
     </header>
     <section class="container">
         <div class="demo">
-            <h1>Hello World</h1>
-            <label>
-                Date Time:
-                <input [owlDateTimeTrigger]="dt" [owlDateTime]="dt">
-                <owl-date-time #dt></owl-date-time>
-            </label>
+            <!-- <editor-fold desc="Basic Use"> -->
+            <div class="viewer-wrapper">
+                <div class="viewer-title">
+                    <div class="viewer-title-spacer">
+                        Basic Use
+                    </div>
+                </div>
+                <div class="viewer-source">
+                    <mat-tab-group>
+                        <mat-tab label="HTML">
+<pre>
+<code class="language-markup" ngNonBindable appCodeHighlight><![CDATA[
+<label>
+    Date Time:
+    <input [owlDateTimeTrigger]="dt" [owlDateTime]="dt">
+    <owl-date-time #dt></owl-date-time>
+</label>
+]]></code>
+</pre>
+                        </mat-tab>
+                        <mat-tab label="TS">
+                            <pre>
+<code class="language-typescript" ngNonBindable appCodeHighlight><![CDATA[
+import {Component} from '@angular/core';
+
+/**
+ * @title Basic DateTime Picker
+ */
+@Component({
+  selector: 'app-example',
+  templateUrl: 'app-example.html',
+})
+export class AppExample {}
+]]></code>
+</pre>
+                        </mat-tab>
+                    </mat-tab-group>
+                </div>
+                <div class="viewer-body">
+                    <label>
+                        Date Time:
+                        <input [owlDateTimeTrigger]="dt" [owlDateTime]="dt">
+                        <owl-date-time #dt></owl-date-time>
+                    </label>
+                </div>
+            </div>
+            <!-- </editor-fold> -->
+
+            <!-- <editor-fold desc="Icon Trigger"> -->
+            <div class="viewer-wrapper">
+                <div class="viewer-title">
+                    <div class="viewer-title-spacer">
+                        Trigger Picker by Icon
+                    </div>
+                </div>
+                <div class="viewer-source">
+                    <mat-tab-group>
+                        <mat-tab label="HTML">
+<pre>
+<code class="language-markup" ngNonBindable appCodeHighlight><![CDATA[
+<label>
+    Date Time:
+    <input [owlDateTimeTrigger]="dt" [owlDateTime]="dt">
+    <owl-date-time #dt></owl-date-time>
+</label>
+]]></code>
+</pre>
+                        </mat-tab>
+                        <mat-tab label="TS">
+                            <pre>
+<code class="language-typescript" ngNonBindable appCodeHighlight><![CDATA[
+import {Component} from '@angular/core';
+
+/**
+ * @title Basic DateTime Picker
+ */
+@Component({
+  selector: 'app-example',
+  templateUrl: 'app-example.html',
+})
+export class AppExample {}
+]]></code>
+</pre>
+                        </mat-tab>
+                    </mat-tab-group>
+                </div>
+                <div class="viewer-body">
+                    <label>
+                        Date Time:
+                        <input class="input" [owlDateTime]="dt1">
+                        <span class="trigger" [owlDateTimeTrigger]="dt1">
+                            <i class="fas fa-calendar-alt"></i>
+                        </span>
+                        <owl-date-time #dt1></owl-date-time>
+                    </label>
+                </div>
+            </div>
+            <!-- </editor-fold> -->
         </div>
     </section>
 </main>

@@ -21,7 +21,12 @@
       "styles": [
         "styles.scss"
       ],
-      "scripts": [],
+      "scripts": [
+        "../node_modules/prismjs/prism.js",
+        "../node_modules/prismjs/components/prism-typescript.js",
+        "../node_modules/prismjs/components/prism-markup.js",
+        "../node_modules/prismjs/components/prism-css.js"
+      ],
       "environmentSource": "environments/environment.ts",
       "environments": {
         "dev": "environments/environment.ts",

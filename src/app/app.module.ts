@@ -5,15 +5,19 @@ import { FormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from '../../npmdist/date-time';
+import { MatTabsModule } from '@angular/material';
+import { CodeHighlightDirective } from './code-highlight.directive';
 
 @NgModule({
     declarations: [
-        AppComponent
+        AppComponent,
+        CodeHighlightDirective,
     ],
     imports: [
         BrowserModule,
         BrowserAnimationsModule,
         FormsModule,
+        MatTabsModule,
         OwlDateTimeModule,
         OwlNativeDateTimeModule,
     ],

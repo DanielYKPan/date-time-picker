@@ -43,3 +43,36 @@ main {
   padding: 1rem;
   background-color: $white;
 }
+
+.viewer-wrapper {
+  border: 1px solid rgba(0, 0, 0, .03);
+  box-shadow: 0 2px 2px rgba(0, 0, 0, .24), 0 0 2px rgba(0, 0, 0, .12);
+  margin: 1.5em 0;
+}
+
+.viewer-title {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 8px 20px;
+  color: rgba(0, 0, 0, .54);
+  background: rgba(0, 0, 0, .03);
+}
+
+.viewer-title-spacer {
+  flex: 1 1 auto;
+}
+
+.viewer-source {
+  border-bottom: 1px solid rgba(0,0,0,.12);
+  overflow-x: scroll;
+  min-height: 150px;
+}
+
+.viewer-body {
+  padding: 30px;
+}
+
+pre[class*="language-"] {
+  background: none;
+}
