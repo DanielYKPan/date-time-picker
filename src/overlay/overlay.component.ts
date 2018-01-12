@@ -7,14 +7,14 @@ import {
     ChangeDetectionStrategy, ChangeDetectorRef, Component, ComponentRef, HostBinding, OnDestroy, OnInit, Renderer2,
     ViewChild
 } from '@angular/core';
-import { Subject } from 'rxjs/Subject';
-import { Observable } from 'rxjs/Observable';
+import { Observable, Subject } from 'rxjs/Rx';
 import { DomHandlerService, ESCAPE } from '../utils';
 import { ComponentType, PortalContainerDirective } from '../portal';
 import { OwlOverlayPaneComponent } from './overlay-pane.component';
 import { animate, style, transition, trigger } from '@angular/animations';
 
 @Component({
+    moduleId: module.id,
     selector: 'owl-owl-overlay',
     templateUrl: './overlay.component.html',
     styleUrls: ['./overlay.component.scss'],

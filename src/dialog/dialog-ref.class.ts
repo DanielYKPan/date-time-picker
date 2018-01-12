@@ -2,8 +2,7 @@
  * dialog-ref.class
  */
 import { AnimationEvent } from '@angular/animations';
-import { Observable } from 'rxjs/Observable';
-import { Subject } from 'rxjs/Subject';
+import { Observable, Subject } from 'rxjs/Rx';
 import { OwlDialogContainerComponent } from './dialog-container.component';
 import { ComponentRef } from '@angular/core';
 import 'rxjs/add/observable/from';

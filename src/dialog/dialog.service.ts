@@ -12,8 +12,7 @@ import { OwlDialogRef } from './dialog-ref.class';
 import { ComponentPortal, PortalInjector } from '../portal';
 import { OwlDialogContainerComponent } from './dialog-container.component';
 import { InjectionService, extendObject } from '../utils';
-import { Subject } from 'rxjs/Subject';
-import { Observable } from 'rxjs/Observable';
+import { Observable, Subject } from 'rxjs/Rx';
 import { defer } from 'rxjs/observable/defer';
 import { startWith } from 'rxjs/operators';
 

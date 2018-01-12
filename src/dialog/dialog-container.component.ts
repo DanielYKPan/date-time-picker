@@ -13,12 +13,13 @@ import {
 import { DOCUMENT } from '@angular/common';
 import { OwlDialogConfig } from './dialog-config.class';
 import { BasePortalHost, ComponentPortal, TemplatePortal, PortalHostDirective } from '../portal';
-import { take } from 'rxjs/operators';
 
 const zoomFadeIn = {opacity: 0, transform: 'translateX({{ x }}) translateY({{ y }}) scale({{scale}})'};
 const zoomFadeInFrom = {...zoomFadeIn, transformOrigin: '{{ ox }} {{ oy }}'};
+const easeInFor = ( duration: number ) => `${duration}ms cubic-bezier(0.35, 0, 0.25, 1)`;
 
 @Component({
+    moduleId: module.id,
     selector: 'owl-dialog-container',
     templateUrl: './dialog-container.component.html',
     animations: [
@@ -26,7 +27,7 @@ const zoomFadeInFrom = {...zoomFadeIn, transformOrigin: '{{ ox }} {{ oy }}'};
             transition('void => enter', [
                 query('.owl-overlay-dialog-container', style(zoomFadeInFrom)),
                 query('.owl-overlay-dialog-container',
-                    animate('300ms cubic-bezier(0.35, 0, 0.25, 1)', style('*'))
+                    animate(easeInFor(300), style('*'))
                 ),
                 query('.owl-overlay-dialog-container',
                     animate(150, keyframes([

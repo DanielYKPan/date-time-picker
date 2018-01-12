@@ -9,6 +9,7 @@ import {
 import { ComponentPortal, TemplatePortal, PortalHostDirective } from '../portal';
 
 @Component({
+    moduleId: module.id,
     selector: 'owl-overlay-pane',
     templateUrl: './overlay-pane.component.html',
     styleUrls: ['./overlay-pane.component.scss'],
