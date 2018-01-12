@@ -1,0 +1,102 @@
+// -----------------------------------------------------------------------------
+// This file contains all application-wide Sass variables.
+// -----------------------------------------------------------------------------
+
+/// Base font size
+/// @type Size
+$base-font-size: 1rem;
+
+/// Base line height
+/// @type Size
+$base-line-height: 1.25 * $base-font-size;
+
+/// Font type settings
+/// font-size: X * (4/3)
+/// line-height: X * 1.25 > font-size
+/// @type Map
+$type-settings: (
+        -1: (
+                font-size: .75rem,
+                line-height: $base-line-height,
+        ),
+        0: (
+                font-size: 1rem,
+                line-height: $base-line-height,
+        ),
+        1: (
+                font-size: 1.333rem,
+                line-height: $base-line-height * 2,
+        ),
+        2: (
+                font-size: 1.778rem,
+                line-height: $base-line-height * 2,
+        ),
+        3: (
+                font-size: 2.37rem,
+                line-height: $base-line-height * 2
+        ),
+        4: (
+                font-size: 3.16rem,
+                line-height: $base-line-height * 3
+        ),
+        5: (
+                font-size: 4.21rem,
+                line-height: $base-line-height * 4
+        ),
+        6: (
+                font-size: 5.62rem,
+                line-height: $base-line-height * 5
+        ),
+        7: (
+                font-size: 7.49rem,
+                line-height: $base-line-height * 6
+        )
+);
+
+/// Regular font family
+/// @type List
+$text-font-stack: 'Open Sans', 'Helvetica Neue Light', 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif !default;
+
+/// Copy text color
+/// @type Color
+$text-color: #222 !default;
+
+/// Main brand color
+/// @type Color
+$brand-color: hsla(197, 20%, 27%, 1) !default;
+
+/// UI control color
+/// @type Color
+$ui-control-color: hsla(12, 84%, 70%, 1);
+
+$ui-control-color-blue: hsla(210, 79%, 46%, 1);
+
+/// White
+/// @type Color
+$white: hsla(0, 100%, 100%, 1) !default;
+
+/// Light grey
+/// @type Color
+$light-grey: hsla(0, 0%, 97%, 1) !default;
+
+/// Medium grey
+/// @type Color
+$mid-grey: hsla(120, 4%, 95%, 1) !default;
+
+// Relative or absolute URL where all assets are served from
+/// @type String
+/// @example scss - When using a CDN
+///   $base-url: 'http://cdn.example.com/assets/';
+$base-url: '/assets/' !default;
+
+/// Breakpoints map
+/// @prop {String} keys - Keys are identifiers mapped to a given length
+/// @prop {Map} values - Values are actual breakpoints expressed in pixels
+/// @see {mixin} respond-to
+$breakpoints: (
+        'small': (min-width: 480px),
+        'medium': (min-width: 768px),
+        'large': (min-width: 1200px),
+) !default;
+
+$header-height: 7vh;
