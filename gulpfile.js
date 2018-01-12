@@ -66,7 +66,7 @@
             autoprefixer({browsers: ['last 8 version', '> 1%', 'ie 9', 'ie 8', 'ie 7', 'ios 6', 'Firefox <= 20'], cascade: false})
         ];
 
-        return gulp.src('./src/sass/picker.scss')
+        return gulp.src('./src/sass/date-time.scss')
             .pipe(sass())
             .pipe(postcss(processors))
             .pipe(cleancss({compatibility: 'ie8'}))
@@ -111,7 +111,7 @@
     });
 
     gulp.task('bundle', function (cb) {
-        var cmd = 'node_modules/.bin/rollup -c rollup.config.js dist/picker.js > tmp/picker.bundle.js';
+        var cmd = 'node_modules/.bin/rollup -c rollup.config.js dist/date-time/index.js > tmp/date-time.bundle.js';
         return run_proc(cmd, cb);
     });
 
@@ -125,7 +125,7 @@
     });
 
     gulp.task('copy.bundle.to.dist', function () {
-        return gulp.src('./tmp/picker.bundle.js').pipe(gulp.dest('./dist'));
+        return gulp.src('./tmp/date-time.bundle.js').pipe(gulp.dest('./dist/date-time'));
     });
 
     gulp.task('copy.resources.to.dist', function () {
@@ -158,10 +158,10 @@
             'minify.html',
             'inline.template.and.styles.to.component',
             'tsc.compile.dist',
-            'bundle',
+            // 'bundle',
             'clean.dist',
             'ngc',
-            'copy.bundle.to.dist',
+            // 'copy.bundle.to.dist',
             'copy.resources.to.dist',
             'copy.dist.to.npmdist',
             'copy.root.files.to.npmdist.dir',
