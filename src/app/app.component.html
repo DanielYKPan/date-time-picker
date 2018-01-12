@@ -1,4 +1,4 @@
-<main>
+<!--<main>
     <header class="header">
         <h1>Ng Date Time Picker</h1>
         <p>A date time picker built for Angular</p>
@@ -33,12 +33,12 @@
                 <owl-date-time #dt></owl-date-time>
             </label>
 
-            <mat-tab-group>
+            &lt;!&ndash;<mat-tab-group>
                 <mat-tab label="Tab 1">Content 1</mat-tab>
                 <mat-tab label="Tab 2">Content 2</mat-tab>
-            </mat-tab-group>
-            <!-- <editor-fold desc="Basic Use"> -->
-            <!--<div class="viewer-wrapper">
+            </mat-tab-group>&ndash;&gt;
+            &lt;!&ndash; <editor-fold desc="Basic Use"> &ndash;&gt;
+            &lt;!&ndash;<div class="viewer-wrapper">
                 <div class="viewer-title">
                     <div class="viewer-title-spacer">
                         Basic Use
@@ -82,11 +82,11 @@ export class AppExample {}
                         <owl-date-time #dt></owl-date-time>
                     </label>
                 </div>
-            </div>-->
-            <!-- </editor-fold> -->
+            </div>&ndash;&gt;
+            &lt;!&ndash; </editor-fold> &ndash;&gt;
 
-            <!-- <editor-fold desc="Icon Trigger"> -->
-            <!--<div class="viewer-wrapper">
+            &lt;!&ndash; <editor-fold desc="Icon Trigger"> &ndash;&gt;
+            &lt;!&ndash;<div class="viewer-wrapper">
                 <div class="viewer-title">
                     <div class="viewer-title-spacer">
                         Trigger Picker by Icon
@@ -136,10 +136,10 @@ export class AppExample {}
                         <owl-date-time #dt1></owl-date-time>
                     </label>
                 </div>
-            </div>-->
-            <!-- </editor-fold> -->
+            </div>&ndash;&gt;
+            &lt;!&ndash; </editor-fold> &ndash;&gt;
 
-            <!--<h4 class="demo-title">Stand-alone Calendar and Timer</h4>
+            &lt;!&ndash;<h4 class="demo-title">Stand-alone Calendar and Timer</h4>
             <p>
                 A default OwlDateTime picker has a calendar and a timer. Users could has either of them via overriding
                 property <b>[pickerType]</b>.
@@ -203,8 +203,8 @@ export class AppExample {}
                 </div>
             </div>
             &lt;!&ndash; </editor-fold> &ndash;&gt;
--->
-            <!--<h4 class="demo-title">Open Picker as a Dialog</h4>
+&ndash;&gt;
+            &lt;!&ndash;<h4 class="demo-title">Open Picker as a Dialog</h4>
             <p>The OwlDateTime picker normally opens as a popup under the input. However this is not ideal for touch
                 devices
                 that don't have as much screen space and need bigger click targets. For this reason <b>owl-date-time</b>
@@ -257,9 +257,9 @@ export class AppExample {}
                     </label>
                 </div>
             </div>
-            &lt;!&ndash; </editor-fold> &ndash;&gt;-->
+            &lt;!&ndash; </editor-fold> &ndash;&gt;&ndash;&gt;
 
-            <!--<h4 class="demo-title">Use Picker as Inline element</h4>
+            &lt;!&ndash;<h4 class="demo-title">Use Picker as Inline element</h4>
             <p>The OwlDateTime picker could also be used as an inline element.</p>
             &lt;!&ndash; <editor-fold desc="Inline"> &ndash;&gt;
             <div class="viewer-wrapper">
@@ -301,9 +301,9 @@ export class AppExample {
                     <owl-date-time-inline [(ngModel)]="selectedMoment"></owl-date-time-inline>
                 </div>
             </div>
-            &lt;!&ndash; </editor-fold> &ndash;&gt;-->
+            &lt;!&ndash; </editor-fold> &ndash;&gt;&ndash;&gt;
 
-            <!--<h4 class="demo-title">Support Range Selection</h4>
+            &lt;!&ndash;<h4 class="demo-title">Support Range Selection</h4>
             <p>The OwlDateTime picker supports range selection via overridden property <b>[selectMode]</b> to 'range' in
                 its associated input.</p>
             &lt;!&ndash; <editor-fold desc="Range"> &ndash;&gt;
@@ -354,9 +354,9 @@ export class AppExample {}
                     </label>
                 </div>
             </div>
-            &lt;!&ndash; </editor-fold> &ndash;&gt;-->
+            &lt;!&ndash; </editor-fold> &ndash;&gt;&ndash;&gt;
 
-            <!--<h4 class="demo-title">Use with @angular/forms</h4>
+            &lt;!&ndash;<h4 class="demo-title">Use with @angular/forms</h4>
             <p>
                 <b>owl-date-time</b> is compatible with @angular/forms and supports both FormsModule and
                 ReactiveFormsModule.
@@ -440,9 +440,9 @@ export class AppExample {
                     </div>
                 </div>
             </div>
-            &lt;!&ndash; </editor-fold> &ndash;&gt;-->
+            &lt;!&ndash; </editor-fold> &ndash;&gt;&ndash;&gt;
 
-            <!--<h4 class="demo-title">Setting the calendar start view</h4>
+            &lt;!&ndash;<h4 class="demo-title">Setting the calendar start view</h4>
             <p>By default the calendar will open in month view, this can be changed by setting the <b>[startView]</b>
                 property of
                 <b>owl-date-time</b> to "year". In year view the user will see all months of the year and then proceed
@@ -495,9 +495,9 @@ export class AppExample {}
                     </label>
                 </div>
             </div>
-            &lt;!&ndash; </editor-fold> &ndash;&gt;-->
+            &lt;!&ndash; </editor-fold> &ndash;&gt;&ndash;&gt;
 
-           <!-- <h4 class="demo-title">Setting picker start moment</h4>
+           &lt;!&ndash; <h4 class="demo-title">Setting picker start moment</h4>
             <p>The moment that the picker opens to is determined by first checking if any date or time is currently
                 selected, if so it will open to the month or year containing that date and timer is set to that moment.
                 Otherwise it will open to the month or year containing today's date and set to current time. This
@@ -553,9 +553,9 @@ export class AppExample {
                     </label>
                 </div>
             </div>
-            &lt;!&ndash; </editor-fold> &ndash;&gt;-->
+            &lt;!&ndash; </editor-fold> &ndash;&gt;&ndash;&gt;
 
-            <!--<h4 class="demo-title">Date Time Validation</h4>
+            &lt;!&ndash;<h4 class="demo-title">Date Time Validation</h4>
             <p>There are three properties that add date-time validation to the picker's input. The first two are the <b>[min]</b>
                 and <b>[max]</b> properties. In addition to enforcing validation on the input, these properties will
                 disable all dates on the calendar or time value on the timer popup before or after the respective values
@@ -615,9 +615,9 @@ export class AppExample {
                     </label>
                 </div>
             </div>
-            &lt;!&ndash; </editor-fold> &ndash;&gt;-->
+            &lt;!&ndash; </editor-fold> &ndash;&gt;&ndash;&gt;
 
-            <!--<p>The second way to add date-time validation is using the owlDateTimeFilter property of the picker's input.
+            &lt;!&ndash;<p>The second way to add date-time validation is using the owlDateTimeFilter property of the picker's input.
                 This property accepts a function of <code class="language-markup"><![CDATA[
                     <D> => boolean]]>
                 </code> (where
@@ -682,9 +682,9 @@ export class AppExample {
                     </label>
                 </div>
             </div>
-            &lt;!&ndash; </editor-fold> &ndash;&gt;-->
+            &lt;!&ndash; </editor-fold> &ndash;&gt;&ndash;&gt;
 
-            <!--<h4 class="demo-title">Validation Errors</h4>
+            &lt;!&ndash;<h4 class="demo-title">Validation Errors</h4>
             <p>There are five validation errors that can be checked:</p>
             <ul>
                 <li>A value that violates the min property will have a owlDateTimeMin error.</li>
@@ -763,7 +763,16 @@ export class AppExample {
                     </div>
                 </div>
             </div>
-            &lt;!&ndash; </editor-fold> &ndash;&gt;-->
+            &lt;!&ndash; </editor-fold> &ndash;&gt;&ndash;&gt;
         </div>
     </section>
-</main>
+</main>-->
+
+<h1>
+    Hello World
+</h1>
+<label>
+    Date Time:
+    <input [owlDateTimeTrigger]="dt" [owlDateTime]="dt">
+    <owl-date-time #dt></owl-date-time>
+</label>
