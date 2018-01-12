@@ -10,8 +10,7 @@ import {
 import { OwlDateTimeComponent } from './date-time-picker.component';
 import { Subscription } from 'rxjs/Subscription';
 import { Observable } from 'rxjs/Rx';
-import 'rxjs/add/observable/of';
-import 'rxjs/add/observable/merge';
+import 'rxjs/rx';
 
 @Directive({
     selector: '[owlDateTimeTrigger]',
