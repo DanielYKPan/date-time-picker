@@ -1,7 +1,20 @@
 {
   "name": "ng-pick-datetime",
-  "version": "0.0.0",
+  "version": "5.1.0",
+  "description": "Angular Date Time Picker",
+  "keywords": [
+    "Angular",
+    "datepicker",
+    "date picker",
+    "timepicker",
+    "time picker"
+  ],
+  "author": "daniel pan <myron.yk.pan@gmail.com>",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/DanielYKPan/date-time-picker.git"
+  },
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -10,6 +23,10 @@
     "lint": "ng lint",
     "e2e": "ng e2e"
   },
+  "jsnext:main": "picker.js",
+  "module": "picker.js",
+  "types": "picker.d.ts",
+  "main": "picker.bundle.js",
   "private": true,
   "dependencies": {
     "@angular/animations": "^5.0.0",
