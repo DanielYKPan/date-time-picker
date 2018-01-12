@@ -10,12 +10,17 @@
         </a>
     </header>
     <section class="container">
+        <h3 id="demo-examples" class="doc-title">
+            <a href="#demo-examples">
+                Demo Examples
+            </a>
+        </h3>
         <div class="demo">
             <p>The OwlDateTime allows users to enter a date and/or time either through text input, or by choosing a date
                 from the calendar and/or a time from the timer. It is made up of several components and directives that
                 work together.</p>
 
-            <h4 class="demo-title">Connect picker to a input</h4>
+            <h4 class="sub-title">Connect picker to a input</h4>
             <p>A OwlDateTime is composed of a text input and a picker pop-up, connected via the owlDateTime property on
                 the text input. The picker is open via directive [owlDateTimeTrigger].</p>
             <pre>
@@ -129,7 +134,7 @@ export class AppExample {}
             </div>
             <!-- </editor-fold> -->
 
-            <h4 class="demo-title">Stand-alone Calendar and Timer</h4>
+            <h4 class="sub-title">Stand-alone Calendar and Timer</h4>
             <p>
                 A default OwlDateTime picker has a calendar and a timer. Users could has either of them via overriding
                 property <b>[pickerType]</b>.
@@ -193,7 +198,7 @@ export class AppExample {}
                 </div>
             </div>
             <!-- </editor-fold> -->
-            <h4 class="demo-title">Open Picker as a Dialog</h4>
+            <h4 class="sub-title">Open Picker as a Dialog</h4>
             <p>The OwlDateTime picker normally opens as a popup under the input. However this is not ideal for touch
                 devices
                 that don't have as much screen space and need bigger click targets. For this reason <b>owl-date-time</b>
@@ -248,7 +253,7 @@ export class AppExample {}
             </div>
             <!-- </editor-fold> -->
 
-            <h4 class="demo-title">Use Picker as Inline element</h4>
+            <h4 class="sub-title">Use Picker as Inline element</h4>
             <p>The OwlDateTime picker could also be used as an inline element.</p>
             <!-- <editor-fold desc="Inline"> -->
             <div class="viewer-wrapper">
@@ -292,7 +297,7 @@ export class AppExample {
             </div>
             <!-- </editor-fold> -->
 
-            <h4 class="demo-title">Support Range Selection</h4>
+            <h4 class="sub-title">Support Range Selection</h4>
             <p>The OwlDateTime picker supports range selection via overridden property <b>[selectMode]</b> to 'range' in
                 its associated input.</p>
             <!-- <editor-fold desc="Range"> -->
@@ -345,7 +350,7 @@ export class AppExample {}
             </div>
             <!-- </editor-fold> -->
 
-            <h4 class="demo-title">Use with @angular/forms</h4>
+            <h4 class="sub-title">Use with @angular/forms</h4>
             <p>
                 <b>owl-date-time</b> is compatible with @angular/forms and supports both FormsModule and
                 ReactiveFormsModule.
@@ -431,7 +436,7 @@ export class AppExample {
             </div>
             <!-- </editor-fold> -->
 
-            <h4 class="demo-title">Setting the calendar start view</h4>
+            <h4 class="sub-title">Setting the calendar start view</h4>
             <p>By default the calendar will open in month view, this can be changed by setting the <b>[startView]</b>
                 property of
                 <b>owl-date-time</b> to "year". In year view the user will see all months of the year and then proceed
@@ -486,7 +491,7 @@ export class AppExample {}
             </div>
             <!-- </editor-fold> -->
 
-            <h4 class="demo-title">Setting picker start moment</h4>
+            <h4 class="sub-title">Setting picker start moment</h4>
             <p>The moment that the picker opens to is determined by first checking if any date or time is currently
                 selected, if so it will open to the month or year containing that date and timer is set to that moment.
                 Otherwise it will open to the month or year containing today's date and set to current time. This
@@ -544,7 +549,7 @@ export class AppExample {
             </div>
             <!-- </editor-fold> -->
 
-            <h4 class="demo-title">Date Time Validation</h4>
+            <h4 class="sub-title">Date Time Validation</h4>
             <p>There are three properties that add date-time validation to the picker's input. The first two are the <b>[min]</b>
                 and <b>[max]</b> properties. In addition to enforcing validation on the input, these properties will
                 disable all dates on the calendar or time value on the timer popup before or after the respective values
@@ -673,7 +678,7 @@ export class AppExample {
             </div>
             <!-- </editor-fold> -->
 
-            <h4 class="demo-title">Validation Errors</h4>
+            <h4 class="sub-title">Validation Errors</h4>
             <p>There are five validation errors that can be checked:</p>
             <ul>
                 <li>A value that violates the min property will have a owlDateTimeMin error.</li>
@@ -754,5 +759,279 @@ export class AppExample {
             </div>
             <!-- </editor-fold> -->
         </div>
+
+        <h3 id="locale-formate" class="doc-title">
+            <a href="#locale-formate">
+                Localization and Formats
+            </a>
+        </h3>
+        <div class="local-format">
+            <p>
+                In order to support different locales and format, the <b>OwlDateTime</b> picker supports customization
+                of
+                the following three pieces via injection:
+            </p>
+            <ol>
+                <li>The date-time implementation that the picker accepts.</li>
+                <li>The display formats used by the picker.</li>
+                <li>The message strings used in the picker's UI.</li>
+            </ol>
+
+            <h4 class="sub-title">Setting the locale</h4>
+            <p>By default, the <b>OWL_DATE_TIME_LOCALE</b> injection token will use the existing <b>LOCALE_ID</b> locale
+                code from <b>@angular/core</b>. If you want to override it, you can provide a new value for the <b>OWL_DATE_TIME_LOCALE</b>
+                token:</p>
+
+            <pre>
+<code class="language-typescript" ngNonBindable appCodeHighlight><![CDATA[
+import { NgModule } from '@angular/core';
+import { OWL_DATE_TIME_LOCALE } from 'ng-pick-datetime';
+
+@NgModule({
+  providers: [
+    // use french locale
+    {provide: OWL_DATE_TIME_LOCALE, useValue: 'fr'},
+  ],
+})
+export class AppExampleModule {
+}
+]]></code>
+</pre>
+
+            <p>It's also possible to set the locale at runtime using the <b>setLocale()</b> method of the <b>DateTimeAdapter</b>.
+            </p>
+            <pre>
+<code class="language-typescript" ngNonBindable appCodeHighlight><![CDATA[
+import { Component } from '@angular/core';
+import { DateTimeAdapter } from 'ng-pick-datetime';
+
+@Component({
+  selector: 'app-example',
+  templateUrl: 'app-example.html',
+})
+export class AppExample {
+    constructor(dateTimeAdapter: DateTimeAdapter<any>) {
+        dateAdapter.setLocale('ja-JP'); // change locale to Japanese
+    }
+}
+]]></code>
+</pre>
+
+            <h4 class="sub-title">Choosing a date-time implementation and date-time format settings</h4>
+            <p>OwlDateTime picker can work with a variety of different date-time implementations. Users must either
+                import one of the pre-made modules(OwlNativeDateTimeModule, OwlMomentDateTimeModule) or built a
+                customized date-time module.</p>
+            <p>There are two pre-made modules:</p>
+            <ul>
+                <li><b>OwlNativeDateTimeModule</b> -- support for native JavaScript Date object</li>
+                <li><b>OwlMomentDateTimeModule</b> -- support for MomentJS object</li>
+            </ul>
+            <pre>
+<code class="language-typescript" ngNonBindable appCodeHighlight><![CDATA[
+import { NgModule } from '@angular/core';
+import { OwlDateTimeModule, OwlNativeDateTimeModule, OWL_DATE_TIME_FORMATS} from 'ng-pick-datetime';
+
+// learn more about this from
+// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/DateTimeFormat
+export const MY_NATIVE_FORMATS = {
+    fullPickerInput: {year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric'},
+    datePickerInput: {year: 'numeric', month: 'numeric', day: 'numeric'},
+    timePickerInput: {hour: 'numeric', minute: 'numeric'},
+    monthYearLabel: {year: 'numeric', month: 'short'},
+    dateA11yLabel: {year: 'numeric', month: 'long', day: 'numeric'},
+    monthYearA11yLabel: {year: 'numeric', month: 'long'},
+};
+
+@NgModule({
+  imports: [OwlDateTimeModule, OwlNativeDateTimeModule],
+    providers: [
+        {provide: OWL_DATE_TIME_FORMATS, useValue: MY_NATIVE_FORMATS},
+    ],
+})
+export class AppExampleModule {
+}
+]]></code>
+</pre>
+            <p>Here is an example to use <b>OwlMomentDateTimeModule</b> with different date-time formats: (Beware that
+                OwlMomentDateTimeModule requires MomentJS)</p>
+            <pre>
+<code class="language-typescript" ngNonBindable appCodeHighlight><![CDATA[
+import { NgModule } from '@angular/core';
+import { OwlDateTimeModule, OwlMomentDateTimeModule, OWL_DATE_TIME_FORMATS} from 'ng-pick-datetime';
+
+// See the Moment.js docs for the meaning of these formats:
+// https://momentjs.com/docs/#/displaying/format/
+export const MY_MOMENT_FORMATS = {
+    fullPickerInput: 'LLL',
+    datePickerInput: 'LL',
+    monthYearLabel: 'MMM YYYY',
+    dateA11yLabel: 'LL',
+    monthYearA11yLabel: 'MMMM YYYY',
+};
+
+@NgModule({
+    imports: [OwlDateTimeModule, OwlMomentDateTimeModule],
+     providers: [
+        {provide: OWL_DATE_TIME_FORMATS, useValue: MY_MOMENT_FORMATS},
+    ],
+})
+export class AppExampleModule {
+}
+]]></code>
+</pre>
+
+            <p>If neither one the pre-made modules is suitable for your project, you could customize your own date-time
+                implementation. Making the picker work with a different date-tim implementation is as easy as extending
+                DateTimeAdapter, and using your subclass as the provider. You will also want to make sure that the
+                OWL_DATE_TIME_FORMATS provided in your app are formats that can be understood by your date-time
+                implementation.</p>
+
+            <pre>
+<code class="language-typescript" ngNonBindable appCodeHighlight><![CDATA[
+// custom-date-time-adapter.class.ts
+import { Injectable } from '@angular/core';
+import { DateTimeAdapter, OWL_MOMENT_DATE_TIME_FORMATS} from 'ng-pick-datetime';
+
+export const CUSTOM_DATE_TIME_FORMATS = {
+    fullPickerInput: 'your custom value',
+    datePickerInput: 'your custom value',
+    timePickerInput: 'your custom value',
+    monthYearLabel: 'your custom value',
+    dateA11yLabel: 'your custom value',
+    monthYearA11yLabel: 'your custom value',
+};
+
+@Injectable()
+export class CustomDateTimeAdapter extends DateTimeAdapter<T> {
+}
+]]></code>
+</pre>
+            <pre>
+<code class="language-typescript" ngNonBindable appCodeHighlight><![CDATA[
+import { NgModule } from '@angular/core';
+import { CustomDateTimeAdapter, CUSTOM_DATE_TIME_FORMATS } from './custom-date-time-adapter.class';
+
+@NgModule({
+    imports: [OwlDateTimeModule],
+    providers: [
+        {provide: DateTimeAdapter, useClass: CustomDateTimeAdapter},
+        {provide: OWL_DATE_TIME_FORMATS, useValue: CUSTOM_DATE_TIME_FORMATS},
+    ],
+})
+export class AppExampleModule {
+}
+]]></code>
+</pre>
+
+            <h4 class="sub-title">Localizing labels and messages</h4>
+            <p>The various text strings used by the picker are provided through OwlDateTimeIntl.</p>
+            <pre>
+<code class="language-typescript" ngNonBindable appCodeHighlight><![CDATA[
+import { NgModule } from '@angular/core';
+import { OwlDateTimeModule, OwlNativeDateTimeModule, OwlDateTimeIntl} from 'ng-pick-datetime';
+
+// here is the default text string
+export const DefaultIntl = {
+    /** A label for the up second button (used by screen readers).  */
+    upSecondLabel: 'Add a second',
+
+    /** A label for the down second button (used by screen readers).  */
+    downSecondLabel: 'Minus a second',
+
+    /** A label for the up minute button (used by screen readers).  */
+    upMinuteLabel: 'Add a minute',
+
+    /** A label for the down minute button (used by screen readers).  */
+    downMinuteLabel: 'Minus a minute',
+
+    /** A label for the up hour button (used by screen readers).  */
+    upHourLabel: 'Add a hour',
+
+    /** A label for the down hour button (used by screen readers).  */
+    downHourLabel: 'Minus a hour',
+
+    /** A label for the previous month button (used by screen readers). */
+    prevMonthLabel: 'Previous month',
+
+    /** A label for the next month button (used by screen readers). */
+    nextMonthLabel: 'Next month',
+
+    /** A label for the previous year button (used by screen readers). */
+    prevYearLabel: 'Previous year',
+
+    /** A label for the next year button (used by screen readers). */
+    nextYearLabel: 'Next year',
+
+    /** A label for the 'switch to month view' button (used by screen readers). */
+    switchToMonthViewLabel: 'Change to month view',
+
+    /** A label for the 'switch to year view' button (used by screen readers). */
+    switchToYearViewLabel: 'Change to year view',
+
+    /** A label for the cancel button */
+    cancelBtnLabel: 'Close',
+
+    /** A label for the set button */
+    setBtnLabel: 'Confirm',
+
+    /** A label for the range 'from' in picker info */
+    rangeFromLabel: 'From',
+
+    /** A label for the range 'to' in picker info */
+    rangeToLabel: 'To',
+};
+
+@NgModule({
+    imports: [OwlDateTimeModule, OwlNativeDateTimeModule],
+    providers: [
+        {provide: OwlDateTimeIntl, useClass: DefaultIntl},
+    ],
+})
+export class AppExampleModule {
+}
+]]></code>
+</pre>
+        </div>
+
+        <h3 id="accessibility" class="doc-title">
+            <a href="#accessibility">
+                Accessibility
+            </a>
+        </h3>
+        <p>Here are the keyboards shortcuts to handle the picker:</p>
+        <ul>
+            <li>ALT + DOWN_ARROW -- Open the picker</li>
+            <li>ESCAPE -- Close the picker</li>
+        </ul>
+
+        <p>In month view</p>
+        <ul>
+            <li>LEFT_ARROW -- Go to previous day</li>
+            <li>RIGHT_ARROW -- Go to next day</li>
+            <li>UP_ARROW -- Go to same day in the previous week</li>
+            <li>DOWN_ARROW -- Go to same day in the next week</li>
+            <li>HOME -- Go to the first day of the month</li>
+            <li>END -- Go to the last day of the month</li>
+            <li>PAGE_UP -- Go to previous month</li>
+            <li>ALT + PAGE_UP -- Go to previous year</li>
+            <li>PAGE_DOWN -- Go to next month</li>
+            <li>ALT + PAGE_DOWN -- Go to next year</li>
+            <li>ENTER -- Select current date</li>
+        </ul>
+
+        <p>In year view</p>
+        <ul>
+            <li>LEFT_ARROW -- Go to previous month</li>
+            <li>RIGHT_ARROW -- Go to next month</li>
+            <li>UP_ARROW -- Go to previous 6 months</li>
+            <li>DOWN_ARROW -- Go to next 6 months</li>
+            <li>HOME -- Go to the first month of the year</li>
+            <li>END -- Go to the last month of the year</li>
+            <li>PAGE_UP -- Go to previous year</li>
+            <li>ALT + PAGE_UP -- Go to previous 10 years</li>
+            <li>PAGE_DOWN -- Go to next year</li>
+            <li>ALT + PAGE_DOWN -- Go to next 10 years</li>
+            <li>ENTER -- Select current month</li>
+        </ul>
     </section>
 </main>

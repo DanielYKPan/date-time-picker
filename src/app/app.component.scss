@@ -44,6 +44,15 @@ main {
   background-color: $white;
 }
 
+.doc-title {
+  font-size: 2em;
+  margin: 0 0 0 -.25em;
+
+  &:not(:first-child) {
+    margin: 2em 0 0 -.25em;
+  }
+}
+
 .viewer-wrapper {
   border: 1px solid rgba(0, 0, 0, .03);
   box-shadow: 0 2px 2px rgba(0, 0, 0, .24), 0 0 2px rgba(0, 0, 0, .12);
@@ -90,7 +99,7 @@ p {
   line-height: 1.5em;
 }
 
-.demo-title {
+.sub-title {
   font-size: 1.5em;
   margin: 2em 0 0;
 }
