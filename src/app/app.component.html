@@ -26,8 +26,19 @@
 </pre>
             <p>Some users prefer to open the picker via clicking the associated input, some may like to open it via a
                 icon or image. The examples below show these two cases.</p>
+
+            <label>
+                Date Time:
+                <input [owlDateTimeTrigger]="dt" [owlDateTime]="dt">
+                <owl-date-time #dt></owl-date-time>
+            </label>
+
+            <mat-tab-group>
+                <mat-tab label="Tab 1">Content 1</mat-tab>
+                <mat-tab label="Tab 2">Content 2</mat-tab>
+            </mat-tab-group>
             <!-- <editor-fold desc="Basic Use"> -->
-            <div class="viewer-wrapper">
+            <!--<div class="viewer-wrapper">
                 <div class="viewer-title">
                     <div class="viewer-title-spacer">
                         Basic Use
@@ -71,11 +82,11 @@ export class AppExample {}
                         <owl-date-time #dt></owl-date-time>
                     </label>
                 </div>
-            </div>
+            </div>-->
             <!-- </editor-fold> -->
 
             <!-- <editor-fold desc="Icon Trigger"> -->
-            <div class="viewer-wrapper">
+            <!--<div class="viewer-wrapper">
                 <div class="viewer-title">
                     <div class="viewer-title-spacer">
                         Trigger Picker by Icon
@@ -125,7 +136,7 @@ export class AppExample {}
                         <owl-date-time #dt1></owl-date-time>
                     </label>
                 </div>
-            </div>
+            </div>-->
             <!-- </editor-fold> -->
 
             <!--<h4 class="demo-title">Stand-alone Calendar and Timer</h4>
