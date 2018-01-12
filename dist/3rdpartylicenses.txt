@@ -1,4 +1,4 @@
-@angular/forms@5.2.0
+@angular/common@5.2.0
 MIT
 MIT
 
@@ -6,11 +6,15 @@ MIT
 MIT
 MIT
 
+@angular/forms@5.2.0
+MIT
+MIT
+
 @angular/platform-browser@5.2.0
 MIT
 MIT
 
-@angular/common@5.2.0
+@angular/animations@5.2.0
 MIT
 MIT
 
@@ -36,10 +40,6 @@ IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
 CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
 TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-@angular/animations@5.2.0
-MIT
-MIT
 
 core-js@2.5.3
 MIT
