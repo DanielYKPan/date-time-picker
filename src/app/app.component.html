@@ -1,7 +1,7 @@
 <main>
     <header class="header">
         <h1>Ng Date Time Picker</h1>
-        <p>A date time picker built by Angular</p>
+        <p>A date time picker built for Angular</p>
         <a href="https://github.com/DanielYKPan/date-time-picker" target="_blank">
             <img class="github-banner"
                  src="https://camo.githubusercontent.com/365986a132ccd6a44c23a9169022c0b5c890c387/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f7265645f6161303030302e706e67"
@@ -11,6 +11,21 @@
     </header>
     <section class="container">
         <div class="demo">
+            <p>The OwlDateTime allows users to enter a date and/or time either through text input, or by choosing a date
+                from the calendar and/or a time from the timer. It is made up of several components and directives that
+                work together.</p>
+
+            <h4 class="demo-title">Connect picker to a input</h4>
+            <p>A OwlDateTime is composed of a text input and a picker pop-up, connected via the owlDateTime property on
+                the text input. The picker is open via directive [owlDateTimeTrigger].</p>
+            <pre>
+<code class="language-markup" ngNonBindable appCodeHighlight><![CDATA[
+<input [owlDateTime]="dt" [owlDateTimeTrigger]="dt">
+<owl-date-time #dt></owl-date-time>
+]]></code>
+</pre>
+            <p>Some users prefer to open the picker via clicking the associated input, some may like to open it via a
+                icon or image. The examples below show these two cases.</p>
             <!-- <editor-fold desc="Basic Use"> -->
             <div class="viewer-wrapper">
                 <div class="viewer-title">
@@ -73,8 +88,11 @@ export class AppExample {}
 <code class="language-markup" ngNonBindable appCodeHighlight><![CDATA[
 <label>
     Date Time:
-    <input [owlDateTimeTrigger]="dt" [owlDateTime]="dt">
-    <owl-date-time #dt></owl-date-time>
+    <input [owlDateTime]="dt1">
+    <span class="trigger" [owlDateTimeTrigger]="dt1">
+        <i class="fas fa-calendar-alt"></i>
+    </span>
+    <owl-date-time #dt1></owl-date-time>
 </label>
 ]]></code>
 </pre>
@@ -106,6 +124,632 @@ export class AppExample {}
                         </span>
                         <owl-date-time #dt1></owl-date-time>
                     </label>
+                </div>
+            </div>
+            <!-- </editor-fold> -->
+
+            <h4 class="demo-title">Stand-alone Calendar and Timer</h4>
+            <p>
+                A default OwlDateTime picker has a calendar and a timer. Users could has either of them via overriding
+                property <b>[pickerType]</b>.
+            </p>
+            <!-- <editor-fold desc="Calendar and Timer"> -->
+            <div class="viewer-wrapper">
+                <div class="viewer-title">
+                    <div class="viewer-title-spacer">
+                        Stand-alone Calendar or Timer
+                    </div>
+                </div>
+                <div class="viewer-source">
+                    <mat-tab-group>
+                        <mat-tab label="HTML">
+<pre>
+<code class="language-markup" ngNonBindable appCodeHighlight><![CDATA[
+<label>
+    Date
+    <input [owlDateTimeTrigger]="dt3" [owlDateTime]="dt3">
+    <owl-date-time [pickerType]="'calendar'" #dt3></owl-date-time>
+</label>
+
+<label>
+    Time
+    <input [owlDateTimeTrigger]="dt4" [owlDateTime]="dt4">
+    <owl-date-time [pickerType]="'timer'" #dt4></owl-date-time>
+</label>
+]]></code>
+</pre>
+                        </mat-tab>
+                        <mat-tab label="TS">
+                            <pre>
+<code class="language-typescript" ngNonBindable appCodeHighlight><![CDATA[
+import {Component} from '@angular/core';
+
+/**
+ * @title Basic DateTime Picker
+ */
+@Component({
+  selector: 'app-example',
+  templateUrl: 'app-example.html',
+})
+export class AppExample {}
+]]></code>
+</pre>
+                        </mat-tab>
+                    </mat-tab-group>
+                </div>
+                <div class="viewer-body">
+                    <label>
+                        Date:
+                        <input [owlDateTimeTrigger]="dt3" [owlDateTime]="dt3">
+                        <owl-date-time [pickerType]="'calendar'" #dt3></owl-date-time>
+                    </label>
+
+                    <label>
+                        Time:
+                        <input [owlDateTimeTrigger]="dt4" [owlDateTime]="dt4">
+                        <owl-date-time [pickerType]="'timer'" #dt4></owl-date-time>
+                    </label>
+                </div>
+            </div>
+            <!-- </editor-fold> -->
+
+            <h4 class="demo-title">Open Picker as a Dialog</h4>
+            <p>The OwlDateTime picker normally opens as a popup under the input. However this is not ideal for touch
+                devices
+                that don't have as much screen space and need bigger click targets. For this reason <b>owl-date-time</b>
+                has a <b>[pickerMode]</b> property that can be set to 'dialog' in order to enable a more touch friendly
+                UI where the
+                picker opens in a large dialog.</p>
+            <!-- <editor-fold desc="Dialog"> -->
+            <div class="viewer-wrapper">
+                <div class="viewer-title">
+                    <div class="viewer-title-spacer">
+                        Show Picker as A Dialog
+                    </div>
+                </div>
+                <div class="viewer-source">
+                    <mat-tab-group>
+                        <mat-tab label="HTML">
+<pre>
+<code class="language-markup" ngNonBindable appCodeHighlight><![CDATA[
+<label>
+    Date Time:
+    <input [owlDateTimeTrigger]="dt5" [owlDateTime]="dt5">
+    <owl-date-time [pickerMode]="'dialog'" #dt5></owl-date-time>
+</label>
+]]></code>
+</pre>
+                        </mat-tab>
+                        <mat-tab label="TS">
+                            <pre>
+<code class="language-typescript" ngNonBindable appCodeHighlight><![CDATA[
+import {Component} from '@angular/core';
+
+/**
+ * @title Basic DateTime Picker
+ */
+@Component({
+  selector: 'app-example',
+  templateUrl: 'app-example.html',
+})
+export class AppExample {}
+]]></code>
+</pre>
+                        </mat-tab>
+                    </mat-tab-group>
+                </div>
+                <div class="viewer-body">
+                    <label>
+                        Date Time:
+                        <input [owlDateTimeTrigger]="dt5" [owlDateTime]="dt5">
+                        <owl-date-time [pickerMode]="'dialog'" #dt5></owl-date-time>
+                    </label>
+                </div>
+            </div>
+            <!-- </editor-fold> -->
+
+            <h4 class="demo-title">Use Picker as Inline element</h4>
+            <p>The OwlDateTime picker could also be used as an inline element.</p>
+            <!-- <editor-fold desc="Inline"> -->
+            <div class="viewer-wrapper">
+                <div class="viewer-title">
+                    <div class="viewer-title-spacer">
+                        Basic Use
+                    </div>
+                </div>
+                <div class="viewer-source">
+                    <mat-tab-group>
+                        <mat-tab label="HTML">
+<pre>
+<code class="language-markup" ngNonBindable appCodeHighlight><![CDATA[
+<owl-date-time-inline [(ngModel)]="selectedMoment"></owl-date-time-inline>
+]]></code>
+</pre>
+                        </mat-tab>
+                        <mat-tab label="TS">
+                            <pre>
+<code class="language-typescript" ngNonBindable appCodeHighlight><![CDATA[
+import {Component} from '@angular/core';
+
+/**
+ * @title Basic DateTime Picker
+ */
+@Component({
+  selector: 'app-example',
+  templateUrl: 'app-example.html',
+})
+export class AppExample {
+    public selectedMoment = new Date();
+}
+]]></code>
+</pre>
+                        </mat-tab>
+                    </mat-tab-group>
+                </div>
+                <div class="viewer-body">
+                    <owl-date-time-inline [(ngModel)]="selectedMoment"></owl-date-time-inline>
+                </div>
+            </div>
+            <!-- </editor-fold> -->
+
+            <h4 class="demo-title">Support Range Selection</h4>
+            <p>The OwlDateTime picker supports range selection via overridden property <b>[selectMode]</b> to 'range' in
+                its associated input.</p>
+            <!-- <editor-fold desc="Range"> -->
+            <div class="viewer-wrapper">
+                <div class="viewer-title">
+                    <div class="viewer-title-spacer">
+                        Picker with range selection
+                    </div>
+                </div>
+                <div class="viewer-source">
+                    <mat-tab-group>
+                        <mat-tab label="HTML">
+<pre>
+<code class="language-markup" ngNonBindable appCodeHighlight><![CDATA[
+<label>
+    Date Time Range:
+    <input [owlDateTimeTrigger]="dt10" [owlDateTime]="dt10"
+           [selectMode]="'range'">
+    <owl-date-time #dt10></owl-date-time>
+</label>
+]]></code>
+</pre>
+                        </mat-tab>
+                        <mat-tab label="TS">
+                            <pre>
+<code class="language-typescript" ngNonBindable appCodeHighlight><![CDATA[
+import {Component} from '@angular/core';
+
+/**
+ * @title Basic DateTime Picker
+ */
+@Component({
+  selector: 'app-example',
+  templateUrl: 'app-example.html',
+})
+export class AppExample {}
+]]></code>
+</pre>
+                        </mat-tab>
+                    </mat-tab-group>
+                </div>
+                <div class="viewer-body">
+                    <label>
+                        Date Time Range:
+                        <input [owlDateTimeTrigger]="dt10" [owlDateTime]="dt10"
+                               [style.width]="'350px'" [selectMode]="'range'">
+                        <owl-date-time #dt10></owl-date-time>
+                    </label>
+                </div>
+            </div>
+            <!-- </editor-fold> -->
+
+            <h4 class="demo-title">Use with @angular/forms</h4>
+            <p>
+                <b>owl-date-time</b> is compatible with @angular/forms and supports both FormsModule and
+                ReactiveFormsModule.
+            </p>
+            <!-- <editor-fold desc="Selected Value"> -->
+            <div class="viewer-wrapper">
+                <div class="viewer-title">
+                    <div class="viewer-title-spacer">
+                        DateTime Picker with selected value
+                    </div>
+                </div>
+                <div class="viewer-source">
+                    <mat-tab-group>
+                        <mat-tab label="HTML">
+<pre>
+<code class="language-markup" ngNonBindable appCodeHighlight><![CDATA[
+<div class="input-wrapper">
+    <label>Date Time(binding via ngModel):</label>
+    <input [(ngModel)]="selectedMoment"
+           [owlDateTimeTrigger]="dtPicker1" [owlDateTime]="dtPicker1">
+    <owl-date-time #dtPicker1></owl-date-time>
+</div>
+
+<div class="input-wrapper">
+    <label>Date Time(via reactive form):</label>
+    <input [formControl]="selectedMoment2"
+           [owlDateTimeTrigger]="dtPicker2" [owlDateTime]="dtPicker2">
+    <owl-date-time #dtPicker2></owl-date-time>
+</div>
+
+<div class="input-wrapper">
+    <label>Date Time Range:</label>
+    <input [(ngModel)]="selectedMoments" [selectMode]="'range'"
+           [owlDateTimeTrigger]="dtPicker3" [owlDateTime]="dtPicker3">
+    <owl-date-time #dtPicker3></owl-date-time>
+</div>
+]]></code>
+</pre>
+                        </mat-tab>
+                        <mat-tab label="TS">
+                            <pre>
+<code class="language-typescript" ngNonBindable appCodeHighlight><![CDATA[
+import {Component} from '@angular/core';
+
+/**
+ * @title Basic DateTime Picker
+ */
+@Component({
+  selector: 'app-example',
+  templateUrl: 'app-example.html',
+})
+export class AppExample {
+    public selectedMoment = new Date();
+    public selectedMoment2 = new FormControl(new Date());
+    public selectedMoments = [new Date(2018, 1, 12, 10, 30), new Date(2018, 3, 21, 20, 30)];
+}
+]]></code>
+</pre>
+                        </mat-tab>
+                    </mat-tab-group>
+                </div>
+                <div class="viewer-body">
+                    <div class="input-wrapper">
+                        <label>Date Time(binding via ngModel):</label>
+                        <input [(ngModel)]="selectedMoment" [owlDateTimeTrigger]="dtPicker1" [owlDateTime]="dtPicker1">
+                        <owl-date-time #dtPicker1></owl-date-time>
+                    </div>
+
+                    <div class="input-wrapper">
+                        <label>Date Time(via reactive form):</label>
+                        <input [formControl]="selectedMoment2" [owlDateTimeTrigger]="dtPicker2"
+                               [owlDateTime]="dtPicker2">
+                        <owl-date-time #dtPicker2></owl-date-time>
+                    </div>
+
+                    <div class="input-wrapper">
+                        <label>Date Time Range:</label>
+                        <input [style.width]="'350px'" [(ngModel)]="selectedMoments" [selectMode]="'range'"
+                               [owlDateTimeTrigger]="dtPicker3" [owlDateTime]="dtPicker3">
+                        <owl-date-time #dtPicker3></owl-date-time>
+                    </div>
+                </div>
+            </div>
+            <!-- </editor-fold> -->
+
+            <h4 class="demo-title">Setting the calendar start view</h4>
+            <p>By default the calendar will open in month view, this can be changed by setting the <b>[startView]</b>
+                property of
+                <b>owl-date-time</b> to "year". In year view the user will see all months of the year and then proceed
+                to month
+                view after choosing a month.</p>
+            <!-- <editor-fold desc="Start View"> -->
+            <div class="viewer-wrapper">
+                <div class="viewer-title">
+                    <div class="viewer-title-spacer">
+                        Setting the calendar starting view
+                    </div>
+                </div>
+                <div class="viewer-source">
+                    <mat-tab-group>
+                        <mat-tab label="HTML">
+<pre>
+<code class="language-markup" ngNonBindable appCodeHighlight><![CDATA[
+<label>
+    Date
+    <input [owlDateTimeTrigger]="dt6" [owlDateTime]="dt6">
+    <owl-date-time [pickerType]="'calendar'"
+                   [startView]="'year'" #dt6></owl-date-time>
+</label>
+]]></code>
+</pre>
+                        </mat-tab>
+                        <mat-tab label="TS">
+                            <pre>
+<code class="language-typescript" ngNonBindable appCodeHighlight><![CDATA[
+import {Component} from '@angular/core';
+
+/**
+ * @title Basic DateTime Picker
+ */
+@Component({
+  selector: 'app-example',
+  templateUrl: 'app-example.html',
+})
+export class AppExample {}
+]]></code>
+</pre>
+                        </mat-tab>
+                    </mat-tab-group>
+                </div>
+                <div class="viewer-body">
+                    <label>
+                        Date:
+                        <input [owlDateTimeTrigger]="dt6" [owlDateTime]="dt6">
+                        <owl-date-time [pickerType]="'calendar'" [startView]="'year'" #dt6></owl-date-time>
+                    </label>
+                </div>
+            </div>
+            <!-- </editor-fold> -->
+
+            <h4 class="demo-title">Setting picker start moment</h4>
+            <p>The moment that the picker opens to is determined by first checking if any date or time is currently
+                selected, if so it will open to the month or year containing that date and timer is set to that moment.
+                Otherwise it will open to the month or year containing today's date and set to current time. This
+                behavior can be overridden by using the <b>[startAt]</b> property of <b>owl-date-time</b>. In this case
+                the calendar will open to the month or year containing the startAt date and timer is set to startAt
+                time.</p>
+            <!-- <editor-fold desc="Start At"> -->
+            <div class="viewer-wrapper">
+                <div class="viewer-title">
+                    <div class="viewer-title-spacer">
+                        Setting the picker default start moment
+                    </div>
+                </div>
+                <div class="viewer-source">
+                    <mat-tab-group>
+                        <mat-tab label="HTML">
+<pre>
+<code class="language-markup" ngNonBindable appCodeHighlight><![CDATA[
+<label>
+    Date Time:
+    <input [owlDateTimeTrigger]="dt7" [owlDateTime]="dt7">
+    <owl-date-time [startAt]="startAt" #dt7></owl-date-time>
+</label>
+]]></code>
+</pre>
+                        </mat-tab>
+                        <mat-tab label="TS">
+                            <pre>
+<code class="language-typescript" ngNonBindable appCodeHighlight><![CDATA[
+import {Component} from '@angular/core';
+
+/**
+ * @title Basic DateTime Picker
+ */
+@Component({
+  selector: 'app-example',
+  templateUrl: 'app-example.html',
+})
+export class AppExample {
+    // Open the picker at this (March 15 2019, 20:30) moment
+    public startAt = new Date(2019, 2, 15, 20, 30);
+}
+]]></code>
+</pre>
+                        </mat-tab>
+                    </mat-tab-group>
+                </div>
+                <div class="viewer-body">
+                    <label>
+                        Date Time:
+                        <input [owlDateTimeTrigger]="dt7" [owlDateTime]="dt7">
+                        <owl-date-time [startAt]="startAt" #dt7></owl-date-time>
+                    </label>
+                </div>
+            </div>
+            <!-- </editor-fold> -->
+
+            <h4 class="demo-title">Date Time Validation</h4>
+            <p>There are three properties that add date-time validation to the picker's input. The first two are the <b>[min]</b>
+                and <b>[max]</b> properties. In addition to enforcing validation on the input, these properties will
+                disable all dates on the calendar or time value on the timer popup before or after the respective values
+                and prevent the user from advancing the calendar past the month or year (depending on current view)
+                containing the min or max date.</p>
+            <!-- <editor-fold desc="Min & Max"> -->
+            <div class="viewer-wrapper">
+                <div class="viewer-title">
+                    <div class="viewer-title-spacer">
+                        Picker with min & max validation
+                    </div>
+                </div>
+                <div class="viewer-source">
+                    <mat-tab-group>
+                        <mat-tab label="HTML">
+<pre>
+<code class="language-markup" ngNonBindable appCodeHighlight><![CDATA[
+<label>
+    Date Time:
+    <input [min]="min" [max]="max"
+           [owlDateTimeTrigger]="dt8" [owlDateTime]="dt8">
+    <owl-date-time #dt8></owl-date-time>
+</label>
+]]></code>
+</pre>
+                        </mat-tab>
+                        <mat-tab label="TS">
+                            <pre>
+<code class="language-typescript" ngNonBindable appCodeHighlight><![CDATA[
+import {Component} from '@angular/core';
+
+/**
+ * @title Basic DateTime Picker
+ */
+@Component({
+  selector: 'app-example',
+  templateUrl: 'app-example.html',
+})
+export class AppExample {
+
+    // Min moment: February 12 2018, 10:30
+    public min = new Date(2018, 1, 12, 10, 30);
+
+    // Max moment: April 21 2018, 20:30
+    public max = new Date(2018, 3, 21, 20, 30);
+}
+]]></code>
+</pre>
+                        </mat-tab>
+                    </mat-tab-group>
+                </div>
+                <div class="viewer-body">
+                    <label>
+                        Date Time:
+                        <input [min]="min" [max]="max" [owlDateTimeTrigger]="dt8" [owlDateTime]="dt8">
+                        <owl-date-time #dt8></owl-date-time>
+                    </label>
+                </div>
+            </div>
+            <!-- </editor-fold> -->
+
+            <p>The second way to add date-time validation is using the owlDateTimeFilter property of the picker's input.
+                This property accepts a function of <code class="language-markup"><![CDATA[
+                    <D> => boolean]]>
+                </code> (where
+                <code class="language-markup"><![CDATA[
+                    <D>]]>
+                </code> is the date type used by the picker). A result of
+                true indicates that the date-time is valid and a result of false indicates that it is not. Again
+                this will also disable the dates on the calendar that are invalid and prevent time being set on
+                the timer.
+            </p>
+            <!-- <editor-fold desc="Date Filter"> -->
+            <div class="viewer-wrapper">
+                <div class="viewer-title">
+                    <div class="viewer-title-spacer">
+                        Picker with date filter validation
+                    </div>
+                </div>
+                <div class="viewer-source">
+                    <mat-tab-group>
+                        <mat-tab label="HTML">
+<pre>
+<code class="language-markup" ngNonBindable appCodeHighlight><![CDATA[
+<label>
+    Date Time:
+    <input [owlDateTimeTrigger]="dt9" [owlDateTime]="dt9"
+           [owlDateTimeFilter]="myFilter">
+    <owl-date-time #dt9></owl-date-time>
+</label>
+]]></code>
+</pre>
+                        </mat-tab>
+                        <mat-tab label="TS">
+                            <pre>
+<code class="language-typescript" ngNonBindable appCodeHighlight><![CDATA[
+import {Component} from '@angular/core';
+
+/**
+ * @title Basic DateTime Picker
+ */
+@Component({
+  selector: 'app-example',
+  templateUrl: 'app-example.html',
+})
+export class AppExample {
+    public myFilter = (d: Date): boolean => {
+        const day = d.getDay();
+        // Prevent Saturday and Sunday from being selected.
+        return day !== 0 && day !== 6;
+    }
+}
+]]></code>
+</pre>
+                        </mat-tab>
+                    </mat-tab-group>
+                </div>
+                <div class="viewer-body">
+                    <label>
+                        Date Time:
+                        <input [owlDateTimeTrigger]="dt9" [owlDateTime]="dt9"
+                               [owlDateTimeFilter]="myFilter">
+                        <owl-date-time #dt9></owl-date-time>
+                    </label>
+                </div>
+            </div>
+            <!-- </editor-fold> -->
+
+            <h4 class="demo-title">Validation Errors</h4>
+            <p>There are five validation errors that can be checked:</p>
+            <ul>
+                <li>A value that violates the min property will have a owlDateTimeMin error.</li>
+                <li>A value that violates the max property will have a owlDateTimeMax error.</li>
+                <li>A value that violates the owlDateTimeFilter property will have a owlDateTimeFilter error.</li>
+                <li>An invalid date-time value that input has will have a owlDateTimeParse error.</li>
+                <li>If the 'from' and 'to' values in range selection are invalid ('from' value after 'to', or 'to' value
+                    before 'from'), it will have a owlDateTimeRange error.
+                </li>
+            </ul>
+            <!-- <editor-fold desc="Validation Error"> -->
+            <div class="viewer-wrapper">
+                <div class="viewer-title">
+                    <div class="viewer-title-spacer">
+                        Validation Error
+                    </div>
+                </div>
+                <div class="viewer-source">
+                    <mat-tab-group>
+                        <mat-tab label="HTML">
+<pre>
+<code class="language-markup" ngNonBindable appCodeHighlight><![CDATA[
+<label>
+    Date Time:
+    <input [(ngModel)]="invalidMoment"
+           [min]="min" [max]="max"
+           [owlDateTimeTrigger]="dt11" [owlDateTime]="dt11"
+           #dateTime="ngModel">
+    <owl-date-time #dt11></owl-date-time>
+</label>
+<div *ngIf="dateTime.invalid && dateTime.errors.owlDateTimeMin">
+    Date Time value must after {{min | date: 'medium'}}
+</div>
+<div *ngIf="dateTime.invalid && dateTime.errors.owlDateTimeMax">
+    Date Time value must before {{max | date: 'medium'}}
+</div>
+]]></code>
+</pre>
+                        </mat-tab>
+                        <mat-tab label="TS">
+                            <pre>
+<code class="language-typescript" ngNonBindable appCodeHighlight><![CDATA[
+import {Component} from '@angular/core';
+
+/**
+ * @title Basic DateTime Picker
+ */
+@Component({
+  selector: 'app-example',
+  templateUrl: 'app-example.html',
+})
+export class AppExample {
+    public invalidMoment =  new Date(2018, 1, 11, 9, 30);
+    public min = new Date(2018, 1, 12, 10, 30);
+    public max = new Date(2018, 3, 21, 20, 30);
+}
+]]></code>
+</pre>
+                        </mat-tab>
+                    </mat-tab-group>
+                </div>
+                <div class="viewer-body">
+                    <label>
+                        Date Time:
+                        <input [(ngModel)]="invalidMoment"
+                               [min]="min" [max]="max"
+                               [owlDateTimeTrigger]="dt11" [owlDateTime]="dt11"
+                               #dateTime="ngModel">
+                        <owl-date-time #dt11></owl-date-time>
+                    </label>
+                    <div *ngIf="dateTime.invalid && dateTime.errors.owlDateTimeMin" [style.color]="'red'">
+                        Date Time value must after {{min | date: 'medium'}}
+                    </div>
+                    <div *ngIf="dateTime.invalid && dateTime.errors.owlDateTimeMax" [style.color]="'red'">
+                        Date Time value must before {{max | date: 'medium'}}
+                    </div>
                 </div>
             </div>
             <!-- </editor-fold> -->

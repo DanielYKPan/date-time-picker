@@ -67,12 +67,30 @@ main {
   border-bottom: 1px solid rgba(0,0,0,.12);
   overflow-x: scroll;
   min-height: 150px;
+
+  pre[class*="language-"] {
+    background: none;
+  }
+}
+
+pre[class*="language-"] {
+  padding: 0 1em;
 }
 
 .viewer-body {
   padding: 30px;
+
+ .input-wrapper {
+   margin-bottom: .5em;
+ }
 }
 
-pre[class*="language-"] {
-  background: none;
+p {
+  font-size: 1.1em;
+  line-height: 1.5em;
+}
+
+.demo-title {
+  font-size: 1.5em;
+  margin: 2em 0 0;
 }
