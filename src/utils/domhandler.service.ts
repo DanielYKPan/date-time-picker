@@ -199,12 +199,12 @@ export class DomHandlerService {
     }
 
     public blockScroll(): void {
-        const root = this.document.documentElement;
+        const root = this.document.body;
         root.classList.add('owl-global-scrollblock');
     }
 
     public resumeScroll(): void {
-        const root = this.document.documentElement;
+        const root = this.document.body;
         root.classList.remove('owl-global-scrollblock');
     }
 }
