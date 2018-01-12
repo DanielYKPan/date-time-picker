@@ -9,8 +9,8 @@ import {
 } from '@angular/core';
 import { OwlDateTimeComponent } from './date-time-picker.component';
 import { Subscription } from 'rxjs/Subscription';
-import { Observable } from 'rxjs/Rx';
-import 'rxjs/rx';
+import {merge} from 'rxjs/observable/merge';
+import {of as observableOf} from 'rxjs/observable/of';
 
 @Directive({
     selector: '[owlDateTimeTrigger]',
@@ -68,12 +68,12 @@ export class OwlDateTimeTriggerDirective<T> implements OnInit, OnChanges, AfterC
         this.stateChanges.unsubscribe();
 
         const inputDisabled = this.dtPicker && this.dtPicker.dtInput ?
-            this.dtPicker.dtInput.disabledChange : Observable.of();
+            this.dtPicker.dtInput.disabledChange : observableOf();
 
         const pickerDisabled = this.dtPicker ?
-            this.dtPicker.disabledChange : Observable.of();
+            this.dtPicker.disabledChange : observableOf();
 
-        this.stateChanges = Observable.merge(pickerDisabled, inputDisabled)
+        this.stateChanges = merge(pickerDisabled, inputDisabled)
             .subscribe(() => {
                 this.changeDetector.markForCheck();
             });

@@ -15,7 +15,11 @@ import { OwlDialogConfig } from './dialog-config.class';
 import { BasePortalHost, ComponentPortal, TemplatePortal, PortalHostDirective } from '../portal';
 
 const zoomFadeIn = {opacity: 0, transform: 'translateX({{ x }}) translateY({{ y }}) scale({{scale}})'};
-const zoomFadeInFrom = {...zoomFadeIn, transformOrigin: '{{ ox }} {{ oy }}'};
+const zoomFadeInFrom = {
+    opacity: 0,
+    transform: 'translateX({{ x }}) translateY({{ y }}) scale({{scale}})',
+    transformOrigin: '{{ ox }} {{ oy }}'
+};
 
 @Component({
     moduleId: module.id,
