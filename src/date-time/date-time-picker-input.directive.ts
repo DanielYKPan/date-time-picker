@@ -173,9 +173,8 @@ export class OwlDateTimeInputDirective<T> implements OnInit, AfterViewInit, Afte
     /**
      * The input client rect -- for positioning the picker
      * */
-    private _inputRect: ClientRect;
-    get inputRect() {
-        return this._inputRect;
+    get inputRect(): ClientRect {
+        return this.elmRef.nativeElement.getBoundingClientRect();
     }
 
     /** The date-time-picker that this input is associated with. */
@@ -311,7 +310,6 @@ export class OwlDateTimeInputDirective<T> implements OnInit, AfterViewInit, Afte
     }
 
     public ngAfterViewInit(): void {
-        this._inputRect = this.elmRef.nativeElement.getBoundingClientRect();
     }
 
     public ngAfterContentInit(): void {

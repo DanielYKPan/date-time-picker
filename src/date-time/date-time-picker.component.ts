@@ -438,14 +438,15 @@ export class OwlDateTimeComponent<T> extends OwlDateTime<T> implements OnInit, O
      * input and adjusts to the viewport.
      * */
     private getOverlayPanePosition( containerHeight: number ): any {
-        const paneOffsetX = this._dtInput.inputRect.left;
-        let paneOffsetY = this._dtInput.inputRect.bottom;
+        const inputRect = this._dtInput.inputRect;
+        const paneOffsetX = inputRect.left;
+        let paneOffsetY = inputRect.bottom;
 
         const viewportRect = this.domHandler.getViewport();
-        const bottomAvailableSpace = viewportRect.height - this._dtInput.inputRect.bottom;
+        const bottomAvailableSpace = viewportRect.height - inputRect.bottom;
 
         if (containerHeight > bottomAvailableSpace) {
-            paneOffsetY = this._dtInput.inputRect.top - containerHeight;
+            paneOffsetY = inputRect.top - containerHeight;
         }
 
         if (paneOffsetY < 0) {
