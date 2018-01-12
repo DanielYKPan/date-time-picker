@@ -14,7 +14,7 @@ import { OwlDateTimeComponent } from './date-time-picker.component';
 import { DateTimeAdapter } from './adapter/date-time-adapter.class';
 import { OWL_DATE_TIME_FORMATS, OwlDateTimeFormats } from './adapter/date-time-format.class';
 import { DOWN_ARROW } from '../utils';
-import { Subscription } from 'rxjs/Rx';
+import { Subscription } from 'rxjs/Subscription';
 
 export const OWL_DATETIME_VALUE_ACCESSOR: any = {
     provide: NG_VALUE_ACCESSOR,
@@ -173,8 +173,9 @@ export class OwlDateTimeInputDirective<T> implements OnInit, AfterViewInit, Afte
     /**
      * The input client rect -- for positioning the picker
      * */
+    private _inputRect: ClientRect;
     get inputRect() {
-        return this.elmRef.nativeElement.getBoundingClientRect();
+        return this._inputRect;
     }
 
     /** The date-time-picker that this input is associated with. */
@@ -310,6 +311,7 @@ export class OwlDateTimeInputDirective<T> implements OnInit, AfterViewInit, Afte
     }
 
     public ngAfterViewInit(): void {
+        this._inputRect = this.elmRef.nativeElement.getBoundingClientRect();
     }
 
     public ngAfterContentInit(): void {

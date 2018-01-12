@@ -17,7 +17,7 @@ import { OwlDialogRef, OwlDialogService } from '../dialog';
 import { ComponentPortal } from '../portal';
 import { OwlOverlayComponent } from '../overlay';
 import { DomHandlerService, InjectionService } from '../utils';
-import { Subscription } from 'rxjs/Rx';
+import { Subscription } from 'rxjs/Subscription';
 import { take } from 'rxjs/operators';
 
 @Component({

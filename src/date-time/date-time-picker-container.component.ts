@@ -19,7 +19,8 @@ import { OwlTimerComponent } from './timer.component';
 import { DateTimeAdapter } from './adapter/date-time-adapter.class';
 import { OwlDateTime, PickerType } from './date-time.class';
 import { ESCAPE } from '../utils';
-import { Observable, Subject } from 'rxjs/Rx';
+import { Subject } from 'rxjs/Subject';
+import { Observable } from 'rxjs/Observable';
 
 @Component({
     moduleId: module.id,

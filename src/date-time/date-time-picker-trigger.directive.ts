@@ -8,7 +8,8 @@ import {
     SimpleChanges
 } from '@angular/core';
 import { OwlDateTimeComponent } from './date-time-picker.component';
-import { Observable, Subscription } from 'rxjs/Rx';
+import { Subscription } from 'rxjs/Subscription';
+import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/observable/merge';
 
