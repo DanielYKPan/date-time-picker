@@ -1,4 +1,4 @@
-@angular/forms@5.2.0
+@angular/common@5.2.0
 MIT
 MIT
 
@@ -6,11 +6,11 @@ MIT
 MIT
 MIT
 
-@angular/platform-browser@5.2.0
+@angular/forms@5.2.0
 MIT
 MIT
 
-@angular/common@5.2.0
+@angular/platform-browser@5.2.0
 MIT
 MIT
 
