@@ -62,21 +62,21 @@ Animation
 This picker uses angular animations to improve the user experience, 
 therefore you need to install `@angular/animations` and import `BrowserAnimationsModule` to your application. 
 ```
-    npm install @angular/animations --save
+npm install @angular/animations --save
 ```
 ```typescript
-    import {BrowserModule} from '@angular/platform-browser';
-    import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-    
-    @NgModule({
-        imports: [
-            BrowserModule,
-            BrowserAnimationsModule,
-            //...
-        ],
+import {BrowserModule} from '@angular/platform-browser';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+
+@NgModule({
+    imports: [
+        BrowserModule,
+        BrowserAnimationsModule,
         //...
-    })
-    export class YourAppModule { }
+    ],
+    //...
+})
+export class YourAppModule { }
 ```
 If you prefer to disable animation effect, use `NoopAnimationsModule` instead.
 
@@ -84,7 +84,7 @@ Choose a date implementation
 -------
 The date-time picker was built to be date implementation agnostic. 
 Developers need to make sure to provide the appropriate pieces for the picker to work with their chosen implementation.
-There are two pre-made modules, users need to import one of them or build your own one (learn more about this from [here](https://danielykpan.github.io/date-time-picker/)).
+There are two pre-made modules, users need to import one of them or build your own one (learn more about this from [here](https://danielykpan.github.io/date-time-picker/#locale-formats)).
 
 - `OwlNativeDateTimeModule` - support for native JavaScript Date object
 - `OwlMomentDateTimeModule` - support for MomentJs
@@ -93,7 +93,7 @@ Properties for `owl-date-time`
 -------
 |Name|Type|Required|Default|Description|
 |:--- |:--- |:--- |:--- |:--- |
-|`pickerType`|`both`, `calendar`, `timer`|Optional|`botn`| Set the type of the dateTime picker. `both`: show both calendar and timer, `calendar`: only show calendar, `timer`: only show timer. |
+|`pickerType`|`both`, `calendar`, `timer`|Optional|`both`| Set the type of the dateTime picker. `both`: show both calendar and timer, `calendar`: only show calendar, `timer`: only show timer. |
 |`pickerMode`|`popup`, `dialog`|Optional|`popup`| The style the picker would open as. |
 |`startView`|`month`, `year`|Optional|`month`| The view that the calendar should start in. |
 |`startAt`| T/null |Optional|`null`| The moment to open the picker to initially. |
@@ -136,6 +136,33 @@ Properties for `[owlDateTimeTrigger]`
 |:--- |:--- |:--- |:--- |:--- |
 |`owlDateTimeTrigger`|`OwlDateTimeComponent<T>`|Require|`null`| The date time picker that this trigger is associated with.|
 |`disabled`|boolean|Optional|`false`|When specify to true, it would disable the trigger.|
+
+
+Properties for `[owlDateTimeTrigger]`
+-------
+|Name|Type|Required|Default|Description|
+|:--- |:--- |:--- |:--- |:--- |
+|`owlDateTimeTrigger`|`OwlDateTimeComponent<T>`|Require|`null`| The date time picker that this trigger is associated with.|
+|`disabled`|boolean|Optional|`false`|When specify to true, it would disable the trigger.|
+
+
+Properties for `owl-date-time-inline`
+-------
+|Name|Type|Required|Default|Description|
+|:--- |:--- |:--- |:--- |:--- |
+|`pickerType`|`both`, `calendar`, `timer`|Optional|`botn`| Set the type of the dateTime picker. `both`: show both calendar and timer, `calendar`: only show calendar, `timer`: only show timer. |
+|`startView`|`month`, `year`|Optional|`month`| The view that the calendar should start in. |
+|`startAt`| T/null |Optional|`null`| The moment to open the picker to initially. |
+|`firstDayOfWeek`|number|Optional|`0`| Set the first day of week. Valid value is from 0 to 6. 0: Sunday ~ 6: Saturday|
+|`showSecondsTimer`|boolean|Optional|`false`| When specify it to true, it would show a timer to configure the second's value |
+|`stepHour`|number|Optional|`1`| Hours to change per step.|
+|`stepMinute`|number|Optional|`1`| Minutes to change per step.|
+|`stepSecond`|number|Optional|`1`| Seconds to change per step.|
+|`disabled`|boolean|Optional|`false`|When specify to true, it would disable the picker.|
+|`dateTimeFilter`|`( date: T)=>boolean `|Optional|`null`|A function to filter date time.|
+|`min`|`<T>`|Optional|`null`| The minimum valid date time.|
+|`max`|`<T>`|Optional|`null`| The maximum valid date time.|
+|`selectMode`|`single`, `range`|Optional|`single`| Specify the picker's select mode. `single`: a single value allowed, `range`: allow users to select a range of date-time.|
 
 Localization and DateTime Format
 -------
