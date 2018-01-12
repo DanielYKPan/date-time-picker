@@ -1,26 +1,24 @@
-/**
- * app.module
- */
-
+import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { BrowserModule }  from '@angular/platform-browser';
-import { AppComponent } from './app.component';
-import { FormsModule } from "@angular/forms";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { DateTimePickerModule } from 'ng-pick-datetime';
+import { FormsModule } from '@angular/forms';
+
+import { AppComponent } from './app.component';
+import { OwlDateTimeModule, OwlNativeDateTimeModule } from '../../npmdist/date-time';
 
 @NgModule({
+    declarations: [
+        AppComponent
+    ],
     imports: [
         BrowserModule,
         BrowserAnimationsModule,
         FormsModule,
-        DateTimePickerModule,
+        OwlDateTimeModule,
+        OwlNativeDateTimeModule,
     ],
-    declarations: [
-        AppComponent
-    ],
+    providers: [],
     bootstrap: [AppComponent]
 })
 export class AppModule {
 }
-
