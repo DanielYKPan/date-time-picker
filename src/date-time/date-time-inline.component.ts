@@ -20,7 +20,6 @@ export const OWL_DATETIME_VALUE_ACCESSOR: any = {
 };
 
 @Component({
-    moduleId: module.id,
     selector: 'owl-date-time-inline',
     templateUrl: './date-time-inline.component.html',
     styleUrls: ['./date-time-inline.component.scss'],

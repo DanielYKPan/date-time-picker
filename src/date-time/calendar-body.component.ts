@@ -14,7 +14,6 @@ export class CalendarCell {
 }
 
 @Component({
-    moduleId: module.id,
     selector: '[owl-date-time-calendar-body]',
     exportAs: 'owlDateTimeCalendarBody',
     templateUrl: './calendar-body.component.html',

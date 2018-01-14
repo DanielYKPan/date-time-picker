@@ -15,7 +15,6 @@ import { OwlOverlayPaneComponent } from './overlay-pane.component';
 import { animate, style, transition, trigger } from '@angular/animations';
 
 @Component({
-    moduleId: module.id,
     selector: 'owl-owl-overlay',
     templateUrl: './overlay.component.html',
     styleUrls: ['./overlay.component.scss'],

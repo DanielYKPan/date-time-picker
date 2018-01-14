@@ -14,7 +14,6 @@ const DAYS_PER_WEEK = 7;
 const WEEKS_PER_VIEW = 6;
 
 @Component({
-    moduleId: module.id,
     selector: 'owl-date-time-month-view',
     exportAs: 'owlYearView',
     templateUrl: './calendar-month-view.component.html',

@@ -14,7 +14,6 @@ import {
 } from '@angular/core';
 
 @Component({
-    moduleId: module.id,
     exportAs: 'owlDateTimeTimerBox',
     selector: 'owl-date-time-timer-box',
     templateUrl: './timer-box.component.html',

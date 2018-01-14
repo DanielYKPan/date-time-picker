@@ -10,7 +10,6 @@ import { DateTimeAdapter } from './adapter/date-time-adapter.class';
 import { take } from 'rxjs/operators';
 
 @Component({
-    moduleId: module.id,
     exportAs: 'owlDateTimeTimer',
     selector: 'owl-date-time-timer',
     templateUrl: './timer.component.html',

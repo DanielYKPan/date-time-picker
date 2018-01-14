@@ -23,7 +23,6 @@ import { Subject } from 'rxjs/Subject';
 import { Observable } from 'rxjs/Observable';
 
 @Component({
-    moduleId: module.id,
     exportAs: 'owlDateTimeContainer',
     selector: 'owl-date-time-container',
     templateUrl: './date-time-picker-container.component.html',

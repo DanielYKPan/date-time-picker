@@ -22,7 +22,6 @@ const zoomFadeInFrom = {
 };
 
 @Component({
-    moduleId: module.id,
     selector: 'owl-dialog-container',
     templateUrl: './dialog-container.component.html',
     animations: [

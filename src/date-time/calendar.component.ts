@@ -14,7 +14,6 @@ import { DateTimeAdapter } from './adapter/date-time-adapter.class';
 import { OWL_DATE_TIME_FORMATS, OwlDateTimeFormats } from './adapter/date-time-format.class';
 
 @Component({
-    moduleId: module.id,
     selector: 'owl-date-time-calendar',
     exportAs: 'owlDateTimeCalendar',
     templateUrl: './calendar.component.html',

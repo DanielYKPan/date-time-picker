@@ -21,7 +21,6 @@ import { Subscription } from 'rxjs/Subscription';
 import { take } from 'rxjs/operators';
 
 @Component({
-    moduleId: module.id,
     selector: 'owl-date-time',
     exportAs: 'owlDateTime',
     templateUrl: './date-time-picker.component.html',
