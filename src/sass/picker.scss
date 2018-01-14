@@ -21,7 +21,7 @@
 }
 
 .owl-overlay-panel {
-  position: relative;
+  position: absolute;
   pointer-events: auto;
   box-sizing: border-box;
   z-index: 1000;
@@ -53,7 +53,7 @@
 }
 
 .owl-overlay-pane {
-  position: absolute;
+  position: relative;
   pointer-events: auto;
   z-index: 1000;
   box-sizing: border-box;
