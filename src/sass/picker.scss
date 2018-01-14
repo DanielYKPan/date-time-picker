@@ -21,7 +21,7 @@
 }
 
 .owl-overlay-panel {
-  position: absolute;
+  position: relative;
   pointer-events: auto;
   box-sizing: border-box;
   z-index: 1000;
@@ -344,16 +344,8 @@ $theme-color: #3f51b5;
   }
 }
 
+.owl-dt-popup-container,
 .owl-dt-inline-container {
-  display: inline-block;
-  position: relative;
-  width: 300px;
-  box-shadow: 0 5px 5px -3px rgba(0, 0, 0, .2),
-  0 8px 10px 1px rgba(0, 0, 0, .14),
-  0 3px 14px 2px rgba(0, 0, 0, .12);
-}
-
-.owl-dt-popup-container {
   position: relative;
   width: 300px;
   box-shadow: 0 5px 5px -3px rgba(0, 0, 0, .2),
@@ -368,6 +360,10 @@ $theme-color: #3f51b5;
   .owl-dt-calendar {
     height: 340px;
   }
+}
+
+.owl-dt-inline-container {
+  display: inline-block;
 }
 
 .owl-dt-dialog-container {
