@@ -852,12 +852,20 @@ export class AppExampleModule {
 }
 ]]></code>
 </pre>
+            <h4 class="sub-title">Use picker with MomentJS</h4>
             <p>Here is an example to use <b>OwlMomentDateTimeModule</b> with different date-time formats: (Beware that
                 OwlMomentDateTimeModule requires MomentJS)</p>
+
+<pre>
+<code class="language-typescript" ngNonBindable appCodeHighlight><![CDATA[
+    npm install ng-pick-datetime-moment moment --save;
+]]></code>
+</pre>
             <pre>
 <code class="language-typescript" ngNonBindable appCodeHighlight><![CDATA[
 import { NgModule } from '@angular/core';
-import { OwlDateTimeModule, OwlMomentDateTimeModule, OWL_DATE_TIME_FORMATS} from 'ng-pick-datetime';
+import { OwlDateTimeModule, OWL_DATE_TIME_FORMATS} from 'ng-pick-datetime';
+import { OwlMomentDateTimeModule } from 'ng-pick-datetime-moment';
 
 // See the Moment.js docs for the meaning of these formats:
 // https://momentjs.com/docs/#/displaying/format/
@@ -880,6 +888,7 @@ export class AppExampleModule {
 ]]></code>
 </pre>
 
+            <h4 class="sub-title">Build you own custom DateTimeAdapter</h4>
             <p>If neither one the pre-made modules is suitable for your project, you could customize your own date-time
                 implementation. Making the picker work with a different date-tim implementation is as easy as extending
                 DateTimeAdapter, and using your subclass as the provider. You will also want to make sure that the
@@ -890,7 +899,7 @@ export class AppExampleModule {
 <code class="language-typescript" ngNonBindable appCodeHighlight><![CDATA[
 // custom-date-time-adapter.class.ts
 import { Injectable } from '@angular/core';
-import { DateTimeAdapter, OWL_MOMENT_DATE_TIME_FORMATS} from 'ng-pick-datetime';
+import { DateTimeAdapter } from 'ng-pick-datetime';
 
 export const CUSTOM_DATE_TIME_FORMATS = {
     fullPickerInput: 'your custom value',
