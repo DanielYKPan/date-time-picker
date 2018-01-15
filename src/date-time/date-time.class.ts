@@ -124,6 +124,20 @@ export abstract class OwlDateTime<T> {
 
     constructor( @Optional() protected dateTimeAdapter: DateTimeAdapter<T>,
                  @Optional() @Inject(OWL_DATE_TIME_FORMATS) protected dateTimeFormats: OwlDateTimeFormats ) {
+        if (!this.dateTimeAdapter) {
+            throw Error(
+                `OwlDateTimePicker: No provider found for DateTimeAdapter. You must import one of the following ` +
+                `modules at your application root: OwlNativeDateTimeModule, OwlMomentDateTimeModule, or provide a ` +
+                `custom implementation.`);
+        }
+
+        if (!this.dateTimeFormats) {
+            throw Error(
+                `OwlDateTimePicker: No provider found for OWL_DATE_TIME_FORMATS. You must import one of the following ` +
+                `modules at your application root: OwlNativeDateTimeModule, OwlMomentDateTimeModule, or provide a ` +
+                `custom implementation.`);
+        }
+
         this._id = `owl-dt-picker-${nextUniqueId++}`;
     }
 

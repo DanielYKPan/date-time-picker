@@ -177,12 +177,6 @@ export class OwlDateTimeComponent<T> extends OwlDateTime<T> implements OnInit, O
                  @Optional() @Inject(OWL_DATE_TIME_FORMATS) protected dateTimeFormats: OwlDateTimeFormats,
                  @Optional() @Inject(DOCUMENT) private document: any ) {
         super(dateTimeAdapter, dateTimeFormats);
-        if (!this.dateTimeAdapter) {
-            throw Error(
-                `OwlDateTimePicker: No provider found for DateTimePicker. You must import one of the following ` +
-                `modules at your application root: OwlNativeDateTimeModule, OwlMomentDateTimeModule, or provide a ` +
-                `custom implementation.`);
-        }
     }
 
     public ngOnInit() {

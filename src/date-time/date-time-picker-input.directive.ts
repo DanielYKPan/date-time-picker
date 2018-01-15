@@ -301,6 +301,20 @@ export class OwlDateTimeInputDirective<T> implements OnInit, AfterViewInit, Afte
                  private renderer: Renderer2,
                  @Optional() private dateTimeAdapter: DateTimeAdapter<T>,
                  @Optional() @Inject(OWL_DATE_TIME_FORMATS) private dateTimeFormats: OwlDateTimeFormats ) {
+        if (!this.dateTimeAdapter) {
+            throw Error(
+                `OwlDateTimePicker: No provider found for DateTimePicker. You must import one of the following ` +
+                `modules at your application root: OwlNativeDateTimeModule, OwlMomentDateTimeModule, or provide a ` +
+                `custom implementation.`);
+        }
+
+        if (!this.dateTimeFormats) {
+            throw Error(
+                `OwlDateTimePicker: No provider found for OWL_DATE_TIME_FORMATS. You must import one of the following ` +
+                `modules at your application root: OwlNativeDateTimeModule, OwlMomentDateTimeModule, or provide a ` +
+                `custom implementation.`);
+        }
+
         this.localeSub = this.dateTimeAdapter.localeChanges.subscribe(() => {
             this.value = this.value;
         });
