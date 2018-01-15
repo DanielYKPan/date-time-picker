@@ -53,7 +53,7 @@
 }
 
 .owl-overlay-pane {
-  position: relative;
+  position: absolute;
   pointer-events: auto;
   z-index: 1000;
   box-sizing: border-box;
@@ -62,6 +62,13 @@
 .owl-global-scrollblock {
   height: 100%;
   overflow: hidden;
+}
+
+.owl-overlay-dialog-container {
+  position: relative;
+  pointer-events: auto;
+  z-index: 1000;
+  box-sizing: border-box;
 }
 
 $theme-color: #3f51b5;
