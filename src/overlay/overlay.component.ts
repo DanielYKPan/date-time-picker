@@ -73,11 +73,6 @@ export class OwlOverlayComponent implements OnInit, OnDestroy {
         this._backdropStyle = val;
     }
 
-    private _transparentBackdrop = true;
-    get transparentBackdrop(): boolean {
-        return this._transparentBackdrop;
-    }
-
     private _state: 'void' | 'enter' | 'exit' = 'enter';
     get state(): 'void' | 'enter' | 'exit' {
         return this._state;
@@ -124,7 +119,7 @@ export class OwlOverlayComponent implements OnInit, OnDestroy {
      * @return {void}
      * */
     public applyBackdropConfig( config: any ): void {
-        if (config.hasBackdrop !== this._hasBackdrop) {
+        if (config.hasBackdrop !== undefined && config.hasBackdrop !== this._hasBackdrop) {
             this._hasBackdrop = config.hasBackdrop;
         }
 
@@ -134,10 +129,6 @@ export class OwlOverlayComponent implements OnInit, OnDestroy {
 
         if (config.backdropStyle) {
             this._backdropStyle = config.backdropStyle;
-        }
-
-        if (config.transparentBackdrop !== this._transparentBackdrop) {
-            this._transparentBackdrop = config.transparentBackdrop;
         }
 
         this.changeDetector.markForCheck();

@@ -21,7 +21,7 @@
 }
 
 .owl-overlay-panel {
-  position: absolute;
+  position: relative;
   pointer-events: auto;
   box-sizing: border-box;
   z-index: 1000;
@@ -38,17 +38,10 @@
   -webkit-tap-highlight-color: transparent;
   transition: opacity .4s cubic-bezier(.25, .8, .25, 1);
   opacity: .5;
-}
-
-.owl-overlay-dark-backdrop {
   background: rgba(0, 0, 0, .6);
 }
 
-.owl-overlay.transparent-backdrop {
-  background: none;
-}
-
-.owl-global-transparent-backdrop {
+.owl-transparent-backdrop {
   background: none;
 }
 
@@ -69,6 +62,15 @@
   pointer-events: auto;
   z-index: 1000;
   box-sizing: border-box;
+  display: block;
+  padding: 24px;
+  box-shadow: 0px 11px 15px -7px rgba(0, 0, 0, 0.2),
+  0px 24px 38px 3px rgba(0, 0, 0, 0.14),
+  0px 9px 46px 8px rgba(0, 0, 0, 0.12);
+  border-radius: 2px;
+  overflow: auto;
+  background: #fff;
+  color: rgba(0, 0, 0, .87);
 }
 
 $theme-color: #3f51b5;
@@ -351,8 +353,8 @@ $theme-color: #3f51b5;
   }
 }
 
-.owl-dt-popup-container,
-.owl-dt-inline-container {
+.owl-dt-inline-container,
+.owl-dt-popup-container {
   position: relative;
   width: 300px;
   box-shadow: 0 5px 5px -3px rgba(0, 0, 0, .2),

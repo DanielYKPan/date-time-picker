@@ -335,7 +335,8 @@ export class OwlDateTimeComponent<T> extends OwlDateTime<T> implements OnInit, O
      * */
     private openAsDialog(): void {
         this.dialogRef = this.dialogService.open(OwlDateTimeContainerComponent, {
-            autoFocus: false
+            autoFocus: false,
+            paneStyle: {padding: 0}
         });
         this.pickerContainer = this.dialogRef.componentInstance;
 
@@ -382,7 +383,11 @@ export class OwlDateTimeComponent<T> extends OwlDateTime<T> implements OnInit, O
      * Create an overlay for popup
      * */
     private createOverlay() {
-        return this.injectionService.appendComponent(OwlOverlayComponent);
+        const overlayRef = this.injectionService.appendComponent(OwlOverlayComponent);
+        overlayRef.instance.applyBackdropConfig({
+            backdropClass: 'owl-transparent-backdrop'
+        });
+        return overlayRef;
     }
 
     /**
