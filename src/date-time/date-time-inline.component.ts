@@ -66,7 +66,7 @@ export class OwlDateTimeInlineComponent<T> extends OwlDateTime<T> implements OnI
     }
 
     private _dateTimeFilter: ( date: T | null ) => boolean;
-    @Input()
+    @Input('owlDateTimeFilter')
     get dateTimeFilter() {
         return this._dateTimeFilter;
     }

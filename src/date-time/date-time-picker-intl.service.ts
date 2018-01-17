@@ -54,4 +54,10 @@ export class OwlDateTimeIntl {
 
     /** A label for the range 'to' in picker info */
     rangeToLabel = 'To';
+
+    /** A label for the hour12 button (AM) */
+    hour12AMLabel = 'AM';
+
+    /** A label for the hour12 button (PM) */
+    hour12PMLabel = 'PM';
 }

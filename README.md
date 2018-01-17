@@ -99,6 +99,7 @@ Properties for `owl-date-time`
 |`startAt`| T/null |Optional|`null`| The moment to open the picker to initially. |
 |`firstDayOfWeek`|number|Optional|`0`| Set the first day of week. Valid value is from 0 to 6. 0: Sunday ~ 6: Saturday|
 |`showSecondsTimer`|boolean|Optional|`false`| When specify it to true, it would show a timer to configure the second's value |
+|`hour12Timer`|boolean|Optional|`false`| When specify it to true, the timer would be in hour12 format mode|
 |`stepHour`|number|Optional|`1`| Hours to change per step.|
 |`stepMinute`|number|Optional|`1`| Minutes to change per step.|
 |`stepSecond`|number|Optional|`1`| Seconds to change per step.|
@@ -155,11 +156,12 @@ Properties for `owl-date-time-inline`
 |`startAt`| T/null |Optional|`null`| The moment to open the picker to initially. |
 |`firstDayOfWeek`|number|Optional|`0`| Set the first day of week. Valid value is from 0 to 6. 0: Sunday ~ 6: Saturday|
 |`showSecondsTimer`|boolean|Optional|`false`| When specify it to true, it would show a timer to configure the second's value |
+|`hour12Timer`|boolean|Optional|`false`| When specify it to true, the timer would be in hour12 format mode|
 |`stepHour`|number|Optional|`1`| Hours to change per step.|
 |`stepMinute`|number|Optional|`1`| Minutes to change per step.|
 |`stepSecond`|number|Optional|`1`| Seconds to change per step.|
 |`disabled`|boolean|Optional|`false`|When specify to true, it would disable the picker.|
-|`dateTimeFilter`|`( date: T)=>boolean `|Optional|`null`|A function to filter date time.|
+|`owlDateTimeFilter`|`( date: T)=>boolean `|Optional|`null`|A function to filter date time.|
 |`min`|`<T>`|Optional|`null`| The minimum valid date time.|
 |`max`|`<T>`|Optional|`null`| The maximum valid date time.|
 |`selectMode`|`single`, `range`|Optional|`single`| Specify the picker's select mode. `single`: a single value allowed, `range`: allow users to select a range of date-time.|

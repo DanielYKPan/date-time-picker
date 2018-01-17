@@ -380,7 +380,7 @@ export class OwlDateTimeInputDirective<T> implements OnInit, AfterViewInit, Afte
      * Open the picker when user hold alt + DOWN_ARROW
      * */
     @HostListener('keydown', ['$event'])
-    private handleKeydownOnHost( event: KeyboardEvent ): void {
+    public handleKeydownOnHost( event: KeyboardEvent ): void {
         if (event.altKey && event.keyCode === DOWN_ARROW) {
             this.dtPicker.open();
             event.preventDefault();
@@ -388,12 +388,12 @@ export class OwlDateTimeInputDirective<T> implements OnInit, AfterViewInit, Afte
     }
 
     @HostListener('blur', ['$event'])
-    private handleBlurOnHost( event: Event ): void {
+    public handleBlurOnHost( event: Event ): void {
         this.onModelTouched();
     }
 
     @HostListener('input', ['$event'])
-    private handleInputOnHost( event: any ): void {
+    public handleInputOnHost( event: any ): void {
         let value = event.target.value;
         let result;
 
@@ -433,7 +433,7 @@ export class OwlDateTimeInputDirective<T> implements OnInit, AfterViewInit, Afte
     }
 
     @HostListener('change', ['$event'])
-    private handleChangeOnHost( event: any ): void {
+    public handleChangeOnHost( event: any ): void {
 
         let v;
         if (this.dtPicker.selectMode === 'single') {

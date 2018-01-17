@@ -229,18 +229,19 @@ export class OwlDateTimeContainerComponent<T> implements OnInit, AfterContentIni
     }
 
     public timeSelected( time: T ): void {
+
+        this.pickerMoment = this.dateTimeAdapter.clone(time);
+
         if (!this.picker.dateTimeChecker(time)) {
             return;
         }
 
         if (this.picker.selectMode === 'single') {
-            this.pickerMoment = this.dateTimeAdapter.clone(time);
             this.picker.select(time);
             return;
         }
 
         if (this.picker.selectMode === 'range') {
-            this.pickerMoment = this.dateTimeAdapter.clone(time);
             const selecteds = [...this.picker.selecteds];
 
             // check if the 'from' is after 'to' or 'to'is before 'from'
@@ -294,6 +295,13 @@ export class OwlDateTimeContainerComponent<T> implements OnInit, AfterContentIni
      * @return {void}
      * */
     public onSetClicked( event: any ): void {
+
+        if (!this.picker.dateTimeChecker(this.pickerMoment)) {
+            this.hidePicker$.next(null);
+            event.preventDefault();
+            return;
+        }
+
         this.confirmSelected$.next(event);
         event.preventDefault();
         return;

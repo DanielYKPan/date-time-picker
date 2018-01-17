@@ -30,6 +30,13 @@ export abstract class OwlDateTime<T> {
     @Input() showSecondsTimer: boolean;
 
     /**
+     * Whether the timer is in hour12 format
+     * @default false
+     * @type {boolean}
+     * */
+    @Input() hour12Timer: boolean;
+
+    /**
      * The view that the calendar should start in.
      * @default {'month'}
      * @type {'month' | 'year'}

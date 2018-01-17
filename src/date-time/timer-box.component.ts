@@ -10,7 +10,7 @@ import {
     OnDestroy,
     OnInit,
     Output,
-    ChangeDetectorRef, HostBinding
+    HostBinding
 } from '@angular/core';
 
 @Component({
@@ -34,7 +34,13 @@ export class OwlTimerBoxComponent implements OnInit, OnDestroy {
 
     @Input() downBtnDisabled: boolean;
 
+    /**
+     * Value would be displayed in the box
+     * If it is null, the box would display [value]
+     * */
     @Input() boxValue: number;
+
+    @Input() value: number;
 
     @Input() min: number;
 
@@ -42,14 +48,18 @@ export class OwlTimerBoxComponent implements OnInit, OnDestroy {
 
     @Input() step = 1;
 
-    @Output() boxValueChange = new EventEmitter<number>();
+    @Output() valueChange = new EventEmitter<number>();
+
+    get displayValue(): number {
+        return this.boxValue || this.value;
+    }
 
     @HostBinding('class.owl-dt-timer-box')
     get owlDTTimerBoxClass(): boolean {
         return true;
     }
 
-    constructor( private changeDetectorRef: ChangeDetectorRef ) {
+    constructor() {
     }
 
     public ngOnInit() {
@@ -59,18 +69,17 @@ export class OwlTimerBoxComponent implements OnInit, OnDestroy {
     }
 
     public upBtnClicked(): void {
-        this.updateBoxValue(this.boxValue + this.step);
+        this.updateValue(this.value + this.step);
     }
 
     public downBtnClicked(): void {
-        this.updateBoxValue(this.boxValue - this.step);
+        this.updateValue(this.value - this.step);
     }
 
-    private updateBoxValue( value: number ): void {
+    private updateValue( value: number ): void {
         if (value > this.max || value < this.min) {
             return;
         }
-        this.boxValueChange.emit(value);
-        this.changeDetectorRef.markForCheck();
+        this.valueChange.emit(value);
     }
 }

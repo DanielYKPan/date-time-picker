@@ -56,12 +56,21 @@ export class OwlTimerComponent<T> implements OnInit {
         this._maxDateTime = this.getValidDate(value);
     }
 
+    private isPM: boolean = false; // a flag indicates the current timer moment is in PM or AM
+
     /**
      * Whether to show the second's timer
      * @default false
      * @type {Boolean}
      * */
     @Input() showSecondsTimer: boolean;
+
+    /**
+     * Whether the timer is in hour12 format
+     * @default false
+     * @type {boolean}
+     * */
+    @Input() hour12Timer: boolean;
 
     /**
      * Hours to change per step
@@ -86,6 +95,34 @@ export class OwlTimerComponent<T> implements OnInit {
 
     get hourValue(): number {
         return this.dateTimeAdapter.getHours(this.pickerMoment);
+    }
+
+    /**
+     * The value would be displayed in hourBox.
+     * We need this because the value displayed in hourBox it not
+     * the same as the hourValue when the timer is in hour12Timer mode.
+     * */
+    get hourBoxValue(): number {
+        let hours = this.hourValue;
+
+        if (!this.hour12Timer) {
+            return hours;
+        } else {
+
+            if (hours === 0) {
+                hours = 12;
+                this.isPM = false;
+            } else if (hours > 0 && hours < 12) {
+                this.isPM = false;
+            } else if (hours === 12) {
+                this.isPM = true;
+            } else if (hours > 12 && hours < 24) {
+                hours = hours - 12;
+                this.isPM = true;
+            }
+
+            return hours;
+        }
     }
 
     get minuteValue(): number {
@@ -118,6 +155,10 @@ export class OwlTimerComponent<T> implements OnInit {
 
     get downSecondButtonLabel(): string {
         return this.pickerIntl.downSecondLabel;
+    }
+
+    get hour12ButtonLabel(): string {
+        return this.isPM ? this.pickerIntl.hour12PMLabel : this.pickerIntl.hour12AMLabel;
     }
 
     @Output() selectedChange = new EventEmitter<T>();
@@ -165,6 +206,23 @@ export class OwlTimerComponent<T> implements OnInit {
     public setSecondValue( seconds: number ): void {
         const m = this.dateTimeAdapter.setSeconds(this.pickerMoment, seconds);
         this.selectedChange.emit(m);
+    }
+
+    public setMeridiem( event: any ): void {
+        this.isPM = !this.isPM;
+
+        let hours = this.hourValue;
+        if (this.isPM) {
+            hours = hours + 12;
+        } else {
+            hours = hours - 12;
+        }
+
+        if (hours >= 0 && hours <= 23) {
+            this.setHourValue(hours);
+        }
+
+        event.preventDefault();
     }
 
     /**

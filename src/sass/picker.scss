@@ -470,3 +470,29 @@ $theme-color: #3f51b5;
   background-image: none;
   cursor: default !important;
 }
+
+.owl-dt-timer-hour12 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: $theme-color;
+
+  .owl-dt-timer-hour12-box {
+    border: 1px solid currentColor;
+    border-radius: 2px;
+    transition: background 200ms ease;
+
+    .owl-dt-control-button-content {
+      width: 100%;
+      height: 100%;
+      padding: .5em;
+    }
+
+    &:focus, &:hover {
+      .owl-dt-control-button-content {
+        background: $theme-color;
+        color: #ffffff;
+      }
+    }
+  }
+}
