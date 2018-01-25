@@ -824,7 +824,7 @@ export class AppExample {
             <p>There are two pre-made modules:</p>
             <ul>
                 <li><b>OwlNativeDateTimeModule</b> -- support for native JavaScript Date object</li>
-                <li><b>OwlMomentDateTimeModule</b> -- support for MomentJS object</li>
+                <li><b>OwlMomentDateTimeModule</b> -- support for MomentJS object. (need to npm install ng-pick-datetime-moment and moment packages)</li>
             </ul>
             <pre>
 <code class="language-typescript" ngNonBindable appCodeHighlight><![CDATA[
@@ -870,6 +870,7 @@ import { OwlMomentDateTimeModule } from 'ng-pick-datetime-moment';
 // See the Moment.js docs for the meaning of these formats:
 // https://momentjs.com/docs/#/displaying/format/
 export const MY_MOMENT_FORMATS = {
+    parseInput: 'LLL',
     fullPickerInput: 'LLL',
     datePickerInput: 'LL',
     monthYearLabel: 'MMM YYYY',
@@ -902,6 +903,7 @@ import { Injectable } from '@angular/core';
 import { DateTimeAdapter } from 'ng-pick-datetime';
 
 export const CUSTOM_DATE_TIME_FORMATS = {
+    parseInput: 'your custom value',
     fullPickerInput: 'your custom value',
     datePickerInput: 'your custom value',
     timePickerInput: 'your custom value',
