@@ -8,6 +8,7 @@ Angular Date Time Picker
 Breaking Changes
 -------
  - This picker is completely changed in version 5.1.*. If you used this package before, please read the documentation or the demo examples carefully, and change the implementation of the picker in your projects.
+ - This picker uses the '@angular/cdk'.
 
 Description
 -------

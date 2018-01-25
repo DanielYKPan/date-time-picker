@@ -20,6 +20,7 @@
   "types": "picker.d.ts",
   "main": "picker.bundle.js",
   "dependencies": {
+    "@angular/cdk": "^5.1.0"
   },
   "devDependencies": {
   }
