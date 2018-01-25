@@ -15,6 +15,7 @@ import { OwlDateTimeComponent } from './date-time-picker.component';
 import { DateTimeAdapter } from './adapter/date-time-adapter.class';
 import { OWL_DATE_TIME_FORMATS, OwlDateTimeFormats } from './adapter/date-time-format.class';
 import { Subscription } from 'rxjs/Subscription';
+import { SelectMode } from './date-time.class';
 
 export const OWL_DATETIME_VALUE_ACCESSOR: any = {
     provide: NG_VALUE_ACCESSOR,
@@ -106,7 +107,7 @@ export class OwlDateTimeInputDirective<T> implements OnInit, AfterViewInit, Afte
      * @default {'single'}
      * @type {'single' | 'range'}
      * */
-    @Input() selectMode: 'single' | 'range' = 'single';
+    @Input() selectMode: SelectMode = 'single';
 
     /**
      * The character to separate the 'from' and 'to' in input value

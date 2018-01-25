@@ -7,7 +7,7 @@ import {
     ViewChild
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { OwlDateTime, PickerType } from './date-time.class';
+import { OwlDateTime, PickerMode, PickerType, SelectMode } from './date-time.class';
 import { DateTimeAdapter } from './adapter/date-time-adapter.class';
 import { OWL_DATE_TIME_FORMATS, OwlDateTimeFormats } from './adapter/date-time-format.class';
 import { OwlDateTimeContainerComponent } from './date-time-picker-container.component';
@@ -63,13 +63,13 @@ export class OwlDateTimeInlineComponent<T> extends OwlDateTime<T> implements OnI
         this._disabled = value;
     }
 
-    private _selectMode: 'single' | 'range' = 'single';
+    private _selectMode: SelectMode = 'single';
     @Input()
     get selectMode() {
         return this._selectMode;
     }
 
-    set selectMode( mode: 'single' | 'range' ) {
+    set selectMode( mode: SelectMode ) {
         this._selectMode = mode;
     }
 
@@ -173,7 +173,7 @@ export class OwlDateTimeInlineComponent<T> extends OwlDateTime<T> implements OnI
         this.changeDetector.markForCheck();
     }
 
-    get pickerMode(): 'popup' | 'dialog' | 'inline' {
+    get pickerMode(): PickerMode {
         return 'inline';
     }
 

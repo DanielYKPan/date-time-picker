@@ -19,7 +19,7 @@ import { OwlDateTimeContainerComponent } from './date-time-picker-container.comp
 import { OwlDateTimeInputDirective } from './date-time-picker-input.directive';
 import { DateTimeAdapter } from './adapter/date-time-adapter.class';
 import { OWL_DATE_TIME_FORMATS, OwlDateTimeFormats } from './adapter/date-time-format.class';
-import { OwlDateTime, PickerType } from './date-time.class';
+import { OwlDateTime, PickerMode, PickerType, SelectMode } from './date-time.class';
 import { OwlDialogRef, OwlDialogService } from '../dialog';
 import { Subscription } from 'rxjs/Subscription';
 import { merge } from 'rxjs/observable/merge';
@@ -110,13 +110,13 @@ export class OwlDateTimeComponent<T> extends OwlDateTime<T> implements OnInit, O
      * @default {false}
      * @type {boolean}
      * */
-    _pickerMode: 'popup' | 'dialog' | 'inline' = 'popup';
+    _pickerMode: PickerMode = 'popup';
     @Input()
     get pickerMode() {
         return this._pickerMode;
     }
 
-    set pickerMode( mode: 'popup' | 'dialog' | 'inline' ) {
+    set pickerMode( mode: PickerMode ) {
         if (mode === 'popup') {
             this._pickerMode = mode;
         } else {
@@ -211,7 +211,7 @@ export class OwlDateTimeComponent<T> extends OwlDateTime<T> implements OnInit, O
         return this._dtInput && this._dtInput.dateTimeFilter;
     }
 
-    get selectMode(): 'single' | 'range' {
+    get selectMode(): SelectMode {
         return this._dtInput.selectMode;
     }
 

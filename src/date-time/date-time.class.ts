@@ -10,6 +10,10 @@ let nextUniqueId = 0;
 
 export type PickerType = 'both' | 'calendar' | 'timer';
 
+export type PickerMode = 'popup' | 'dialog' | 'inline';
+
+export type SelectMode = 'single' | 'range';
+
 export abstract class OwlDateTime<T> {
 
     /**
@@ -88,11 +92,11 @@ export abstract class OwlDateTime<T> {
 
     abstract get minDateTime(): T | null;
 
-    abstract get selectMode(): 'single' | 'range';
+    abstract get selectMode(): SelectMode;
 
     abstract get startAt(): T | null;
 
-    abstract get pickerMode(): 'popup' | 'dialog' | 'inline';
+    abstract get pickerMode(): PickerMode;
 
     abstract get pickerType(): PickerType;
 
