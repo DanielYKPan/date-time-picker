@@ -45,9 +45,20 @@ function range<T>( length: number, valueFunction: ( index: number ) => T ): T[] 
 @Injectable()
 export class NativeDateTimeAdapter extends DateTimeAdapter<Date> {
 
+    /**
+     * Whether to use `timeZone: 'utc'` with `Intl.DateTimeFormat` when formatting dates.
+     * Without this `Intl.DateTimeFormat` sometimes chooses the wrong timeZone, which can throw off
+     * the result. (e.g. in the en-US locale `new Date(1800, 7, 14).toLocaleDateString()`
+     * will produce `'8/13/1800'`.
+     */
+    useUtcForDisplay: boolean;
+
     constructor( @Optional() @Inject(OWL_DATE_TIME_LOCALE) private owlDateTimeLocale: string ) {
         super();
         super.setLocale(owlDateTimeLocale);
+
+        this.useUtcForDisplay = !(typeof document === 'object' && !!document &&
+            /(msie|trident)/i.test(navigator.userAgent));
     }
 
     public getYear( date: Date ): number {
@@ -105,8 +116,8 @@ export class NativeDateTimeAdapter extends DateTimeAdapter<Date> {
                 this.getDate(dateRight)
             );
 
-            const timeStampLeft = this.getTime(dateLeftStartOfDay);
-            const timeStampRight = this.getTime(dateRightStartOfDay);
+            const timeStampLeft = this.getTime(dateLeftStartOfDay) - dateLeftStartOfDay.getTimezoneOffset() * this.milliseondsInMinute;
+            const timeStampRight = this.getTime(dateRightStartOfDay) - dateRightStartOfDay.getTimezoneOffset() * this.milliseondsInMinute;
             return Math.round((timeStampLeft - timeStampRight) / this.millisecondsInDay);
         } else {
             return null;
@@ -266,6 +277,14 @@ export class NativeDateTimeAdapter extends DateTimeAdapter<Date> {
         }
 
         if (SUPPORTS_INTL_API) {
+
+            if (this.useUtcForDisplay) {
+                date = new Date(Date.UTC(
+                    date.getFullYear(), date.getMonth(), date.getDate(), date.getHours(),
+                    date.getMinutes(), date.getSeconds(), date.getMilliseconds()));
+                displayFormat = {...displayFormat, timeZone: 'utc'};
+            }
+
             const dtf = new Intl.DateTimeFormat(this.locale, displayFormat);
             return this.stripDirectionalityCharacters(dtf.format(date));
         }

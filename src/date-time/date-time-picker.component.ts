@@ -11,7 +11,7 @@ import { AnimationEvent } from '@angular/animations';
 import { DOCUMENT } from '@angular/common';
 import { ComponentPortal } from '@angular/cdk/portal';
 import {
-    Overlay, OverlayConfig, OverlayRef, PositionStrategy, RepositionScrollStrategy,
+    Overlay, OverlayConfig, OverlayRef, PositionStrategy, BlockScrollStrategy,
     ScrollStrategy
 } from '@angular/cdk/overlay';
 import { ESCAPE } from '@angular/cdk/keycodes';
@@ -31,8 +31,8 @@ export const OWL_DTPICKER_SCROLL_STRATEGY =
     new InjectionToken<() => ScrollStrategy>('owl-dtpicker-scroll-strategy');
 
 /** @docs-private */
-export function OWL_DTPICKER_SCROLL_STRATEGY_PROVIDER_FACTORY( overlay: Overlay ): () => RepositionScrollStrategy {
-    return () => overlay.scrollStrategies.reposition();
+export function OWL_DTPICKER_SCROLL_STRATEGY_PROVIDER_FACTORY( overlay: Overlay ): () => BlockScrollStrategy {
+    return () => overlay.scrollStrategies.block();
 }
 
 /** @docs-private */
@@ -435,6 +435,12 @@ export class OwlDateTimeComponent<T> extends OwlDateTime<T> implements OnInit, O
                 {overlayX: 'end', overlayY: 'bottom'},
                 undefined,
                 fallbackOffset
+            )
+            .withFallbackPosition(
+                {originX: 'start', originY: 'top'},
+                {overlayX: 'start', overlayY: 'bottom'},
+                undefined,
+                265
             );
     }
 

@@ -25,6 +25,9 @@ export abstract class DateTimeAdapter<T> {
     /** total milliseconds in a day. */
     protected readonly millisecondsInDay = 86400000;
 
+    /** total milliseconds in a minute. */
+    protected readonly milliseondsInMinute = 60000;
+
     /**
      * Get the year of the given date
      * @param date
