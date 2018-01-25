@@ -7,8 +7,7 @@ import {
     ViewChild
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { OwlDateTime } from './date-time.class';
-import { OwlDateTimeInputDirective } from './date-time-picker-input.directive';
+import { OwlDateTime, PickerType } from './date-time.class';
 import { DateTimeAdapter } from './adapter/date-time-adapter.class';
 import { OWL_DATE_TIME_FORMATS, OwlDateTimeFormats } from './adapter/date-time-format.class';
 import { OwlDateTimeContainerComponent } from './date-time-picker-container.component';
@@ -34,6 +33,26 @@ export class OwlDateTimeInlineComponent<T> extends OwlDateTime<T> implements OnI
 
     @ViewChild(OwlDateTimeContainerComponent) container: OwlDateTimeContainerComponent<T>;
 
+    /**
+     * Set the type of the dateTime picker
+     *      'both' -- show both calendar and timer
+     *      'calendar' -- show only calendar
+     *      'timer' -- show only timer
+     * @default 'both'
+     * @type {'both' | 'calendar' | 'timer'}
+     * */
+    private _pickerType: PickerType = 'both';
+    @Input()
+    get pickerType(): PickerType {
+        return this._pickerType;
+    }
+
+    set pickerType( val: PickerType ) {
+        if (val !== this._pickerType) {
+            this._pickerType = val;
+        }
+    }
+
     private _disabled: boolean;
     @Input()
     get disabled(): boolean {
@@ -56,11 +75,11 @@ export class OwlDateTimeInlineComponent<T> extends OwlDateTime<T> implements OnI
 
     /** The date to open the calendar to initially. */
     private _startAt: T | null;
+    @Input()
     get startAt(): T | null {
         return this._startAt;
     }
 
-    @Input()
     set startAt( date: T | null ) {
         this._startAt = this.getValidDate(this.dateTimeAdapter.deserialize(date));
     }
@@ -152,10 +171,6 @@ export class OwlDateTimeInlineComponent<T> extends OwlDateTime<T> implements OnI
     set selecteds( values: T[] ) {
         this._selecteds = values;
         this.changeDetector.markForCheck();
-    }
-
-    get dtInput(): OwlDateTimeInputDirective<T> | null {
-        return null;
     }
 
     get pickerMode(): 'popup' | 'dialog' | 'inline' {

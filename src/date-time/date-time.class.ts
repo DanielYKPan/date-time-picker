@@ -13,31 +13,6 @@ export type PickerType = 'both' | 'calendar' | 'timer';
 export abstract class OwlDateTime<T> {
 
     /**
-     * Set the type of the dateTime picker
-     *      'both' -- show both calendar and timer
-     *      'calendar' -- show only calendar
-     *      'timer' -- show only timer
-     * @default 'both'
-     * @type {'both' | 'calendar' | 'timer'}
-     * */
-    private _pickerType: PickerType = 'both';
-    @Input()
-    get pickerType(): PickerType {
-        return this._pickerType;
-    }
-
-    set pickerType( val: PickerType ) {
-        if (val !== this._pickerType) {
-            this._pickerType = val;
-            if (this.selectMode === 'single') {
-                this.dtInput.value = this.dtInput.value;
-            } else {
-                this.dtInput.values = this.dtInput.values;
-            }
-        }
-    }
-
-    /**
      * Whether to show the second's timer
      * @default false
      * @type {Boolean}
@@ -109,8 +84,6 @@ export abstract class OwlDateTime<T> {
 
     abstract get dateTimeFilter(): ( date: T | null ) => boolean;
 
-    abstract get dtInput(): OwlDateTimeInputDirective<T> | null;
-
     abstract get maxDateTime(): T | null;
 
     abstract get minDateTime(): T | null;
@@ -120,6 +93,8 @@ export abstract class OwlDateTime<T> {
     abstract get startAt(): T | null;
 
     abstract get pickerMode(): 'popup' | 'dialog' | 'inline';
+
+    abstract get pickerType(): PickerType;
 
     abstract select( date: T | T[] ): void;
 

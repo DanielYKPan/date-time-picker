@@ -19,7 +19,7 @@ import { OwlDateTimeContainerComponent } from './date-time-picker-container.comp
 import { OwlDateTimeInputDirective } from './date-time-picker-input.directive';
 import { DateTimeAdapter } from './adapter/date-time-adapter.class';
 import { OWL_DATE_TIME_FORMATS, OwlDateTimeFormats } from './adapter/date-time-format.class';
-import { OwlDateTime } from './date-time.class';
+import { OwlDateTime, PickerType } from './date-time.class';
 import { OwlDialogRef, OwlDialogService } from '../dialog';
 import { Subscription } from 'rxjs/Subscription';
 import { merge } from 'rxjs/observable/merge';
@@ -55,6 +55,7 @@ export class OwlDateTimeComponent<T> extends OwlDateTime<T> implements OnInit, O
 
     /** The date to open the calendar to initially. */
     private _startAt: T | null;
+    @Input()
     get startAt(): T | null {
         // If an explicit startAt is set we start there, otherwise we start at whatever the currently
         // selected value is.
@@ -75,9 +76,33 @@ export class OwlDateTimeComponent<T> extends OwlDateTime<T> implements OnInit, O
         }
     }
 
-    @Input()
     set startAt( date: T | null ) {
         this._startAt = this.getValidDate(this.dateTimeAdapter.deserialize(date));
+    }
+
+    /**
+     * Set the type of the dateTime picker
+     *      'both' -- show both calendar and timer
+     *      'calendar' -- show only calendar
+     *      'timer' -- show only timer
+     * @default 'both'
+     * @type {'both' | 'calendar' | 'timer'}
+     * */
+    private _pickerType: PickerType = 'both';
+    @Input()
+    get pickerType(): PickerType {
+        return this._pickerType;
+    }
+
+    set pickerType( val: PickerType ) {
+        if (val !== this._pickerType) {
+            this._pickerType = val;
+            if (this.selectMode === 'single') {
+                this._dtInput.value = this._dtInput.value;
+            } else {
+                this._dtInput.values = this._dtInput.values;
+            }
+        }
     }
 
     /**
@@ -103,8 +128,8 @@ export class OwlDateTimeComponent<T> extends OwlDateTime<T> implements OnInit, O
     private _disabled: boolean;
     @Input()
     get disabled(): boolean {
-        return this._disabled === undefined && this.dtInput ?
-            this.dtInput.disabled : !!this._disabled;
+        return this._disabled === undefined && this._dtInput ?
+            this._dtInput.disabled : !!this._disabled;
     }
 
     set disabled( value: boolean ) {
@@ -174,20 +199,20 @@ export class OwlDateTimeComponent<T> extends OwlDateTime<T> implements OnInit, O
 
     /** The minimum selectable date. */
     get minDateTime(): T | null {
-        return this.dtInput && this.dtInput.min;
+        return this._dtInput && this._dtInput.min;
     }
 
     /** The maximum selectable date. */
     get maxDateTime(): T | null {
-        return this.dtInput && this.dtInput.max;
+        return this._dtInput && this._dtInput.max;
     }
 
     get dateTimeFilter(): ( date: T | null ) => boolean {
-        return this.dtInput && this.dtInput.dateTimeFilter;
+        return this._dtInput && this._dtInput.dateTimeFilter;
     }
 
     get selectMode(): 'single' | 'range' {
-        return this.dtInput.selectMode;
+        return this._dtInput.selectMode;
     }
 
     constructor( private overlay: Overlay,
@@ -236,7 +261,7 @@ export class OwlDateTimeComponent<T> extends OwlDateTime<T> implements OnInit, O
             return;
         }
 
-        if (!this.dtInput) {
+        if (!this._dtInput) {
             throw Error('Attempted to open an DateTimePicker with no associated input.');
         }
 
@@ -245,10 +270,10 @@ export class OwlDateTimeComponent<T> extends OwlDateTime<T> implements OnInit, O
         }
 
         // reset the picker selected value
-        if (this.dtInput.selectMode === 'single') {
-            this.selected = this.dtInput.value;
-        } else if (this.dtInput.selectMode === 'range') {
-            this.selecteds = this.dtInput.values;
+        if (this._dtInput.selectMode === 'single') {
+            this.selected = this._dtInput.value;
+        } else if (this._dtInput.selectMode === 'range') {
+            this.selecteds = this._dtInput.values;
         }
 
         this.pickerMode === 'dialog' ?
@@ -416,7 +441,7 @@ export class OwlDateTimeComponent<T> extends OwlDateTime<T> implements OnInit, O
         const fallbackOffset = 0;
 
         return this.overlay.position()
-            .connectedTo(this.dtInput.elementRef,
+            .connectedTo(this._dtInput.elementRef,
                 {originX: 'start', originY: 'bottom'},
                 {overlayX: 'start', overlayY: 'top'}
             )
