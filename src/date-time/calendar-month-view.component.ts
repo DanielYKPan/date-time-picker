@@ -3,12 +3,15 @@
  */
 
 import {
-    AfterContentInit, ChangeDetectionStrategy, Component, EventEmitter, Inject, Input, OnInit, Optional,
+    AfterContentInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Inject, Input, OnDestroy,
+    OnInit,
+    Optional,
     Output
 } from '@angular/core';
 import { CalendarCell } from './calendar-body.component';
 import { DateTimeAdapter } from './adapter/date-time-adapter.class';
 import { OWL_DATE_TIME_FORMATS, OwlDateTimeFormats } from './adapter/date-time-format.class';
+import { Subscription } from 'rxjs/Subscription';
 
 const DAYS_PER_WEEK = 7;
 const WEEKS_PER_VIEW = 6;
@@ -22,7 +25,7 @@ const WEEKS_PER_VIEW = 6;
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 
-export class OwlMonthViewComponent<T> implements OnInit, AfterContentInit {
+export class OwlMonthViewComponent<T> implements OnInit, AfterContentInit, OnDestroy {
 
     @Input() firstDayOfWeek: number;
 
@@ -142,6 +145,8 @@ export class OwlMonthViewComponent<T> implements OnInit, AfterContentInit {
 
     private firstDateOfMonth: T;
 
+    private localeSub: Subscription = Subscription.EMPTY;
+
     /**
      * The date of the month that today falls on.
      * */
@@ -166,16 +171,27 @@ export class OwlMonthViewComponent<T> implements OnInit, AfterContentInit {
      * */
     @Output() userSelection = new EventEmitter<void>();
 
-    constructor( @Optional() private dateTimeAdapter: DateTimeAdapter<T>,
+    constructor( private cdRef: ChangeDetectorRef,
+                 @Optional() private dateTimeAdapter: DateTimeAdapter<T>,
                  @Optional() @Inject(OWL_DATE_TIME_FORMATS) private dateTimeFormats: OwlDateTimeFormats ) {
     }
 
     public ngOnInit() {
         this.generateWeekDays();
+
+        this.localeSub = this.dateTimeAdapter.localeChanges.subscribe(() => {
+            this.generateWeekDays();
+            this.generateCalendar();
+            this.cdRef.markForCheck();
+        });
     }
 
     public ngAfterContentInit(): void {
         this.generateCalendar();
+    }
+
+    public ngOnDestroy(): void {
+        this.localeSub.unsubscribe();
     }
 
     /**

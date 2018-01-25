@@ -4,9 +4,10 @@
 
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { A11yModule } from '@angular/cdk/a11y';
+import { OverlayModule } from '@angular/cdk/overlay';
 import { OwlDateTimeTriggerDirective } from './date-time-picker-trigger.directive';
-import { OwlDateTimeComponent } from './date-time-picker.component';
+import { OWL_DTPICKER_SCROLL_STRATEGY_PROVIDER, OwlDateTimeComponent } from './date-time-picker.component';
 import { OwlDateTimeContainerComponent } from './date-time-picker-container.component';
 import { OwlDateTimeInputDirective } from './date-time-picker-input.directive';
 import { OwlDateTimeIntl } from './date-time-picker-intl.service';
@@ -18,13 +19,10 @@ import { OwlTimerComponent } from './timer.component';
 import { NumberFixedLenPipe } from './numberedFixLen.pipe';
 import { OwlCalendarComponent } from './calendar.component';
 import { OwlDateTimeInlineComponent } from './date-time-inline.component';
-import { OwlOverlayModule } from '../overlay';
 import { OwlDialogModule } from '../dialog';
-import { DomHandlerService, InjectionService } from '../utils';
-import { OwlFocusModule } from '../focus-trap';
 
 @NgModule({
-    imports: [CommonModule, FormsModule, OwlOverlayModule, OwlDialogModule, OwlFocusModule],
+    imports: [CommonModule, OverlayModule, OwlDialogModule, A11yModule],
     exports: [
         OwlDateTimeTriggerDirective,
         OwlDateTimeInputDirective,
@@ -46,9 +44,8 @@ import { OwlFocusModule } from '../focus-trap';
         OwlDateTimeInlineComponent,
     ],
     providers: [
-        InjectionService,
-        DomHandlerService,
         OwlDateTimeIntl,
+        OWL_DTPICKER_SCROLL_STRATEGY_PROVIDER,
     ],
     entryComponents: [
         OwlDateTimeContainerComponent,
@@ -56,5 +53,3 @@ import { OwlFocusModule } from '../focus-trap';
 })
 export class OwlDateTimeModule {
 }
-
-

@@ -20,7 +20,22 @@ export abstract class OwlDateTime<T> {
      * @default 'both'
      * @type {'both' | 'calendar' | 'timer'}
      * */
-    @Input() pickerType: PickerType = 'both';
+    private _pickerType: PickerType = 'both';
+    @Input()
+    get pickerType(): PickerType {
+        return this._pickerType;
+    }
+
+    set pickerType( val: PickerType ) {
+        if (val !== this._pickerType) {
+            this._pickerType = val;
+            if (this.selectMode === 'single') {
+                this.dtInput.value = this.dtInput.value;
+            } else {
+                this.dtInput.values = this.dtInput.values;
+            }
+        }
+    }
 
     /**
      * Whether to show the second's timer

@@ -12,6 +12,7 @@ export default {
     '@angular/common',
     '@angular/forms',
     '@angular/animations',
+    '@angular/cdk',
     'moment/moment',
   ],
   onwarn: (warning) => {

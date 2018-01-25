@@ -18,7 +18,6 @@ import { OwlCalendarComponent } from './calendar.component';
 import { OwlTimerComponent } from './timer.component';
 import { DateTimeAdapter } from './adapter/date-time-adapter.class';
 import { OwlDateTime, PickerType } from './date-time.class';
-import { ESCAPE } from '../utils';
 import { Subject } from 'rxjs/Subject';
 import { Observable } from 'rxjs/Observable';
 
@@ -320,14 +319,6 @@ export class OwlDateTimeContainerComponent<T> implements OnInit, AfterContentIni
             this.pickerMoment = this.dateTimeAdapter.clone(selected);
         }
         return;
-    }
-
-    @HostListener('keydown', ['$event'])
-    public handleKeydownOnHost( event: KeyboardEvent ): void {
-        if (event.keyCode === ESCAPE && this.picker.pickerMode === 'popup') {
-            this.hidePicker$.next(null);
-            event.preventDefault();
-        }
     }
 
     private initPicker(): void {

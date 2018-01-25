@@ -1,70 +1,101 @@
-.owl-overlay-container,
-.owl-global-overlay-wrapper {
+// We want overlays to always appear over user content, so set a baseline
+// very high z-index for the overlay container, which is where we create the new
+// stacking context for all overlays.
+$cdk-z-index-overlay-container: 1000;
+$cdk-z-index-overlay: 1000;
+$cdk-z-index-overlay-backdrop: 1000;
+
+// Background color for all of the backdrops
+$cdk-overlay-dark-backdrop-background: rgba(0, 0, 0, 0.6);
+
+// Default backdrop animation is based on the Material Design swift-ease-out.
+$backdrop-animation-duration: 400ms !default;
+$backdrop-animation-timing-function: cubic-bezier(0.25, 0.8, 0.25, 1) !default;
+
+.cdk-overlay-container, .cdk-global-overlay-wrapper {
+  // Disable events from being captured on the overlay container.
+  pointer-events: none;
+
+  // The container should be the size of the viewport.
   top: 0;
   left: 0;
-  width: 100vw;
-  height: 100vh;
-  pointer-events: none;
+  height: 100%;
+  width: 100%;
 }
 
-.owl-overlay-container {
+// The overlay-container is an invisible element which contains all individual overlays.
+.cdk-overlay-container {
   position: fixed;
-  z-index: 1000;
+  z-index: $cdk-z-index-overlay-container;
 }
 
-.owl-global-overlay-wrapper {
+// We use an extra wrapper element in order to use make the overlay itself a flex item.
+// This makes centering the overlay easy without running into the subpixel rendering
+// problems tied to using `transform` and without interfering with the other position
+// strategies.
+.cdk-global-overlay-wrapper {
   display: flex;
-  justify-content: center;
-  align-items: center;
   position: absolute;
-  z-index: 1000;
+  z-index: $cdk-z-index-overlay;
 }
 
-.owl-overlay-panel {
-  position: relative;
+// A single overlay pane.
+.cdk-overlay-pane {
+  position: absolute;
   pointer-events: auto;
   box-sizing: border-box;
-  z-index: 1000;
+  z-index: $cdk-z-index-overlay;
 }
 
-.owl-overlay-backdrop {
+.cdk-overlay-backdrop {
+  // TODO(jelbourn): reuse sidenav fullscreen mixin.
   position: absolute;
   top: 0;
   bottom: 0;
   left: 0;
   right: 0;
-  z-index: 1000;
+
+  z-index: $cdk-z-index-overlay-backdrop;
   pointer-events: auto;
   -webkit-tap-highlight-color: transparent;
-  transition: opacity .4s cubic-bezier(.25, .8, .25, 1);
-  opacity: .5;
-  background: rgba(0, 0, 0, .6);
+  transition: opacity $backdrop-animation-duration $backdrop-animation-timing-function;
+  opacity: 0;
+
+  &.cdk-overlay-backdrop-showing {
+    opacity: 0.48;
+  }
 }
 
-.owl-transparent-backdrop {
+.cdk-overlay-dark-backdrop {
+  background: $cdk-overlay-dark-backdrop-background;
+}
+
+.cdk-overlay-transparent-backdrop {
   background: none;
 }
 
-.owl-overlay-pane {
-  position: absolute;
-  pointer-events: auto;
-  z-index: 1000;
-  box-sizing: border-box;
+// Used when disabling global scrolling.
+.cdk-global-scrollblock {
+  position: fixed;
+
+  // Necessary for the content not to lose its width. Note that we're using 100%, instead of
+  // 100vw, because 100vw includes the width plus the scrollbar, whereas 100% is the width
+  // that the element had before we made it `fixed`.
+  width: 100%;
+
+  // Note: this will always add a scrollbar to whatever element it is on, which can
+  // potentially result in double scrollbars. It shouldn't be an issue, because we won't
+  // block scrolling on a page that doesn't have a scrollbar in the first place.
+  overflow-y: scroll;
 }
 
-.owl-global-scrollblock {
-  height: 100%;
-  overflow: hidden;
-}
-
-.owl-overlay-dialog-container {
+.owl-dialog-container {
   position: relative;
   pointer-events: auto;
-  z-index: 1000;
   box-sizing: border-box;
   display: block;
-  padding: 24px;
-  box-shadow: 0px 11px 15px -7px rgba(0, 0, 0, 0.2),
+  padding: 1.5em;
+  box-shadow: 0 11px 15px -7px rgba(0, 0, 0, 0.2),
   0px 24px 38px 3px rgba(0, 0, 0, 0.14),
   0px 9px 46px 8px rgba(0, 0, 0, 0.12);
   border-radius: 2px;
@@ -377,6 +408,7 @@ $theme-color: #3f51b5;
 
 .owl-dt-dialog-container {
   max-height: 85vh;
+  margin: -1.5em;
 
   .owl-dt-calendar {
     min-width: 250px;

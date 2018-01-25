@@ -3,12 +3,13 @@
  */
 
 import {
-    ChangeDetectionStrategy, Component, EventEmitter, Inject, Input, OnInit, Optional,
+    ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Inject, Input, OnDestroy, OnInit, Optional,
     Output
 } from '@angular/core';
 import { CalendarCell } from './calendar-body.component';
 import { DateTimeAdapter } from './adapter/date-time-adapter.class';
 import { OWL_DATE_TIME_FORMATS, OwlDateTimeFormats } from './adapter/date-time-format.class';
+import { Subscription } from 'rxjs/Subscription';
 
 const MONTHS_PER_YEAR = 12;
 const MONTHS_PER_ROW = 3;
@@ -22,7 +23,7 @@ const MONTHS_PER_ROW = 3;
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 
-export class OwlYearViewComponent<T> implements OnInit {
+export class OwlYearViewComponent<T> implements OnInit, OnDestroy {
 
     /**
      * The select mode of the picker;
@@ -127,6 +128,8 @@ export class OwlYearViewComponent<T> implements OnInit {
         }
     }
 
+    private localeSub: Subscription = Subscription.EMPTY;
+
     public todayMonth: number | null;
 
     /**
@@ -140,12 +143,21 @@ export class OwlYearViewComponent<T> implements OnInit {
      * */
     @Output() selectedChange = new EventEmitter<T>();
 
-    constructor( @Optional() private dateTimeAdapter: DateTimeAdapter<T>,
+    constructor( private cdRef: ChangeDetectorRef,
+                 @Optional() private dateTimeAdapter: DateTimeAdapter<T>,
                  @Optional() @Inject(OWL_DATE_TIME_FORMATS) private dateTimeFormats: OwlDateTimeFormats ) {
         this.monthNames = this.dateTimeAdapter.getMonthNames('short');
     }
 
     public ngOnInit() {
+        this.localeSub = this.dateTimeAdapter.localeChanges.subscribe(() => {
+            this.generateMonthList();
+            this.cdRef.markForCheck();
+        });
+    }
+
+    public ngOnDestroy(): void {
+        this.localeSub.unsubscribe();
     }
 
     /**

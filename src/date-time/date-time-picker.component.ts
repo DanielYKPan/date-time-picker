@@ -3,22 +3,44 @@
  */
 
 import {
-    ChangeDetectionStrategy, ChangeDetectorRef, Component, ComponentRef, EventEmitter, Inject, Input, NgZone, OnDestroy,
-    OnInit, Optional, Output
+    ChangeDetectionStrategy, ChangeDetectorRef, Component, ComponentRef, EventEmitter, Inject, InjectionToken, Input,
+    NgZone, OnDestroy,
+    OnInit, Optional, Output, ViewContainerRef
 } from '@angular/core';
 import { AnimationEvent } from '@angular/animations';
 import { DOCUMENT } from '@angular/common';
+import { ComponentPortal } from '@angular/cdk/portal';
+import {
+    Overlay, OverlayConfig, OverlayRef, PositionStrategy, RepositionScrollStrategy,
+    ScrollStrategy
+} from '@angular/cdk/overlay';
+import { ESCAPE } from '@angular/cdk/keycodes';
 import { OwlDateTimeContainerComponent } from './date-time-picker-container.component';
 import { OwlDateTimeInputDirective } from './date-time-picker-input.directive';
 import { DateTimeAdapter } from './adapter/date-time-adapter.class';
 import { OWL_DATE_TIME_FORMATS, OwlDateTimeFormats } from './adapter/date-time-format.class';
 import { OwlDateTime } from './date-time.class';
 import { OwlDialogRef, OwlDialogService } from '../dialog';
-import { ComponentPortal } from '../portal';
-import { OwlOverlayComponent } from '../overlay';
-import { DomHandlerService, InjectionService } from '../utils';
 import { Subscription } from 'rxjs/Subscription';
-import { take } from 'rxjs/operators';
+import { merge } from 'rxjs/observable/merge';
+import { filter } from 'rxjs/operators/filter';
+import { take } from 'rxjs/operators/take';
+
+/** Injection token that determines the scroll handling while the dtPicker is open. */
+export const OWL_DTPICKER_SCROLL_STRATEGY =
+    new InjectionToken<() => ScrollStrategy>('owl-dtpicker-scroll-strategy');
+
+/** @docs-private */
+export function OWL_DTPICKER_SCROLL_STRATEGY_PROVIDER_FACTORY( overlay: Overlay ): () => RepositionScrollStrategy {
+    return () => overlay.scrollStrategies.reposition();
+}
+
+/** @docs-private */
+export const OWL_DTPICKER_SCROLL_STRATEGY_PROVIDER = {
+    provide: OWL_DTPICKER_SCROLL_STRATEGY,
+    deps: [Overlay],
+    useFactory: OWL_DTPICKER_SCROLL_STRATEGY_PROVIDER_FACTORY,
+};
 
 @Component({
     selector: 'owl-date-time',
@@ -114,9 +136,9 @@ export class OwlDateTimeComponent<T> extends OwlDateTime<T> implements OnInit, O
 
     public opened: boolean;
 
-    private pickerContainerRef: ComponentRef<any>;
+    private pickerContainerPortal: ComponentPortal<OwlDateTimeContainerComponent<T>>;
     private pickerContainer: OwlDateTimeContainerComponent<T>;
-    private popupRef: ComponentRef<any>;
+    private popupRef: OverlayRef;
     private dialogRef: OwlDialogRef<OwlDateTimeContainerComponent<T>>;
     private dtInputSub: Subscription;
     private hidePickerStreamSub: Subscription;
@@ -168,12 +190,13 @@ export class OwlDateTimeComponent<T> extends OwlDateTime<T> implements OnInit, O
         return this.dtInput.selectMode;
     }
 
-    constructor( private injectionService: InjectionService,
+    constructor( private overlay: Overlay,
+                 private viewContainerRef: ViewContainerRef,
                  private dialogService: OwlDialogService,
                  private ngZone: NgZone,
-                 private domHandler: DomHandlerService,
                  protected changeDetector: ChangeDetectorRef,
                  @Optional() protected dateTimeAdapter: DateTimeAdapter<T>,
+                 @Inject(OWL_DTPICKER_SCROLL_STRATEGY) private scrollStrategy: () => ScrollStrategy,
                  @Optional() @Inject(OWL_DATE_TIME_FORMATS) protected dateTimeFormats: OwlDateTimeFormats,
                  @Optional() @Inject(DOCUMENT) private document: any ) {
         super(dateTimeAdapter, dateTimeFormats);
@@ -183,27 +206,12 @@ export class OwlDateTimeComponent<T> extends OwlDateTime<T> implements OnInit, O
     }
 
     public ngOnDestroy(): void {
+        this.clean();
         this.dtInputSub.unsubscribe();
         this.disabledChange.complete();
 
         if (this.popupRef) {
-            this.popupRef.destroy();
-            this.popupRef = null;
-        }
-
-        if (this.dialogRef) {
-            this.dialogRef.close();
-            this.dialogRef = null;
-        }
-
-        if (this.hidePickerStreamSub) {
-            this.hidePickerStreamSub.unsubscribe();
-            this.hidePickerStreamSub = null;
-        }
-
-        if (this.confirmSelectedStreamSub) {
-            this.confirmSelectedStreamSub.unsubscribe();
-            this.confirmSelectedStreamSub = null;
+            this.popupRef.dispose();
         }
     }
 
@@ -336,7 +344,8 @@ export class OwlDateTimeComponent<T> extends OwlDateTime<T> implements OnInit, O
     private openAsDialog(): void {
         this.dialogRef = this.dialogService.open(OwlDateTimeContainerComponent, {
             autoFocus: false,
-            paneStyle: {padding: 0}
+            paneClass: 'owl-dt-dialog',
+            viewContainerRef: this.viewContainerRef,
         });
         this.pickerContainer = this.dialogRef.componentInstance;
 
@@ -349,23 +358,32 @@ export class OwlDateTimeComponent<T> extends OwlDateTime<T> implements OnInit, O
      * @return {void}
      * */
     private openAsPopup(): void {
-        if (!this.popupRef) {
-            this.popupRef = this.createOverlay();
+
+        if (!this.pickerContainerPortal) {
+            this.pickerContainerPortal = new ComponentPortal(OwlDateTimeContainerComponent, this.viewContainerRef);
         }
 
-        const overlay = this.popupRef.instance;
-        const paneRef = overlay.attachPane();
-        this.pickerContainerRef = paneRef.instance.attachComponentPortal(new ComponentPortal(OwlDateTimeContainerComponent));
-        this.pickerContainer = this.pickerContainerRef.instance;
-        this.pickerContainer.showPickerViaAnimation();
+        if (!this.popupRef) {
+            this.createPopup();
+        }
 
-        this.ngZone.onStable.asObservable().pipe(take(1)).subscribe(() => {
-            const containerHeight = this.pickerContainer.containerElm.offsetHeight;
-            paneRef.instance.overlayPaneStyle = this.getOverlayPanePosition(containerHeight);
-        });
+        if (!this.popupRef.hasAttached()) {
+            const componentRef: ComponentRef<OwlDateTimeContainerComponent<T>> =
+                this.popupRef.attach(this.pickerContainerPortal);
+            this.pickerContainer = componentRef.instance;
+            this.pickerContainer.showPickerViaAnimation();
 
-        // Listen to backdrop click stream
-        overlay.backdropClick.subscribe(() => this.pickerContainer.hidePickerViaAnimation());
+            // Update the position once the calendar has rendered.
+            this.ngZone.onStable.asObservable().pipe(take(1)).subscribe(() => {
+                this.popupRef.updatePosition();
+            });
+        }
+
+        merge(
+            this.popupRef.backdropClick(),
+            this.popupRef.detachments(),
+            this.popupRef.keydownEvents().pipe(filter(event => event.keyCode === ESCAPE))
+        ).subscribe(() => this.hidePicker());
 
         // Listen to picker's container animation state
         this.pickerContainer.animationStateChanged.subscribe(( event: AnimationEvent ) => {
@@ -379,15 +397,45 @@ export class OwlDateTimeComponent<T> extends OwlDateTime<T> implements OnInit, O
         });
     }
 
-    /**
-     * Create an overlay for popup
-     * */
-    private createOverlay() {
-        const overlayRef = this.injectionService.appendComponent(OwlOverlayComponent);
-        overlayRef.instance.applyBackdropConfig({
-            backdropClass: 'owl-transparent-backdrop'
+    private createPopup(): void {
+        const overlayConfig = new OverlayConfig({
+            positionStrategy: this.createPopupPositionStrategy(),
+            hasBackdrop: true,
+            backdropClass: 'cdk-overlay-transparent-backdrop',
+            scrollStrategy: this.scrollStrategy(),
+            panelClass: 'owl-dt-popup',
         });
-        return overlayRef;
+
+        this.popupRef = this.overlay.create(overlayConfig);
+    }
+
+    /**
+     * Create the popup PositionStrategy.
+     * */
+    private createPopupPositionStrategy(): PositionStrategy {
+        const fallbackOffset = 0;
+
+        return this.overlay.position()
+            .connectedTo(this.dtInput.elementRef,
+                {originX: 'start', originY: 'bottom'},
+                {overlayX: 'start', overlayY: 'top'}
+            )
+            .withFallbackPosition(
+                {originX: 'start', originY: 'top'},
+                {overlayX: 'start', overlayY: 'bottom'},
+                undefined,
+                fallbackOffset
+            )
+            .withFallbackPosition(
+                {originX: 'end', originY: 'bottom'},
+                {overlayX: 'end', overlayY: 'top'}
+            )
+            .withFallbackPosition(
+                {originX: 'end', originY: 'top'},
+                {overlayX: 'end', overlayY: 'bottom'},
+                undefined,
+                fallbackOffset
+            );
     }
 
     /**
@@ -399,9 +447,12 @@ export class OwlDateTimeComponent<T> extends OwlDateTime<T> implements OnInit, O
             return;
         }
 
-        if (this.popupRef) {
-            this.popupRef.destroy();
-            this.popupRef = null;
+        if (this.popupRef && this.popupRef.hasAttached()) {
+            this.popupRef.detach();
+        }
+
+        if (this.pickerContainerPortal && this.pickerContainerPortal.isAttached) {
+            this.pickerContainerPortal.detach();
         }
 
         if (this.hidePickerStreamSub) {
@@ -419,38 +470,25 @@ export class OwlDateTimeComponent<T> extends OwlDateTime<T> implements OnInit, O
             this.dialogRef = null;
         }
 
-        // focus back to the focusedElement before the picker is open
+        const completeClose = () => {
+            if (this.opened) {
+                this.opened = false;
+                this.afterPickerClosed.emit(null);
+                this.focusedElementBeforeOpen = null;
+            }
+        };
+
         if (this.focusedElementBeforeOpen &&
             typeof this.focusedElementBeforeOpen.focus === 'function') {
+            // Because IE moves focus asynchronously, we can't count on it being restored before we've
+            // marked the datepicker as closed. If the event fires out of sequence and the element that
+            // we're refocusing opens the datepicker on focus, the user could be stuck with not being
+            // able to close the calendar at all. We work around it by making the logic, that marks
+            // the datepicker as closed, async as well.
             this.focusedElementBeforeOpen.focus();
-            this.focusedElementBeforeOpen = null;
+            setTimeout(completeClose);
+        } else {
+            completeClose();
         }
-
-        this.opened = false;
-        this.afterPickerClosed.emit(null);
-    }
-
-    /**
-     * Get the overlay pane's position style
-     * It attaches the overlay pane to the picker's
-     * input and adjusts to the viewport.
-     * */
-    private getOverlayPanePosition( containerHeight: number ): any {
-        const inputRect = this._dtInput.inputRect;
-        const paneOffsetX = inputRect.left;
-        let paneOffsetY = inputRect.bottom;
-
-        const viewportRect = this.domHandler.getViewport();
-        const bottomAvailableSpace = viewportRect.height - inputRect.bottom;
-
-        if (containerHeight > bottomAvailableSpace) {
-            paneOffsetY = inputRect.top - containerHeight;
-        }
-
-        if (paneOffsetY < 0) {
-            paneOffsetY = 10;
-        }
-
-        return {'left.px': paneOffsetX, 'top.px': paneOffsetY};
     }
 }

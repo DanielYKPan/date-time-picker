@@ -2,8 +2,24 @@
  * dialog-config.class
  */
 import { ViewContainerRef } from '@angular/core';
+import { NoopScrollStrategy, ScrollStrategy } from '@angular/cdk/overlay';
 
 let uniqueId = 0;
+
+/** Possible overrides for a dialog's position. */
+export interface DialogPosition {
+    /** Override for the dialog's top position. */
+    top?: string;
+
+    /** Override for the dialog's bottom position. */
+    bottom?: string;
+
+    /** Override for the dialog's left position. */
+    left?: string;
+
+    /** Override for the dialog's right position. */
+    right?: string;
+}
 
 export class OwlDialogConfig {
 
@@ -21,14 +37,8 @@ export class OwlDialogConfig {
      * */
     public autoFocus? = true;
 
-    /** Whether the dialog's backdrop is transparent. */
-    public transparentBackdrop? = false;
-
     /** Whether the dialog has a backdrop. */
     public hasBackdrop? = true;
-
-    /** Custom class for the backdrop, */
-    public backdropClass? = '';
 
     /**
      * Custom style for the backdrop
@@ -60,14 +70,62 @@ export class OwlDialogConfig {
     public paneClass? = '';
 
     /**
-     * Custom style for the pane
-     * */
-    public paneStyle?: any;
-
-    /**
      * Mouse Event
      * */
     public event?: MouseEvent = null;
+
+
+    /**
+     * Custom class for the backdrop
+     * */
+    public backdropClass?: string = 'cdk-overlay-dark-backdrop';
+
+
+    /**
+     * Whether the dialog should close when the user goes backwards/forwards in history.
+     * */
+    public closeOnNavigation?: boolean = true;
+
+    /** Width of the dialog. */
+    public width?: string = '';
+
+    /** Height of the dialog. */
+    public height?: string = '';
+
+    /**
+     * The min-width of the overlay panel.
+     * If a number is provided, pixel units are assumed.
+     * */
+    public minWidth?: number | string;
+
+    /**
+     * The min-height of the overlay panel.
+     * If a number is provided, pixel units are assumed.
+     * */
+    public minHeight?: number | string;
+
+    /**
+     * The max-width of the overlay panel.
+     * If a number is provided, pixel units are assumed.
+     * */
+    public maxWidth?: number | string = '85vw';
+
+    /**
+     * The max-height of the overlay panel.
+     * If a number is provided, pixel units are assumed.
+     * */
+    public maxHeight?: number | string;
+
+
+    /** Position overrides. */
+    public position?: DialogPosition;
+
+    /**
+     * The scroll strategy when the dialog is open
+     * Learn more this from https://material.angular.io/cdk/overlay/overview#scroll-strategies
+     * */
+    public scrollStrategy?: ScrollStrategy = new NoopScrollStrategy();
+
 
     public viewContainerRef?: ViewContainerRef;
 

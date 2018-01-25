@@ -8,7 +8,10 @@ import {
     Output
 } from '@angular/core';
 import { OwlDateTimeIntl } from './date-time-picker-intl.service';
-import { DOWN_ARROW, END, ENTER, HOME, LEFT_ARROW, RIGHT_ARROW, UP_ARROW, PAGE_DOWN, PAGE_UP } from '../utils';
+import {
+    DOWN_ARROW, END, ENTER, HOME, LEFT_ARROW, PAGE_DOWN, PAGE_UP, RIGHT_ARROW,
+    UP_ARROW
+} from '@angular/cdk/keycodes';
 import { take } from 'rxjs/operators';
 import { DateTimeAdapter } from './adapter/date-time-adapter.class';
 import { OWL_DATE_TIME_FORMATS, OwlDateTimeFormats } from './adapter/date-time-format.class';

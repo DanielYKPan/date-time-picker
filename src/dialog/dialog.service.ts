@@ -3,37 +3,57 @@
  */
 
 import {
-    ComponentRef, Injectable, InjectionToken, Injector, Optional, SkipSelf, TemplateRef
+    ComponentRef, Inject, Injectable, InjectionToken, Injector, Optional, SkipSelf, TemplateRef
 } from '@angular/core';
 import { Location } from '@angular/common';
-import { OwlOverlayComponent } from '../overlay';
 import { OwlDialogConfig } from './dialog-config.class';
 import { OwlDialogRef } from './dialog-ref.class';
-import { ComponentPortal, PortalInjector } from '../portal';
 import { OwlDialogContainerComponent } from './dialog-container.component';
-import { InjectionService, extendObject } from '../utils';
+import { extendObject } from '../utils';
 import { Subject } from 'rxjs/Subject';
 import { Observable } from 'rxjs/Observable';
 import { defer } from 'rxjs/observable/defer';
 import { startWith } from 'rxjs/operators';
+import { Overlay, OverlayConfig, OverlayContainer, OverlayRef, ScrollStrategy } from '@angular/cdk/overlay';
+import { ComponentPortal, ComponentType, PortalInjector } from '@angular/cdk/portal';
 
 export const OWL_DIALOG_DATA = new InjectionToken<any>('OwlDialogData');
 
-export interface ComponentType<T> {
-    new ( ...args: any[] ): T;
+/**
+ * Injection token that determines the scroll handling while the dialog is open.
+ * */
+export const OWL_DIALOG_SCROLL_STRATEGY =
+    new InjectionToken<() => ScrollStrategy>('owl-dialog-scroll-strategy');
+
+export function OWL_DIALOG_SCROLL_STRATEGY_PROVIDER_FACTORY( overlay: Overlay ): () => ScrollStrategy {
+    return () => overlay.scrollStrategies.block();
 }
+
+/** @docs-private */
+export const OWL_DIALOG_SCROLL_STRATEGY_PROVIDER = {
+    provide: OWL_DIALOG_SCROLL_STRATEGY,
+    deps: [Overlay],
+    useFactory: OWL_DIALOG_SCROLL_STRATEGY_PROVIDER_FACTORY,
+};
+
+/** I
+ * njection token that can be used to specify default dialog options.
+ * */
+export const OWL_DIALOG_DEFAULT_OPTIONS =
+    new InjectionToken<OwlDialogConfig>('owl-dialog-default-options');
 
 @Injectable()
 export class OwlDialogService {
 
-    private overlayRef: ComponentRef<OwlOverlayComponent>;
+    private ariaHiddenElements = new Map<Element, string | null>();
+
     private _openDialogsAtThisLevel: OwlDialogRef<any>[] = [];
     private _afterOpenAtThisLevel = new Subject<OwlDialogRef<any>>();
     private _afterAllClosedAtThisLevel = new Subject<void>();
 
     /** Keeps track of the currently-open dialogs. */
     get openDialogs(): OwlDialogRef<any>[] {
-        return this.parentDialog ? this.parentDialog._openDialogsAtThisLevel : this._openDialogsAtThisLevel;
+        return this.parentDialog ? this.parentDialog.openDialogs : this._openDialogsAtThisLevel;
     }
 
     /** Stream that emits when a dialog has been opened. */
@@ -54,10 +74,13 @@ export class OwlDialogService {
         this._afterAllClosed :
         this._afterAllClosed.pipe(startWith(undefined)));
 
-    constructor( private injector: Injector,
-                 private injectionService: InjectionService,
-                 @Optional() location: Location,
-                 @Optional() @SkipSelf() private parentDialog: OwlDialogService ) {
+    constructor( private overlay: Overlay,
+                 private injector: Injector,
+                 @Optional() private location: Location,
+                 @Inject(OWL_DIALOG_SCROLL_STRATEGY) private scrollStrategy: () => ScrollStrategy,
+                 @Optional() @Inject(OWL_DIALOG_DEFAULT_OPTIONS) private defaultOptions: OwlDialogConfig,
+                 @Optional() @SkipSelf() private parentDialog: OwlDialogService,
+                 private overlayContainer: OverlayContainer ) {
         if (!parentDialog && location) {
             location.subscribe(() => this.closeAll());
         }
@@ -66,51 +89,24 @@ export class OwlDialogService {
     public open<T>( componentOrTemplateRef: ComponentType<T> | TemplateRef<T>,
                     config?: OwlDialogConfig ): OwlDialogRef<any> {
 
-        const inProgressDialog = this.openDialogs.find(dialog => dialog.isAnimating());
+        config = applyConfigDefaults(config, this.defaultOptions);
 
-        // If there's a dialog that is in the process of being opened, return it instead.
-        if (inProgressDialog) {
-            return inProgressDialog;
+        if (config.id && this.getDialogById(config.id)) {
+            throw Error(`Dialog with id "${config.id}" exists already. The dialog id must be unique.`);
         }
 
-        config = applyConfigDefaults(config);
+        const overlayRef = this.createOverlay(config);
+        const dialogContainer = this.attachDialogContainer(overlayRef, config);
+        const dialogRef = this.attachDialogContent<T>(componentOrTemplateRef, dialogContainer, overlayRef, config);
 
-        // create the overlay component
-        if (!this.overlayRef) {
-            this.overlayRef = this.createOverlay();
+
+        if (!this.openDialogs.length) {
+            this.hideNonDialogContentFromAssistiveTechnology();
         }
 
-        // apply backdrop config to OverlayComponent
-        this.overlayRef.instance.applyBackdropConfig(config);
-
-        // attach dialog container to overlay
-        const dialogContainerRef = this.overlayRef.instance.attachPane(OwlDialogContainerComponent);
-        dialogContainerRef.instance.setConfig(config);
-
-        // attach dialog content to container/**/
-        const dialogRef = this.attachDialogContent(componentOrTemplateRef, dialogContainerRef, config);
-
-        this._openDialogsAtThisLevel.push(dialogRef);
-
-        // Listen to backdrop click stream
-        this.overlayRef.instance.backdropClick.subscribe(() => this.handleDialogClose());
-
-        // If the closing dialogRef is the last opening dialog,
-        // start the overlay backdrop exit animation
-        dialogRef.beforeClose().subscribe(() => {
-            if (this._openDialogsAtThisLevel.length === 1) {
-                this.overlayRef.instance.startBackdropExitAnimation();
-            }
-        });
-
-        // Listen to ESCAPE keydown stream
-        this.overlayRef.instance.escapeKeyDown.subscribe(() => this.handleDialogClose());
-
-        // after the dialog close animation, remove the dialog
+        this.openDialogs.push(dialogRef);
         dialogRef.afterClosed().subscribe(() => this.removeOpenDialog(dialogRef));
-
         this.afterOpen.next(dialogRef);
-
         return dialogRef;
     }
 
@@ -118,87 +114,151 @@ export class OwlDialogService {
      * Closes all of the currently-open dialogs.
      */
     public closeAll(): void {
-        let i = this._openDialogsAtThisLevel.length;
+        let i = this.openDialogs.length;
 
         while (i--) {
-            this._openDialogsAtThisLevel[i].close();
+            this.openDialogs[i].close();
         }
     }
 
-    public disposeOverlay(): void {
-        if (this.overlayRef) {
-            this.overlayRef.destroy();
-            this.overlayRef = null;
-        }
+    /**
+     * Finds an open dialog by its id.
+     * @param id ID to use when looking up the dialog.
+     */
+    public getDialogById( id: string ): OwlDialogRef<any> | undefined {
+        return this.openDialogs.find(dialog => dialog.id === id);
     }
 
     private attachDialogContent<T>( componentOrTemplateRef: ComponentType<T> | TemplateRef<T>,
-                                    containerRef: ComponentRef<OwlDialogContainerComponent>,
+                                    dialogContainer: OwlDialogContainerComponent,
+                                    overlayRef: OverlayRef,
                                     config: OwlDialogConfig ) {
-        const container = containerRef.instance;
-        const dialogRef = new OwlDialogRef<T>(containerRef, config.id);
+        const dialogRef = new OwlDialogRef<T>(overlayRef, dialogContainer, config.id, this.location);
+
+
+        if (config.hasBackdrop) {
+            overlayRef.backdropClick().subscribe(() => {
+                if (!dialogRef.disableClose) {
+                    dialogRef.close();
+                }
+            });
+        }
 
         if (componentOrTemplateRef instanceof TemplateRef) {
 
         } else {
-            const injector = this.createInjector<T>(config, dialogRef, container);
-            const contentRef = container.attachComponentPortal(
+            const injector = this.createInjector<T>(config, dialogRef, dialogContainer);
+            const contentRef = dialogContainer.attachComponentPortal(
                 new ComponentPortal(componentOrTemplateRef, undefined, injector)
             );
             dialogRef.componentInstance = contentRef.instance;
         }
 
+        dialogRef
+            .updateSize(config.width, config.height)
+            .updatePosition(config.position);
+
         return dialogRef;
     }
 
-    private createInjector<T>( config: OwlDialogConfig, dialogRef: OwlDialogRef<T>, container: OwlDialogContainerComponent ) {
+    private createInjector<T>( config: OwlDialogConfig, dialogRef: OwlDialogRef<T>, dialogContainer: OwlDialogContainerComponent ) {
         const userInjector = config && config.viewContainerRef && config.viewContainerRef.injector;
         const injectionTokens = new WeakMap();
 
         injectionTokens.set(OwlDialogRef, dialogRef);
-        injectionTokens.set(OwlDialogContainerComponent, container);
+        injectionTokens.set(OwlDialogContainerComponent, dialogContainer);
         injectionTokens.set(OWL_DIALOG_DATA, config.data);
 
         return new PortalInjector(userInjector || this.injector, injectionTokens);
+    }
+
+    private createOverlay( config: OwlDialogConfig ): OverlayRef {
+        const overlayConfig = this.getOverlayConfig(config);
+        return this.overlay.create(overlayConfig);
+    }
+
+    private attachDialogContainer( overlayRef: OverlayRef, config: OwlDialogConfig ): OwlDialogContainerComponent {
+        const containerPortal = new ComponentPortal(OwlDialogContainerComponent, config.viewContainerRef);
+        const containerRef: ComponentRef<OwlDialogContainerComponent> = overlayRef.attach(containerPortal);
+        containerRef.instance.setConfig(config);
+
+        return containerRef.instance;
+    }
+
+    private getOverlayConfig( dialogConfig: OwlDialogConfig ): OverlayConfig {
+        const state = new OverlayConfig({
+            positionStrategy: this.overlay.position().global(),
+            scrollStrategy: dialogConfig.scrollStrategy || this.scrollStrategy(),
+            panelClass: dialogConfig.paneClass,
+            hasBackdrop: dialogConfig.hasBackdrop,
+            minWidth: dialogConfig.minWidth,
+            minHeight: dialogConfig.minHeight,
+            maxWidth: dialogConfig.maxWidth,
+            maxHeight: dialogConfig.maxHeight
+        });
+
+        if (dialogConfig.backdropClass) {
+            state.backdropClass = dialogConfig.backdropClass;
+        }
+
+        return state;
     }
 
     private removeOpenDialog( dialogRef: OwlDialogRef<any> ): void {
         const index = this._openDialogsAtThisLevel.indexOf(dialogRef);
 
         if (index > -1) {
-            this._openDialogsAtThisLevel.splice(index, 1);
-            dialogRef.containerRef.destroy();
+            this.openDialogs.splice(index, 1);
+            // If all the dialogs were closed, remove/restore the `aria-hidden`
+            // to a the siblings and emit to the `afterAllClosed` stream.
+            if (!this.openDialogs.length) {
+                this.ariaHiddenElements.forEach(( previousValue, element ) => {
+                    if (previousValue) {
+                        element.setAttribute('aria-hidden', previousValue);
+                    } else {
+                        element.removeAttribute('aria-hidden');
+                    }
+                });
 
-            // If all the open dialogs is closed, destroy the overlay component
-            if (!this._openDialogsAtThisLevel.length) {
+                this.ariaHiddenElements.clear();
                 this._afterAllClosed.next();
-                this.disposeOverlay();
             }
         }
     }
 
     /**
-     * Handles global ESCAPE key presses while there are open dialogs. Closes the
-     * top dialog when the user presses escape.
+     * Hides all of the content that isn't an overlay from assistive technology.
      */
-    private handleDialogClose(): void {
-        const topDialog = this._openDialogsAtThisLevel[this._openDialogsAtThisLevel.length - 1];
+    private hideNonDialogContentFromAssistiveTechnology() {
+        const overlayContainer = this.overlayContainer.getContainerElement();
 
-        if (topDialog && !topDialog.disableClose) {
-            topDialog.close();
+        // Ensure that the overlay container is attached to the DOM.
+        if (overlayContainer.parentElement) {
+            const siblings = overlayContainer.parentElement.children;
+
+            for (let i = siblings.length - 1; i > -1; i--) {
+                let sibling = siblings[i];
+
+                if (sibling !== overlayContainer &&
+                    sibling.nodeName !== 'SCRIPT' &&
+                    sibling.nodeName !== 'STYLE' &&
+                    !sibling.hasAttribute('aria-live')) {
+
+                    this.ariaHiddenElements.set(sibling, sibling.getAttribute('aria-hidden'));
+                    sibling.setAttribute('aria-hidden', 'true');
+                }
+            }
         }
-    }
 
-    private createOverlay() {
-        return this.injectionService.appendComponent(OwlOverlayComponent);
     }
 }
 
 /**
  * Applies default options to the dialog config.
  * @param config Config to be modified.
+ * @param defaultOptions Default config setting
  * @returns The new configuration object.
  */
-function applyConfigDefaults( config?: OwlDialogConfig ): OwlDialogConfig {
-    return extendObject(new OwlDialogConfig(), config);
+function applyConfigDefaults( config?: OwlDialogConfig, defaultOptions?: OwlDialogConfig ): OwlDialogConfig {
+    return extendObject(new OwlDialogConfig(), config, defaultOptions);
 }

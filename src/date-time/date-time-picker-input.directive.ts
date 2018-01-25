@@ -10,10 +10,10 @@ import {
     AbstractControl, ControlValueAccessor, NG_VALIDATORS, NG_VALUE_ACCESSOR, ValidationErrors, Validator,
     ValidatorFn, Validators
 } from '@angular/forms';
+import { DOWN_ARROW } from '@angular/cdk/keycodes';
 import { OwlDateTimeComponent } from './date-time-picker.component';
 import { DateTimeAdapter } from './adapter/date-time-adapter.class';
 import { OWL_DATE_TIME_FORMATS, OwlDateTimeFormats } from './adapter/date-time-format.class';
-import { DOWN_ARROW } from '../utils';
 import { Subscription } from 'rxjs/Subscription';
 
 export const OWL_DATETIME_VALUE_ACCESSOR: any = {
@@ -170,11 +170,8 @@ export class OwlDateTimeInputDirective<T> implements OnInit, AfterViewInit, Afte
      * */
     @Output() dateTimeInput = new EventEmitter<any>();
 
-    /**
-     * The input client rect -- for positioning the picker
-     * */
-    get inputRect(): ClientRect {
-        return this.elmRef.nativeElement.getBoundingClientRect();
+    get elementRef(): ElementRef {
+        return this.elmRef;
     }
 
     /** The date-time-picker that this input is associated with. */

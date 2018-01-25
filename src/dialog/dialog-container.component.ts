@@ -3,16 +3,16 @@
  */
 
 import {
-    ChangeDetectorRef, Component, ComponentRef, EmbeddedViewRef, EventEmitter, forwardRef, OnInit, Optional,
-    ViewChild, Inject, ElementRef, HostBinding, HostListener, NgZone
+    ChangeDetectorRef, Component, ComponentRef, EmbeddedViewRef, EventEmitter, OnInit, Optional,
+    ViewChild, Inject, ElementRef, HostBinding, HostListener
 } from '@angular/core';
 import {
-    animate, AnimationEvent, query, style, transition, trigger, keyframes,
-    animateChild
+    animate, AnimationEvent, query, style, transition, trigger, keyframes, animateChild, group
 } from '@angular/animations';
 import { DOCUMENT } from '@angular/common';
+import { FocusTrap, FocusTrapFactory } from '@angular/cdk/a11y';
+import { BasePortalOutlet, CdkPortalOutlet, ComponentPortal, TemplatePortal } from '@angular/cdk/portal';
 import { OwlDialogConfig } from './dialog-config.class';
-import { BasePortalHost, ComponentPortal, TemplatePortal, PortalHostDirective } from '../portal';
 
 const zoomFadeIn = {opacity: 0, transform: 'translateX({{ x }}) translateY({{ y }}) scale({{scale}})'};
 const zoomFadeInFrom = {
@@ -27,23 +27,25 @@ const zoomFadeInFrom = {
     animations: [
         trigger('slideModal', [
             transition('void => enter', [
-                query('.owl-overlay-dialog-container', style(zoomFadeInFrom)),
-                query('.owl-overlay-dialog-container',
-                    animate('300ms cubic-bezier(0.35, 0, 0.25, 1)', style('*'))
-                ),
-                query('.owl-overlay-dialog-container',
-                    animate(150, keyframes([
-                        style({transform: 'scale(1)', offset: 0}),
-                        style({transform: 'scale(1.05)', offset: 0.3}),
-                        style({transform: 'scale(.95)', offset: 0.8}),
-                        style({transform: 'scale(1)', offset: 1.0})
-                    ]))
-                ),
+                query(':self', style(zoomFadeInFrom)),
+                group([
+                    query(':self',
+                        animate('300ms cubic-bezier(0.35, 0, 0.25, 1)', style('*'))
+                    ),
+                    query(':self',
+                        animate('150ms 300ms', keyframes([
+                            style({transform: 'scale(1)', offset: 0}),
+                            style({transform: 'scale(1.05)', offset: 0.3}),
+                            style({transform: 'scale(.95)', offset: 0.8}),
+                            style({transform: 'scale(1)', offset: 1.0})
+                        ]))
+                    ),
+                ]),
                 animateChild()
             ], {params: {x: '0px', y: '0px', ox: '50%', oy: '50%', scale: 1}}),
             transition('enter => exit', [
                 animateChild(),
-                query('.owl-overlay-dialog-container',
+                query(':self',
                     animate(200, style(zoomFadeIn))
                 )
             ], {params: {x: '0px', y: '0px', ox: '50%', oy: '50%'}})
@@ -51,10 +53,12 @@ const zoomFadeInFrom = {
     ]
 })
 
-export class OwlDialogContainerComponent extends BasePortalHost implements OnInit {
+export class OwlDialogContainerComponent extends BasePortalOutlet implements OnInit {
 
-    /** The portal host inside of this container into which the dialog content will be loaded. */
-    @ViewChild(forwardRef(() => PortalHostDirective)) portalHost: PortalHostDirective;
+    @ViewChild(CdkPortalOutlet) portalOutlet: CdkPortalOutlet;
+
+    /** The class that traps and manages focus within the dialog. */
+    private focusTrap: FocusTrap;
 
     /** ID of the element that should be considered as the dialog's label. */
     public ariaLabelledBy: string | null = null;
@@ -62,9 +66,12 @@ export class OwlDialogContainerComponent extends BasePortalHost implements OnIni
     /** Emits when an animation state changes. */
     public animationStateChanged = new EventEmitter<AnimationEvent>();
 
-    public config: OwlDialogConfig;
-
     public isAnimating = false;
+
+    private _config: OwlDialogConfig;
+    get config(): OwlDialogConfig {
+        return this._config
+    }
 
     private state: 'void' | 'enter' | 'exit' = 'enter';
 
@@ -81,8 +88,8 @@ export class OwlDialogContainerComponent extends BasePortalHost implements OnIni
     // This would help us to refocus back to element when the dialog was closed.
     private elementFocusedBeforeDialogWasOpened: HTMLElement | null = null;
 
-    @HostBinding('class.owl-global-overlay-wrapper')
-    get owlGlobalOverlayWrapperClass(): boolean {
+    @HostBinding('class.owl-dialog-container')
+    get owlDialogContainerClass(): boolean {
         return true;
     }
 
@@ -93,12 +100,12 @@ export class OwlDialogContainerComponent extends BasePortalHost implements OnIni
 
     @HostBinding('attr.id')
     get owlDialogContainerId(): string {
-        return this.config.id;
+        return this._config.id;
     }
 
     @HostBinding('attr.role')
     get owlDialogContainerRole(): string {
-        return this.config.role || null;
+        return this._config.role || null;
     }
 
     @HostBinding('attr.aria-labelledby')
@@ -108,7 +115,7 @@ export class OwlDialogContainerComponent extends BasePortalHost implements OnIni
 
     @HostBinding('attr.aria-describedby')
     get owlDialogContainerAriaDescribedby(): string {
-        return this.config.ariaDescribedBy || null;
+        return this._config.ariaDescribedBy || null;
     }
 
     @HostBinding('@slideModal')
@@ -118,7 +125,7 @@ export class OwlDialogContainerComponent extends BasePortalHost implements OnIni
 
     constructor( private changeDetector: ChangeDetectorRef,
                  private elementRef: ElementRef,
-                 private ngZone: NgZone,
+                 private focusTrapFactory: FocusTrapFactory,
                  @Optional() @Inject(DOCUMENT) private document: any ) {
         super();
     }
@@ -131,12 +138,12 @@ export class OwlDialogContainerComponent extends BasePortalHost implements OnIni
      * @param portal Portal to be attached as the dialog content.
      */
     public attachComponentPortal<T>( portal: ComponentPortal<T> ): ComponentRef<T> {
-        if (this.portalHost.hasAttached()) {
+        if (this.portalOutlet.hasAttached()) {
             throw Error('Attempting to attach dialog content after content is already attached');
         }
 
         this.savePreviouslyFocusedElement();
-        return this.portalHost.attachComponentPortal(portal);
+        return this.portalOutlet.attachComponentPortal(portal);
     }
 
     public attachTemplatePortal<C>( portal: TemplatePortal<C> ): EmbeddedViewRef<C> {
@@ -144,7 +151,7 @@ export class OwlDialogContainerComponent extends BasePortalHost implements OnIni
     }
 
     public setConfig( config: OwlDialogConfig ): void {
-        this.config = config;
+        this._config = config;
 
         if (config.event) {
             this.calculateZoomOrigin(event);
@@ -160,7 +167,7 @@ export class OwlDialogContainerComponent extends BasePortalHost implements OnIni
     @HostListener('@slideModal.done', ['$event'])
     public onAnimationDone( event: AnimationEvent ): void {
         if (event.toState === 'enter') {
-            this.focusDialog();
+            this.trapFocus();
         } else if (event.toState === 'exit') {
             this.restoreFocus();
         }
@@ -212,12 +219,18 @@ export class OwlDialogContainerComponent extends BasePortalHost implements OnIni
     private savePreviouslyFocusedElement(): void {
         if (this.document) {
             this.elementFocusedBeforeDialogWasOpened = this.document.activeElement as HTMLElement;
+
+            Promise.resolve().then(() => this.elementRef.nativeElement.focus());
         }
     }
 
-    private focusDialog(): void {
-        if (this.config.autoFocus) {
-            this.elementRef.nativeElement.focus();
+    private trapFocus(): void {
+        if (!this.focusTrap) {
+            this.focusTrap = this.focusTrapFactory.create(this.elementRef.nativeElement);
+        }
+
+        if (this._config.autoFocus) {
+            this.focusTrap.focusInitialElementWhenReady();
         }
     }
 
@@ -227,6 +240,10 @@ export class OwlDialogContainerComponent extends BasePortalHost implements OnIni
         // We need the extra check, because IE can set the `activeElement` to null in some cases.
         if (toFocus && typeof toFocus.focus === 'function') {
             toFocus.focus();
+        }
+
+        if (this.focusTrap) {
+            this.focusTrap.destroy();
         }
     }
 }
