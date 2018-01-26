@@ -1,7 +1,7 @@
 <div class="owl-dt-calendar-control">
     <!-- focus when keyboard tab (http://kizu.ru/en/blog/keyboard-only-focus/#x) -->
     <button class="owl-dt-control-button owl-dt-control-arrow-button"
-            tabindex="0"
+            type="button" tabindex="0"
             [disabled]="!prevButtonEnabled()"
             [attr.aria-label]="prevButtonLabel"
             (click)="previousClicked()">
@@ -18,7 +18,7 @@
     </button>
     <div class="owl-dt-calendar-control-content">
         <button class="owl-dt-control-button owl-dt-control-period-button"
-                tabindex="0"
+                type="button" tabindex="0"
                 [attr.aria-label]="periodButtonLabel"
                 (click)="toggleClicked()">
             <span class="owl-dt-control-button-content" tabindex="-1">
@@ -27,7 +27,7 @@
         </button>
     </div>
     <button class="owl-dt-control-button owl-dt-control-arrow-button"
-            tabindex="0"
+            type="button" tabindex="0"
             [disabled]="!nextButtonEnabled()"
             [attr.aria-label]="nextButtonLabel"
             (click)="nextClicked()">
