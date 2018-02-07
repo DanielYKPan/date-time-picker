@@ -995,7 +995,7 @@ export const DefaultIntl = {
 @NgModule({
     imports: [OwlDateTimeModule, OwlNativeDateTimeModule],
     providers: [
-        {provide: OwlDateTimeIntl, useClass: DefaultIntl},
+        {provide: OwlDateTimeIntl, useValue: DefaultIntl},
     ],
 })
 export class AppExampleModule {
