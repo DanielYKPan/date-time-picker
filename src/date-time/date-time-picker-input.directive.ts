@@ -404,7 +404,11 @@ export class OwlDateTimeInputDirective<T> implements OnInit, AfterViewInit, Afte
             result = this.dateTimeAdapter.parse(value, this.dateTimeFormats.parseInput);
             this.lastValueValid = !result || this.dateTimeAdapter.isValid(result);
             result = this.getValidDate(result);
-            this._value = result;
+
+            // if the result is valid, we update the value
+            if (this.lastValueValid) {
+                this._value = result;
+            }
 
         } else if (this.dtPicker.selectMode === 'range') {
             const selecteds = value.split(this.rangeSeparator);
@@ -422,7 +426,11 @@ export class OwlDateTimeInputDirective<T> implements OnInit, AfterViewInit, Afte
             from = this.getValidDate(from);
             to = this.getValidDate(to);
             result = [from, to];
-            this._values = result;
+
+            // if the result is valid, we update the values
+            if (this.lastValueValid) {
+                this._values = result;
+            }
         }
 
         this.valueChange.emit(result);
