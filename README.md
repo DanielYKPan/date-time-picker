@@ -152,7 +152,7 @@ Properties for `owl-date-time-inline`
 -------
 |Name|Type|Required|Default|Description|
 |:--- |:--- |:--- |:--- |:--- |
-|`pickerType`|`both`, `calendar`, `timer`|Optional|`botn`| Set the type of the dateTime picker. `both`: show both calendar and timer, `calendar`: only show calendar, `timer`: only show timer. |
+|`pickerType`|`both`, `calendar`, `timer`|Optional|`both`| Set the type of the dateTime picker. `both`: show both calendar and timer, `calendar`: only show calendar, `timer`: only show timer. |
 |`startView`|`month`, `year`|Optional|`month`| The view that the calendar should start in. |
 |`startAt`| T/null |Optional|`null`| The moment to open the picker to initially. |
 |`firstDayOfWeek`|number|Optional|`0`| Set the first day of week. Valid value is from 0 to 6. 0: Sunday ~ 6: Saturday|
