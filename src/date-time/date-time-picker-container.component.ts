@@ -86,6 +86,7 @@ export class OwlDateTimeContainerComponent<T> implements OnInit, AfterContentIni
         if (value) {
             this._clamPickerMoment = this.dateTimeAdapter.clampDate(value, this.picker.minDateTime, this.picker.maxDateTime);
         }
+        this.cdRef.markForCheck();
     }
 
     get pickerType(): PickerType {
