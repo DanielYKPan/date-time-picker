@@ -319,6 +319,10 @@ export class OwlDateTimeInputDirective<T> implements OnInit, AfterViewInit, Afte
     }
 
     public ngOnInit(): void {
+        if (!this.dtPicker) {
+            throw Error(
+                `OwlDateTimePicker: the picker input doesn't have any associated owl-date-time component`);
+        }
     }
 
     public ngAfterViewInit(): void {

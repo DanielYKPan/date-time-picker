@@ -9,8 +9,8 @@ import {
 } from '@angular/core';
 import { OwlDateTimeComponent } from './date-time-picker.component';
 import { Subscription } from 'rxjs/Subscription';
-import {merge} from 'rxjs/observable/merge';
-import {of as observableOf} from 'rxjs/observable/of';
+import { merge } from 'rxjs/observable/merge';
+import { of as observableOf } from 'rxjs/observable/of';
 
 @Directive({
     selector: '[owlDateTimeTrigger]',
