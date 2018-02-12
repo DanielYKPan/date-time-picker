@@ -102,6 +102,7 @@ $backdrop-animation-timing-function: cubic-bezier(0.25, 0.8, 0.25, 1) !default;
   overflow: auto;
   background: #fff;
   color: rgba(0, 0, 0, .87);
+  outline: none;
 }
 
 $theme-color: #3f51b5;
@@ -204,6 +205,9 @@ $theme-color: #3f51b5;
     outline: 0;
     cursor: pointer;
     color: rgba(0, 0, 0, .85);
+    -webkit-appearance: none;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    -webkit-tap-highlight-color: transparent;
   }
 
   .owl-dt-calendar-cell-content {
@@ -259,6 +263,20 @@ $theme-color: #3f51b5;
   .owl-dt-calendar-cell-active:focus > .owl-dt-calendar-cell-content:not(.owl-dt-calendar-cell-selected),
   :not(.owl-dt-calendar-cell-disabled):hover > .owl-dt-calendar-cell-content:not(.owl-dt-calendar-cell-selected) {
     background-color: rgba(0, 0, 0, .04);
+  }
+
+  .owl-dt-calendar-cell-in-range {
+    background: rgba($theme-color, .2);
+
+    &.owl-dt-calendar-cell-range-from {
+      border-top-left-radius: 999px;
+      border-bottom-left-radius: 999px;
+    }
+
+    &.owl-dt-calendar-cell-range-to {
+      border-top-right-radius: 999px;
+      border-bottom-right-radius: 999px;
+    }
   }
 }
 
@@ -387,7 +405,7 @@ $theme-color: #3f51b5;
 .owl-dt-inline-container,
 .owl-dt-popup-container {
   position: relative;
-  width: 300px;
+  width: 296px;
   box-shadow: 0 5px 5px -3px rgba(0, 0, 0, .2),
   0 8px 10px 1px rgba(0, 0, 0, .14),
   0 3px 14px 2px rgba(0, 0, 0, .12);

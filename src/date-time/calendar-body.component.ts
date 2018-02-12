@@ -117,11 +117,43 @@ export class OwlCalendarBodyComponent implements OnInit {
             const fromValue = this.selectedValues[0];
             const toValue = this.selectedValues[1];
 
+            return value === fromValue || value === toValue;
+        }
+    }
+
+    /**
+     * Check if the cell in the range
+     * */
+    public isInRange( value: number ): boolean {
+        if (this.selectMode === 'range') {
+            const fromValue = this.selectedValues[0];
+            const toValue = this.selectedValues[1];
+
             if (fromValue !== null && toValue !== null) {
                 return value >= fromValue && value <= toValue;
             } else {
                 return value === fromValue || value === toValue;
             }
+        }
+    }
+
+    /**
+     * Check if the cell is the range from
+     * */
+    public isRangeFrom( value: number ): boolean {
+        if (this.selectMode === 'range') {
+            const fromValue = this.selectedValues[0];
+            return fromValue !== null && value === fromValue;
+        }
+    }
+
+    /**
+     * Check if the cell is the range to
+     * */
+    public isRangeTo( value: number ): boolean {
+        if (this.selectMode === 'range') {
+            const toValue = this.selectedValues[1];
+            return toValue !== null && value === toValue;
         }
     }
 }
