@@ -95,7 +95,7 @@ export class OwlDialogRef<T> {
     /**
      * Gets an observable that emits when the overlay's backdrop has been clicked.
      */
-    public backdropClick(): Observable<void> {
+    public backdropClick(): Observable<any> {
         return this.overlayRef.backdropClick();
     }
 

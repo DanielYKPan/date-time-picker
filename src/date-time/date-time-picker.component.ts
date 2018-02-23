@@ -385,7 +385,7 @@ export class OwlDateTimeComponent<T> extends OwlDateTime<T> implements OnInit, O
     private openAsPopup(): void {
 
         if (!this.pickerContainerPortal) {
-            this.pickerContainerPortal = new ComponentPortal(OwlDateTimeContainerComponent, this.viewContainerRef);
+            this.pickerContainerPortal = new ComponentPortal<OwlDateTimeContainerComponent<T>>(OwlDateTimeContainerComponent, this.viewContainerRef);
         }
 
         if (!this.popupRef) {
