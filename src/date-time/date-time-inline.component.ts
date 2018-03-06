@@ -3,10 +3,18 @@
  */
 
 import {
-    ChangeDetectionStrategy, ChangeDetectorRef, Component, forwardRef, Inject, Input, OnInit, Optional,
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
+    Component,
+    forwardRef,
+    Inject,
+    Input,
+    OnInit,
+    Optional,
     ViewChild
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { coerceBooleanProperty } from '@angular/cdk/coercion';
 import { OwlDateTime, PickerMode, PickerType, SelectMode } from './date-time.class';
 import { DateTimeAdapter } from './adapter/date-time-adapter.class';
 import { OWL_DATE_TIME_FORMATS, OwlDateTimeFormats } from './adapter/date-time-format.class';
@@ -53,14 +61,14 @@ export class OwlDateTimeInlineComponent<T> extends OwlDateTime<T> implements OnI
         }
     }
 
-    private _disabled: boolean;
+    private _disabled = false;
     @Input()
     get disabled(): boolean {
         return !!this._disabled;
     }
 
     set disabled( value: boolean ) {
-        this._disabled = value;
+        this._disabled = coerceBooleanProperty(value);
     }
 
     private _selectMode: SelectMode = 'single';

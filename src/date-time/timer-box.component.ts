@@ -12,6 +12,11 @@ import {
     Output,
     HostBinding
 } from '@angular/core';
+import { coerceNumberProperty } from '@angular/cdk/coercion';
+import { Subject } from 'rxjs/Subject';
+import { Subscription } from 'rxjs/Subscription';
+import { debounceTime } from 'rxjs/operators/debounceTime';
+import { distinctUntilChanged } from 'rxjs/operators/distinctUntilChanged';
 
 @Component({
     exportAs: 'owlDateTimeTimerBox',
@@ -48,7 +53,15 @@ export class OwlTimerBoxComponent implements OnInit, OnDestroy {
 
     @Input() step = 1;
 
+    @Input() inputLabel: string;
+
     @Output() valueChange = new EventEmitter<number>();
+
+    @Output() inputChange = new EventEmitter<number>();
+
+    private inputStream = new Subject<string>();
+
+    private inputStreamSub = Subscription.EMPTY;
 
     get displayValue(): number {
         return this.boxValue || this.value;
@@ -63,9 +76,19 @@ export class OwlTimerBoxComponent implements OnInit, OnDestroy {
     }
 
     public ngOnInit() {
+        this.inputStreamSub = this.inputStream.pipe(
+            debounceTime(500),
+            distinctUntilChanged()
+        ).subscribe(( val: string ) => {
+            if (val) {
+                const inputValue = coerceNumberProperty(val, 0);
+                this.updateValueViaInput(inputValue);
+            }
+        })
     }
 
     public ngOnDestroy(): void {
+        this.inputStreamSub.unsubscribe();
     }
 
     public upBtnClicked(): void {
@@ -76,10 +99,21 @@ export class OwlTimerBoxComponent implements OnInit, OnDestroy {
         this.updateValue(this.value - this.step);
     }
 
+    public handleInputChange( val: string ): void {
+        this.inputStream.next(val);
+    }
+
     private updateValue( value: number ): void {
         if (value > this.max || value < this.min) {
             return;
         }
         this.valueChange.emit(value);
+    }
+
+    private updateValueViaInput( value: number ): void {
+        if (value > this.max || value < this.min) {
+            return;
+        }
+        this.inputChange.emit(value);
     }
 }

@@ -3,18 +3,34 @@
  */
 
 import {
-    ChangeDetectionStrategy, ChangeDetectorRef, Component, ComponentRef, EventEmitter, Inject, InjectionToken, Input,
-    NgZone, OnDestroy,
-    OnInit, Optional, Output, ViewContainerRef
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
+    Component,
+    ComponentRef,
+    EventEmitter,
+    Inject,
+    InjectionToken,
+    Input,
+    NgZone,
+    OnDestroy,
+    OnInit,
+    Optional,
+    Output,
+    ViewContainerRef
 } from '@angular/core';
 import { AnimationEvent } from '@angular/animations';
 import { DOCUMENT } from '@angular/common';
 import { ComponentPortal } from '@angular/cdk/portal';
 import {
-    Overlay, OverlayConfig, OverlayRef, PositionStrategy, BlockScrollStrategy,
+    Overlay,
+    OverlayConfig,
+    OverlayRef,
+    PositionStrategy,
+    BlockScrollStrategy,
     ScrollStrategy
 } from '@angular/cdk/overlay';
 import { ESCAPE } from '@angular/cdk/keycodes';
+import { coerceBooleanProperty } from '@angular/cdk/coercion';
 import { OwlDateTimeContainerComponent } from './date-time-picker-container.component';
 import { OwlDateTimeInputDirective } from './date-time-picker-input.directive';
 import { DateTimeAdapter } from './adapter/date-time-adapter.class';
@@ -125,7 +141,7 @@ export class OwlDateTimeComponent<T> extends OwlDateTime<T> implements OnInit, O
     }
 
     /** Whether the date time picker should be disabled. */
-    private _disabled: boolean;
+    private _disabled = false;
     @Input()
     get disabled(): boolean {
         return this._disabled === undefined && this._dtInput ?
@@ -133,6 +149,7 @@ export class OwlDateTimeComponent<T> extends OwlDateTime<T> implements OnInit, O
     }
 
     set disabled( value: boolean ) {
+        value = coerceBooleanProperty(value);
         if (value !== this._disabled) {
             this._disabled = value;
             this.disabledChange.next(value);

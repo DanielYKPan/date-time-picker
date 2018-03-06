@@ -193,6 +193,21 @@ export class OwlTimerComponent<T> implements OnInit {
         });
     }
 
+    /**
+     * Set the hour value via typing into timer box input
+     * We need this to handle the hour value when the timer is in hour12 mode
+     * */
+    public setHourValueViaInput( hours: number ): void {
+
+        if (this.hour12Timer && this.isPM && hours >= 1 && hours <= 11) {
+            hours = hours + 12;
+        } else if (this.hour12Timer && !this.isPM && hours === 12) {
+            hours = 0
+        }
+
+        this.setHourValue(hours);
+    }
+
     public setHourValue( hours: number ): void {
         const m = this.dateTimeAdapter.setHours(this.pickerMoment, hours);
         this.selectedChange.emit(m);

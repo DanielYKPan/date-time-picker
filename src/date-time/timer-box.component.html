@@ -17,9 +17,12 @@
         <!-- </editor-fold> -->
     </span>
 </button>
-<div class="owl-dt-timer-content">
-    {{displayValue | numberFixedLen : 2}}
-</div>
+<label class="owl-dt-timer-content">
+    <input class="owl-dt-timer-input" maxlength="2"
+           [value]="displayValue | numberFixedLen : 2"
+           (input)="handleInputChange(valueInput.value)" #valueInput>
+    <span class="owl-hidden-accessible">{{inputLabel}}</span>
+</label>
 <button class="owl-dt-control-button owl-dt-control-arrow-button"
         type="button" tabindex="0"
         [disabled]="downBtnDisabled || value <= min"

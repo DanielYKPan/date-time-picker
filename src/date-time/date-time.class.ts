@@ -2,7 +2,7 @@
  * date-time.class
  */
 import { Inject, Input, Optional } from '@angular/core';
-import { OwlDateTimeInputDirective } from './date-time-picker-input.directive';
+import { coerceBooleanProperty, coerceNumberProperty } from '@angular/cdk/coercion';
 import { DateTimeAdapter } from './adapter/date-time-adapter.class';
 import { OWL_DATE_TIME_FORMATS, OwlDateTimeFormats } from './adapter/date-time-format.class';
 
@@ -21,14 +21,30 @@ export abstract class OwlDateTime<T> {
      * @default false
      * @type {Boolean}
      * */
-    @Input() showSecondsTimer: boolean;
+    private _showSecondsTimer = false;
+    @Input()
+    get showSecondsTimer(): boolean {
+        return this._showSecondsTimer;
+    }
+
+    set showSecondsTimer( val: boolean ) {
+        this._showSecondsTimer = coerceBooleanProperty(val);
+    }
 
     /**
      * Whether the timer is in hour12 format
      * @default false
      * @type {boolean}
      * */
-    @Input() hour12Timer: boolean;
+    private _hour12Timer = false;
+    @Input()
+    get hour12Timer(): boolean {
+        return this._hour12Timer;
+    }
+
+    set hour12Timer( val: boolean ) {
+        this._hour12Timer = coerceBooleanProperty(val);
+    }
 
     /**
      * The view that the calendar should start in.
@@ -42,21 +58,45 @@ export abstract class OwlDateTime<T> {
      * @default {1}
      * @type {number}
      * */
-    @Input() stepHour = 1;
+    private _stepHour = 1;
+    @Input()
+    get stepHour(): number {
+        return this._stepHour;
+    }
+
+    set stepHour( val: number ) {
+        this._stepHour = coerceNumberProperty(val, 1);
+    }
 
     /**
      * Minutes to change per step
      * @default {1}
      * @type {number}
      * */
-    @Input() stepMinute = 1;
+    private _stepMinute = 1;
+    @Input()
+    get stepMinute(): number {
+        return this._stepMinute;
+    }
+
+    set stepMinute( val: number ) {
+        this._stepMinute = coerceNumberProperty(val, 1);
+    }
 
     /**
      * Seconds to change per step
      * @default {1}
      * @type {number}
      * */
-    @Input() stepSecond = 1;
+    private _stepSecond = 1;
+    @Input()
+    get stepSecond(): number {
+        return this._stepSecond;
+    }
+
+    set stepSecond( val: number ) {
+        this._stepSecond = coerceNumberProperty(val, 1);
+    }
 
     /**
      * Set the first day of week
@@ -70,6 +110,7 @@ export abstract class OwlDateTime<T> {
     }
 
     set firstDayOfWeek( value: number ) {
+        value = coerceNumberProperty(value, 0);
         if (value > 6 || value < 0) {
             this._firstDayOfWeek = 0;
         } else {
