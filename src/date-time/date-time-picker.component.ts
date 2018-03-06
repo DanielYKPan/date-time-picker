@@ -165,7 +165,7 @@ export class OwlDateTimeComponent<T> extends OwlDateTime<T> implements OnInit, O
     private pickerContainer: OwlDateTimeContainerComponent<T>;
     private popupRef: OverlayRef;
     private dialogRef: OwlDialogRef<OwlDateTimeContainerComponent<T>>;
-    private dtInputSub: Subscription;
+    private dtInputSub = Subscription.EMPTY;
     private hidePickerStreamSub: Subscription;
     private confirmSelectedStreamSub: Subscription;
 
