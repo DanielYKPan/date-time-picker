@@ -3,6 +3,7 @@
  */
 
 import {
+    AfterContentInit,
     ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Inject, Input, OnDestroy, OnInit, Optional,
     Output
 } from '@angular/core';
@@ -23,7 +24,7 @@ const MONTHS_PER_ROW = 3;
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 
-export class OwlYearViewComponent<T> implements OnInit, OnDestroy {
+export class OwlYearViewComponent<T> implements OnInit, AfterContentInit, OnDestroy {
 
     /**
      * The select mode of the picker;
@@ -70,7 +71,7 @@ export class OwlYearViewComponent<T> implements OnInit, OnDestroy {
         value = this.dateTimeAdapter.deserialize(value);
         this._pickerMoment = this.getValidDate(value) || this.dateTimeAdapter.now();
 
-        if (!this.hasSameYear(oldMoment, this._pickerMoment)) {
+        if (!this.hasSameYear(oldMoment, this._pickerMoment) && this.initiated) {
             this.generateMonthList();
         }
     }
@@ -86,7 +87,9 @@ export class OwlYearViewComponent<T> implements OnInit, OnDestroy {
 
     set dateFilter( filter: ( date: T ) => boolean ) {
         this._dateFilter = filter;
-        this.generateMonthList();
+        if (this.initiated) {
+            this.generateMonthList();
+        }
     }
 
     /** The minimum selectable date. */
@@ -99,7 +102,9 @@ export class OwlYearViewComponent<T> implements OnInit, OnDestroy {
     set minDate( value: T | null ) {
         value = this.dateTimeAdapter.deserialize(value);
         this._minDate = this.getValidDate(value);
-        this.generateMonthList();
+        if (this.initiated) {
+            this.generateMonthList();
+        }
     }
 
     /** The maximum selectable date. */
@@ -112,7 +117,9 @@ export class OwlYearViewComponent<T> implements OnInit, OnDestroy {
     set maxDate( value: T | null ) {
         value = this.dateTimeAdapter.deserialize(value);
         this._maxDate = this.getValidDate(value);
-        this.generateMonthList();
+        if (this.initiated) {
+            this.generateMonthList();
+        }
     }
 
     private monthNames: string[];
@@ -129,6 +136,8 @@ export class OwlYearViewComponent<T> implements OnInit, OnDestroy {
     }
 
     private localeSub: Subscription = Subscription.EMPTY;
+
+    private initiated = false;
 
     public todayMonth: number | null;
 
@@ -154,6 +163,11 @@ export class OwlYearViewComponent<T> implements OnInit, OnDestroy {
             this.generateMonthList();
             this.cdRef.markForCheck();
         });
+    }
+
+    public ngAfterContentInit(): void {
+        this.generateMonthList();
+        this.initiated = true;
     }
 
     public ngOnDestroy(): void {
@@ -259,8 +273,22 @@ export class OwlYearViewComponent<T> implements OnInit, OnDestroy {
      * @return {number | null}
      */
     private getMonthInCurrentYear( date: T | null ): number {
-        return this.hasSameYear(date, this.pickerMoment) ?
-            this.dateTimeAdapter.getMonth(date) : null;
+        if (this.getValidDate(date) && this.getValidDate(this._pickerMoment)) {
+            const result = this.dateTimeAdapter.compareYear(date, this._pickerMoment);
+
+            // < 0 : the given date's year is before pickerMoment's year, we return -1 as selected month value.
+            // > 0 : the given date's year is after pickerMoment's year, we return 12 as selected month value.
+            // 0 : the give date's year is same as the pickerMoment's year, we return the actual month value.
+            if (result < 0) {
+                return -1;
+            } else if (result > 0) {
+                return 12;
+            } else {
+                return this.dateTimeAdapter.getMonth(date);
+            }
+        } else {
+            return null;
+        }
     }
 
     /**

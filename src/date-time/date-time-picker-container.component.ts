@@ -358,7 +358,7 @@ export class OwlDateTimeContainerComponent<T> implements OnInit, AfterContentIni
         // if the given calendar day is after or equal to 'from',
         // set ths given date as 'to'
         // otherwise, set it as 'from' and set 'to' to null
-        if (this.picker.selecteds && this.picker.selecteds.length && !to &&
+        if (this.picker.selecteds && this.picker.selecteds.length && !to && from &&
             this.dateTimeAdapter.differenceInCalendarDays(result, from) >= 0) {
             to = result;
             this.activeSelectedIndex = 1;

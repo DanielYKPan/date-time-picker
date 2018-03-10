@@ -289,6 +289,33 @@ export abstract class DateTimeAdapter<T> {
     }
 
     /**
+     * Check if two given dates are in the same year
+     * @return {number} -- 1, 0 or -1
+     * 1 if the first date's year is after the second,
+     * -1 if the first date's year is before the second
+     * 0 if two given dates are in the same year
+     * */
+    compareYear( first: T, second: T ): number {
+
+        if (!this.isValid(first) || !this.isValid(second)) {
+            throw Error('JSNativeDate: Cannot compare invalid dates.');
+        }
+
+        const yearLeft = this.getYear(first);
+        const yearRight = this.getYear(second);
+
+        const diff = yearLeft - yearRight;
+
+        if (diff < 0) {
+            return -1;
+        } else if (diff > 0) {
+            return 1;
+        } else {
+            return 0;
+        }
+    }
+
+    /**
      * Attempts to deserialize a value to a valid date object. This is different from parsing in that
      * deserialize should only accept non-ambiguous, locale-independent formats (e.g. a ISO 8601
      * string). The default implementation does not allow any deserialization, it simply checks that

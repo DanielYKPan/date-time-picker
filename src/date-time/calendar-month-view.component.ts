@@ -82,7 +82,7 @@ export class OwlMonthViewComponent<T> implements OnInit, AfterContentInit, OnDes
             1
         );
 
-        if (!this.isSameMonth(oldMoment, this._pickerMoment)) {
+        if (!this.isSameMonth(oldMoment, this._pickerMoment) && this.initiated) {
             this.generateCalendar();
         }
     }
@@ -98,7 +98,9 @@ export class OwlMonthViewComponent<T> implements OnInit, AfterContentInit, OnDes
 
     set dateFilter( filter: ( date: T ) => boolean ) {
         this._dateFilter = filter;
-        this.generateCalendar();
+        if (this.initiated) {
+            this.generateCalendar();
+        }
     }
 
     /** The minimum selectable date. */
@@ -111,7 +113,9 @@ export class OwlMonthViewComponent<T> implements OnInit, AfterContentInit, OnDes
     set minDate( value: T | null ) {
         value = this.dateTimeAdapter.deserialize(value);
         this._minDate = this.getValidDate(value);
-        this.generateCalendar();
+        if (this.initiated) {
+            this.generateCalendar();
+        }
     }
 
     /** The maximum selectable date. */
@@ -124,7 +128,10 @@ export class OwlMonthViewComponent<T> implements OnInit, AfterContentInit, OnDes
     set maxDate( value: T | null ) {
         value = this.dateTimeAdapter.deserialize(value);
         this._maxDate = this.getValidDate(value);
-        this.generateCalendar();
+
+        if (this.initiated) {
+            this.generateCalendar();
+        }
     }
 
     private _weekdays: Array<{ long: string, short: string, narrow: string }>;
@@ -146,6 +153,8 @@ export class OwlMonthViewComponent<T> implements OnInit, AfterContentInit, OnDes
     private firstDateOfMonth: T;
 
     private localeSub: Subscription = Subscription.EMPTY;
+
+    private initiated = false;
 
     /**
      * The date of the month that today falls on.
@@ -188,6 +197,7 @@ export class OwlMonthViewComponent<T> implements OnInit, AfterContentInit, OnDes
 
     public ngAfterContentInit(): void {
         this.generateCalendar();
+        this.initiated = true;
     }
 
     public ngOnDestroy(): void {
