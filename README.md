@@ -9,6 +9,7 @@ Breaking Changes
 -------
  - This picker is completely changed in version 5.1.*. If you used this package before, please read the documentation or the demo examples carefully, and change the implementation of the picker in your projects.
  - This picker uses the '@angular/cdk'.
+ - Add two new selectMode: 'rangeFrom' and 'rangeTo'.
 
 Description
 -------
@@ -122,7 +123,7 @@ Properties for `input[owlDateTime]`
 |`disabled`|boolean|Optional|`false`|When specify to true, it would disable the picker's input.|
 |`min`|`<T>`|Optional|`null`| The minimum valid date time.|
 |`max`|`<T>`|Optional|`null`| The maximum valid date time.|
-|`selectMode`|`single`, `range`|Optional|`single`| Specify the picker's select mode. `single`: a single value allowed, `range`: allow users to select a range of date-time.|
+|`selectMode`|`single`, `range`, `rangeFrom`, `rangeTo`|Optional|`single`| Specify the picker's select mode. `single`: a single value allowed, `range`: allow users to select a range of date-time, `rangeFrom`: the input would only show the 'from' value and the picker could only selects 'from' value, `rangeTo`: the input would only show the 'to' value and the picker could only selects 'to' value.|
 |`rangeSeparator`|string|Optional|`~`| The character to separate the 'from' and 'to' in input value in range selectMode.|
 
 Events for `input[owlDateTime]`
@@ -165,7 +166,7 @@ Properties for `owl-date-time-inline`
 |`owlDateTimeFilter`|`( date: T)=>boolean `|Optional|`null`|A function to filter date time.|
 |`min`|`<T>`|Optional|`null`| The minimum valid date time.|
 |`max`|`<T>`|Optional|`null`| The maximum valid date time.|
-|`selectMode`|`single`, `range`|Optional|`single`| Specify the picker's select mode. `single`: a single value allowed, `range`: allow users to select a range of date-time.|
+|`selectMode`|`single`, `range`, `rangeFrom`, `rangeTo`|Optional|`single`| Specify the picker's select mode. `single`: a single value allowed, `range`: allow users to select a range of date-time, `rangeFrom`: the input would only show the 'from' value and the picker could only selects 'from' value, `rangeTo`: the input would only show the 'to' value and the picker could only selects 'to' value.|
 
 Localization and DateTime Format
 -------
