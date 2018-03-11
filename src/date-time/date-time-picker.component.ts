@@ -83,8 +83,11 @@ export class OwlDateTimeComponent<T> extends OwlDateTime<T> implements OnInit, O
 
             if (this._dtInput.selectMode === 'single') {
                 return this._dtInput.value || null;
-            } else if (this._dtInput.selectMode === 'range') {
+            } else if (this._dtInput.selectMode === 'range' ||
+                this._dtInput.selectMode === 'rangeFrom') {
                 return this._dtInput.values[0] || null;
+            } else if (this._dtInput.selectMode === 'rangeTo') {
+                return this._dtInput.values[1] || null;
             }
 
         } else {
@@ -113,7 +116,7 @@ export class OwlDateTimeComponent<T> extends OwlDateTime<T> implements OnInit, O
     set pickerType( val: PickerType ) {
         if (val !== this._pickerType) {
             this._pickerType = val;
-            if (this.selectMode === 'single') {
+            if (this._dtInput.isInSingleMode) {
                 this._dtInput.value = this._dtInput.value;
             } else {
                 this._dtInput.values = this._dtInput.values;
@@ -232,6 +235,14 @@ export class OwlDateTimeComponent<T> extends OwlDateTime<T> implements OnInit, O
         return this._dtInput.selectMode;
     }
 
+    get isInSingleMode(): boolean {
+        return this._dtInput.isInSingleMode;
+    }
+
+    get isInRangeMode(): boolean {
+        return this._dtInput.isInRangeMode;
+    }
+
     constructor( private overlay: Overlay,
                  private viewContainerRef: ViewContainerRef,
                  private dialogService: OwlDialogService,
@@ -287,9 +298,9 @@ export class OwlDateTimeComponent<T> extends OwlDateTime<T> implements OnInit, O
         }
 
         // reset the picker selected value
-        if (this._dtInput.selectMode === 'single') {
+        if (this.isInSingleMode) {
             this.selected = this._dtInput.value;
-        } else if (this._dtInput.selectMode === 'range') {
+        } else if (this.isInRangeMode) {
             this.selecteds = this._dtInput.values;
         }
 
@@ -337,7 +348,7 @@ export class OwlDateTimeComponent<T> extends OwlDateTime<T> implements OnInit, O
          * */
         if (this.pickerMode !== 'dialog' &&
             this.pickerType === 'calendar' &&
-            (this.selectMode === 'single' || (this.selectMode === 'range' && this.selecteds[0] && this.selecteds[1]))) {
+            (this.isInSingleMode || (this.isInRangeMode && this.selecteds[0] && this.selecteds[1]))) {
             this.confirmSelect();
         }
     }
@@ -349,10 +360,10 @@ export class OwlDateTimeComponent<T> extends OwlDateTime<T> implements OnInit, O
      * */
     private confirmSelect( event?: any ): void {
 
-        if (this.selectMode === 'single') {
+        if (this.isInSingleMode) {
             const selected = this.selected || this.startAt || this.dateTimeAdapter.now();
             this.confirmSelectedChange.emit(selected);
-        } else if (this.selectMode === 'range') {
+        } else if (this.isInRangeMode) {
             this.confirmSelectedChange.emit(this.selecteds);
         }
 
@@ -482,7 +493,13 @@ export class OwlDateTimeComponent<T> extends OwlDateTime<T> implements OnInit, O
                 {originX: 'start', originY: 'top'},
                 {overlayX: 'start', overlayY: 'bottom'},
                 undefined,
-                265
+                176
+            )
+            .withFallbackPosition(
+                {originX: 'start', originY: 'top'},
+                {overlayX: 'start', overlayY: 'bottom'},
+                undefined,
+                352
             );
     }
 

@@ -210,7 +210,7 @@ export class OwlDateTimeContainerComponent<T> implements OnInit, AfterContentIni
     public dateSelected( date: T ): void {
         let result;
 
-        if (this.picker.selectMode === 'single') {
+        if (this.picker.isInSingleMode) {
             result = this.dateSelectedInSingleMode(date);
             if (result) {
                 this.pickerMoment = result;
@@ -219,7 +219,7 @@ export class OwlDateTimeContainerComponent<T> implements OnInit, AfterContentIni
             return;
         }
 
-        if (this.picker.selectMode === 'range') {
+        if (this.picker.isInRangeMode) {
             result = this.dateSelectedInRangeMode(date);
             if (result) {
                 this.pickerMoment = result[this.activeSelectedIndex];
@@ -236,12 +236,12 @@ export class OwlDateTimeContainerComponent<T> implements OnInit, AfterContentIni
             return;
         }
 
-        if (this.picker.selectMode === 'single') {
+        if (this.picker.isInSingleMode) {
             this.picker.select(time);
             return;
         }
 
-        if (this.picker.selectMode === 'range') {
+        if (this.picker.isInRangeMode) {
             const selecteds = [...this.picker.selecteds];
 
             // check if the 'from' is after 'to' or 'to'is before 'from'
@@ -312,18 +312,21 @@ export class OwlDateTimeContainerComponent<T> implements OnInit, AfterContentIni
      * @return {void}
      * */
     public toggleRangeActiveIndex(): void {
-        this.activeSelectedIndex =
-            this.activeSelectedIndex === 0 ? 1 : 0;
+        if (this.picker.selectMode === 'range') {
+            this.activeSelectedIndex =
+                this.activeSelectedIndex === 0 ? 1 : 0;
 
-        const selected = this.picker.selecteds[this.activeSelectedIndex];
-        if (this.picker.selecteds && selected) {
-            this.pickerMoment = this.dateTimeAdapter.clone(selected);
+            const selected = this.picker.selecteds[this.activeSelectedIndex];
+            if (this.picker.selecteds && selected) {
+                this.pickerMoment = this.dateTimeAdapter.clone(selected);
+            }
         }
         return;
     }
 
     private initPicker(): void {
         this.pickerMoment = this.picker.startAt || this.dateTimeAdapter.now();
+        this.activeSelectedIndex = this.picker.selectMode === 'rangeTo' ? 1 : 0;
     }
 
     /**
@@ -358,14 +361,31 @@ export class OwlDateTimeContainerComponent<T> implements OnInit, AfterContentIni
         // if the given calendar day is after or equal to 'from',
         // set ths given date as 'to'
         // otherwise, set it as 'from' and set 'to' to null
-        if (this.picker.selecteds && this.picker.selecteds.length && !to && from &&
-            this.dateTimeAdapter.differenceInCalendarDays(result, from) >= 0) {
-            to = result;
-            this.activeSelectedIndex = 1;
-        } else {
+        if (this.picker.selectMode === 'range') {
+            if (this.picker.selecteds && this.picker.selecteds.length && !to && from &&
+                this.dateTimeAdapter.differenceInCalendarDays(result, from) >= 0) {
+                to = result;
+                this.activeSelectedIndex = 1;
+            } else {
+                from = result;
+                to = null;
+                this.activeSelectedIndex = 0;
+            }
+        } else if (this.picker.selectMode === 'rangeFrom') {
             from = result;
-            to = null;
-            this.activeSelectedIndex = 0;
+
+            // if the from value is after the to value, set the to value as null
+            if (to && this.dateTimeAdapter.compare(from, to) > 0) {
+                to = null;
+            }
+
+        } else if (this.picker.selectMode === 'rangeTo') {
+            to = result;
+
+            // if the from value is after the to value, set the from value as null
+            if (from && this.dateTimeAdapter.compare(from, to) > 0) {
+                from = null;
+            }
         }
 
         return [from, to];

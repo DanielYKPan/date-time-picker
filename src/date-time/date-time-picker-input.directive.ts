@@ -107,7 +107,21 @@ export class OwlDateTimeInputDirective<T> implements OnInit, AfterViewInit, Afte
      * @default {'single'}
      * @type {'single' | 'range'}
      * */
-    @Input() selectMode: SelectMode = 'single';
+    private _selectMode: SelectMode = 'single';
+    @Input()
+    get selectMode() {
+        return this._selectMode;
+    }
+
+    set selectMode( mode: SelectMode ) {
+
+        if (mode !== 'single' && mode !== 'range' &&
+            mode !== 'rangeFrom' && mode !== 'rangeTo') {
+            throw Error('OwlDateTime Error: invalid selectMode value!');
+        }
+
+        this._selectMode = mode;
+    }
 
     /**
      * The character to separate the 'from' and 'to' in input value
@@ -160,7 +174,13 @@ export class OwlDateTimeInputDirective<T> implements OnInit, AfterViewInit, Afte
             if (!fromFormatted && !toFormatted) {
                 this.renderer.setProperty(this.elmRef.nativeElement, 'value', null);
             } else {
-                this.renderer.setProperty(this.elmRef.nativeElement, 'value', fromFormatted + ' ' + this.rangeSeparator + ' ' + toFormatted);
+                if (this._selectMode === 'range') {
+                    this.renderer.setProperty(this.elmRef.nativeElement, 'value', fromFormatted + ' ' + this.rangeSeparator + ' ' + toFormatted);
+                } else if (this._selectMode === 'rangeFrom') {
+                    this.renderer.setProperty(this.elmRef.nativeElement, 'value', fromFormatted);
+                } else if (this._selectMode === 'rangeTo') {
+                    this.renderer.setProperty(this.elmRef.nativeElement, 'value', toFormatted);
+                }
             }
 
             this.valueChange.emit(this._values);
@@ -179,6 +199,15 @@ export class OwlDateTimeInputDirective<T> implements OnInit, AfterViewInit, Afte
 
     get elementRef(): ElementRef {
         return this.elmRef;
+    }
+
+    get isInSingleMode(): boolean {
+        return this._selectMode === 'single';
+    }
+
+    get isInRangeMode(): boolean {
+        return this._selectMode === 'range' || this._selectMode === 'rangeFrom'
+            || this._selectMode === 'rangeTo';
     }
 
     /** The date-time-picker that this input is associated with. */
@@ -204,14 +233,14 @@ export class OwlDateTimeInputDirective<T> implements OnInit, AfterViewInit, Afte
 
     /** The form control validator for the min date. */
     private minValidator: ValidatorFn = ( control: AbstractControl ): ValidationErrors | null => {
-        if (this.selectMode === 'single') {
+        if (this.isInSingleMode) {
 
             const controlValue = this.getValidDate(this.dateTimeAdapter.deserialize(control.value));
             return (!this.min || !controlValue ||
                 this.dateTimeAdapter.compare(this.min, controlValue) <= 0) ?
                 null : {'owlDateTimeMin': {'min': this.min, 'actual': controlValue}};
 
-        } else if (this.selectMode === 'range' && control.value) {
+        } else if (this.isInRangeMode && control.value) {
 
             const controlValueFrom = this.getValidDate(this.dateTimeAdapter.deserialize(control.value[0]));
             const controlValueTo = this.getValidDate(this.dateTimeAdapter.deserialize(control.value[1]));
@@ -224,14 +253,14 @@ export class OwlDateTimeInputDirective<T> implements OnInit, AfterViewInit, Afte
 
     /** The form control validator for the max date. */
     private maxValidator: ValidatorFn = ( control: AbstractControl ): ValidationErrors | null => {
-        if (this.selectMode === 'single') {
+        if (this.isInSingleMode) {
 
             const controlValue = this.getValidDate(this.dateTimeAdapter.deserialize(control.value));
             return (!this.max || !controlValue ||
                 this.dateTimeAdapter.compare(this.max, controlValue) >= 0) ?
                 null : {'owlDateTimeMax': {'max': this.max, 'actual': controlValue}};
 
-        } else if (this.selectMode === 'range' && control.value) {
+        } else if (this.isInRangeMode && control.value) {
 
             const controlValueFrom = this.getValidDate(this.dateTimeAdapter.deserialize(control.value[0]));
             const controlValueTo = this.getValidDate(this.dateTimeAdapter.deserialize(control.value[1]));
@@ -254,7 +283,7 @@ export class OwlDateTimeInputDirective<T> implements OnInit, AfterViewInit, Afte
      * Check whether the 'before' value is before the 'to' value
      * */
     private rangeValidator: ValidatorFn = ( control: AbstractControl ): ValidationErrors | null => {
-        if (this.selectMode === 'single' || !control.value) {
+        if (this.isInSingleMode || !control.value) {
             return null;
         }
 
@@ -335,6 +364,7 @@ export class OwlDateTimeInputDirective<T> implements OnInit, AfterViewInit, Afte
     }
 
     public ngAfterContentInit(): void {
+
         this.dtPickerSub = this.dtPicker.confirmSelectedChange.subscribe(( selecteds: T[] | T ) => {
 
             if (Array.isArray(selecteds)) {
@@ -357,7 +387,7 @@ export class OwlDateTimeInputDirective<T> implements OnInit, AfterViewInit, Afte
     }
 
     public writeValue( value: any ): void {
-        if (this.selectMode === 'single') {
+        if (this.isInSingleMode) {
             this.value = value;
         } else {
             this.values = value;
@@ -405,7 +435,7 @@ export class OwlDateTimeInputDirective<T> implements OnInit, AfterViewInit, Afte
         let value = event.target.value;
         let result;
 
-        if (this.dtPicker.selectMode === 'single') {
+        if (this.isInSingleMode) {
 
             if (this.dtPicker.pickerType === 'timer') {
                 value = this.convertTimeStringToDateTimeString(value, this.value);
@@ -420,7 +450,7 @@ export class OwlDateTimeInputDirective<T> implements OnInit, AfterViewInit, Afte
                 this._value = result;
             }
 
-        } else if (this.dtPicker.selectMode === 'range') {
+        } else if (this.isInRangeMode) {
             const selecteds = value.split(this.rangeSeparator);
             let fromString = selecteds[0];
             let toString = selecteds[1];
@@ -452,9 +482,9 @@ export class OwlDateTimeInputDirective<T> implements OnInit, AfterViewInit, Afte
     public handleChangeOnHost( event: any ): void {
 
         let v;
-        if (this.dtPicker.selectMode === 'single') {
+        if (this.isInSingleMode) {
             v = this.value;
-        } else if (this.dtPicker.selectMode === 'range') {
+        } else if (this.isInRangeMode) {
             v = this.values;
         }
 

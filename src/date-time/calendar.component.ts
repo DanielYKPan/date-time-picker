@@ -15,6 +15,7 @@ import {
 import { take } from 'rxjs/operators';
 import { DateTimeAdapter } from './adapter/date-time-adapter.class';
 import { OWL_DATE_TIME_FORMATS, OwlDateTimeFormats } from './adapter/date-time-format.class';
+import { SelectMode } from './date-time.class';
 
 @Component({
     selector: 'owl-date-time-calendar',
@@ -90,7 +91,7 @@ export class OwlCalendarComponent<T> implements OnInit, AfterContentInit {
         this._pickerMoment = this.getValidDate(value) || this.dateTimeAdapter.now();
     }
 
-    @Input() selectMode: 'single' | 'range';
+    @Input() selectMode: SelectMode;
 
     /** The currently selected moment. */
     private _selected: T | null;
@@ -158,6 +159,15 @@ export class OwlCalendarComponent<T> implements OnInit, AfterContentInit {
         return this._isMonthView;
     }
 
+    get isInSingleMode(): boolean {
+        return this.selectMode === 'single';
+    }
+
+    get isInRangeMode(): boolean {
+        return this.selectMode === 'range' || this.selectMode === 'rangeFrom'
+            || this.selectMode === 'rangeTo';
+    }
+
     /**
      * Date filter for the month and year view
      * @type {Function}
@@ -223,8 +233,8 @@ export class OwlCalendarComponent<T> implements OnInit, AfterContentInit {
     }
 
     public dateSelected( date: T ): void {
-        if ((this.selectMode === 'single' && !this.dateTimeAdapter.isSameDay(date, this.selected)) ||
-            this.selectMode === 'range') {
+        if ((this.isInSingleMode && !this.dateTimeAdapter.isSameDay(date, this.selected)) ||
+            this.isInRangeMode) {
             this.selectedChange.emit(date);
         }
     }

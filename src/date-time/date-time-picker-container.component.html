@@ -28,7 +28,7 @@
             [stepSecond]="picker.stepSecond"
             (selectedChange)="timeSelected($event)"></owl-date-time-timer>
 
-    <div *ngIf="picker.selectMode === 'range'"
+    <div *ngIf="picker.isInRangeMode"
          role="radiogroup"
          class="owl-dt-container-info owl-dt-container-row"
          (click)="toggleRangeActiveIndex()">

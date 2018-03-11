@@ -78,6 +78,12 @@ export class OwlDateTimeInlineComponent<T> extends OwlDateTime<T> implements OnI
     }
 
     set selectMode( mode: SelectMode ) {
+
+        if (mode !== 'single' && mode !== 'range' &&
+            mode !== 'rangeFrom' && mode !== 'rangeTo') {
+            throw Error('OwlDateTime Error: invalid selectMode value!');
+        }
+
         this._selectMode = mode;
     }
 
@@ -185,6 +191,15 @@ export class OwlDateTimeInlineComponent<T> extends OwlDateTime<T> implements OnI
         return 'inline';
     }
 
+    get isInSingleMode(): boolean {
+        return this._selectMode === 'single';
+    }
+
+    get isInRangeMode(): boolean {
+        return this._selectMode === 'range' || this._selectMode === 'rangeFrom'
+            || this._selectMode === 'rangeTo';
+    }
+
     private onModelChange: Function = () => {
     }
     private onModelTouched: Function = () => {
@@ -201,7 +216,7 @@ export class OwlDateTimeInlineComponent<T> extends OwlDateTime<T> implements OnI
     }
 
     public writeValue( value: any ): void {
-        if (this.selectMode === 'single') {
+        if (this.isInSingleMode) {
             this.value = value;
         } else {
             this.values = value;

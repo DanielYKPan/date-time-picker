@@ -12,7 +12,7 @@ export type PickerType = 'both' | 'calendar' | 'timer';
 
 export type PickerMode = 'popup' | 'dialog' | 'inline';
 
-export type SelectMode = 'single' | 'range';
+export type SelectMode = 'single' | 'range' | 'rangeFrom' | 'rangeTo';
 
 export abstract class OwlDateTime<T> {
 
@@ -140,6 +140,10 @@ export abstract class OwlDateTime<T> {
     abstract get pickerMode(): PickerMode;
 
     abstract get pickerType(): PickerType;
+
+    abstract get isInSingleMode(): boolean;
+
+    abstract get isInRangeMode(): boolean;
 
     abstract select( date: T | T[] ): void;
 

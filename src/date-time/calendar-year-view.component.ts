@@ -11,6 +11,7 @@ import { CalendarCell } from './calendar-body.component';
 import { DateTimeAdapter } from './adapter/date-time-adapter.class';
 import { OWL_DATE_TIME_FORMATS, OwlDateTimeFormats } from './adapter/date-time-format.class';
 import { Subscription } from 'rxjs/Subscription';
+import { SelectMode } from './date-time.class';
 
 const MONTHS_PER_YEAR = 12;
 const MONTHS_PER_ROW = 3;
@@ -29,7 +30,7 @@ export class OwlYearViewComponent<T> implements OnInit, AfterContentInit, OnDest
     /**
      * The select mode of the picker;
      * */
-    @Input() selectMode: 'single' | 'range' = 'single';
+    @Input() selectMode: SelectMode;
 
     /** The currently selected date. */
     private _selected: T | null;
@@ -133,6 +134,15 @@ export class OwlYearViewComponent<T> implements OnInit, AfterContentInit, OnDest
         if (this.pickerMoment) {
             return this.dateTimeAdapter.getMonth(this.pickerMoment);
         }
+    }
+
+    get isInSingleMode(): boolean {
+        return this.selectMode === 'single';
+    }
+
+    get isInRangeMode(): boolean {
+        return this.selectMode === 'range' || this.selectMode === 'rangeFrom'
+            || this.selectMode === 'rangeTo';
     }
 
     private localeSub: Subscription = Subscription.EMPTY;
@@ -298,11 +308,11 @@ export class OwlYearViewComponent<T> implements OnInit, AfterContentInit, OnDest
      * */
     private setSelectedMonths(): void {
         this.selectedMonths = [];
-        if (this.selectMode === 'single' && this.selected) {
+        if (this.isInSingleMode && this.selected) {
             this.selectedMonths[0] = this.getMonthInCurrentYear(this.selected);
         }
 
-        if (this.selectMode === 'range' && this.selecteds) {
+        if (this.isInRangeMode && this.selecteds) {
             this.selectedMonths[0] = this.getMonthInCurrentYear(this.selecteds[0]);
             this.selectedMonths[1] = this.getMonthInCurrentYear(this.selecteds[1]);
         }

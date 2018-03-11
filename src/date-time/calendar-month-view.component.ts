@@ -12,6 +12,7 @@ import { CalendarCell } from './calendar-body.component';
 import { DateTimeAdapter } from './adapter/date-time-adapter.class';
 import { OWL_DATE_TIME_FORMATS, OwlDateTimeFormats } from './adapter/date-time-format.class';
 import { Subscription } from 'rxjs/Subscription';
+import { SelectMode } from './date-time.class';
 
 const DAYS_PER_WEEK = 7;
 const WEEKS_PER_VIEW = 6;
@@ -32,7 +33,7 @@ export class OwlMonthViewComponent<T> implements OnInit, AfterContentInit, OnDes
     /**
      * The select mode of the picker;
      * */
-    @Input() selectMode: 'single' | 'range' = 'single';
+    @Input() selectMode: SelectMode;
 
     /** The currently selected date. */
     private _selected: T | null;
@@ -150,6 +151,15 @@ export class OwlMonthViewComponent<T> implements OnInit, AfterContentInit, OnDes
         }
     }
 
+    get isInSingleMode(): boolean {
+        return this.selectMode === 'single';
+    }
+
+    get isInRangeMode(): boolean {
+        return this.selectMode === 'range' || this.selectMode === 'rangeFrom'
+            || this.selectMode === 'rangeTo';
+    }
+
     private firstDateOfMonth: T;
 
     private localeSub: Subscription = Subscription.EMPTY;
@@ -213,8 +223,8 @@ export class OwlMonthViewComponent<T> implements OnInit, AfterContentInit, OnDes
         const daysDiff = date - 1;
         const selected = this.dateTimeAdapter.addCalendarDays(this.firstDateOfMonth, daysDiff);
 
-        if ((this.selectMode === 'single' && this.selectedDates[0] !== date) ||
-            this.selectMode === 'range') {
+        if ((this.isInSingleMode && this.selectedDates[0] !== date) ||
+            this.isInRangeMode) {
             this.selectedChange.emit(selected);
         }
 
@@ -350,13 +360,13 @@ export class OwlMonthViewComponent<T> implements OnInit, AfterContentInit, OnDes
             return;
         }
 
-        if (this.selectMode === 'single' && this.selected) {
+        if (this.isInSingleMode && this.selected) {
             const dayDiff = this.dateTimeAdapter.differenceInCalendarDays(this.selected, this.firstDateOfMonth);
             this.selectedDates[0] = dayDiff + 1;
             return;
         }
 
-        if (this.selectMode === 'range' && this.selecteds) {
+        if (this.isInRangeMode && this.selecteds) {
             this.selectedDates = this.selecteds.map(( selected ) => {
                 if (this.dateTimeAdapter.isValid(selected)) {
                     const dayDiff = this.dateTimeAdapter.differenceInCalendarDays(selected, this.firstDateOfMonth);

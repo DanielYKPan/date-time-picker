@@ -3,6 +3,7 @@
  */
 
 import { ChangeDetectionStrategy, Component, EventEmitter, HostBinding, Input, OnInit, Output } from '@angular/core';
+import { SelectMode } from './date-time.class';
 
 export class CalendarCell {
     constructor( public value: number,
@@ -65,9 +66,9 @@ export class OwlCalendarBodyComponent implements OnInit {
 
     /**
      * Current picker select mode
-     * @type {'single' | 'range'}
+     * @type {SelectMode}
      * */
-    @Input() selectMode: 'single' | 'range';
+    @Input() selectMode: SelectMode;
 
     /**
      * Callback when a new value is selected
@@ -77,6 +78,15 @@ export class OwlCalendarBodyComponent implements OnInit {
     @HostBinding('class.owl-dt-calendar-body')
     get owlDTCalendarBodyClass(): boolean {
         return true;
+    }
+
+    get isInSingleMode(): boolean {
+        return this.selectMode === 'single';
+    }
+
+    get isInRangeMode(): boolean {
+        return this.selectMode === 'range' || this.selectMode === 'rangeFrom'
+            || this.selectMode === 'rangeTo';
     }
 
     constructor() {
@@ -109,11 +119,11 @@ export class OwlCalendarBodyComponent implements OnInit {
             return false;
         }
 
-        if (this.selectMode === 'single') {
+        if (this.isInSingleMode) {
             return value === this.selectedValues[0];
         }
 
-        if (this.selectMode === 'range') {
+        if (this.isInRangeMode) {
             const fromValue = this.selectedValues[0];
             const toValue = this.selectedValues[1];
 
@@ -125,7 +135,7 @@ export class OwlCalendarBodyComponent implements OnInit {
      * Check if the cell in the range
      * */
     public isInRange( value: number ): boolean {
-        if (this.selectMode === 'range') {
+        if (this.isInRangeMode) {
             const fromValue = this.selectedValues[0];
             const toValue = this.selectedValues[1];
 
@@ -141,7 +151,7 @@ export class OwlCalendarBodyComponent implements OnInit {
      * Check if the cell is the range from
      * */
     public isRangeFrom( value: number ): boolean {
-        if (this.selectMode === 'range') {
+        if (this.isInRangeMode) {
             const fromValue = this.selectedValues[0];
             return fromValue !== null && value === fromValue;
         }
@@ -151,7 +161,7 @@ export class OwlCalendarBodyComponent implements OnInit {
      * Check if the cell is the range to
      * */
     public isRangeTo( value: number ): boolean {
-        if (this.selectMode === 'range') {
+        if (this.isInRangeMode) {
             const toValue = this.selectedValues[1];
             return toValue !== null && value === toValue;
         }
