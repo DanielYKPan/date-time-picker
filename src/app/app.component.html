@@ -298,8 +298,22 @@ export class AppExample {
             <!-- </editor-fold> -->
 
             <h4 class="sub-title">Support Range Selection</h4>
-            <p>The OwlDateTime picker supports range selection via overridden property <b>[selectMode]</b> to 'range' in
-                its associated input.</p>
+            <p>The OwlDateTime picker supports range selection via overridden property <b>[selectMode]</b> to 'range',
+                'rangeFrom' or 'rangeTo' in its associated input.</p>
+            <ul>
+                <li>
+                    <b>'range'</b> -- the input would show both the 'from' and 'to' value, and the picker could select
+                    both 'from' and 'to' value and switch between them.
+                </li>
+                <li>
+                    <b>'rangeFrom'</b> -- the input would show only the 'from' value, and the picker could only change
+                    the 'from' value.
+                </li>
+                <li>
+                    <b>'rangeTo'</b> -- the input would show only the 'to' value, and the picker could only change
+                    the 'to' value.
+                </li>
+            </ul>
             <!-- <editor-fold desc="Range"> -->
             <div class="viewer-wrapper">
                 <div class="viewer-title">
@@ -346,6 +360,83 @@ export class AppExample {}
                                [style.width]="'350px'" [selectMode]="'range'">
                         <owl-date-time #dt10></owl-date-time>
                     </label>
+                </div>
+            </div>
+            <!-- </editor-fold> -->
+
+            <!-- <editor-fold desc="Range From and Range To"> -->
+            <div class="viewer-wrapper">
+                <div class="viewer-title">
+                    <div class="viewer-title-spacer">
+                        Picker with rangeFrom and rangeTo selection
+                    </div>
+                </div>
+                <div class="viewer-source">
+                    <mat-tab-group>
+                        <mat-tab label="HTML">
+<pre>
+<code class="language-markup" ngNonBindable appCodeHighlight><![CDATA[
+<label>
+    Date Time Range From:
+    <input [owlDateTimeTrigger]="dt12" [owlDateTime]="dt12"
+           [(ngModel)]="selectedMoments"
+           [selectMode]="'rangeFrom'">
+    <owl-date-time #dt12></owl-date-time>
+</label>
+
+<label>
+    Date Time Range To:
+    <input [owlDateTimeTrigger]="dt13" [owlDateTime]="dt13"
+           [(ngModel)]="selectedMoments"
+           [selectMode]="'rangeTo'">
+    <owl-date-time #dt13></owl-date-time>
+</label>
+]]></code>
+</pre>
+                        </mat-tab>
+                        <mat-tab label="TS">
+                            <pre>
+<code class="language-typescript" ngNonBindable appCodeHighlight><![CDATA[
+import {Component} from '@angular/core';
+
+/**
+ * @title Basic DateTime Picker
+ */
+@Component({
+  selector: 'app-example',
+  templateUrl: 'app-example.html',
+})
+export class AppExample {
+    public selectedMoments = [
+        new Date(2018, 1, 12, 10, 30),
+        new Date(2018, 3, 21, 20, 30)
+    ];
+}
+]]></code>
+</pre>
+                        </mat-tab>
+                    </mat-tab-group>
+                </div>
+                <div class="viewer-body">
+                    <div class="input-wrapper">
+                        <label>
+                            Date Time Range From:
+                            <input [owlDateTimeTrigger]="dt12" [owlDateTime]="dt12"
+                                   [(ngModel)]="selectedMoments" [style.width]="'350px'"
+                                   [selectMode]="'rangeFrom'">
+                            <owl-date-time #dt12></owl-date-time>
+                        </label>
+                    </div>
+
+                    <div class="input-wrapper">
+                        <label>
+                            Date Time Range To:
+                            <input [owlDateTimeTrigger]="dt13" [owlDateTime]="dt13"
+                                   [(ngModel)]="selectedMoments" [style.width]="'350px'"
+                                   [selectMode]="'rangeTo'">
+                            <owl-date-time #dt13></owl-date-time>
+                        </label>
+                    </div>
                 </div>
             </div>
             <!-- </editor-fold> -->
@@ -768,8 +859,7 @@ export class AppExample {
         <div class="local-format">
             <p>
                 In order to support different locales and format, the <b>OwlDateTime</b> picker supports customization
-                of
-                the following three pieces via injection:
+                of the following three pieces via injection:
             </p>
             <ol>
                 <li>The date-time implementation that the picker accepts.</li>
@@ -824,7 +914,9 @@ export class AppExample {
             <p>There are two pre-made modules:</p>
             <ul>
                 <li><b>OwlNativeDateTimeModule</b> -- support for native JavaScript Date object</li>
-                <li><b>OwlMomentDateTimeModule</b> -- support for MomentJS object. (need to npm install ng-pick-datetime-moment and moment packages)</li>
+                <li><b>OwlMomentDateTimeModule</b> -- support for MomentJS object. (need to npm install
+                    ng-pick-datetime-moment and moment packages)
+                </li>
             </ul>
             <pre>
 <code class="language-typescript" ngNonBindable appCodeHighlight><![CDATA[
@@ -856,7 +948,7 @@ export class AppExampleModule {
             <p>Here is an example to use <b>OwlMomentDateTimeModule</b> with different date-time formats: (Beware that
                 OwlMomentDateTimeModule requires MomentJS)</p>
 
-<pre>
+            <pre>
 <code class="language-typescript" ngNonBindable appCodeHighlight><![CDATA[
     npm install ng-pick-datetime-moment moment --save;
 ]]></code>
