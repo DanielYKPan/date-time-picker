@@ -125,6 +125,7 @@ $theme-color: #3f51b5;
 
 .owl-dt-container {
   display: block;
+  font-size: 1rem;
   background: #ffffff;
   pointer-events: auto;
   z-index: 1000;
@@ -169,9 +170,29 @@ $theme-color: #3f51b5;
 }
 
 .owl-dt-calendar-main {
+  display: flex;
+  flex-direction: column;
   flex: 1 1 auto;
   padding: 0 .5em .5em;
   outline: 0;
+}
+
+.owl-dt-calendar-view {
+  display: block;
+  flex: 1 1 auto;
+}
+
+.owl-dt-calendar-multi-year-view {
+  display: flex;
+  align-items: center;
+
+  .owl-dt-calendar-table {
+    width: calc(100% - 3em);
+
+    .owl-dt-calendar-header th {
+      padding-bottom: .25em;
+    }
+  }
 }
 
 .owl-dt-calendar-table {
@@ -295,7 +316,7 @@ $theme-color: #3f51b5;
   display: flex;
   justify-content: center;
   width: 100%;
-  height: 6em;
+  height: 7em;
   padding: .5em;
   outline: none;
 }
@@ -315,6 +336,7 @@ $theme-color: #3f51b5;
   justify-content: center;
   align-items: center;
   width: 100%;
+  margin: .2em 0;
 
   .owl-dt-timer-input {
     display: block;
@@ -371,6 +393,7 @@ $theme-color: #3f51b5;
   margin: 0;
   padding: 0;
   background-color: transparent;
+  font-size: 1em;
   color: inherit;
 
   .owl-dt-control-button-content {
@@ -392,14 +415,24 @@ $theme-color: #3f51b5;
 
 .owl-dt-control-period-button {
   .owl-dt-control-button-content {
-    height: 2em;
-    padding: .3em .5em;
+    height: 1.5em;
+    padding: 0 .5em;
     border-radius: 3px;
     transition: background-color 100ms linear;
   }
 
   &:hover > .owl-dt-control-button-content {
     background-color: rgba(0, 0, 0, .12);
+  }
+
+  .owl-dt-control-button-arrow {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 1em;
+    height: 1em;
+    margin: .1em;
+    transition: transform 200ms ease;
   }
 }
 
@@ -417,8 +450,8 @@ $theme-color: #3f51b5;
   }
 
   svg {
-    width: .8em;
-    height: .8em;
+    width: 50%;
+    height: 50%;
     fill: currentColor;
   }
 }
@@ -426,7 +459,7 @@ $theme-color: #3f51b5;
 .owl-dt-inline-container,
 .owl-dt-popup-container {
   position: relative;
-  width: 296px;
+  width: 18.5em;
   box-shadow: 0 5px 5px -3px rgba(0, 0, 0, .2),
   0 8px 10px 1px rgba(0, 0, 0, .14),
   0 3px 14px 2px rgba(0, 0, 0, .12);
@@ -437,7 +470,7 @@ $theme-color: #3f51b5;
   }
 
   .owl-dt-calendar {
-    height: 340px;
+    height: 20.25em;
   }
 }
 
@@ -446,7 +479,7 @@ $theme-color: #3f51b5;
 }
 
 .owl-dt-dialog-container {
-  max-height: 85vh;
+  max-height: 95vh;
   margin: -1.5em;
 
   .owl-dt-calendar {
@@ -465,12 +498,12 @@ $theme-color: #3f51b5;
 @media all and (orientation: landscape) {
   .owl-dt-dialog-container {
     .owl-dt-calendar {
-      width: 60vh;
-      height: 60vh;
+      width: 58vh;
+      height: 62vh;
     }
 
     .owl-dt-timer {
-      width: 60vh;
+      width: 58vh;
     }
   }
 }
@@ -496,6 +529,7 @@ $theme-color: #3f51b5;
 }
 
 .owl-dt-container-control-button {
+  font-size: 1em;
   width: 50%;
   height: 100%;
   border-radius: 0;
@@ -566,4 +600,15 @@ $theme-color: #3f51b5;
       }
     }
   }
+}
+
+.owl-hidden-accessible {
+  border: 0;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
 }

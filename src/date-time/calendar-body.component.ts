@@ -2,8 +2,12 @@
  * calendar-body.component
  */
 
-import { ChangeDetectionStrategy, Component, EventEmitter, HostBinding, Input, OnInit, Output } from '@angular/core';
+import {
+    ChangeDetectionStrategy, Component, ElementRef, EventEmitter, HostBinding, Input, NgZone, OnInit,
+    Output
+} from '@angular/core';
 import { SelectMode } from './date-time.class';
+import { take } from 'rxjs/operators';
 
 export class CalendarCell {
     constructor( public value: number,
@@ -89,7 +93,8 @@ export class OwlCalendarBodyComponent implements OnInit {
             || this.selectMode === 'rangeTo';
     }
 
-    constructor() {
+    constructor(private elmRef: ElementRef,
+                private ngZone: NgZone,) {
     }
 
     public ngOnInit() {
@@ -165,5 +170,16 @@ export class OwlCalendarBodyComponent implements OnInit {
             const toValue = this.selectedValues[1];
             return toValue !== null && value === toValue;
         }
+    }
+
+    /**
+     * Focus to a active cell
+     * */
+    public focusActiveCell(): void {
+        this.ngZone.runOutsideAngular(() => {
+            this.ngZone.onStable.asObservable().pipe(take(1)).subscribe(() => {
+                this.elmRef.nativeElement.querySelector('.owl-dt-calendar-cell-active').focus();
+            });
+        });
     }
 }

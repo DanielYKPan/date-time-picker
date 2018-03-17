@@ -16,6 +16,7 @@
            [selectedValues]="selectedDates"
            [selectMode]="selectMode"
            [activeCell]="activeCell"
+           (keydown)="handleCalendarKeydown($event)"
            (selectedValueChange)="dateSelected($event)">
     </tbody>
 </table>

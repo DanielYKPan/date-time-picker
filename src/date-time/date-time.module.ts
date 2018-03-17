@@ -14,6 +14,7 @@ import { OwlDateTimeIntl } from './date-time-picker-intl.service';
 import { OwlMonthViewComponent } from './calendar-month-view.component';
 import { OwlCalendarBodyComponent } from './calendar-body.component';
 import { OwlYearViewComponent } from './calendar-year-view.component';
+import { OwlMultiYearViewComponent } from './calendar-multi-year-view.component';
 import { OwlTimerBoxComponent } from './timer-box.component';
 import { OwlTimerComponent } from './timer.component';
 import { NumberFixedLenPipe } from './numberedFixLen.pipe';
@@ -34,6 +35,7 @@ import { OwlDialogModule } from '../dialog';
         OwlDateTimeInputDirective,
         OwlDateTimeComponent,
         OwlDateTimeContainerComponent,
+        OwlMultiYearViewComponent,
         OwlYearViewComponent,
         OwlMonthViewComponent,
         OwlTimerComponent,

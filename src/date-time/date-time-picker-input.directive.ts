@@ -168,8 +168,8 @@ export class OwlDateTimeInputDirective<T> implements OnInit, AfterViewInit, Afte
             const from = this._values[0];
             const to = this._values[1];
             this.lastValueValid = (!from || this.dateTimeAdapter.isValid(from)) && (!to || this.dateTimeAdapter.isValid(to));
-            const fromFormatted = from ? this.dateTimeAdapter.format(from, this.dtPicker.formatString) : null;
-            const toFormatted = to ? this.dateTimeAdapter.format(to, this.dtPicker.formatString) : null;
+            const fromFormatted = from ? this.dateTimeAdapter.format(from, this.dtPicker.formatString) : '';
+            const toFormatted = to ? this.dateTimeAdapter.format(to, this.dtPicker.formatString) : '';
 
             if (!fromFormatted && !toFormatted) {
                 this.renderer.setProperty(this.elmRef.nativeElement, 'value', null);

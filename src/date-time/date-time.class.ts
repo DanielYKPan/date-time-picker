@@ -49,9 +49,9 @@ export abstract class OwlDateTime<T> {
     /**
      * The view that the calendar should start in.
      * @default {'month'}
-     * @type {'month' | 'year'}
+     * @type {'month' | 'year' | 'multi-years'}
      * */
-    @Input() startView: 'month' | 'year' = 'month';
+    @Input() startView: 'month' | 'year' | 'multi-years' = 'month';
 
     /**
      * Hours to change per step

@@ -7,9 +7,8 @@ Angular Date Time Picker
 
 Breaking Changes
 -------
- - This picker is completely changed in version 5.1.*. If you used this package before, please read the documentation or the demo examples carefully, and change the implementation of the picker in your projects.
- - This picker uses the '@angular/cdk'.
  - Add two new selectMode: 'rangeFrom' and 'rangeTo'.
+ - Allow user to select years from a year list.
 
 Description
 -------
@@ -97,7 +96,7 @@ Properties for `owl-date-time`
 |:--- |:--- |:--- |:--- |:--- |
 |`pickerType`|`both`, `calendar`, `timer`|Optional|`both`| Set the type of the dateTime picker. `both`: show both calendar and timer, `calendar`: only show calendar, `timer`: only show timer. |
 |`pickerMode`|`popup`, `dialog`|Optional|`popup`| The style the picker would open as. |
-|`startView`|`month`, `year`|Optional|`month`| The view that the calendar should start in. |
+|`startView`|`month`, `year`, `multi-year`|Optional|`month`| The view that the calendar should start in. |
 |`startAt`| T/null |Optional|`null`| The moment to open the picker to initially. |
 |`firstDayOfWeek`|number|Optional|`0`| Set the first day of week. Valid value is from 0 to 6. 0: Sunday ~ 6: Saturday|
 |`showSecondsTimer`|boolean|Optional|`false`| When specify it to true, it would show a timer to configure the second's value |
@@ -154,7 +153,7 @@ Properties for `owl-date-time-inline`
 |Name|Type|Required|Default|Description|
 |:--- |:--- |:--- |:--- |:--- |
 |`pickerType`|`both`, `calendar`, `timer`|Optional|`both`| Set the type of the dateTime picker. `both`: show both calendar and timer, `calendar`: only show calendar, `timer`: only show timer. |
-|`startView`|`month`, `year`|Optional|`month`| The view that the calendar should start in. |
+|`startView`|`month`, `year`, `multi-year`|Optional|`month`| The view that the calendar should start in. |
 |`startAt`| T/null |Optional|`null`| The moment to open the picker to initially. |
 |`firstDayOfWeek`|number|Optional|`0`| Set the first day of week. Valid value is from 0 to 6. 0: Sunday ~ 6: Saturday|
 |`showSecondsTimer`|boolean|Optional|`false`| When specify it to true, it would show a timer to configure the second's value |

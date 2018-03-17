@@ -11,6 +11,7 @@
            [todayValue]="todayMonth"
            [selectedValues]="selectedMonths"
            [selectMode]="selectMode"
+           (keydown)="handleCalendarKeydown($event)"
            (selectedValueChange)="monthSelected($event)">
     </tbody>
 </table>

@@ -3,16 +3,21 @@
  */
 
 import {
-    AfterContentInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Inject, Input, OnDestroy,
+    AfterContentInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, HostBinding, Inject, Input,
+    OnDestroy,
     OnInit,
     Optional,
-    Output
+    Output, ViewChild
 } from '@angular/core';
-import { CalendarCell } from './calendar-body.component';
+import { CalendarCell, OwlCalendarBodyComponent } from './calendar-body.component';
 import { DateTimeAdapter } from './adapter/date-time-adapter.class';
 import { OWL_DATE_TIME_FORMATS, OwlDateTimeFormats } from './adapter/date-time-format.class';
 import { Subscription } from 'rxjs/Subscription';
 import { SelectMode } from './date-time.class';
+import {
+    DOWN_ARROW, END, ENTER, HOME, LEFT_ARROW, PAGE_DOWN, PAGE_UP, RIGHT_ARROW,
+    UP_ARROW
+} from '@angular/cdk/keycodes';
 
 const DAYS_PER_WEEK = 7;
 const WEEKS_PER_VIEW = 6;
@@ -183,12 +188,23 @@ export class OwlMonthViewComponent<T> implements OnInit, AfterContentInit, OnDes
     /**
      * Callback to invoke when a new date is selected
      * */
-    @Output() selectedChange = new EventEmitter<T | null>();
+    @Output() readonly selectedChange = new EventEmitter<T | null>();
 
     /**
      * Callback to invoke when any date is selected.
      * */
-    @Output() userSelection = new EventEmitter<void>();
+    @Output() readonly userSelection = new EventEmitter<void>();
+
+    /** Emits when any date is activated. */
+    @Output() readonly pickerMomentChange: EventEmitter<T> = new EventEmitter<T>();
+
+    /** The body of calendar table */
+    @ViewChild(OwlCalendarBodyComponent) calendarBodyElm: OwlCalendarBodyComponent;
+
+    @HostBinding('class.owl-dt-calendar-view')
+    get owlDTCalendarView(): boolean {
+        return true;
+    }
 
     constructor( private cdRef: ChangeDetectorRef,
                  @Optional() private dateTimeAdapter: DateTimeAdapter<T>,
@@ -229,6 +245,83 @@ export class OwlMonthViewComponent<T> implements OnInit, AfterContentInit, OnDes
         }
 
         this.userSelection.emit();
+    }
+
+    /**
+     * Handle keydown event on calendar body
+     * @param {KeyboardEvent} event
+     * @return {void}
+     * */
+    public handleCalendarKeydown( event: KeyboardEvent ): void {
+        let moment;
+        switch (event.keyCode) {
+            // minus 1 day
+            case LEFT_ARROW:
+                moment = this.dateTimeAdapter.addCalendarDays(this.pickerMoment, -1);
+                this.pickerMomentChange.emit(moment);
+                break;
+
+            // add 1 day
+            case RIGHT_ARROW:
+                moment = this.dateTimeAdapter.addCalendarDays(this.pickerMoment, 1);
+                this.pickerMomentChange.emit(moment);
+                break;
+
+            // minus 1 week
+            case UP_ARROW:
+                moment = this.dateTimeAdapter.addCalendarDays(this.pickerMoment, -7);
+                this.pickerMomentChange.emit(moment);
+                break;
+
+            // add 1 week
+            case DOWN_ARROW:
+                moment = this.dateTimeAdapter.addCalendarDays(this.pickerMoment, 7);
+                this.pickerMomentChange.emit(moment);
+                break;
+
+            // move to first day of current month
+            case HOME:
+                moment = this.dateTimeAdapter.addCalendarDays(this.pickerMoment,
+                    1 - this.dateTimeAdapter.getDate(this.pickerMoment));
+                this.pickerMomentChange.emit(moment);
+                break;
+
+            // move to last day of current month
+            case END:
+                moment = this.dateTimeAdapter.addCalendarDays(this.pickerMoment,
+                    this.dateTimeAdapter.getNumDaysInMonth(this.pickerMoment) -
+                    this.dateTimeAdapter.getDate(this.pickerMoment));
+                this.pickerMomentChange.emit(moment);
+                break;
+
+            // minus 1 month (or 1 year)
+            case PAGE_UP:
+                moment = event.altKey ?
+                    this.dateTimeAdapter.addCalendarYears(this.pickerMoment, -1) :
+                    this.dateTimeAdapter.addCalendarMonths(this.pickerMoment, -1);
+                this.pickerMomentChange.emit(moment);
+                break;
+
+            // add 1 month (or 1 year)
+            case PAGE_DOWN:
+                moment = event.altKey ?
+                    this.dateTimeAdapter.addCalendarYears(this.pickerMoment, 1) :
+                    this.dateTimeAdapter.addCalendarMonths(this.pickerMoment, 1);
+                this.pickerMomentChange.emit(moment);
+                break;
+
+            // select the pickerMoment
+            case ENTER:
+                if (!this.dateFilter || this.dateFilter(this.pickerMoment)) {
+                    this.dateSelected(this.dateTimeAdapter.getDate(this.pickerMoment));
+                }
+                break;
+            default:
+                return;
+        }
+
+        this.focusActiveCell();
+        event.preventDefault();
     }
 
     /**
@@ -376,5 +469,9 @@ export class OwlMonthViewComponent<T> implements OnInit, AfterContentInit, OnDes
                 }
             });
         }
+    }
+
+    private focusActiveCell() {
+        this.calendarBodyElm.focusActiveCell();
     }
 }

@@ -37,11 +37,17 @@ export class OwlDateTimeIntl {
     /** A label for the next year button (used by screen readers). */
     nextYearLabel = 'Next year';
 
+    /** A label for the previous multi-year button (used by screen readers). */
+    prevMultiYearLabel: string = 'Previous 21 years';
+
+    /** A label for the next multi-year button (used by screen readers). */
+    nextMultiYearLabel: string = 'Next 21 years';
+
     /** A label for the 'switch to month view' button (used by screen readers). */
     switchToMonthViewLabel = 'Change to month view';
 
     /** A label for the 'switch to year view' button (used by screen readers). */
-    switchToYearViewLabel = 'Change to year view';
+    switchToMultiYearViewLabel: string = 'Choose month and year';
 
     /** A label for the cancel button */
     cancelBtnLabel = 'Cancel';

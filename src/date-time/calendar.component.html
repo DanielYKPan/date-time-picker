@@ -2,6 +2,7 @@
     <!-- focus when keyboard tab (http://kizu.ru/en/blog/keyboard-only-focus/#x) -->
     <button class="owl-dt-control-button owl-dt-control-arrow-button"
             type="button" tabindex="0"
+            [style.visibility]="showControlArrows? 'visible': 'hidden'"
             [disabled]="!prevButtonEnabled()"
             [attr.aria-label]="prevButtonLabel"
             (click)="previousClicked()">
@@ -20,14 +21,30 @@
         <button class="owl-dt-control-button owl-dt-control-period-button"
                 type="button" tabindex="0"
                 [attr.aria-label]="periodButtonLabel"
-                (click)="toggleClicked()">
+                (click)="toggleViews()">
             <span class="owl-dt-control-button-content" tabindex="-1">
                 {{periodButtonText}}
+
+                <span class="owl-dt-control-button-arrow"
+                      [style.transform]="'rotate(' + (isMonthView? 0 : 180) +'deg)'">
+                    <!-- <editor-fold desc="SVG Arrow"> -->
+                    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                         width="50%" height="50%" viewBox="0 0 292.362 292.362" style="enable-background:new 0 0 292.362 292.362;"
+                         xml:space="preserve">
+                        <g>
+                            <path d="M286.935,69.377c-3.614-3.617-7.898-5.424-12.848-5.424H18.274c-4.952,0-9.233,1.807-12.85,5.424
+                                C1.807,72.998,0,77.279,0,82.228c0,4.948,1.807,9.229,5.424,12.847l127.907,127.907c3.621,3.617,7.902,5.428,12.85,5.428
+                                s9.233-1.811,12.847-5.428L286.935,95.074c3.613-3.617,5.427-7.898,5.427-12.847C292.362,77.279,290.548,72.998,286.935,69.377z"/>
+                        </g>
+                    </svg>
+                    <!-- </editor-fold> -->
+                </span>
             </span>
         </button>
     </div>
     <button class="owl-dt-control-button owl-dt-control-arrow-button"
             type="button" tabindex="0"
+            [style.visibility]="showControlArrows? 'visible': 'hidden'"
             [disabled]="!nextButtonEnabled()"
             [attr.aria-label]="nextButtonLabel"
             (click)="nextClicked()">
@@ -44,11 +61,9 @@
         </span>
     </button>
 </div>
-<div class="owl-dt-calendar-main"
-     (keydown)="handleCalendarKeydown($event)"
-     [ngSwitch]="isMonthView">
+<div class="owl-dt-calendar-main" cdkMonitorSubtreeFocus [ngSwitch]="currentView">
     <owl-date-time-month-view
-            *ngSwitchCase="true"
+            *ngSwitchCase="'month'"
             [pickerMoment]="pickerMoment"
             [firstDayOfWeek]="firstDayOfWeek"
             [selected]="selected"
@@ -57,10 +72,12 @@
             [minDate]="minDate"
             [maxDate]="maxDate"
             [dateFilter]="dateFilter"
+            (pickerMomentChange)="handlePickerMomentChange($event)"
             (selectedChange)="dateSelected($event)"
             (userSelection)="userSelected()"></owl-date-time-month-view>
+
     <owl-date-time-year-view
-            *ngSwitchDefault
+            *ngSwitchCase="'year'"
             [pickerMoment]="pickerMoment"
             [selected]="selected"
             [selecteds]="selecteds"
@@ -68,5 +85,20 @@
             [minDate]="minDate"
             [maxDate]="maxDate"
             [dateFilter]="dateFilter"
-            (selectedChange)="monthSelected($event)"></owl-date-time-year-view>
+            (keyboardEnter)="focusActiveCell()"
+            (pickerMomentChange)="handlePickerMomentChange($event)"
+            (selectedChange)="goToDateInView($event, 'month')"></owl-date-time-year-view>
+
+    <owl-date-time-multi-year-view
+            *ngSwitchCase="'multi-years'"
+            [pickerMoment]="pickerMoment"
+            [selected]="selected"
+            [selecteds]="selecteds"
+            [selectMode]="selectMode"
+            [minDate]="minDate"
+            [maxDate]="maxDate"
+            [dateFilter]="dateFilter"
+            (keyboardEnter)="focusActiveCell()"
+            (pickerMomentChange)="handlePickerMomentChange($event)"
+            (selectedChange)="goToDateInView($event, 'year')"></owl-date-time-multi-year-view>
 </div>
