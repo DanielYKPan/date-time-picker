@@ -549,6 +549,12 @@ export class AppExample {
     Date
     <input [owlDateTimeTrigger]="dt6" [owlDateTime]="dt6">
     <owl-date-time [pickerType]="'calendar'"
+                   [startView]="'multi-years'" #dt6></owl-date-time>
+</label>
+<label>
+    Date
+    <input [owlDateTimeTrigger]="dt6" [owlDateTime]="dt6">
+    <owl-date-time [pickerType]="'calendar'"
                    [startView]="'year'" #dt6></owl-date-time>
 </label>
 ]]></code>
@@ -573,11 +579,22 @@ export class AppExample {}
                     </mat-tab-group>
                 </div>
                 <div class="viewer-body">
-                    <label>
-                        Date:
-                        <input [owlDateTimeTrigger]="dt6" [owlDateTime]="dt6">
-                        <owl-date-time [pickerType]="'calendar'" [startView]="'year'" #dt6></owl-date-time>
-                    </label>
+                    <div class="input-wrapper">
+                        <label>
+                            Date:
+                            <input [owlDateTimeTrigger]="dtMultiYears" [owlDateTime]="dtMultiYears">
+                            <owl-date-time [pickerType]="'calendar'" [startView]="'multi-years'"
+                                           #dtMultiYears></owl-date-time>
+                        </label>
+                    </div>
+
+                    <div class="input-wrapper">
+                        <label>
+                            Date:
+                            <input [owlDateTimeTrigger]="dt6" [owlDateTime]="dt6">
+                            <owl-date-time [pickerType]="'calendar'" [startView]="'year'" #dt6></owl-date-time>
+                        </label>
+                    </div>
                 </div>
             </div>
             <!-- </editor-fold> -->
@@ -1066,23 +1083,35 @@ export const DefaultIntl = {
     /** A label for the next year button (used by screen readers). */
     nextYearLabel: 'Next year',
 
+    /** A label for the previous multi-year button (used by screen readers). */
+    prevMultiYearLabel: string: 'Previous 21 years',
+
+    /** A label for the next multi-year button (used by screen readers). */
+    nextMultiYearLabel: string: 'Next 21 years',
+
     /** A label for the 'switch to month view' button (used by screen readers). */
     switchToMonthViewLabel: 'Change to month view',
 
     /** A label for the 'switch to year view' button (used by screen readers). */
-    switchToYearViewLabel: 'Change to year view',
+    switchToMultiYearViewLabel: string: 'Choose month and year',
 
     /** A label for the cancel button */
-    cancelBtnLabel: 'Close',
+    cancelBtnLabel: 'Cancel',
 
     /** A label for the set button */
-    setBtnLabel: 'Confirm',
+    setBtnLabel: 'Set',
 
     /** A label for the range 'from' in picker info */
     rangeFromLabel: 'From',
 
     /** A label for the range 'to' in picker info */
     rangeToLabel: 'To',
+
+    /** A label for the hour12 button (AM) */
+    hour12AMLabel: 'AM',
+
+    /** A label for the hour12 button (PM) */
+    hour12PMLabel: 'PM',
 };
 
 @NgModule({
