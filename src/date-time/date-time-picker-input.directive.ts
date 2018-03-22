@@ -3,7 +3,7 @@
  */
 
 import {
-    AfterContentInit, AfterViewInit, Directive, ElementRef, EventEmitter,
+    AfterContentInit, Directive, ElementRef, EventEmitter,
     forwardRef, HostBinding, HostListener, Inject, Input, OnDestroy, OnInit, Optional, Output, Renderer2
 } from '@angular/core';
 import {
@@ -37,7 +37,7 @@ export const OWL_DATETIME_VALIDATORS: any = {
         OWL_DATETIME_VALIDATORS,
     ],
 })
-export class OwlDateTimeInputDirective<T> implements OnInit, AfterViewInit, AfterContentInit,
+export class OwlDateTimeInputDirective<T> implements OnInit, AfterContentInit,
     OnDestroy, ControlValueAccessor, Validator {
 
     /**
@@ -183,8 +183,12 @@ export class OwlDateTimeInputDirective<T> implements OnInit, AfterViewInit, Afte
                 }
             }
 
-            this.valueChange.emit(this._values);
+        } else {
+            this._values = [];
+            this.renderer.setProperty(this.elmRef.nativeElement, 'value', '');
         }
+
+        this.valueChange.emit(this._values);
     }
 
     /**
@@ -219,17 +223,17 @@ export class OwlDateTimeInputDirective<T> implements OnInit, AfterViewInit, Afte
     private lastValueValid = true;
 
     private onModelChange: Function = () => {
-    }
+    };
     private onModelTouched: Function = () => {
-    }
+    };
     private validatorOnChange: Function = () => {
-    }
+    };
 
     /** The form control validator for whether the input parses. */
     private parseValidator: ValidatorFn = (): ValidationErrors | null => {
         return this.lastValueValid ?
             null : {'owlDateTimeParse': {'text': this.elmRef.nativeElement.value}};
-    }
+    };
 
     /** The form control validator for the min date. */
     private minValidator: ValidatorFn = ( control: AbstractControl ): ValidationErrors | null => {
@@ -249,7 +253,7 @@ export class OwlDateTimeInputDirective<T> implements OnInit, AfterViewInit, Afte
                 null : {'owlDateTimeMin': {'min': this.min, 'actual': [controlValueFrom, controlValueTo]}};
 
         }
-    }
+    };
 
     /** The form control validator for the max date. */
     private maxValidator: ValidatorFn = ( control: AbstractControl ): ValidationErrors | null => {
@@ -269,14 +273,14 @@ export class OwlDateTimeInputDirective<T> implements OnInit, AfterViewInit, Afte
                 null : {'owlDateTimeMax': {'max': this.max, 'actual': [controlValueFrom, controlValueTo]}};
 
         }
-    }
+    };
 
     /** The form control validator for the date filter. */
     private filterValidator: ValidatorFn = ( control: AbstractControl ): ValidationErrors | null => {
         const controlValue = this.getValidDate(this.dateTimeAdapter.deserialize(control.value));
         return !this._dateTimeFilter || !controlValue || this._dateTimeFilter(controlValue) ?
             null : {'owlDateTimeFilter': true};
-    }
+    };
 
     /**
      * The form control validator for the range.
@@ -292,7 +296,7 @@ export class OwlDateTimeInputDirective<T> implements OnInit, AfterViewInit, Afte
 
         return !controlValueFrom || !controlValueTo || this.dateTimeAdapter.compare(controlValueFrom, controlValueTo) <= 0 ?
             null : {'owlDateTimeRange': true};
-    }
+    };
 
     /** The combined form control validator for this input. */
     private validator: ValidatorFn | null =
@@ -358,9 +362,6 @@ export class OwlDateTimeInputDirective<T> implements OnInit, AfterViewInit, Afte
             throw Error(
                 `OwlDateTimePicker: the picker input doesn't have any associated owl-date-time component`);
         }
-    }
-
-    public ngAfterViewInit(): void {
     }
 
     public ngAfterContentInit(): void {
@@ -433,49 +434,13 @@ export class OwlDateTimeInputDirective<T> implements OnInit, AfterViewInit, Afte
     @HostListener('input', ['$event'])
     public handleInputOnHost( event: any ): void {
         let value = event.target.value;
-        let result;
-
-        if (this.isInSingleMode) {
-
-            if (this.dtPicker.pickerType === 'timer') {
-                value = this.convertTimeStringToDateTimeString(value, this.value);
-            }
-
-            result = this.dateTimeAdapter.parse(value, this.dateTimeFormats.parseInput);
-            this.lastValueValid = !result || this.dateTimeAdapter.isValid(result);
-            result = this.getValidDate(result);
-
-            // if the result is valid, we update the value
-            if (this.lastValueValid) {
-                this._value = result;
-            }
-
-        } else if (this.isInRangeMode) {
-            const selecteds = value.split(this.rangeSeparator);
-            let fromString = selecteds[0];
-            let toString = selecteds[1];
-
-            if (this.dtPicker.pickerType === 'timer') {
-                fromString = this.convertTimeStringToDateTimeString(fromString, this.values[0]);
-                toString = this.convertTimeStringToDateTimeString(toString, this.values[1]);
-            }
-
-            let from = this.dateTimeAdapter.parse(fromString, this.dateTimeFormats.parseInput);
-            let to = this.dateTimeAdapter.parse(toString, this.dateTimeFormats.parseInput);
-            this.lastValueValid = (!from || this.dateTimeAdapter.isValid(from)) && (!to || this.dateTimeAdapter.isValid(to));
-            from = this.getValidDate(from);
-            to = this.getValidDate(to);
-            result = [from, to];
-
-            // if the result is valid, we update the values
-            if (this.lastValueValid) {
-                this._values = result;
-            }
+        if (this._selectMode === 'single') {
+            this.changeInputInSingleMode(value)
+        } else if (this._selectMode === 'range') {
+            this.changeInputInRangeMode(value)
+        } else {
+            this.changeInputInRangeFromToMode(value)
         }
-
-        this.valueChange.emit(result);
-        this.onModelChange(result);
-        this.dateTimeInput.emit({source: this, value: result, input: this.elmRef.nativeElement});
     }
 
     @HostListener('change', ['$event'])
@@ -534,5 +499,76 @@ export class OwlDateTimeInputDirective<T> implements OnInit, AfterViewInit, Afte
         } else {
             return null;
         }
+    }
+
+    /**
+     * Handle input change in single mode
+     * @param {string} inputValue
+     * @return {void}
+     * */
+    private changeInputInSingleMode( inputValue: string ): void {
+        let value = inputValue;
+        if (this.dtPicker.pickerType === 'timer') {
+            value = this.convertTimeStringToDateTimeString(value, this.value);
+        }
+
+        let result = this.dateTimeAdapter.parse(value, this.dateTimeFormats.parseInput);
+        this.lastValueValid = !result || this.dateTimeAdapter.isValid(result);
+        result = this.getValidDate(result);
+        this._value = result;
+
+        this.valueChange.emit(result);
+        this.onModelChange(result);
+        this.dateTimeInput.emit({source: this, value: result, input: this.elmRef.nativeElement});
+    }
+
+    /**
+     * Handle input change in rangeFrom or rangeTo mode
+     * @param {string} inputValue
+     * @return {void}
+     * */
+    private changeInputInRangeFromToMode( inputValue: string ): void {
+        let originalValue = this._selectMode === 'rangeFrom' ? this._values[0] : this._values[1];
+
+        if (this.dtPicker.pickerType === 'timer') {
+            inputValue = this.convertTimeStringToDateTimeString(inputValue, originalValue);
+        }
+
+        let result = this.dateTimeAdapter.parse(inputValue, this.dateTimeFormats.parseInput);
+        this.lastValueValid = !result || this.dateTimeAdapter.isValid(result);
+        result = this.getValidDate(result);
+
+        this._values = this._selectMode === 'rangeFrom' ? [result, this._values[1]] : [this._values[0], result];
+
+        this.valueChange.emit(this._values);
+        this.onModelChange(this._values);
+        this.dateTimeInput.emit({source: this, value: this._values, input: this.elmRef.nativeElement});
+    }
+
+    /**
+     * Handle input change in range mode
+     * @param {string} inputValue
+     * @return {void}
+     * */
+    private changeInputInRangeMode( inputValue: string ): void {
+        const selecteds = inputValue.split(this.rangeSeparator);
+        let fromString = selecteds[0];
+        let toString = selecteds[1];
+
+        if (this.dtPicker.pickerType === 'timer') {
+            fromString = this.convertTimeStringToDateTimeString(fromString, this.values[0]);
+            toString = this.convertTimeStringToDateTimeString(toString, this.values[1]);
+        }
+
+        let from = this.dateTimeAdapter.parse(fromString, this.dateTimeFormats.parseInput);
+        let to = this.dateTimeAdapter.parse(toString, this.dateTimeFormats.parseInput);
+        this.lastValueValid = (!from || this.dateTimeAdapter.isValid(from)) && (!to || this.dateTimeAdapter.isValid(to));
+        from = this.getValidDate(from);
+        to = this.getValidDate(to);
+        this._values = [from, to];
+
+        this.valueChange.emit(this._values);
+        this.onModelChange(this._values);
+        this.dateTimeInput.emit({source: this, value: this._values, input: this.elmRef.nativeElement});
     }
 }
