@@ -952,7 +952,7 @@ export const MY_NATIVE_FORMATS = {
 };
 
 @NgModule({
-  imports: [OwlDateTimeModule, OwlNativeDateTimeModule],
+    imports: [OwlDateTimeModule, OwlNativeDateTimeModule],
     providers: [
         {provide: OWL_DATE_TIME_FORMATS, useValue: MY_NATIVE_FORMATS},
     ],
@@ -990,7 +990,7 @@ export const MY_MOMENT_FORMATS = {
 
 @NgModule({
     imports: [OwlDateTimeModule, OwlMomentDateTimeModule],
-     providers: [
+    providers: [
         {provide: OWL_DATE_TIME_FORMATS, useValue: MY_MOMENT_FORMATS},
     ],
 })
