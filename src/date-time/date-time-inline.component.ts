@@ -91,7 +91,21 @@ export class OwlDateTimeInlineComponent<T> extends OwlDateTime<T> implements OnI
     private _startAt: T | null;
     @Input()
     get startAt(): T | null {
-        return this._startAt;
+
+        if (this._startAt) {
+            return this._startAt;
+        }
+
+        if (this.selectMode === 'single') {
+            return this.value || null
+        } else if (this.selectMode === 'range' ||
+            this.selectMode === 'rangeFrom') {
+            return this.values[0] || null;
+        } else if (this.selectMode === 'rangeTo') {
+            return this.values[1] || null;
+        } else {
+            return null;
+        }
     }
 
     set startAt( date: T | null ) {
@@ -163,8 +177,11 @@ export class OwlDateTimeInlineComponent<T> extends OwlDateTime<T> implements OnI
             });
             this._values = [...values];
             this.selecteds = [...values];
-            this.container.pickerMoment = values[this.container.activeSelectedIndex];
+        } else {
+            this._values = [];
+            this.selecteds = [];
         }
+        this.container.pickerMoment = this._values[this.container.activeSelectedIndex];
     }
 
     private _selected: T | null;
