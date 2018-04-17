@@ -27,7 +27,7 @@
         [downBtnDisabled]="!downSecondEnabled()"
         [value]="secondValue" [min]="0" [max]="59"
         [step]="stepSecond" [inputLabel]="'Second'"
-        (inputChange)="setMinuteValue($event)"
+        (inputChange)="setSecondValue($event)"
         (valueChange)="setSecondValue($event)"></owl-date-time-timer-box>
 
 <div *ngIf="hour12Timer" class="owl-dt-timer-hour12">
