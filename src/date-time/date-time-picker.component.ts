@@ -314,7 +314,7 @@ export class OwlDateTimeComponent<T> extends OwlDateTime<T> implements OnInit, O
         // Listen to picker container's hidePickerStream
         this.hidePickerStreamSub = this.pickerContainer.hidePickerStream
             .subscribe(() => {
-                this.hidePicker();
+                this.close();
             });
 
         // Listen to picker container's confirmSelectedStream
@@ -354,6 +354,25 @@ export class OwlDateTimeComponent<T> extends OwlDateTime<T> implements OnInit, O
     }
 
     /**
+     * Hide the picker
+     * @param {any} event
+     * @return {void}
+     * */
+    public close( event?: any ): void {
+        if (!this.opened) {
+            return;
+        }
+
+        if (this.dialogRef) {
+            this.dialogRef.close();
+        }
+
+        if (this.popupRef) {
+            this.pickerContainer.hidePickerViaAnimation();
+        }
+    }
+
+    /**
      * Confirm the selected value
      * @param {any} event
      * @return {void}
@@ -367,27 +386,8 @@ export class OwlDateTimeComponent<T> extends OwlDateTime<T> implements OnInit, O
             this.confirmSelectedChange.emit(this.selecteds);
         }
 
-        this.hidePicker(event);
+        this.close(event);
         return;
-    }
-
-    /**
-     * Hide the picker
-     * @param {any} event
-     * @return {void}
-     * */
-    private hidePicker( event?: any ): void {
-        if (!this.opened) {
-            return;
-        }
-
-        if (this.dialogRef) {
-            this.dialogRef.close();
-        }
-
-        if (this.popupRef) {
-            this.pickerContainer.hidePickerViaAnimation();
-        }
     }
 
     /**
@@ -436,7 +436,7 @@ export class OwlDateTimeComponent<T> extends OwlDateTime<T> implements OnInit, O
             this.popupRef.backdropClick(),
             this.popupRef.detachments(),
             this.popupRef.keydownEvents().pipe(filter(event => event.keyCode === ESCAPE))
-        ).subscribe(() => this.hidePicker());
+        ).subscribe(() => this.close());
 
         // Listen to picker's container animation state
         this.pickerContainer.animationStateChanged.subscribe(( event: AnimationEvent ) => {
