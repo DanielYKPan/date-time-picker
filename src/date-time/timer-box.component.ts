@@ -6,17 +6,15 @@ import {
     ChangeDetectionStrategy,
     Component,
     EventEmitter,
+    HostBinding,
     Input,
     OnDestroy,
     OnInit,
-    Output,
-    HostBinding
+    Output
 } from '@angular/core';
 import { coerceNumberProperty } from '@angular/cdk/coercion';
-import { Subject } from 'rxjs/Subject';
-import { Subscription } from 'rxjs/Subscription';
-import { debounceTime } from 'rxjs/operators/debounceTime';
-import { distinctUntilChanged } from 'rxjs/operators/distinctUntilChanged';
+import { Subject, Subscription } from 'rxjs';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
 @Component({
     exportAs: 'owlDateTimeTimerBox',

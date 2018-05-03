@@ -3,7 +3,14 @@
  */
 
 import {
-    ChangeDetectionStrategy, Component, ElementRef, EventEmitter, HostBinding, Input, NgZone, OnInit,
+    ChangeDetectionStrategy,
+    Component,
+    ElementRef,
+    EventEmitter,
+    HostBinding,
+    Input,
+    NgZone,
+    OnInit,
     Output
 } from '@angular/core';
 import { SelectMode } from './date-time.class';
@@ -93,8 +100,8 @@ export class OwlCalendarBodyComponent implements OnInit {
             || this.selectMode === 'rangeTo';
     }
 
-    constructor(private elmRef: ElementRef,
-                private ngZone: NgZone,) {
+    constructor( private elmRef: ElementRef,
+                 private ngZone: NgZone, ) {
     }
 
     public ngOnInit() {

@@ -3,23 +3,26 @@
  */
 
 import {
-    AfterContentInit, AfterViewInit,
+    AfterContentInit,
+    AfterViewInit,
     ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
     ElementRef,
-    EventEmitter, HostBinding, HostListener,
-    OnInit, Optional,
+    EventEmitter,
+    HostBinding,
+    HostListener,
+    OnInit,
+    Optional,
     ViewChild
 } from '@angular/core';
-import { animate, state, style, transition, trigger, AnimationEvent } from '@angular/animations';
+import { animate, AnimationEvent, state, style, transition, trigger } from '@angular/animations';
 import { OwlDateTimeIntl } from './date-time-picker-intl.service';
 import { OwlCalendarComponent } from './calendar.component';
 import { OwlTimerComponent } from './timer.component';
 import { DateTimeAdapter } from './adapter/date-time-adapter.class';
 import { OwlDateTime, PickerType } from './date-time.class';
-import { Subject } from 'rxjs/Subject';
-import { Observable } from 'rxjs/Observable';
+import { Observable, Subject } from 'rxjs';
 
 @Component({
     exportAs: 'owlDateTimeContainer',

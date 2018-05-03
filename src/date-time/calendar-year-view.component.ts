@@ -4,17 +4,33 @@
 
 import {
     AfterContentInit,
-    ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, HostBinding, Inject, Input, OnDestroy, OnInit,
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
+    Component,
+    EventEmitter,
+    HostBinding,
+    Inject,
+    Input,
+    OnDestroy,
+    OnInit,
     Optional,
-    Output, ViewChild
+    Output,
+    ViewChild
 } from '@angular/core';
 import { CalendarCell, OwlCalendarBodyComponent } from './calendar-body.component';
 import { DateTimeAdapter } from './adapter/date-time-adapter.class';
 import { OWL_DATE_TIME_FORMATS, OwlDateTimeFormats } from './adapter/date-time-format.class';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 import { SelectMode } from './date-time.class';
 import {
-    DOWN_ARROW, END, ENTER, HOME, LEFT_ARROW, PAGE_DOWN, PAGE_UP, RIGHT_ARROW,
+    DOWN_ARROW,
+    END,
+    ENTER,
+    HOME,
+    LEFT_ARROW,
+    PAGE_DOWN,
+    PAGE_UP,
+    RIGHT_ARROW,
     UP_ARROW
 } from '@angular/cdk/keycodes';
 

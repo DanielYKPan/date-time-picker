@@ -3,18 +3,36 @@
  */
 
 import {
-    AfterContentInit, Directive, ElementRef, EventEmitter,
-    forwardRef, HostBinding, HostListener, Inject, Input, OnDestroy, OnInit, Optional, Output, Renderer2
+    AfterContentInit,
+    Directive,
+    ElementRef,
+    EventEmitter,
+    forwardRef,
+    HostBinding,
+    HostListener,
+    Inject,
+    Input,
+    OnDestroy,
+    OnInit,
+    Optional,
+    Output,
+    Renderer2
 } from '@angular/core';
 import {
-    AbstractControl, ControlValueAccessor, NG_VALIDATORS, NG_VALUE_ACCESSOR, ValidationErrors, Validator,
-    ValidatorFn, Validators
+    AbstractControl,
+    ControlValueAccessor,
+    NG_VALIDATORS,
+    NG_VALUE_ACCESSOR,
+    ValidationErrors,
+    Validator,
+    ValidatorFn,
+    Validators
 } from '@angular/forms';
 import { DOWN_ARROW } from '@angular/cdk/keycodes';
 import { OwlDateTimeComponent } from './date-time-picker.component';
 import { DateTimeAdapter } from './adapter/date-time-adapter.class';
 import { OWL_DATE_TIME_FORMATS, OwlDateTimeFormats } from './adapter/date-time-format.class';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 import { SelectMode } from './date-time.class';
 
 export const OWL_DATETIME_VALUE_ACCESSOR: any = {

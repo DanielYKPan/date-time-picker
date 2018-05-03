@@ -3,16 +3,21 @@
  */
 
 import {
-    ComponentRef, Inject, Injectable, InjectionToken, Injector, Optional, SkipSelf, TemplateRef
+    ComponentRef,
+    Inject,
+    Injectable,
+    InjectionToken,
+    Injector,
+    Optional,
+    SkipSelf,
+    TemplateRef
 } from '@angular/core';
 import { Location } from '@angular/common';
 import { OwlDialogConfig } from './dialog-config.class';
 import { OwlDialogRef } from './dialog-ref.class';
 import { OwlDialogContainerComponent } from './dialog-container.component';
 import { extendObject } from '../utils';
-import { Subject } from 'rxjs/Subject';
-import { Observable } from 'rxjs/Observable';
-import { defer } from 'rxjs/observable/defer';
+import { defer, Observable, Subject } from 'rxjs';
 import { startWith } from 'rxjs/operators';
 import { Overlay, OverlayConfig, OverlayContainer, OverlayRef, ScrollStrategy } from '@angular/cdk/overlay';
 import { ComponentPortal, ComponentType, PortalInjector } from '@angular/cdk/portal';

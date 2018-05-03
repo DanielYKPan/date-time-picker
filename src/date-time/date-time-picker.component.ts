@@ -22,11 +22,11 @@ import { AnimationEvent } from '@angular/animations';
 import { DOCUMENT } from '@angular/common';
 import { ComponentPortal } from '@angular/cdk/portal';
 import {
+    BlockScrollStrategy,
     Overlay,
     OverlayConfig,
     OverlayRef,
     PositionStrategy,
-    BlockScrollStrategy,
     ScrollStrategy
 } from '@angular/cdk/overlay';
 import { ESCAPE } from '@angular/cdk/keycodes';
@@ -37,10 +37,8 @@ import { DateTimeAdapter } from './adapter/date-time-adapter.class';
 import { OWL_DATE_TIME_FORMATS, OwlDateTimeFormats } from './adapter/date-time-format.class';
 import { OwlDateTime, PickerMode, PickerType, SelectMode } from './date-time.class';
 import { OwlDialogRef, OwlDialogService } from '../dialog';
-import { Subscription } from 'rxjs/Subscription';
-import { merge } from 'rxjs/observable/merge';
-import { filter } from 'rxjs/operators/filter';
-import { take } from 'rxjs/operators/take';
+import { merge, Subscription } from 'rxjs';
+import { filter, take } from 'rxjs/operators';
 
 /** Injection token that determines the scroll handling while the dtPicker is open. */
 export const OWL_DTPICKER_SCROLL_STRATEGY =

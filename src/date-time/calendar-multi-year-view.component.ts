@@ -3,14 +3,29 @@
  */
 
 import {
-    AfterContentInit, ChangeDetectionStrategy, Component, EventEmitter, HostBinding, Input, OnInit,
-    Optional, Output, ViewChild
+    AfterContentInit,
+    ChangeDetectionStrategy,
+    Component,
+    EventEmitter,
+    HostBinding,
+    Input,
+    OnInit,
+    Optional,
+    Output,
+    ViewChild
 } from '@angular/core';
 import { DateTimeAdapter } from './adapter/date-time-adapter.class';
 import { CalendarCell, OwlCalendarBodyComponent } from './calendar-body.component';
 import { SelectMode } from './date-time.class';
 import {
-    DOWN_ARROW, END, ENTER, HOME, LEFT_ARROW, PAGE_DOWN, PAGE_UP, RIGHT_ARROW,
+    DOWN_ARROW,
+    END,
+    ENTER,
+    HOME,
+    LEFT_ARROW,
+    PAGE_DOWN,
+    PAGE_UP,
+    RIGHT_ARROW,
     UP_ARROW
 } from '@angular/cdk/keycodes';
 import { OwlDateTimeIntl } from './date-time-picker-intl.service';

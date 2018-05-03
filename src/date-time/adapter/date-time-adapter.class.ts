@@ -1,8 +1,7 @@
 /**
  * date-time-adapter.class
  */
-import { Observable } from 'rxjs/Observable';
-import { Subject } from 'rxjs/Subject';
+import { Observable, Subject } from 'rxjs';
 import { InjectionToken, LOCALE_ID } from '@angular/core';
 
 /** InjectionToken for date time picker that can be used to override default locale code. */

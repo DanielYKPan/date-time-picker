@@ -10,7 +10,8 @@ import {
     EventEmitter,
     HostBinding,
     Inject,
-    Input, NgZone,
+    Input,
+    NgZone,
     OnInit,
     Optional,
     Output

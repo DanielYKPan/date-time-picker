@@ -7,11 +7,8 @@ import { GlobalPositionStrategy, OverlayRef } from '@angular/cdk/overlay';
 import { ESCAPE } from '@angular/cdk/keycodes';
 import { OwlDialogContainerComponent } from './dialog-container.component';
 import { DialogPosition } from './dialog-config.class';
-import { Observable } from 'rxjs/Observable';
-import { Subject } from 'rxjs/Subject';
-import { ISubscription, Subscription } from 'rxjs/Subscription';
-import { filter } from 'rxjs/operators/filter';
-import { take } from 'rxjs/operators/take';
+import { Observable, Subject, Subscription, SubscriptionLike as ISubscription } from 'rxjs';
+import { filter, take } from 'rxjs/operators';
 
 export class OwlDialogRef<T> {
 
