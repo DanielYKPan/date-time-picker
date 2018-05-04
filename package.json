@@ -1,6 +1,6 @@
 {
   "name": "ng-pick-datetime",
-  "version": "5.2.6",
+  "version": "6.0.0",
   "description": "Angular Date Time Picker",
   "keywords": [
     "Angular",
@@ -73,7 +73,6 @@
     "rollup-plugin-uglify": "^2.0.1",
     "run-sequence": "^2.2.0",
     "rxjs": "6.1.0",
-    "rxjs-compat": "^6.1.0",
     "ts-node": "~3.2.0",
     "tslint": "~5.7.0",
     "typescript": "2.7.2",

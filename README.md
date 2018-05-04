@@ -2,13 +2,13 @@ Angular Date Time Picker
 ========================
 
 **Angular date time picker - Angular reusable UI component**
-**This package supports Angular 5+**
+**This package supports Angular 6+**
 
 
 Breaking Changes
 -------
- - Add two new selectMode: 'rangeFrom' and 'rangeTo'.
- - Allow user to select years from a year list.
+ - The picker has been updated for Angular 6+ apps. If you are still using Angular 5, you should install the picker version 5.2.6.
+   ```npm install ng-pick-datetime@5.2.6 --save```
 
 Description
 -------
