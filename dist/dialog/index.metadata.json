@@ -1,0 +1,1 @@
+[{"__symbolic":"module","version":4,"metadata":{},"exports":[{"from":"./dialog.module","export":["OwlDialogModule"]},{"from":"./dialog.service","export":["OwlDialogService"]},{"from":"./dialog-ref.class","export":["OwlDialogRef"]}]}]

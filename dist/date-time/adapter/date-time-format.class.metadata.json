@@ -1,0 +1,1 @@
+[{"__symbolic":"module","version":4,"metadata":{"OwlDateTimeFormats":{"__symbolic":"interface"},"OWL_DATE_TIME_FORMATS":{"__symbolic":"new","expression":{"__symbolic":"reference","module":"@angular/core","name":"InjectionToken","line":17,"character":41},"arguments":["OWL_DATE_TIME_FORMATS"]}}}]
