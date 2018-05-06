@@ -20,10 +20,11 @@
   "types": "picker.d.ts",
   "main": "picker.bundle.js",
   "dependencies": {
-    "@angular/cli": "^6.0.0"
+    "@angular/cdk": "^6.0.0"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.6.0",
+    "@angular-devkit/build-optimizer": "^0.6.0",
     "@angular/animations": "6.0.0",
     "@angular/cdk": "^6.0.0",
     "@angular/cli": "^6.0.0",
@@ -68,6 +69,7 @@
     "pixrem": "^4.0.1",
     "protractor": "~5.1.2",
     "rollup": "^0.52.3",
+    "rollup-plugin-alias": "^1.4.0",
     "rollup-plugin-commonjs": "^8.2.6",
     "rollup-plugin-node-resolve": "^3.0.0",
     "rollup-plugin-uglify": "^2.0.1",
