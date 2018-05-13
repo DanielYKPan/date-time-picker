@@ -1,14 +1,6 @@
 import nodeResolve from 'rollup-plugin-node-resolve'
 import uglify from 'rollup-plugin-uglify'
 import alias from 'rollup-plugin-alias';
-import {buildOptimizer} from '@angular-devkit/build-optimizer';
-
-function angularBuildOptimizer() {
-    return {
-        name: 'angular-optimizer',
-        transform: (content) => buildOptimizer({content}).content,
-    }
-}
 
 const rxPaths = require('rxjs/_esm5/path-mapping');
 
@@ -43,7 +35,6 @@ export default {
     plugins: [
         alias(rxPaths()),
         nodeResolve({jsnext: true, module: true}),
-        angularBuildOptimizer(),
         uglify()
     ]
 };
