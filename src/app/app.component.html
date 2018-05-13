@@ -19,7 +19,12 @@
             <p>The OwlDateTime allows users to enter a date and/or time either through text input, or by choosing a date
                 from the calendar and/or a time from the timer. It is made up of several components and directives that
                 work together.</p>
-
+            <p>
+                You can also explore the example codes from
+                <a [style.color]="'red'" [style.textDecoration]="'underline'"
+                   href="https://stackblitz.com/github/DanielYKPan/owl-examples/tree/date-time-picker?file=src%2Fapp%2Fmoment-js%2Fmoment-js.component.ts"
+                   target="_blank">StackBlits</a>
+            </p>
             <h4 class="sub-title">Connect picker to a input</h4>
             <p>A OwlDateTime is composed of a text input and a picker pop-up, connected via the owlDateTime property on
                 the text input. The picker is open via directive [owlDateTimeTrigger].</p>
@@ -656,6 +661,8 @@ export class AppExample {
                 </div>
             </div>
             <!-- </editor-fold> -->
+
+            <app-month-only></app-month-only>
 
             <h4 class="sub-title">Date Time Validation</h4>
             <p>There are three properties that add date-time validation to the picker's input. The first two are the <b>[min]</b>

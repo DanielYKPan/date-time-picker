@@ -9,6 +9,7 @@ import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 // import { OwlMomentDateTimeModule } from 'ng-pick-datetime-moment';
 import { MatTabsModule } from '@angular/material';
 import { CodeHighlightDirective } from './code-highlight.directive';
+import { PickerMomentModule } from './picker-moment/picker-moment.module';
 
 @NgModule({
     declarations: [
@@ -23,6 +24,7 @@ import { CodeHighlightDirective } from './code-highlight.directive';
         MatTabsModule,
         OwlDateTimeModule,
         OwlNativeDateTimeModule,
+        PickerMomentModule,
         // OwlMomentDateTimeModule,
     ],
     providers: [],

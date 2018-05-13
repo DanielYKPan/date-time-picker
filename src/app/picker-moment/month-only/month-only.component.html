@@ -1,0 +1,107 @@
+<h4 class="sub-title">Watching changes of selected year and selected month</h4>
+<p>
+    When a year or month is selected from 'multi-years' and 'year' views, the <b>yearSelected()</b> and <b>monthSelected()</b>
+    outputs emit a date representing the chosen year or month. The dates representing years will have their month set to
+    January and their day set to the 1st. Dates representing months will have their day set to the 1st of the month.
+</p>
+<p>
+    Beware that the emitted value does not affect the current value in the connected input, which is only bound to the
+    selection made in the 'month' view. So if the end user closes the calendar after choosing a year in multi-view mode
+    (by pressing the ESC key, for example), the selected year, emitted by yearSelected output, will not cause any change
+    in the value of the date in the associated input. The following example demonstrate how to use the picker for only
+    select year and mont value.
+</p>
+<div class="viewer-wrapper">
+    <div class="viewer-title">
+        <div class="viewer-title-spacer">
+            Picker with only month and year
+        </div>
+    </div>
+    <div class="viewer-source">
+        <mat-tab-group>
+            <mat-tab label="HTML">
+                <pre>
+<code class="language-markup" ngNonBindable appCodeHighlight><![CDATA[
+<label>
+    Year and Month Only:
+    <input [owlDateTimeTrigger]="dt"
+           [owlDateTime]="dt"
+           [formControl]="date">
+    <owl-date-time [pickerType]="'calendar'"
+                   [startView]="'multi-years'"
+                   (yearSelected)="chosenYearHandler($event)"
+                   (monthSelected)="chosenMonthHandler($event, dt)"
+                   #dt="owlDateTime"></owl-date-time>
+</label>
+]]></code>
+</pre>
+            </mat-tab>
+            <mat-tab label="TS">
+                <pre>
+<code class="language-typescript" ngNonBindable appCodeHighlight><![CDATA[
+import { Component } from '@angular/core';
+import { FormControl } from '@angular/forms';
+import { OwlDateTimeComponent, DateTimeAdapter, OWL_DATE_TIME_FORMATS, OWL_DATE_TIME_LOCALE } from 'ng-pick-datetime';
+import * as _moment from 'moment';
+import { Moment } from 'moment';
+
+const moment = (_moment as any).default ? (_moment as any).default : _moment;
+
+export const MY_MOMENT_DATE_TIME_FORMATS: OwlDateTimeFormats = {
+    parseInput: 'MM/YYYY',
+    fullPickerInput: 'l LT',
+    datePickerInput: 'MM/YYYY',
+    timePickerInput: 'LT',
+    monthYearLabel: 'MMM YYYY',
+    dateA11yLabel: 'LL',
+    monthYearA11yLabel: 'MMMM YYYY',
+};
+
+@Component({
+    selector: 'app-example',
+    templateUrl: 'app-example.html',
+    providers: [
+        // `MomentDateTimeAdapter` and `OWL_MOMENT_DATE_TIME_FORMATS` can be automatically provided by importing
+        // `OwlMomentDateTimeModule` in your applications root module. We provide it at the component level
+        // here, due to limitations of our example generation script.
+        {provide: DateTimeAdapter, useClass: MomentDateTimeAdapter, deps: [OWL_DATE_TIME_LOCALE]},
+
+        {provide: OWL_DATE_TIME_FORMATS, useValue: MY_MOMENT_DATE_TIME_FORMATS},
+    ],
+})
+export class AppExample {
+
+    public date = new FormControl(moment());
+
+    chosenYearHandler( normalizedYear: Moment ) {
+        const ctrlValue = this.date.value;
+        ctrlValue.year(normalizedYear.year());
+        this.date.setValue(ctrlValue);
+    }
+
+    chosenMonthHandler( normalizedMonth: Moment, datepicker: OwlDateTimeComponent<Moment> ) {
+        const ctrlValue = this.date.value;
+        ctrlValue.month(normalizedMonth.month());
+        this.date.setValue(ctrlValue);
+        datepicker.close();
+    }
+}
+]]></code>
+</pre>
+            </mat-tab>
+        </mat-tab-group>
+    </div>
+    <div class="viewer-body">
+        <label>
+            Year and Month Only:
+            <input [owlDateTimeTrigger]="dt"
+                   [owlDateTime]="dt"
+                   [formControl]="date">
+            <owl-date-time [pickerType]="'calendar'"
+                           [startView]="'multi-years'"
+                           (yearSelected)="chosenYearHandler($event)"
+                           (monthSelected)="chosenMonthHandler($event, dt)"
+                           #dt="owlDateTime"></owl-date-time>
+        </label>
+    </div>
+</div>
