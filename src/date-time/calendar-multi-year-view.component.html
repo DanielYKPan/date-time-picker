@@ -26,7 +26,7 @@
            [selectedValues]="selectedYears"
            [selectMode]="selectMode"
            (keydown)="handleCalendarKeydown($event)"
-           (selectedValueChange)="yearSelected($event)"></tbody>
+           (selectedValueChange)="selectYear($event)"></tbody>
 </table>
 <button class="owl-dt-control-button owl-dt-control-arrow-button"
         [disabled]="!nextEnabled()" [attr.aria-label]="nextButtonLabel"

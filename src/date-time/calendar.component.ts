@@ -139,6 +139,16 @@ export class OwlCalendarComponent<T> implements OnInit, AfterContentInit {
     /** Emits when any date is selected. */
     @Output() userSelection = new EventEmitter<void>();
 
+    /**
+     * Emits the selected year. This doesn't imply a change on the selected date
+     * */
+    @Output() readonly yearSelected = new EventEmitter<T>();
+
+    /**
+     * Emits the selected month. This doesn't imply a change on the selected date
+     * */
+    @Output() readonly monthSelected = new EventEmitter<T>();
+
     get periodButtonText(): string {
         return this.isMonthView ? this.dateTimeAdapter.format(this.pickerMoment, this.dateTimeFormats.monthYearLabel) :
             this.dateTimeAdapter.getYearName(this.pickerMoment);
@@ -316,6 +326,14 @@ export class OwlCalendarComponent<T> implements OnInit, AfterContentInit {
                 this.elmRef.nativeElement.querySelector('.owl-dt-calendar-cell-active').focus();
             });
         });
+    }
+
+    public selectYearInMultiYearView( normalizedYear: T ): void {
+        this.yearSelected.emit(normalizedYear);
+    }
+
+    public selectMonthInYearView( normalizedMonth: T ): void {
+        this.monthSelected.emit(normalizedMonth);
     }
 
     /**

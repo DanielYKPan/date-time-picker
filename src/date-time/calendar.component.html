@@ -87,6 +87,7 @@
             [dateFilter]="dateFilter"
             (keyboardEnter)="focusActiveCell()"
             (pickerMomentChange)="handlePickerMomentChange($event)"
+            (monthSelected)="selectMonthInYearView($event)"
             (selectedChange)="goToDateInView($event, 'month')"></owl-date-time-year-view>
 
     <owl-date-time-multi-year-view
@@ -100,5 +101,6 @@
             [dateFilter]="dateFilter"
             (keyboardEnter)="focusActiveCell()"
             (pickerMomentChange)="handlePickerMomentChange($event)"
+            (yearSelected)="selectYearInMultiYearView($event)"
             (selectedChange)="goToDateInView($event, 'year')"></owl-date-time-multi-year-view>
 </div>

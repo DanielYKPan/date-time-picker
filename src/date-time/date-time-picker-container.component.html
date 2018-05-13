@@ -13,6 +13,8 @@
             [maxDate]="picker.maxDateTime"
             [dateFilter]="picker.dateTimeFilter"
             [startView]="picker.startView"
+            (yearSelected)="picker.selectYear($event)"
+            (monthSelected)="picker.selectMonth($event)"
             (selectedChange)="dateSelected($event)"></owl-date-time-calendar>
 
     <owl-date-time-timer

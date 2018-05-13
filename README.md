@@ -9,6 +9,7 @@ Breaking Changes
 -------
  - The picker has been updated for Angular 6+ apps. If you are still using Angular 5, you should install the picker version 5.2.6.
    ```npm install ng-pick-datetime@5.2.6 --save```
+ - Added Output Events yearSelected, monthSelected
 
 Description
 -------
@@ -112,6 +113,8 @@ Events for `owl-date-time`
 |:--- |:--- |:--- |
 |`afterPickerOpen`|null|Callback to invoke when the picker is opened|
 |`afterPickerClosed`|null|Callback to invoke when the picker is closed.|
+|`yearSelected`|T|Callback to invoke when the picker is closed.This doesn't imply a change on the selected date.|
+|`monthSelected`|T|Callback to invoke when the picker is closed.This doesn't imply a change on the selected date.|
 
 Properties for `input[owlDateTime]`
 -------
@@ -178,8 +181,8 @@ none
 
 Demo
 -------
-Online demo is [here](https://danielykpan.github.io/date-time-picker/)
-Online StackBlitz is [here](https://stackblitz.com/github/DanielYKPan/owl-examples/tree/date-time-picker)
+- Online demo is [here](https://danielykpan.github.io/date-time-picker/)
+- Online StackBlitz is [here](https://stackblitz.com/github/DanielYKPan/owl-examples/tree/date-time-picker)
 
 License
 -------

@@ -5,12 +5,12 @@
 import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
-    Component,
+    Component, EventEmitter,
     forwardRef,
     Inject,
     Input,
     OnInit,
-    Optional,
+    Optional, Output,
     ViewChild
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
@@ -184,6 +184,18 @@ export class OwlDateTimeInlineComponent<T> extends OwlDateTime<T> implements OnI
         this.container.pickerMoment = this._values[this.container.activeSelectedIndex];
     }
 
+    /**
+     * Emits selected year in multi-year view
+     * This doesn't imply a change on the selected date.
+     * */
+    @Output() yearSelected = new EventEmitter<T>();
+
+    /**
+     * Emits selected month in year view
+     * This doesn't imply a change on the selected date.
+     * */
+    @Output() monthSelected = new EventEmitter<T>();
+
     private _selected: T | null;
     get selected() {
         return this._selected;
@@ -265,5 +277,19 @@ export class OwlDateTimeInlineComponent<T> extends OwlDateTime<T> implements OnI
         }
         this.onModelChange(date);
         this.onModelTouched();
+    }
+
+    /**
+     * Emits the selected year in multi-year view
+     * */
+    public selectYear(normalizedYear: T): void {
+        this.yearSelected.emit(normalizedYear);
+    }
+
+    /**
+     * Emits selected month in year view
+     * */
+    public selectMonth(normalizedMonth: T): void {
+        this.monthSelected.emit(normalizedMonth);
     }
 }

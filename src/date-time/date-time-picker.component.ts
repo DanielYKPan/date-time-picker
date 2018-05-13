@@ -168,6 +168,18 @@ export class OwlDateTimeComponent<T> extends OwlDateTime<T> implements OnInit, O
     @Output() afterPickerOpen = new EventEmitter<any>();
 
     /**
+     * Emits selected year in multi-year view
+     * This doesn't imply a change on the selected date.
+     * */
+    @Output() yearSelected = new EventEmitter<T>();
+
+    /**
+     * Emits selected month in year view
+     * This doesn't imply a change on the selected date.
+     * */
+    @Output() monthSelected = new EventEmitter<T>();
+
+    /**
      * Emit when the selected value has been confirmed
      * */
     public confirmSelectedChange = new EventEmitter<T[] | T>();
@@ -349,6 +361,20 @@ export class OwlDateTimeComponent<T> extends OwlDateTime<T> implements OnInit, O
             (this.isInSingleMode || (this.isInRangeMode && this.selecteds[0] && this.selecteds[1]))) {
             this.confirmSelect();
         }
+    }
+
+    /**
+     * Emits the selected year in multi-year view
+     * */
+    public selectYear(normalizedYear: T): void {
+        this.yearSelected.emit(normalizedYear);
+    }
+
+    /**
+     * Emits selected month in year view
+     * */
+    public selectMonth(normalizedMonth: T): void {
+        this.monthSelected.emit(normalizedMonth);
     }
 
     /**

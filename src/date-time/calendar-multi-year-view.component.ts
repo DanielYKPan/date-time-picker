@@ -193,6 +193,11 @@ export class OwlMultiYearViewComponent<T> implements OnInit, AfterContentInit {
      * */
     @Output() readonly selectedChange = new EventEmitter<T>();
 
+    /**
+     * Emits the selected year. This doesn't imply a change on the selected date
+     * */
+    @Output() readonly yearSelected = new EventEmitter<T>();
+
     /** Emits when any date is activated. */
     @Output() readonly pickerMomentChange: EventEmitter<T> = new EventEmitter<T>();
 
@@ -225,7 +230,8 @@ export class OwlMultiYearViewComponent<T> implements OnInit, AfterContentInit {
         this.initiated = true;
     }
 
-    public yearSelected( year: number ): void {
+    public selectYear( year: number ): void {
+        this.yearSelected.emit(this.dateTimeAdapter.createDate(year, 0, 1));
         const firstDateOfMonth = this.dateTimeAdapter.createDate(
             year,
             this.dateTimeAdapter.getMonth(this.pickerMoment),
@@ -351,7 +357,7 @@ export class OwlMultiYearViewComponent<T> implements OnInit, AfterContentInit {
                 break;
 
             case ENTER:
-                this.yearSelected(this.dateTimeAdapter.getYear(this._pickerMoment));
+                this.selectYear(this.dateTimeAdapter.getYear(this._pickerMoment));
                 this.keyboardEnter.emit();
                 break;
 

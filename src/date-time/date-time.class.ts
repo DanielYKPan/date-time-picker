@@ -1,7 +1,7 @@
 /**
  * date-time.class
  */
-import { Inject, Input, Optional } from '@angular/core';
+import { EventEmitter, Inject, Input, Optional } from '@angular/core';
 import { coerceBooleanProperty, coerceNumberProperty } from '@angular/cdk/coercion';
 import { DateTimeAdapter } from './adapter/date-time-adapter.class';
 import { OWL_DATE_TIME_FORMATS, OwlDateTimeFormats } from './adapter/date-time-format.class';
@@ -146,6 +146,14 @@ export abstract class OwlDateTime<T> {
     abstract get isInRangeMode(): boolean;
 
     abstract select( date: T | T[] ): void;
+
+    abstract yearSelected: EventEmitter<T>;
+
+    abstract monthSelected: EventEmitter<T>;
+
+    abstract selectYear( normalizedYear: T ): void;
+
+    abstract selectMonth( normalizedMonth: T ): void;
 
     get formatString(): string {
         return this.pickerType === 'both' ? this.dateTimeFormats.fullPickerInput :

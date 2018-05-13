@@ -183,6 +183,11 @@ export class OwlYearViewComponent<T> implements OnInit, AfterContentInit, OnDest
      * */
     @Output() readonly selectedChange = new EventEmitter<T>();
 
+    /**
+     * Emits the selected year. This doesn't imply a change on the selected date
+     * */
+    @Output() readonly monthSelected = new EventEmitter<T>();
+
     /** Emits when any date is activated. */
     @Output() readonly pickerMomentChange: EventEmitter<T> = new EventEmitter<T>();
 
@@ -224,12 +229,15 @@ export class OwlYearViewComponent<T> implements OnInit, AfterContentInit, OnDest
      * @param {number} month -- a new month's numeric value
      * @return {void}
      * */
-    public monthSelected( month: number ): void {
+    public selectMonth( month: number ): void {
         const firstDateOfMonth = this.dateTimeAdapter.createDate(
             this.dateTimeAdapter.getYear(this.pickerMoment),
             month,
             1
         );
+
+        this.monthSelected.emit(firstDateOfMonth);
+
         const daysInMonth = this.dateTimeAdapter.getNumDaysInMonth(firstDateOfMonth);
         const selected = this.dateTimeAdapter.createDate(
             this.dateTimeAdapter.getYear(this.pickerMoment),
@@ -303,7 +311,7 @@ export class OwlYearViewComponent<T> implements OnInit, AfterContentInit, OnDest
 
             // Select current month
             case ENTER:
-                this.monthSelected(this.dateTimeAdapter.getMonth(this.pickerMoment));
+                this.selectMonth(this.dateTimeAdapter.getMonth(this.pickerMoment));
                 this.keyboardEnter.emit();
                 break;
             default:
