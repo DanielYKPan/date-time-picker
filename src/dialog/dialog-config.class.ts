@@ -67,7 +67,7 @@ export class OwlDialogConfig {
     /**
      * Custom class for the pane
      * */
-    public paneClass? = '';
+    public paneClass?: string | string[] = '';
 
     /**
      * Mouse Event
@@ -78,7 +78,7 @@ export class OwlDialogConfig {
     /**
      * Custom class for the backdrop
      * */
-    public backdropClass?: string = 'cdk-overlay-dark-backdrop';
+    public backdropClass?: string | string[] = '';
 
 
     /**

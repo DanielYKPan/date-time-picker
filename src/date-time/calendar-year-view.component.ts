@@ -225,11 +225,20 @@ export class OwlYearViewComponent<T> implements OnInit, AfterContentInit, OnDest
     }
 
     /**
+     * Handle a calendarCell selected
+     * @param {CalendarCell} cell
+     * @return {void}
+     * */
+    public selectCalendarCell( cell: CalendarCell ): void {
+        this.selectMonth(cell.value);
+    }
+
+    /**
      * Handle a new month selected
      * @param {number} month -- a new month's numeric value
      * @return {void}
      * */
-    public selectMonth( month: number ): void {
+    private selectMonth( month: number ): void {
         const firstDateOfMonth = this.dateTimeAdapter.createDate(
             this.dateTimeAdapter.getYear(this.pickerMoment),
             month,

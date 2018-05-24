@@ -230,7 +230,16 @@ export class OwlMultiYearViewComponent<T> implements OnInit, AfterContentInit {
         this.initiated = true;
     }
 
-    public selectYear( year: number ): void {
+    /**
+     * Handle a calendarCell selected
+     * @param {CalendarCell} cell
+     * @return {void}
+     * */
+    public selectCalendarCell( cell: CalendarCell ): void {
+        this.selectYear(cell.value);
+    }
+
+    private selectYear( year: number ): void {
         this.yearSelected.emit(this.dateTimeAdapter.createDate(year, 0, 1));
         const firstDateOfMonth = this.dateTimeAdapter.createDate(
             year,

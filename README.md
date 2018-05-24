@@ -101,11 +101,14 @@ Properties for `owl-date-time`
 |`startAt`| T/null |Optional|`null`| The moment to open the picker to initially. |
 |`firstDayOfWeek`|number|Optional|`0`| Set the first day of week. Valid value is from 0 to 6. 0: Sunday ~ 6: Saturday|
 |`showSecondsTimer`|boolean|Optional|`false`| When specify it to true, it would show a timer to configure the second's value |
+|`hideOtherMonths`|boolean|Optional|`false`| Whether to hide dates in other months at the start or end of the current month |
 |`hour12Timer`|boolean|Optional|`false`| When specify it to true, the timer would be in hour12 format mode|
 |`stepHour`|number|Optional|`1`| Hours to change per step.|
 |`stepMinute`|number|Optional|`1`| Minutes to change per step.|
 |`stepSecond`|number|Optional|`1`| Seconds to change per step.|
 |`disabled`|boolean|Optional|`false`|When specify to true, it would disable the picker.|
+|`backdropClass`|string/string[]|Optional|`null`|Custom class for the picker backdrop.|
+|`panelClass`|string/string[]|Optional|`null`|Custom class for the picker overlay panel.|
 
 Events for `owl-date-time`
 -------
@@ -160,6 +163,7 @@ Properties for `owl-date-time-inline`
 |`startAt`| T/null |Optional|`null`| The moment to open the picker to initially. |
 |`firstDayOfWeek`|number|Optional|`0`| Set the first day of week. Valid value is from 0 to 6. 0: Sunday ~ 6: Saturday|
 |`showSecondsTimer`|boolean|Optional|`false`| When specify it to true, it would show a timer to configure the second's value |
+|`hideOtherMonths`|boolean|Optional|`false`| Whether to hide dates in other months at the start or end of the current month |
 |`hour12Timer`|boolean|Optional|`false`| When specify it to true, the timer would be in hour12 format mode|
 |`stepHour`|number|Optional|`1`| Hours to change per step.|
 |`stepMinute`|number|Optional|`1`| Minutes to change per step.|

@@ -6,7 +6,7 @@ import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component, EventEmitter,
-    forwardRef,
+    forwardRef, HostBinding,
     Inject,
     Input,
     OnInit,
@@ -159,7 +159,6 @@ export class OwlDateTimeInlineComponent<T> extends OwlDateTime<T> implements OnI
         value = this.getValidDate(value);
         this._value = value;
         this.selected = value;
-        this.container.pickerMoment = value;
     }
 
     private _values: T[] = [];
@@ -181,7 +180,6 @@ export class OwlDateTimeInlineComponent<T> extends OwlDateTime<T> implements OnI
             this._values = [];
             this.selecteds = [];
         }
-        this.container.pickerMoment = this._values[this.container.activeSelectedIndex];
     }
 
     /**
@@ -229,6 +227,11 @@ export class OwlDateTimeInlineComponent<T> extends OwlDateTime<T> implements OnI
             || this._selectMode === 'rangeTo';
     }
 
+    @HostBinding('class.owl-dt-inline')
+    get owlDTInlineClass(): boolean {
+        return true;
+    }
+
     private onModelChange: Function = () => {
     }
     private onModelTouched: Function = () => {
@@ -247,8 +250,10 @@ export class OwlDateTimeInlineComponent<T> extends OwlDateTime<T> implements OnI
     public writeValue( value: any ): void {
         if (this.isInSingleMode) {
             this.value = value;
+            this.container.pickerMoment = value;
         } else {
             this.values = value;
+            this.container.pickerMoment = this._values[this.container.activeSelectedIndex];
         }
     }
 

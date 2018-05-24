@@ -235,12 +235,12 @@ export class OwlDateTimeContainerComponent<T> implements OnInit, AfterContentIni
 
         this.pickerMoment = this.dateTimeAdapter.clone(time);
 
-        if (!this.picker.dateTimeChecker(time)) {
+        if (!this.picker.dateTimeChecker(this.pickerMoment)) {
             return;
         }
 
         if (this.picker.isInSingleMode) {
-            this.picker.select(time);
+            this.picker.select(this.pickerMoment);
             return;
         }
 
@@ -249,12 +249,12 @@ export class OwlDateTimeContainerComponent<T> implements OnInit, AfterContentIni
 
             // check if the 'from' is after 'to' or 'to'is before 'from'
             // In this case, we set both the 'from' and 'to' the same value
-            if ((this.activeSelectedIndex === 0 && selecteds[1] && this.dateTimeAdapter.compare(time, selecteds[1]) === 1) ||
-                (this.activeSelectedIndex === 1 && selecteds[0] && this.dateTimeAdapter.compare(time, selecteds[0]) === -1)) {
-                selecteds[0] = time;
-                selecteds[1] = time;
+            if ((this.activeSelectedIndex === 0 && selecteds[1] && this.dateTimeAdapter.compare(this.pickerMoment, selecteds[1]) === 1) ||
+                (this.activeSelectedIndex === 1 && selecteds[0] && this.dateTimeAdapter.compare(this.pickerMoment, selecteds[0]) === -1)) {
+                selecteds[0] = this.pickerMoment;
+                selecteds[1] = this.pickerMoment;
             } else {
-                selecteds[this.activeSelectedIndex] = time;
+                selecteds[this.activeSelectedIndex] = this.pickerMoment;
             }
 
             this.picker.select(selecteds);

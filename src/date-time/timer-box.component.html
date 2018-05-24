@@ -1,7 +1,7 @@
 <div *ngIf="showDivider" class="owl-dt-timer-divider" aria-hidden="true"></div>
 <button class="owl-dt-control-button owl-dt-control-arrow-button"
-        type="button" tabindex="0"
-        [disabled]="upBtnDisabled || value >= max"
+        type="button" tabindex="-1"
+        [disabled]="upBtnDisabled"
         [attr.aria-label]="upBtnAriaLabel"
         (click)="upBtnClicked()">
     <span class="owl-dt-control-button-content" tabindex="-1">
@@ -24,8 +24,8 @@
     <span class="owl-hidden-accessible">{{inputLabel}}</span>
 </label>
 <button class="owl-dt-control-button owl-dt-control-arrow-button"
-        type="button" tabindex="0"
-        [disabled]="downBtnDisabled || value <= min"
+        type="button" tabindex="-1"
+        [disabled]="downBtnDisabled"
         [attr.aria-label]="downBtnAriaLabel"
         (click)="downBtnClicked()">
     <span class="owl-dt-control-button-content" tabindex="-1">

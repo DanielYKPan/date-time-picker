@@ -102,9 +102,6 @@ export class OwlTimerBoxComponent implements OnInit, OnDestroy {
     }
 
     private updateValue( value: number ): void {
-        if (value > this.max || value < this.min) {
-            return;
-        }
         this.valueChange.emit(value);
     }
 

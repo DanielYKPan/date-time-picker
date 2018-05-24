@@ -3,12 +3,20 @@
  */
 
 import {
-    ChangeDetectorRef, Component, ComponentRef, EmbeddedViewRef, EventEmitter, OnInit, Optional,
-    ViewChild, Inject, ElementRef, HostBinding, HostListener
+    ChangeDetectorRef,
+    Component,
+    ComponentRef,
+    ElementRef,
+    EmbeddedViewRef,
+    EventEmitter,
+    HostBinding,
+    HostListener,
+    Inject,
+    OnInit,
+    Optional,
+    ViewChild
 } from '@angular/core';
-import {
-    animate, AnimationEvent, query, style, transition, trigger, keyframes, animateChild, group
-} from '@angular/animations';
+import { animate, animateChild, AnimationEvent, keyframes, style, transition, trigger } from '@angular/animations';
 import { DOCUMENT } from '@angular/common';
 import { FocusTrap, FocusTrapFactory } from '@angular/cdk/a11y';
 import { BasePortalOutlet, CdkPortalOutlet, ComponentPortal, TemplatePortal } from '@angular/cdk/portal';

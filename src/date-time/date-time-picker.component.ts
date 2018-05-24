@@ -30,7 +30,7 @@ import {
     ScrollStrategy
 } from '@angular/cdk/overlay';
 import { ESCAPE } from '@angular/cdk/keycodes';
-import { coerceBooleanProperty } from '@angular/cdk/coercion';
+import { coerceArray, coerceBooleanProperty } from '@angular/cdk/coercion';
 import { OwlDateTimeContainerComponent } from './date-time-picker-container.component';
 import { OwlDateTimeInputDirective } from './date-time-picker-input.directive';
 import { DateTimeAdapter } from './adapter/date-time-adapter.class';
@@ -66,6 +66,14 @@ export const OWL_DTPICKER_SCROLL_STRATEGY_PROVIDER = {
 })
 
 export class OwlDateTimeComponent<T> extends OwlDateTime<T> implements OnInit, OnDestroy {
+
+    /** Custom class for the picker backdrop. */
+    @Input()
+    public backdropClass: string | string[] = [];
+
+    /** Custom class for the picker overlay pane. */
+    @Input()
+    public panelClass: string | string[] = [];
 
     /** The date to open the calendar to initially. */
     private _startAt: T | null;
@@ -366,14 +374,14 @@ export class OwlDateTimeComponent<T> extends OwlDateTime<T> implements OnInit, O
     /**
      * Emits the selected year in multi-year view
      * */
-    public selectYear(normalizedYear: T): void {
+    public selectYear( normalizedYear: T ): void {
         this.yearSelected.emit(normalizedYear);
     }
 
     /**
      * Emits selected month in year view
      * */
-    public selectMonth(normalizedMonth: T): void {
+    public selectMonth( normalizedMonth: T ): void {
         this.monthSelected.emit(normalizedMonth);
     }
 
@@ -421,7 +429,8 @@ export class OwlDateTimeComponent<T> extends OwlDateTime<T> implements OnInit, O
     private openAsDialog(): void {
         this.dialogRef = this.dialogService.open(OwlDateTimeContainerComponent, {
             autoFocus: false,
-            paneClass: 'owl-dt-dialog',
+            backdropClass: ['cdk-overlay-dark-backdrop', ...coerceArray(this.backdropClass)],
+            paneClass: ['owl-dt-dialog', ...coerceArray(this.panelClass)],
             viewContainerRef: this.viewContainerRef,
         });
         this.pickerContainer = this.dialogRef.componentInstance;
@@ -478,9 +487,9 @@ export class OwlDateTimeComponent<T> extends OwlDateTime<T> implements OnInit, O
         const overlayConfig = new OverlayConfig({
             positionStrategy: this.createPopupPositionStrategy(),
             hasBackdrop: true,
-            backdropClass: 'cdk-overlay-transparent-backdrop',
+            backdropClass: ['cdk-overlay-transparent-backdrop', ...coerceArray(this.backdropClass)],
             scrollStrategy: this.scrollStrategy(),
-            panelClass: 'owl-dt-popup',
+            panelClass: ['owl-dt-popup', ...coerceArray(this.panelClass)],
         });
 
         this.popupRef = this.overlay.create(overlayConfig);
@@ -490,41 +499,18 @@ export class OwlDateTimeComponent<T> extends OwlDateTime<T> implements OnInit, O
      * Create the popup PositionStrategy.
      * */
     private createPopupPositionStrategy(): PositionStrategy {
-        const fallbackOffset = 0;
-
         return this.overlay.position()
-            .connectedTo(this._dtInput.elementRef,
-                {originX: 'start', originY: 'bottom'},
-                {overlayX: 'start', overlayY: 'top'}
-            )
-            .withFallbackPosition(
-                {originX: 'start', originY: 'top'},
-                {overlayX: 'start', overlayY: 'bottom'},
-                undefined,
-                fallbackOffset
-            )
-            .withFallbackPosition(
-                {originX: 'end', originY: 'bottom'},
-                {overlayX: 'end', overlayY: 'top'}
-            )
-            .withFallbackPosition(
-                {originX: 'end', originY: 'top'},
-                {overlayX: 'end', overlayY: 'bottom'},
-                undefined,
-                fallbackOffset
-            )
-            .withFallbackPosition(
-                {originX: 'start', originY: 'top'},
-                {overlayX: 'start', overlayY: 'bottom'},
-                undefined,
-                181
-            )
-            .withFallbackPosition(
-                {originX: 'start', originY: 'top'},
-                {overlayX: 'start', overlayY: 'bottom'},
-                undefined,
-                362
-            );
+            .flexibleConnectedTo(this._dtInput.elementRef)
+            .withFlexibleDimensions(false)
+            .withPush(false)
+            .withPositions([
+                {originX: 'start', originY: 'bottom', overlayX: 'start', overlayY: 'top'},
+                {originX: 'start', originY: 'top', overlayX: 'start', overlayY: 'bottom'},
+                {originX: 'end', originY: 'bottom', overlayX: 'end', overlayY: 'top'},
+                {originX: 'end', originY: 'top', overlayX: 'end', overlayY: 'bottom'},
+                {originX: 'start', originY: 'top', overlayX: 'start', overlayY: 'bottom', offsetY: 181},
+                {originX: 'start', originY: 'top', overlayX: 'start', overlayY: 'bottom', offsetY: 362},
+            ]);
     }
 
     /**

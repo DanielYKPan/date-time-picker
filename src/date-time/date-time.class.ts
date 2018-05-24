@@ -118,6 +118,21 @@ export abstract class OwlDateTime<T> {
         }
     }
 
+    /**
+     * Whether to hide dates in other months at the start or end of the current month.
+     * @default {false}
+     * @type {boolean}
+     * */
+    private _hideOtherMonths = false;
+    @Input()
+    get hideOtherMonths(): boolean {
+        return this._hideOtherMonths;
+    }
+
+    set hideOtherMonths(val: boolean) {
+        this._hideOtherMonths = coerceBooleanProperty(val);
+    }
+
     private _id: string;
     get id(): string {
         return this._id;

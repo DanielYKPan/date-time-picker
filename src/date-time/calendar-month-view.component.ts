@@ -48,6 +48,11 @@ const WEEKS_PER_VIEW = 6;
 
 export class OwlMonthViewComponent<T> implements OnInit, AfterContentInit, OnDestroy {
 
+    /**
+     * Whether to hide dates in other months at the start or end of the current month.
+     * */
+    @Input() hideOtherMonths: boolean;
+
     @Input() firstDayOfWeek: number;
 
     /**
@@ -246,11 +251,28 @@ export class OwlMonthViewComponent<T> implements OnInit, AfterContentInit, OnDes
     }
 
     /**
+     * Handle a calendarCell selected
+     * @param {CalendarCell} cell
+     * @return {void}
+     * */
+    public selectCalendarCell( cell: CalendarCell ): void {
+
+        // Cases in which the date would not be selected
+        // 1, the calendar cell is NOT enabled (is NOT valid)
+        // 2, the selected date is NOT in current picker's month and the hideOtherMonths is enabled
+        if (!cell.enabled || (this.hideOtherMonths && cell.out)) {
+            return;
+        }
+
+        this.selectDate(cell.value);
+    }
+
+    /**
      * Handle a new date selected
      * @param {number} date -- a new date's numeric value
      * @return {void}
      * */
-    public dateSelected( date: number ): void {
+    private selectDate( date: number ): void {
         const daysDiff = date - 1;
         const selected = this.dateTimeAdapter.addCalendarDays(this.firstDateOfMonth, daysDiff);
 
@@ -328,7 +350,7 @@ export class OwlMonthViewComponent<T> implements OnInit, AfterContentInit, OnDes
             // select the pickerMoment
             case ENTER:
                 if (!this.dateFilter || this.dateFilter(this.pickerMoment)) {
-                    this.dateSelected(this.dateTimeAdapter.getDate(this.pickerMoment));
+                    this.selectDate(this.dateTimeAdapter.getDate(this.pickerMoment));
                 }
                 break;
             default:

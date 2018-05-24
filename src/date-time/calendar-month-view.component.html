@@ -1,4 +1,5 @@
-<table class="owl-dt-calendar-table">
+<table class="owl-dt-calendar-table owl-dt-calendar-month-table"
+       [class.owl-dt-calendar-only-current-month]="hideOtherMonths">
     <thead class="owl-dt-calendar-header">
     <tr class="owl-dt-weekdays">
         <th *ngFor="let weekday of weekdays"
@@ -17,6 +18,6 @@
            [selectMode]="selectMode"
            [activeCell]="activeCell"
            (keydown)="handleCalendarKeydown($event)"
-           (selectedValueChange)="dateSelected($event)">
+           (select)="selectCalendarCell($event)">
     </tbody>
 </table>

@@ -3,7 +3,7 @@
  */
 
 import {
-    ChangeDetectionStrategy,
+    ChangeDetectionStrategy, ChangeDetectorRef,
     Component,
     ElementRef,
     EventEmitter,
@@ -185,6 +185,7 @@ export class OwlTimerComponent<T> implements OnInit {
     constructor( private ngZone: NgZone,
                  private elmRef: ElementRef,
                  private pickerIntl: OwlDateTimeIntl,
+                 private cdRef: ChangeDetectorRef,
                  @Optional() private dateTimeAdapter: DateTimeAdapter<T> ) {
     }
 
@@ -220,16 +221,19 @@ export class OwlTimerComponent<T> implements OnInit {
     public setHourValue( hours: number ): void {
         const m = this.dateTimeAdapter.setHours(this.pickerMoment, hours);
         this.selectedChange.emit(m);
+        this.cdRef.markForCheck();
     }
 
     public setMinuteValue( minutes: number ): void {
         const m = this.dateTimeAdapter.setMinutes(this.pickerMoment, minutes);
         this.selectedChange.emit(m);
+        this.cdRef.markForCheck();
     }
 
     public setSecondValue( seconds: number ): void {
         const m = this.dateTimeAdapter.setSeconds(this.pickerMoment, seconds);
         this.selectedChange.emit(m);
+        this.cdRef.markForCheck();
     }
 
     public setMeridiem( event: any ): void {
@@ -246,6 +250,7 @@ export class OwlTimerComponent<T> implements OnInit {
             this.setHourValue(hours);
         }
 
+        this.cdRef.markForCheck();
         event.preventDefault();
     }
 

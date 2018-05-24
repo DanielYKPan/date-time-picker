@@ -12,7 +12,7 @@
         [style.width.%]="100 / numCols"
         [style.paddingTop.%]="50 * cellRatio / numCols"
         [style.paddingBottom.%]="50 * cellRatio / numCols"
-        (click)="cellClicked(item)">
+        (click)="selectCell(item)">
         <span class="owl-dt-calendar-cell-content"
               [ngClass]="{
                 'owl-dt-calendar-cell-out': item.out,

@@ -44,13 +44,6 @@ export class OwlCalendarBodyComponent implements OnInit {
     @Input() activeCell = 0;
 
     /**
-     * When specify to true, a disabled cell could be selected
-     * @default {false}
-     * @type {boolean}
-     * */
-    @Input() allowDisabledCellSelection = false;
-
-    /**
      * The cells to display in the table.
      * */
     @Input() rows: CalendarCell[][];
@@ -82,9 +75,9 @@ export class OwlCalendarBodyComponent implements OnInit {
     @Input() selectMode: SelectMode;
 
     /**
-     * Callback when a new value is selected
+     * Emit when a calendar cell is selected
      * */
-    @Output() selectedValueChange = new EventEmitter<number>();
+    @Output() public readonly select = new EventEmitter<CalendarCell>();
 
     @HostBinding('class.owl-dt-calendar-body')
     get owlDTCalendarBodyClass(): boolean {
@@ -107,12 +100,8 @@ export class OwlCalendarBodyComponent implements OnInit {
     public ngOnInit() {
     }
 
-    public cellClicked( cell: CalendarCell ): void {
-        if (!this.allowDisabledCellSelection && !cell.enabled) {
-            return;
-        }
-
-        this.selectedValueChange.emit(cell.value);
+    public selectCell( cell: CalendarCell ): void {
+        this.select.emit(cell);
     }
 
     public isActiveCell( rowIndex: number, colIndex: number ): boolean {

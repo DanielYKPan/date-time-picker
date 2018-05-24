@@ -19,14 +19,13 @@
     </tr>
     </thead>
     <tbody owl-date-time-calendar-body role="grid"
-           [allowDisabledCellSelection]="true"
            [rows]="years" [numCols]="3" [cellRatio]="3 / 7"
            [activeCell]="activeCell"
            [todayValue]="todayYear"
            [selectedValues]="selectedYears"
            [selectMode]="selectMode"
            (keydown)="handleCalendarKeydown($event)"
-           (selectedValueChange)="selectYear($event)"></tbody>
+           (select)="selectCalendarCell($event)"></tbody>
 </table>
 <button class="owl-dt-control-button owl-dt-control-arrow-button"
         [disabled]="!nextEnabled()" [attr.aria-label]="nextButtonLabel"

@@ -130,6 +130,11 @@ export class OwlCalendarComponent<T> implements OnInit, AfterContentInit {
      * */
     @Input() startView: 'month' | 'year' | 'multi-years' = 'month';
 
+    /**
+     * Whether to hide dates in other months at the start or end of the current month.
+     * */
+    @Input() hideOtherMonths: boolean;
+
     /** Emits when the currently picker moment changes. */
     @Output() pickerMomentChange = new EventEmitter<T>();
 
