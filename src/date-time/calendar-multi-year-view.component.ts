@@ -386,7 +386,8 @@ export class OwlMultiYearViewComponent<T> implements OnInit, AfterContentInit {
     private createYearCell( year: number ): CalendarCell {
         const startDateOfYear = this.dateTimeAdapter.createDate(year, 0, 1);
         const ariaLabel = this.dateTimeAdapter.getYearName(startDateOfYear);
-        return new CalendarCell(year, year.toString(), ariaLabel, this.isYearEnabled(year));
+        const cellClass = 'owl-dt-year-' + year;
+        return new CalendarCell(year, year.toString(), ariaLabel, this.isYearEnabled(year), false, cellClass);
     }
 
     private setSelectedYears(): void {

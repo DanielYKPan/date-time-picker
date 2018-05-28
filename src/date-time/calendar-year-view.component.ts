@@ -367,7 +367,8 @@ export class OwlYearViewComponent<T> implements OnInit, AfterContentInit, OnDest
     private createMonthCell( month: number ): CalendarCell {
         const startDateOfMonth = this.dateTimeAdapter.createDate(this.dateTimeAdapter.getYear(this.pickerMoment), month, 1);
         const ariaLabel = this.dateTimeAdapter.format(startDateOfMonth, this.dateTimeFormats.monthYearA11yLabel);
-        return new CalendarCell(month, this.monthNames[month], ariaLabel, this.isMonthEnabled(month));
+        const cellClass = 'owl-dt-month-' + month;
+        return new CalendarCell(month, this.monthNames[month], ariaLabel, this.isMonthEnabled(month), false, cellClass);
     }
 
     /**

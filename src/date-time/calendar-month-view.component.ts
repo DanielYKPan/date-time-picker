@@ -440,8 +440,9 @@ export class OwlMonthViewComponent<T> implements OnInit, AfterContentInit, OnDes
         // check if date is not in current month
         const dayValue = daysDiff + 1;
         const out = dayValue < 1 || dayValue > daysInMonth;
+        const cellClass = 'owl-dt-day-' + this.dateTimeAdapter.getDay(date);
 
-        return new CalendarCell(dayValue, dateNum.toString(), ariaLabel, enabled, out);
+        return new CalendarCell(dayValue, dateNum.toString(), ariaLabel, enabled, out, cellClass);
     }
 
     /**

@@ -1,6 +1,6 @@
 <tr *ngFor="let row of rows; let rowIndex = index" role="row">
     <td *ngFor="let item of row; let colIndex = index"
-        class="owl-dt-calendar-cell"
+        class="owl-dt-calendar-cell {{item.cellClass}}"
         [tabindex]="isActiveCell(rowIndex, colIndex) ? 0 : -1"
         [class.owl-dt-calendar-cell-active]="isActiveCell(rowIndex, colIndex)"
         [class.owl-dt-calendar-cell-disabled]="!item.enabled"
