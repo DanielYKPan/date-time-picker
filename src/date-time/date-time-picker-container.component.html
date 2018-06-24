@@ -1,4 +1,5 @@
 <div [cdkTrapFocus]="picker.pickerMode !== 'inline'"
+     [@fadeInPicker]="picker.pickerMode === 'inline'? '' : 'enter'"
      class="owl-dt-container-inner">
 
     <owl-date-time-calendar

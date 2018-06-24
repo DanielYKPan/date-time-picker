@@ -9,20 +9,18 @@ import {
     ChangeDetectorRef,
     Component,
     ElementRef,
-    EventEmitter,
     HostBinding,
-    HostListener,
     OnInit,
     Optional,
     ViewChild
 } from '@angular/core';
-import { animate, AnimationEvent, state, style, transition, trigger } from '@angular/animations';
 import { OwlDateTimeIntl } from './date-time-picker-intl.service';
 import { OwlCalendarComponent } from './calendar.component';
 import { OwlTimerComponent } from './timer.component';
 import { DateTimeAdapter } from './adapter/date-time-adapter.class';
 import { OwlDateTime, PickerType } from './date-time.class';
 import { Observable, Subject } from 'rxjs';
+import { owlDateTimePickerAnimations } from './date-time-picker.animations';
 
 @Component({
     exportAs: 'owlDateTimeContainer',
@@ -32,12 +30,8 @@ import { Observable, Subject } from 'rxjs';
     changeDetection: ChangeDetectionStrategy.OnPush,
     preserveWhitespaces: false,
     animations: [
-        trigger('containerAnimation', [
-            state('visible', style({opacity: 1})),
-            state('hidden', style({opacity: 0})),
-            transition('void => visible', [style({opacity: 0}), animate('150ms ease-in')]),
-            transition('visible => hidden', animate('150ms ease-out'))
-        ])
+        owlDateTimePickerAnimations.transformPicker,
+        owlDateTimePickerAnimations.fadeInPicker
     ]
 })
 
@@ -46,16 +40,8 @@ export class OwlDateTimeContainerComponent<T> implements OnInit, AfterContentIni
     @ViewChild(OwlCalendarComponent) calendar: OwlCalendarComponent<T>;
     @ViewChild(OwlTimerComponent) timer: OwlTimerComponent<T>;
 
-    /** Emits when an animation state changes. */
-    public animationStateChanged = new EventEmitter<AnimationEvent>();
-
     public picker: OwlDateTime<T>;
     public activeSelectedIndex = 0; // The current active SelectedIndex in range select mode (0: 'from', 1: 'to')
-
-    private isAnimating = false;
-
-    // Animation State
-    private _containerState: 'init' | 'hidden' | 'visible' = 'init';
 
     /**
      * Stream emits when try to hide picker
@@ -178,9 +164,9 @@ export class OwlDateTimeContainerComponent<T> implements OnInit, AfterContentIni
         return this.picker.id;
     }
 
-    @HostBinding('@containerAnimation')
+    @HostBinding('@transformPicker')
     get owlDTContainerAnimation(): any {
-        return this._containerState;
+        return this.picker.pickerMode === 'inline' ? '' : 'enter';
     }
 
     constructor( private cdRef: ChangeDetectorRef,
@@ -198,16 +184,6 @@ export class OwlDateTimeContainerComponent<T> implements OnInit, AfterContentIni
 
     public ngAfterViewInit(): void {
         this.focusPicker();
-    }
-
-    public showPickerViaAnimation(): void {
-        this._containerState = 'visible';
-        this.cdRef.markForCheck();
-    }
-
-    public hidePickerViaAnimation(): void {
-        this._containerState = 'hidden';
-        this.cdRef.markForCheck();
     }
 
     public dateSelected( date: T ): void {
@@ -258,26 +234,6 @@ export class OwlDateTimeContainerComponent<T> implements OnInit, AfterContentIni
             }
 
             this.picker.select(selecteds);
-        }
-    }
-
-    @HostListener('@containerAnimation.start', ['$event'])
-    public onAnimationStart( event: AnimationEvent ): void {
-        this.isAnimating = true;
-        this.animationStateChanged.emit(event);
-    }
-
-    @HostListener('@containerAnimation.done', ['$event'])
-    public onAnimationDone( event: AnimationEvent ): void {
-        const toState = event.toState;
-        if (toState === 'visible' || toState === 'hidden') {
-            // Note: as of Angular 4.3, the animations module seems to fire the `start` callback before
-            // the end if animations are disabled. Make this call async to ensure that it still fires
-            // at the appropriate time.
-            Promise.resolve().then(() => {
-                this.animationStateChanged.emit(event);
-                this.isAnimating = false;
-            });
         }
     }
 

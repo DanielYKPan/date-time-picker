@@ -18,7 +18,6 @@ import {
     Output,
     ViewContainerRef
 } from '@angular/core';
-import { AnimationEvent } from '@angular/animations';
 import { DOCUMENT } from '@angular/common';
 import { ComponentPortal } from '@angular/cdk/portal';
 import {
@@ -204,8 +203,8 @@ export class OwlDateTimeComponent<T> extends OwlDateTime<T> implements OnInit, O
     private popupRef: OverlayRef;
     private dialogRef: OwlDialogRef<OwlDateTimeContainerComponent<T>>;
     private dtInputSub = Subscription.EMPTY;
-    private hidePickerStreamSub: Subscription;
-    private confirmSelectedStreamSub: Subscription;
+    private hidePickerStreamSub = Subscription.EMPTY;
+    private confirmSelectedStreamSub = Subscription.EMPTY;
 
     /** The element that was focused before the date time picker was opened. */
     private focusedElementBeforeOpen: HTMLElement | null = null;
@@ -277,7 +276,7 @@ export class OwlDateTimeComponent<T> extends OwlDateTime<T> implements OnInit, O
     }
 
     public ngOnDestroy(): void {
-        this.clean();
+        this.close();
         this.dtInputSub.unsubscribe();
         this.disabledChange.complete();
 
@@ -342,6 +341,7 @@ export class OwlDateTimeComponent<T> extends OwlDateTime<T> implements OnInit, O
             });
 
         this.opened = true;
+        this.afterPickerOpen.emit();
     }
 
     /**
@@ -387,137 +387,9 @@ export class OwlDateTimeComponent<T> extends OwlDateTime<T> implements OnInit, O
 
     /**
      * Hide the picker
-     * @param {any} event
      * @return {void}
      * */
-    public close( event?: any ): void {
-        if (!this.opened) {
-            return;
-        }
-
-        if (this.dialogRef) {
-            this.dialogRef.close();
-        }
-
-        if (this.popupRef) {
-            this.pickerContainer.hidePickerViaAnimation();
-        }
-    }
-
-    /**
-     * Confirm the selected value
-     * @param {any} event
-     * @return {void}
-     * */
-    private confirmSelect( event?: any ): void {
-
-        if (this.isInSingleMode) {
-            const selected = this.selected || this.startAt || this.dateTimeAdapter.now();
-            this.confirmSelectedChange.emit(selected);
-        } else if (this.isInRangeMode) {
-            this.confirmSelectedChange.emit(this.selecteds);
-        }
-
-        this.close(event);
-        return;
-    }
-
-    /**
-     * Open the picker as a dialog
-     * @return {void}
-     * */
-    private openAsDialog(): void {
-        this.dialogRef = this.dialogService.open(OwlDateTimeContainerComponent, {
-            autoFocus: false,
-            backdropClass: ['cdk-overlay-dark-backdrop', ...coerceArray(this.backdropClass)],
-            paneClass: ['owl-dt-dialog', ...coerceArray(this.panelClass)],
-            viewContainerRef: this.viewContainerRef,
-        });
-        this.pickerContainer = this.dialogRef.componentInstance;
-
-        this.dialogRef.afterOpen().subscribe(() => this.afterPickerOpen.emit(null));
-        this.dialogRef.afterClosed().subscribe(() => this.clean());
-    }
-
-    /**
-     * Open the picker as popup
-     * @return {void}
-     * */
-    private openAsPopup(): void {
-
-        if (!this.pickerContainerPortal) {
-            this.pickerContainerPortal = new ComponentPortal<OwlDateTimeContainerComponent<T>>(OwlDateTimeContainerComponent, this.viewContainerRef);
-        }
-
-        if (!this.popupRef) {
-            this.createPopup();
-        }
-
-        if (!this.popupRef.hasAttached()) {
-            const componentRef: ComponentRef<OwlDateTimeContainerComponent<T>> =
-                this.popupRef.attach(this.pickerContainerPortal);
-            this.pickerContainer = componentRef.instance;
-            this.pickerContainer.showPickerViaAnimation();
-
-            // Update the position once the calendar has rendered.
-            this.ngZone.onStable.asObservable().pipe(take(1)).subscribe(() => {
-                this.popupRef.updatePosition();
-            });
-        }
-
-        merge(
-            this.popupRef.backdropClick(),
-            this.popupRef.detachments(),
-            this.popupRef.keydownEvents().pipe(filter(event => event.keyCode === ESCAPE))
-        ).subscribe(() => this.close());
-
-        // Listen to picker's container animation state
-        this.pickerContainer.animationStateChanged.subscribe(( event: AnimationEvent ) => {
-            if (event.phaseName === 'done' && event.toState === 'visible') {
-                this.afterPickerOpen.emit(null);
-            }
-
-            if (event.phaseName === 'done' && event.toState === 'hidden') {
-                this.clean();
-            }
-        });
-    }
-
-    private createPopup(): void {
-        const overlayConfig = new OverlayConfig({
-            positionStrategy: this.createPopupPositionStrategy(),
-            hasBackdrop: true,
-            backdropClass: ['cdk-overlay-transparent-backdrop', ...coerceArray(this.backdropClass)],
-            scrollStrategy: this.scrollStrategy(),
-            panelClass: ['owl-dt-popup', ...coerceArray(this.panelClass)],
-        });
-
-        this.popupRef = this.overlay.create(overlayConfig);
-    }
-
-    /**
-     * Create the popup PositionStrategy.
-     * */
-    private createPopupPositionStrategy(): PositionStrategy {
-        return this.overlay.position()
-            .flexibleConnectedTo(this._dtInput.elementRef)
-            .withFlexibleDimensions(false)
-            .withPush(false)
-            .withPositions([
-                {originX: 'start', originY: 'bottom', overlayX: 'start', overlayY: 'top'},
-                {originX: 'start', originY: 'top', overlayX: 'start', overlayY: 'bottom'},
-                {originX: 'end', originY: 'bottom', overlayX: 'end', overlayY: 'top'},
-                {originX: 'end', originY: 'top', overlayX: 'end', overlayY: 'bottom'},
-                {originX: 'start', originY: 'top', overlayX: 'start', overlayY: 'bottom', offsetY: 181},
-                {originX: 'start', originY: 'top', overlayX: 'start', overlayY: 'bottom', offsetY: 362},
-            ]);
-    }
-
-    /**
-     * Clean all the dynamic components
-     * @return {void}
-     * */
-    private clean(): void {
+    public close(): void {
         if (!this.opened) {
             return;
         }
@@ -565,5 +437,102 @@ export class OwlDateTimeComponent<T> extends OwlDateTime<T> implements OnInit, O
         } else {
             completeClose();
         }
+    }
+
+    /**
+     * Confirm the selected value
+     * @param {any} event
+     * @return {void}
+     * */
+    private confirmSelect( event?: any ): void {
+
+        if (this.isInSingleMode) {
+            const selected = this.selected || this.startAt || this.dateTimeAdapter.now();
+            this.confirmSelectedChange.emit(selected);
+        } else if (this.isInRangeMode) {
+            this.confirmSelectedChange.emit(this.selecteds);
+        }
+
+        this.close();
+        return;
+    }
+
+    /**
+     * Open the picker as a dialog
+     * @return {void}
+     * */
+    private openAsDialog(): void {
+        this.dialogRef = this.dialogService.open(OwlDateTimeContainerComponent, {
+            autoFocus: false,
+            backdropClass: ['cdk-overlay-dark-backdrop', ...coerceArray(this.backdropClass)],
+            paneClass: ['owl-dt-dialog', ...coerceArray(this.panelClass)],
+            viewContainerRef: this.viewContainerRef,
+        });
+        this.pickerContainer = this.dialogRef.componentInstance;
+
+        this.dialogRef.afterClosed().subscribe(() => this.close());
+    }
+
+    /**
+     * Open the picker as popup
+     * @return {void}
+     * */
+    private openAsPopup(): void {
+
+        if (!this.pickerContainerPortal) {
+            this.pickerContainerPortal = new ComponentPortal<OwlDateTimeContainerComponent<T>>(OwlDateTimeContainerComponent, this.viewContainerRef);
+        }
+
+        if (!this.popupRef) {
+            this.createPopup();
+        }
+
+        if (!this.popupRef.hasAttached()) {
+            const componentRef: ComponentRef<OwlDateTimeContainerComponent<T>> =
+                this.popupRef.attach(this.pickerContainerPortal);
+            this.pickerContainer = componentRef.instance;
+
+            // Update the position once the calendar has rendered.
+            this.ngZone.onStable.asObservable().pipe(take(1)).subscribe(() => {
+                this.popupRef.updatePosition();
+            });
+        }
+    }
+
+    private createPopup(): void {
+        const overlayConfig = new OverlayConfig({
+            positionStrategy: this.createPopupPositionStrategy(),
+            hasBackdrop: true,
+            backdropClass: ['cdk-overlay-transparent-backdrop', ...coerceArray(this.backdropClass)],
+            scrollStrategy: this.scrollStrategy(),
+            panelClass: ['owl-dt-popup', ...coerceArray(this.panelClass)],
+        });
+
+        this.popupRef = this.overlay.create(overlayConfig);
+
+        merge(
+            this.popupRef.backdropClick(),
+            this.popupRef.detachments(),
+            this.popupRef.keydownEvents().pipe(filter(event => event.keyCode === ESCAPE))
+        ).subscribe(() => this.close());
+    }
+
+    /**
+     * Create the popup PositionStrategy.
+     * */
+    private createPopupPositionStrategy(): PositionStrategy {
+        return this.overlay.position()
+            .flexibleConnectedTo(this._dtInput.elementRef)
+            .withTransformOriginOn('.owl-dt-container')
+            .withFlexibleDimensions(false)
+            .withPush(false)
+            .withPositions([
+                {originX: 'start', originY: 'bottom', overlayX: 'start', overlayY: 'top'},
+                {originX: 'start', originY: 'top', overlayX: 'start', overlayY: 'bottom'},
+                {originX: 'end', originY: 'bottom', overlayX: 'end', overlayY: 'top'},
+                {originX: 'end', originY: 'top', overlayX: 'end', overlayY: 'bottom'},
+                {originX: 'start', originY: 'top', overlayX: 'start', overlayY: 'center', offsetY: 181},
+                {originX: 'start', originY: 'top', overlayX: 'start', overlayY: 'center', offsetY: 362},
+            ]);
     }
 }
