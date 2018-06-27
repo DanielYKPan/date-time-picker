@@ -88,12 +88,8 @@ export class OwlDateTimeMaterialTriggerDirective<T> implements AfterContentInit,
     }
 
     ngOnDestroy() {
-        if (this.pickerClosedSub) {
-            this.pickerClosedSub.unsubscribe();
-        }
-        if (this.pickerOpenedSub) {
-            this.pickerOpenedSub.unsubscribe();
-        }
+        this.pickerClosedSub.unsubscribe();
+        this.pickerOpenedSub.unsubscribe();
     }
 
 }
