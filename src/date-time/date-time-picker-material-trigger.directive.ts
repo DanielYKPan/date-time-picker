@@ -73,7 +73,7 @@ export class OwlDateTimeMaterialTriggerDirective<T> implements AfterContentInit,
 
     ngAfterContentInit() {
         this.pickerOpenedSub = this.odt.afterPickerOpen.subscribe(() => {
-            this.inputField.readonly = this.originalReadOnly;
+            setTimeout(() => this.inputField.readonly = this.originalReadOnly);
         });
         this.pickerClosedSub = this.odt.afterPickerClosed.subscribe(() => {
             // if original readonly was true, remove the focus classes
