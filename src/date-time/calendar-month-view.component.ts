@@ -33,6 +33,7 @@ import {
     RIGHT_ARROW,
     UP_ARROW
 } from '@angular/cdk/keycodes';
+import { coerceNumberProperty } from '@angular/cdk/coercion';
 
 const DAYS_PER_WEEK = 7;
 const WEEKS_PER_VIEW = 6;
@@ -51,14 +52,47 @@ export class OwlMonthViewComponent<T> implements OnInit, AfterContentInit, OnDes
     /**
      * Whether to hide dates in other months at the start or end of the current month.
      * */
-    @Input() hideOtherMonths: boolean;
+    @Input() hideOtherMonths: boolean = false;
 
-    @Input() firstDayOfWeek: number;
+    /**
+     * Define the first day of a week
+     * Sunday: 0 ~ Saturday: 6
+     * */
+    private _firstDayOfWeek: number = 0;
+    @Input()
+    get firstDayOfWeek(): number {
+        return this._firstDayOfWeek;
+    }
+
+    set firstDayOfWeek( val: number ) {
+        val = coerceNumberProperty(val);
+        if (val >= 0 && val <= 6 && val !== this._firstDayOfWeek) {
+            this._firstDayOfWeek = val;
+
+            if (this.initiated) {
+                this.generateWeekDays();
+                this.generateCalendar();
+                this.cdRef.markForCheck();
+            }
+        }
+    }
 
     /**
      * The select mode of the picker;
      * */
-    @Input() selectMode: SelectMode;
+    private _selectMode: SelectMode = 'single';
+    @Input()
+    get selectMode(): SelectMode {
+        return this._selectMode;
+    }
+
+    set selectMode( val: SelectMode ) {
+        this._selectMode = val;
+        if (this.initiated) {
+            this.generateCalendar();
+            this.cdRef.markForCheck();
+        }
+    }
 
     /** The currently selected date. */
     private _selected: T | null;
@@ -126,6 +160,7 @@ export class OwlMonthViewComponent<T> implements OnInit, AfterContentInit, OnDes
         this._dateFilter = filter;
         if (this.initiated) {
             this.generateCalendar();
+            this.cdRef.markForCheck();
         }
     }
 
@@ -141,6 +176,7 @@ export class OwlMonthViewComponent<T> implements OnInit, AfterContentInit, OnDes
         this._minDate = this.getValidDate(value);
         if (this.initiated) {
             this.generateCalendar();
+            this.cdRef.markForCheck();
         }
     }
 
@@ -157,6 +193,7 @@ export class OwlMonthViewComponent<T> implements OnInit, AfterContentInit, OnDes
 
         if (this.initiated) {
             this.generateCalendar();
+            this.cdRef.markForCheck();
         }
     }
 

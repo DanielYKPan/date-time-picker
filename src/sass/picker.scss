@@ -442,14 +442,6 @@ $theme-color: #3f51b5;
     align-items: center;
     outline: none;
   }
-
-  &:focus > .owl-dt-control-button-content {
-    background-color: rgba(0, 0, 0, .12);
-  }
-
-  &:not(:-moz-focusring):focus > .owl-dt-control-button-content {
-    box-shadow: none;
-  }
 }
 
 .owl-dt-control-period-button {
@@ -588,10 +580,14 @@ $theme-color: #3f51b5;
   -webkit-tap-highlight-color: transparent;
 
   .owl-dt-container-range {
-    display: flex;
-    justify-content: space-between;
-    padding: .5em 0;
-    font-size: .8em;
+    outline: none;
+
+    .owl-dt-container-range-content {
+      display: flex;
+      justify-content: space-between;
+      padding: .5em 0;
+      font-size: .8em;
+    }
 
     &:last-child {
       border-top: 1px solid rgba(0, 0, 0, 0.12);
@@ -646,6 +642,23 @@ $theme-color: #3f51b5;
 
 .owl-dt-inline {
   display: inline-block;
+}
+
+.owl-dt-control {
+  outline: none;
+  cursor: pointer;
+
+  .owl-dt-control-content {
+    outline: none;
+  }
+
+  &:focus > .owl-dt-control-content {
+    background-color: rgba(0, 0, 0, .12);
+  }
+
+  &:not(:-moz-focusring):focus > .owl-dt-control-content {
+    box-shadow: none;
+  }
 }
 
 .owl-hidden-accessible {

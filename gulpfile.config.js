@@ -15,6 +15,7 @@
             this.allHtml = this.sourceApp + '/**/*.html';
             this.allTs = this.sourceApp + '/**/*.ts';
             this.allAssets = this.sourceApp + '/assets/**/*.*';
+            this.allSpecTs = this.sourceApp + '/**/*spec.ts';
 
             this.tmpOutputPath = this.source + 'tmp';
             this.alltmpTs = this.source + 'tmp/**/*.ts';

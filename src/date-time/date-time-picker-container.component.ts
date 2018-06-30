@@ -21,6 +21,7 @@ import { DateTimeAdapter } from './adapter/date-time-adapter.class';
 import { OwlDateTime, PickerType } from './date-time.class';
 import { Observable, Subject } from 'rxjs';
 import { owlDateTimePickerAnimations } from './date-time-picker.animations';
+import { DOWN_ARROW, LEFT_ARROW, RIGHT_ARROW, SPACE, UP_ARROW } from '@angular/cdk/keycodes';
 
 @Component({
     exportAs: 'owlDateTimeContainer',
@@ -267,13 +268,53 @@ export class OwlDateTimeContainerComponent<T> implements OnInit, AfterContentIni
     }
 
     /**
-     * Toggle the active index in range mode
-     * @return {void}
+     * Handle click on inform radio group
+     * @param {any} event
+     * @param {number} index -- the radio's index number
      * */
-    public toggleRangeActiveIndex(): void {
-        if (this.picker.selectMode === 'range') {
-            this.activeSelectedIndex =
-                this.activeSelectedIndex === 0 ? 1 : 0;
+    public handleClickOnInfoGroup( event: any, index: number ): void {
+        this.setActiveSelectedIndex(index);
+        event.preventDefault();
+        event.stopPropagation();
+    }
+
+    /**
+     * Handle click on inform radio group
+     * @param {any} event
+     * @param {any} next -- the radio's sibling
+     * @param {number} index -- the radio's index number
+     * */
+    public handleKeydownOnInfoGroup( event: any, next: any, index: number ): void {
+        switch (event.keyCode) {
+            case DOWN_ARROW:
+            case RIGHT_ARROW:
+            case UP_ARROW:
+            case LEFT_ARROW:
+                next.focus();
+                this.setActiveSelectedIndex(index === 0 ? 1 : 0);
+                event.preventDefault();
+                event.stopPropagation();
+                break;
+
+            case SPACE:
+                this.setActiveSelectedIndex(index);
+                event.preventDefault();
+                event.stopPropagation();
+                break;
+
+            default:
+                return;
+        }
+    }
+
+    /**
+     * Set the value of activeSelectedIndex
+     * @param {number} index
+     * */
+    private setActiveSelectedIndex( index: number ): void {
+        if (this.picker.selectMode === 'range' &&
+            this.activeSelectedIndex !== index) {
+            this.activeSelectedIndex = index;
 
             const selected = this.picker.selecteds[this.activeSelectedIndex];
             if (this.picker.selecteds && selected) {

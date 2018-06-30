@@ -25,10 +25,15 @@ import { OwlDialogModule } from '../dialog';
 @NgModule({
     imports: [CommonModule, OverlayModule, OwlDialogModule, A11yModule],
     exports: [
+        OwlCalendarComponent,
+        OwlTimerComponent,
         OwlDateTimeTriggerDirective,
         OwlDateTimeInputDirective,
         OwlDateTimeComponent,
         OwlDateTimeInlineComponent,
+        OwlMultiYearViewComponent,
+        OwlYearViewComponent,
+        OwlMonthViewComponent,
     ],
     declarations: [
         OwlDateTimeTriggerDirective,
