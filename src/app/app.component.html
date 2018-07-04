@@ -1059,7 +1059,7 @@ import { NgModule } from '@angular/core';
 import { OwlDateTimeModule, OwlNativeDateTimeModule, OwlDateTimeIntl} from 'ng-pick-datetime';
 
 // here is the default text string
-export class DefaultIntl = {
+export class DefaultIntl extends OwlDateTimeIntl = {
     /** A label for the up second button (used by screen readers).  */
     upSecondLabel= 'Add a second',
 
