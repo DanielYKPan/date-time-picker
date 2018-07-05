@@ -14,6 +14,7 @@ import {
     Optional,
     ViewChild
 } from '@angular/core';
+import { AnimationEvent } from '@angular/animations';
 import { OwlDateTimeIntl } from './date-time-picker-intl.service';
 import { OwlCalendarComponent } from './calendar.component';
 import { OwlTimerComponent } from './timer.component';
@@ -194,7 +195,7 @@ export class OwlDateTimeContainerComponent<T> implements OnInit, AfterContentIni
     }
 
     @HostListener('@transformPicker.done', ['$event'])
-    public handleContainerAnimationDone(event): void {
+    public handleContainerAnimationDone(event: AnimationEvent): void {
         const toState = event.toState;
         if(toState === 'enter') {
             this.pickerOpened$.next();
