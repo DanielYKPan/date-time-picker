@@ -9,7 +9,7 @@ import {
     ChangeDetectorRef,
     Component,
     ElementRef,
-    HostBinding,
+    HostBinding, HostListener,
     OnInit,
     Optional,
     ViewChild
@@ -60,6 +60,12 @@ export class OwlDateTimeContainerComponent<T> implements OnInit, AfterContentIni
 
     get confirmSelectedStream(): Observable<any> {
         return this.confirmSelected$.asObservable();
+    }
+
+    private pickerOpened$ = new Subject<any>();
+
+    get pickerOpenedStream(): Observable<any> {
+        return this.pickerOpened$.asObservable();
     }
 
     /**
@@ -185,6 +191,14 @@ export class OwlDateTimeContainerComponent<T> implements OnInit, AfterContentIni
 
     public ngAfterViewInit(): void {
         this.focusPicker();
+    }
+
+    @HostListener('@transformPicker.done', ['$event'])
+    public handleContainerAnimationDone(event): void {
+        const toState = event.toState;
+        if(toState === 'enter') {
+            this.pickerOpened$.next();
+        }
     }
 
     public dateSelected( date: T ): void {

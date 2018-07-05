@@ -2,7 +2,7 @@
  * date-time-picker.component.spec
  */
 
-import { OwlDateTimeComponent } from './date-time-picker.component';
+import { OwlDateTimeComponent } from '../../../../../../../../Library/Application Support/Unclutter/FileStorage/date-time-picker.component';
 import { ComponentFixture, fakeAsync, flush, inject, TestBed } from '@angular/core/testing';
 import { Component, FactoryProvider, Type, ValueProvider, ViewChild } from '@angular/core';
 import { OwlDateTimeInputDirective } from './date-time-picker-input.directive';
@@ -171,6 +171,7 @@ describe('OwlDateTimeComponent', () => {
             it('should close the popup when pressing ESCAPE', fakeAsync(() => {
                 testComponent.dateTimePicker.open();
                 fixture.detectChanges();
+                flush();
 
                 expect(testComponent.dateTimePicker.opened).toBe(true, 'Expected dateTimePicker to be open.');
 
@@ -187,6 +188,7 @@ describe('OwlDateTimeComponent', () => {
 
                 testComponent.dateTimePicker.open();
                 fixture.detectChanges();
+                flush();
 
                 expect(document.querySelector('owl-dialog-container')).not.toBeNull();
 
@@ -200,6 +202,7 @@ describe('OwlDateTimeComponent', () => {
             it('should close popup panel when cancel button clicked', fakeAsync(() => {
                 testComponent.dateTimePicker.open();
                 fixture.detectChanges();
+                flush();
                 expect(testComponent.dateTimePicker.opened).toBe(true, 'Expected dateTimePicker to be opened.');
 
                 let containerDebugElement = fixture.debugElement.query(By.directive(OwlDateTimeContainerComponent));
@@ -216,6 +219,7 @@ describe('OwlDateTimeComponent', () => {
             it('should close popup panel and not update input value when cancel button clicked', fakeAsync(() => {
                 testComponent.dateTimePicker.open();
                 fixture.detectChanges();
+                flush();
                 expect(testComponent.dateTimePicker.opened).toBe(true, 'Expected dateTimePicker to be opened.');
 
                 let containerDebugElement = fixture.debugElement.query(By.directive(OwlDateTimeContainerComponent));
@@ -237,6 +241,7 @@ describe('OwlDateTimeComponent', () => {
             it('should update input value to pickerMoment value and close popup panel when set button clicked', fakeAsync(() => {
                 testComponent.dateTimePicker.open();
                 fixture.detectChanges();
+                flush();
                 expect(testComponent.dateTimePicker.opened).toBe(true, 'Expected dateTimePicker to be opened.');
 
                 let containerDebugElement = fixture.debugElement.query(By.directive(OwlDateTimeContainerComponent));
@@ -255,6 +260,7 @@ describe('OwlDateTimeComponent', () => {
             it('should update input value to clicked date value and close popup panel when set button clicked', fakeAsync(() => {
                 testComponent.dateTimePicker.open();
                 fixture.detectChanges();
+                flush();
                 expect(testComponent.dateTimePicker.opened).toBe(true, 'Expected dateTimePicker to be opened.');
 
                 let containerDebugElement = fixture.debugElement.query(By.directive(OwlDateTimeContainerComponent));
@@ -285,6 +291,7 @@ describe('OwlDateTimeComponent', () => {
                 testComponent.dateTimePicker.open();
                 fixture.detectChanges();
                 flush();
+                fixture.detectChanges();
 
                 let ownedElementId = inputEl.getAttribute('aria-owns');
                 expect(ownedElementId).not.toBeNull();
@@ -294,7 +301,7 @@ describe('OwlDateTimeComponent', () => {
                 expect((ownedElement as Element).tagName.toLowerCase()).toBe('owl-date-time-container');
             }));
 
-            it('input should aria-owns  owl-date-time-container after opened in dialog mode', () => {
+            it('input should aria-owns owl-date-time-container after opened in dialog mode', fakeAsync(() => {
                 testComponent.pickerMode = 'dialog';
                 fixture.detectChanges();
 
@@ -303,6 +310,8 @@ describe('OwlDateTimeComponent', () => {
 
                 testComponent.dateTimePicker.open();
                 fixture.detectChanges();
+                flush();
+                fixture.detectChanges();
 
                 let ownedElementId = inputEl.getAttribute('aria-owns');
                 expect(ownedElementId).not.toBeNull();
@@ -310,7 +319,7 @@ describe('OwlDateTimeComponent', () => {
                 let ownedElement = document.getElementById(ownedElementId);
                 expect(ownedElement).not.toBeNull();
                 expect((ownedElement as Element).tagName.toLowerCase()).toBe('owl-date-time-container');
-            });
+            }));
 
             it('should close the picker popup panel using ALT + UP_ARROW', fakeAsync(() => {
                 testComponent.dateTimePicker.open();
@@ -341,9 +350,10 @@ describe('OwlDateTimeComponent', () => {
                     }
                 });
 
-                it('should NOT have any container control button', () => {
+                it('should NOT have any container control button', fakeAsync(() => {
                     testComponent.dateTimePicker.open();
                     fixture.detectChanges();
+                    flush();
                     expect(testComponent.dateTimePicker.opened).toBe(true, 'Expected dateTimePicker to be opened.');
 
                     let containerDebugElement = fixture.debugElement.query(By.directive(OwlDateTimeContainerComponent));
@@ -351,7 +361,7 @@ describe('OwlDateTimeComponent', () => {
                     let btns = containerElement.querySelectorAll('.owl-dt-container-control-button');
 
                     expect(btns.length).toBe(0);
-                });
+                }));
 
                 it('should update input value to clicked date value and close popup panel when date cell is clicked', fakeAsync(() => {
                     testComponent.dateTimePicker.open();
@@ -408,9 +418,10 @@ describe('OwlDateTimeComponent', () => {
                     }
                 });
 
-                it('should have container control buttons', () => {
+                it('should have container control buttons', fakeAsync(() => {
                     testComponent.dateTimePicker.open();
                     fixture.detectChanges();
+                    flush();
                     expect(testComponent.dateTimePicker.opened).toBe(true, 'Expected dateTimePicker to be opened.');
 
                     let containerDebugElement = fixture.debugElement.query(By.directive(OwlDateTimeContainerComponent));
@@ -418,7 +429,7 @@ describe('OwlDateTimeComponent', () => {
                     let btns = containerElement.querySelectorAll('.owl-dt-container-control-button');
 
                     expect(btns.length).toBe(2);
-                });
+                }));
             });
         });
 
@@ -1706,16 +1717,18 @@ describe('OwlDateTimeComponent', () => {
                 flush();
             }));
 
-            it('should dispatch an event when a dateTimePicker is opened', () => {
+            it('should dispatch an event when a dateTimePicker is opened', fakeAsync(() => {
                 testComponent.dateTimePicker.open();
                 fixture.detectChanges();
+                flush();
 
                 expect(testComponent.openedSpy).toHaveBeenCalled();
-            });
+            }));
 
             it('should dispatch an event when a dateTimePicker is closed', fakeAsync(() => {
                 testComponent.dateTimePicker.open();
                 fixture.detectChanges();
+                flush();
 
                 testComponent.dateTimePicker.close();
                 flush();

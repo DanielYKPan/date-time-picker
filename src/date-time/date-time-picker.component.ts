@@ -214,6 +214,7 @@ export class OwlDateTimeComponent<T> extends OwlDateTime<T> implements OnInit, A
     private dtInputSub = Subscription.EMPTY;
     private hidePickerStreamSub = Subscription.EMPTY;
     private confirmSelectedStreamSub = Subscription.EMPTY;
+    private pickerOpenedStreamSub = Subscription.EMPTY;
 
     /** The element that was focused before the date time picker was opened. */
     private focusedElementBeforeOpen: HTMLElement | null = null;
@@ -352,9 +353,6 @@ export class OwlDateTimeComponent<T> extends OwlDateTime<T> implements OnInit, A
             .subscribe(( event: any ) => {
                 this.confirmSelect(event);
             });
-
-        this._opened = true;
-        this.afterPickerOpen.emit();
     }
 
     /**
@@ -425,6 +423,11 @@ export class OwlDateTimeComponent<T> extends OwlDateTime<T> implements OnInit, A
             this.confirmSelectedStreamSub = null;
         }
 
+        if (this.pickerOpenedStreamSub) {
+            this.pickerOpenedStreamSub.unsubscribe();
+            this.pickerOpenedStreamSub = null;
+        }
+
         if (this.dialogRef) {
             this.dialogRef.close();
             this.dialogRef = null;
@@ -483,6 +486,10 @@ export class OwlDateTimeComponent<T> extends OwlDateTime<T> implements OnInit, A
         });
         this.pickerContainer = this.dialogRef.componentInstance;
 
+        this.dialogRef.afterOpen().subscribe(() => {
+            this.afterPickerOpen.emit(null);
+            this._opened = true;
+        });
         this.dialogRef.afterClosed().subscribe(() => this.close());
     }
 
@@ -509,6 +516,13 @@ export class OwlDateTimeComponent<T> extends OwlDateTime<T> implements OnInit, A
             this.ngZone.onStable.asObservable().pipe(take(1)).subscribe(() => {
                 this.popupRef.updatePosition();
             });
+
+            // emit open stream
+            this.pickerOpenedStreamSub =
+                this.pickerContainer.pickerOpenedStream.pipe(take(1)).subscribe(() => {
+                    this.afterPickerOpen.emit(null);
+                    this._opened = true;
+                });
         }
     }
 
