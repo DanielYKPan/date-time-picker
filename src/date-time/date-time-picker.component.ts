@@ -175,6 +175,13 @@ export class OwlDateTimeComponent<T> extends OwlDateTime<T> implements OnInit, A
     }
 
     /**
+     * The scroll strategy when the picker is open
+     * Learn more this from https://material.angular.io/cdk/overlay/overview#scroll-strategies
+     * */
+    @Input()
+    public scrollStrategy: ScrollStrategy;
+
+    /**
      * Callback when the picker is closed
      * */
     @Output() afterPickerClosed = new EventEmitter<any>();
@@ -276,7 +283,7 @@ export class OwlDateTimeComponent<T> extends OwlDateTime<T> implements OnInit, A
                  private ngZone: NgZone,
                  protected changeDetector: ChangeDetectorRef,
                  @Optional() protected dateTimeAdapter: DateTimeAdapter<T>,
-                 @Inject(OWL_DTPICKER_SCROLL_STRATEGY) private scrollStrategy: () => ScrollStrategy,
+                 @Inject(OWL_DTPICKER_SCROLL_STRATEGY) private defaultScrollStrategy: () => ScrollStrategy,
                  @Optional() @Inject(OWL_DATE_TIME_FORMATS) protected dateTimeFormats: OwlDateTimeFormats,
                  @Optional() @Inject(DOCUMENT) private document: any ) {
         super(dateTimeAdapter, dateTimeFormats);
@@ -483,6 +490,7 @@ export class OwlDateTimeComponent<T> extends OwlDateTime<T> implements OnInit, A
             backdropClass: ['cdk-overlay-dark-backdrop', ...coerceArray(this.backdropClass)],
             paneClass: ['owl-dt-dialog', ...coerceArray(this.panelClass)],
             viewContainerRef: this.viewContainerRef,
+            scrollStrategy: this.scrollStrategy || this.defaultScrollStrategy(),
         });
         this.pickerContainer = this.dialogRef.componentInstance;
 
@@ -531,7 +539,7 @@ export class OwlDateTimeComponent<T> extends OwlDateTime<T> implements OnInit, A
             positionStrategy: this.createPopupPositionStrategy(),
             hasBackdrop: true,
             backdropClass: ['cdk-overlay-transparent-backdrop', ...coerceArray(this.backdropClass)],
-            scrollStrategy: this.scrollStrategy(),
+            scrollStrategy: this.scrollStrategy || this.defaultScrollStrategy(),
             panelClass: ['owl-dt-popup', ...coerceArray(this.panelClass)],
         });
 
@@ -559,7 +567,8 @@ export class OwlDateTimeComponent<T> extends OwlDateTime<T> implements OnInit, A
                 {originX: 'start', originY: 'top', overlayX: 'start', overlayY: 'bottom'},
                 {originX: 'end', originY: 'bottom', overlayX: 'end', overlayY: 'top'},
                 {originX: 'end', originY: 'top', overlayX: 'end', overlayY: 'bottom'},
-                {originX: 'start', originY: 'top', overlayX: 'start', overlayY: 'center'},
+                {originX: 'start', originY: 'top', overlayX: 'start', overlayY: 'top', offsetY: -176},
+                {originX: 'start', originY: 'top', overlayX: 'start', overlayY: 'top', offsetY: -352},
             ]);
     }
 }
