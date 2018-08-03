@@ -3,7 +3,6 @@
  */
 
 import {
-    AfterContentInit,
     ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
@@ -65,7 +64,7 @@ export const OWL_DTPICKER_SCROLL_STRATEGY_PROVIDER = {
     preserveWhitespaces: false,
 })
 
-export class OwlDateTimeComponent<T> extends OwlDateTime<T> implements OnInit, AfterContentInit, OnDestroy {
+export class OwlDateTimeComponent<T> extends OwlDateTime<T> implements OnInit, OnDestroy {
 
     /** Custom class for the picker backdrop. */
     @Input()
@@ -122,7 +121,7 @@ export class OwlDateTimeComponent<T> extends OwlDateTime<T> implements OnInit, A
     set pickerType( val: PickerType ) {
         if (val !== this._pickerType) {
             this._pickerType = val;
-            if (this._dtInput && this.initiated) {
+            if (this._dtInput) {
                 this._dtInput.formatNativeInputValue();
             }
         }
@@ -213,7 +212,6 @@ export class OwlDateTimeComponent<T> extends OwlDateTime<T> implements OnInit, A
      * */
     public disabledChange = new EventEmitter<boolean>();
 
-    private initiated = false;
     private pickerContainerPortal: ComponentPortal<OwlDateTimeContainerComponent<T>>;
     private pickerContainer: OwlDateTimeContainerComponent<T>;
     private popupRef: OverlayRef;
@@ -290,10 +288,6 @@ export class OwlDateTimeComponent<T> extends OwlDateTime<T> implements OnInit, A
     }
 
     public ngOnInit() {
-    }
-
-    public ngAfterContentInit(): void {
-        this.initiated = true;
     }
 
     public ngOnDestroy(): void {

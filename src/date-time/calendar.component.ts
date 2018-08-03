@@ -24,7 +24,7 @@ import { DateTimeAdapter } from './adapter/date-time-adapter.class';
 import { OWL_DATE_TIME_FORMATS, OwlDateTimeFormats } from './adapter/date-time-format.class';
 import { SelectMode } from './date-time.class';
 import { take } from 'rxjs/operators';
-import { Subscription } from 'rxjs/index';
+import { Subscription } from 'rxjs';
 
 @Component({
     selector: 'owl-date-time-calendar',
