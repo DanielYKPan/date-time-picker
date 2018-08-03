@@ -313,11 +313,7 @@ export class OwlMonthViewComponent<T> implements OnInit, AfterContentInit, OnDes
         const daysDiff = date - 1;
         const selected = this.dateTimeAdapter.addCalendarDays(this.firstDateOfMonth, daysDiff);
 
-        if ((this.isInSingleMode && this.selectedDates[0] !== date) ||
-            this.isInRangeMode) {
-            this.selectedChange.emit(selected);
-        }
-
+        this.selectedChange.emit(selected);
         this.userSelection.emit();
     }
 

@@ -24,7 +24,7 @@ import { DateTimeAdapter } from './adapter/date-time-adapter.class';
 import { OWL_DATE_TIME_FORMATS, OwlDateTimeFormats } from './adapter/date-time-format.class';
 import { SelectMode } from './date-time.class';
 import { take } from 'rxjs/operators';
-import { Subscription } from 'rxjs';
+import { Subscription } from 'rxjs/index';
 
 @Component({
     selector: 'owl-date-time-calendar',
@@ -308,10 +308,12 @@ export class OwlCalendarComponent<T> implements OnInit, AfterContentInit, AfterV
             return;
         }
 
-        if ((this.isInSingleMode && !this.dateTimeAdapter.isSameDay(date, this.selected)) ||
+        this.selectedChange.emit(date);
+
+        /*if ((this.isInSingleMode && !this.dateTimeAdapter.isSameDay(date, this.selected)) ||
             this.isInRangeMode) {
             this.selectedChange.emit(date);
-        }
+        }*/
     }
 
     /**

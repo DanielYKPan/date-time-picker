@@ -9,7 +9,8 @@ import {
     ChangeDetectorRef,
     Component,
     ElementRef,
-    HostBinding, HostListener,
+    HostBinding,
+    HostListener,
     OnInit,
     Optional,
     ViewChild
@@ -195,9 +196,9 @@ export class OwlDateTimeContainerComponent<T> implements OnInit, AfterContentIni
     }
 
     @HostListener('@transformPicker.done', ['$event'])
-    public handleContainerAnimationDone(event: AnimationEvent): void {
+    public handleContainerAnimationDone( event: AnimationEvent ): void {
         const toState = event.toState;
-        if(toState === 'enter') {
+        if (toState === 'enter') {
             this.pickerOpened$.next();
         }
     }
@@ -210,6 +211,12 @@ export class OwlDateTimeContainerComponent<T> implements OnInit, AfterContentIni
             if (result) {
                 this.pickerMoment = result;
                 this.picker.select(result);
+            } else {
+
+                // we close the picker when result is null and pickerType is calendar.
+                if (this.pickerType === 'calendar') {
+                    this.hidePicker$.next(null);
+                }
             }
             return;
         }
@@ -345,7 +352,8 @@ export class OwlDateTimeContainerComponent<T> implements OnInit, AfterContentIni
     }
 
     /**
-     * Select calendar date in single mode
+     * Select calendar date in single mode,
+     * it returns null when date is not selected.
      * @param {Date} date
      * @return {Date | null}
      * */

@@ -2,7 +2,7 @@
  * date-time-picker.component.spec
  */
 
-import { OwlDateTimeComponent } from '../../../../../../../../Library/Application Support/Unclutter/FileStorage/date-time-picker.component';
+import { OwlDateTimeComponent } from './date-time-picker.component';
 import { ComponentFixture, fakeAsync, flush, inject, TestBed } from '@angular/core/testing';
 import { Component, FactoryProvider, Type, ValueProvider, ViewChild } from '@angular/core';
 import { OwlDateTimeInputDirective } from './date-time-picker-input.directive';
@@ -403,6 +403,26 @@ describe('OwlDateTimeComponent', () => {
 
                     expect(testComponent.dateTimePicker.opened).toBe(false, 'Expected dateTimePicker to be closed.');
                     expect(testComponent.dateTimePickerInput.value).toEqual(new Date(2020, JAN, 2));
+                }));
+
+                it('should close popup panel when click on the selected date', fakeAsync(() => {
+                    testComponent.dateTimePicker.open();
+                    fixture.detectChanges();
+                    flush();
+                    expect(testComponent.dateTimePicker.opened).toBe(true, 'Expected dateTimePicker to be opened.');
+
+                    let containerDebugElement = fixture.debugElement.query(By.directive(OwlDateTimeContainerComponent));
+                    containerElement = containerDebugElement.nativeElement;
+                    expect(containerDebugElement.componentInstance.pickerMoment).toEqual(new Date(2020, JAN, 1));
+                    expect(testComponent.dateTimePicker.selected).toEqual(new Date(2020, JAN, 1));
+
+                    let dateCell = containerElement.querySelector('[aria-label="January 1, 2020"]');
+                    dispatchMouseEvent(dateCell, 'click');
+                    fixture.detectChanges();
+                    flush();
+
+                    expect(testComponent.dateTimePicker.opened).toBe(false, 'Expected dateTimePicker to be closed.');
+                    expect(testComponent.dateTimePickerInput.value).toEqual(new Date(2020, JAN, 1));
                 }));
             });
 
