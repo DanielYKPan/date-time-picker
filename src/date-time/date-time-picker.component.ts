@@ -375,10 +375,15 @@ export class OwlDateTimeComponent<T> extends OwlDateTime<T> implements OnInit, O
          * 2) picker type is 'calendar' and selectMode is 'single'.
          * 3) picker type is 'calendar' and selectMode is 'range' and
          *    the 'selecteds' has 'from'(selecteds[0]) and 'to'(selecteds[1]) values.
+         * 4) selectMode is 'rangeFrom' and selecteds[0] has value.
+         * 5) selectMode is 'rangeTo' and selecteds[1] has value.
          * */
         if (this.pickerMode !== 'dialog' &&
             this.pickerType === 'calendar' &&
-            (this.isInSingleMode || (this.isInRangeMode && this.selecteds[0] && this.selecteds[1]))) {
+            ((this.selectMode === 'single' && this.selected) ||
+                (this.selectMode === 'rangeFrom' && this.selecteds[0]) ||
+                (this.selectMode === 'rangeTo' && this.selecteds[1]) ||
+                (this.selectMode === 'range' && this.selecteds[0] && this.selecteds[1]))) {
             this.confirmSelect();
         }
     }
