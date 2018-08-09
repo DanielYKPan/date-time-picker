@@ -331,9 +331,22 @@ export class OwlDateTimeComponent<T> extends OwlDateTime<T> implements OnInit, O
 
         // reset the picker selected value
         if (this.isInSingleMode) {
-            this.selected = this._startAt || this._dtInput.value;
+            this.selected = this._dtInput.value;
         } else if (this.isInRangeMode) {
             this.selecteds = this._dtInput.values;
+        }
+
+        // when the picker is open , we make sure the picker's current selected time value
+        // is the same as the _startAt time value.
+        if (this.selected && this.pickerType !== 'calendar' && this._startAt) {
+            this.selected = this.dateTimeAdapter.createDate(
+                this.dateTimeAdapter.getYear(this.selected),
+                this.dateTimeAdapter.getMonth(this.selected),
+                this.dateTimeAdapter.getDate(this.selected),
+                this.dateTimeAdapter.getHours(this._startAt),
+                this.dateTimeAdapter.getMinutes(this._startAt),
+                this.dateTimeAdapter.getSeconds(this._startAt),
+            );
         }
 
         this.pickerMode === 'dialog' ?
