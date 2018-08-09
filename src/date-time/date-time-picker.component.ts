@@ -331,7 +331,7 @@ export class OwlDateTimeComponent<T> extends OwlDateTime<T> implements OnInit, O
 
         // reset the picker selected value
         if (this.isInSingleMode) {
-            this.selected = this._dtInput.value;
+            this.selected = this._startAt || this._dtInput.value;
         } else if (this.isInRangeMode) {
             this.selecteds = this._dtInput.values;
         }
