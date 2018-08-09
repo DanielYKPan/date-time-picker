@@ -573,7 +573,9 @@ export class OwlDateTimeInputDirective<T> implements OnInit, AfterContentInit,
         result = this.getValidDate(result);
 
         // if the newValue is the same as the oldValue, we intend to not fire the valueChange event
-        if (!this.isSameValue(result, this._value)) {
+        // result equals to null means there is input event, but the input value is invalid
+        if (!this.isSameValue(result, this._value) ||
+            result === null) {
             this._value = result;
             this.valueChange.emit(result);
             this.onModelChange(result);
@@ -598,8 +600,8 @@ export class OwlDateTimeInputDirective<T> implements OnInit, AfterContentInit,
         result = this.getValidDate(result);
 
         // if the newValue is the same as the oldValue, we intend to not fire the valueChange event
-        if ((this._selectMode === 'rangeFrom' && this.isSameValue(result, this._values[0])) ||
-            (this._selectMode === 'rangeTo' && this.isSameValue(result, this._values[1]))) {
+        if ((this._selectMode === 'rangeFrom' && this.isSameValue(result, this._values[0]) && result) ||
+            (this._selectMode === 'rangeTo' && this.isSameValue(result, this._values[1])) && result) {
             return;
         }
 
@@ -631,7 +633,9 @@ export class OwlDateTimeInputDirective<T> implements OnInit, AfterContentInit,
         to = this.getValidDate(to);
 
         // if the newValue is the same as the oldValue, we intend to not fire the valueChange event
-        if (!this.isSameValue(from, this._values[0]) || !this.isSameValue(to, this._values[1])) {
+        if (!this.isSameValue(from, this._values[0]) ||
+            !this.isSameValue(to, this._values[1]) ||
+            (from === null && to === null)) {
             this._values = [from, to];
             this.valueChange.emit(this._values);
             this.onModelChange(this._values);
