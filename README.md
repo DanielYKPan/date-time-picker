@@ -117,8 +117,8 @@ Events for `owl-date-time`
 |:--- |:--- |:--- |
 |`afterPickerOpen`|null|Callback to invoke when the picker is opened|
 |`afterPickerClosed`|null|Callback to invoke when the picker is closed.|
-|`yearSelected`|T|Callback to invoke when the picker is closed.This doesn't imply a change on the selected date.|
-|`monthSelected`|T|Callback to invoke when the picker is closed.This doesn't imply a change on the selected date.|
+|`yearSelected`|T|Callback to invoke when the year is selected.This doesn't imply a change on the selected date.|
+|`monthSelected`|T|Callback to invoke when the month is selected.This doesn't imply a change on the selected date.|
 
 Properties for `input[owlDateTime]`
 -------
