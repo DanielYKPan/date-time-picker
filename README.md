@@ -13,7 +13,7 @@ Breaking Changes
 
 Description
 -------
-Simple Angular date time picker. Online demo is [here](https://danielykpan.github.io/date-time-picker/), Online StackBlitz is [here](https://stackblitz.com/github/DanielYKPan/owl-examples/tree/date-time-picker).
+Simple Angular date time picker. Online doc is [here](https://daniel-projects.firebaseapp.com/owlng/date-time-picker), Online demo(StackBlitz) is [here](https://stackblitz.com/github/DanielYKPan/owl-examples/tree/date-time-picker).
 This picker is responsive design, so feel free to try it in your desktops, tablets and mobile devices. 
 
 How to Use
@@ -186,8 +186,8 @@ none
 
 Demo
 -------
-- Online demo is [here](https://danielykpan.github.io/date-time-picker/)
-- Online StackBlitz is [here](https://stackblitz.com/github/DanielYKPan/owl-examples/tree/date-time-picker)
+- Online doc is [here](https://daniel-projects.firebaseapp.com/owlng/date-time-picker)
+- Online demo(StackBlitz) is [here](https://stackblitz.com/github/DanielYKPan/owl-examples/tree/date-time-picker)
 
 License
 -------
