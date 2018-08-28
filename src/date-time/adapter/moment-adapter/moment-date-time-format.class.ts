@@ -1,7 +1,7 @@
 /**
  * moment-date-time-format.class
  */
-import { OwlDateTimeFormats } from '../../../../../../../../../../Library/Application Support/Unclutter/FileStorage';
+import { OwlDateTimeFormats } from '../date-time-format.class';
 
 // import { OwlDateTimeFormats } from 'ng-pick-datetime';
 

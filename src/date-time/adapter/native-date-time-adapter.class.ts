@@ -3,6 +3,7 @@
  */
 
 import { Inject, Injectable, Optional } from '@angular/core';
+import { Platform } from '@angular/cdk/platform';
 import { DateTimeAdapter, OWL_DATE_TIME_LOCALE } from './date-time-adapter.class';
 
 /** The default month names to use if Intl API is not available. */
@@ -45,6 +46,9 @@ function range<T>( length: number, valueFunction: ( index: number ) => T ): T[] 
 @Injectable()
 export class NativeDateTimeAdapter extends DateTimeAdapter<Date> {
 
+    /** Whether to clamp the date between 1 and 9999 to avoid IE and Edge errors. */
+    private readonly _clampDate: boolean;
+
     /**
      * Whether to use `timeZone: 'utc'` with `Intl.DateTimeFormat` when formatting dates.
      * Without this `Intl.DateTimeFormat` sometimes chooses the wrong timeZone, which can throw off
@@ -53,12 +57,14 @@ export class NativeDateTimeAdapter extends DateTimeAdapter<Date> {
      */
     useUtcForDisplay: boolean;
 
-    constructor( @Optional() @Inject(OWL_DATE_TIME_LOCALE) private owlDateTimeLocale: string ) {
+    constructor( @Optional() @Inject(OWL_DATE_TIME_LOCALE) private owlDateTimeLocale: string,
+                 platform: Platform ) {
         super();
         super.setLocale(owlDateTimeLocale);
 
-        this.useUtcForDisplay = !(typeof document === 'object' && !!document &&
-            /(msie|trident)/i.test(navigator.userAgent));
+        // IE does its own time zone correction, so we disable this on IE.
+        this.useUtcForDisplay = !platform.TRIDENT;
+        this._clampDate = platform.TRIDENT || platform.EDGE;
     }
 
     public getYear( date: Date ): number {
@@ -126,25 +132,25 @@ export class NativeDateTimeAdapter extends DateTimeAdapter<Date> {
 
     public getYearName( date: Date ): string {
         if (SUPPORTS_INTL_API) {
-            const dtf = new Intl.DateTimeFormat(this.locale, {year: 'numeric'});
-            return this.stripDirectionalityCharacters(dtf.format(date));
+            const dtf = new Intl.DateTimeFormat(this.locale, {year: 'numeric', timeZone: 'utc'});
+            return this.stripDirectionalityCharacters(this._format(dtf, date));
         }
         return String(this.getYear(date));
     }
 
     public getMonthNames( style: 'long' | 'short' | 'narrow' ): string[] {
         if (SUPPORTS_INTL_API) {
-            const dtf = new Intl.DateTimeFormat(this.locale, {month: style});
-            return range(12, i => this.stripDirectionalityCharacters(dtf.format(new Date(2017, i, 1))));
+            const dtf = new Intl.DateTimeFormat(this.locale, {month: style, timeZone: 'utc'});
+            return range(12, i => this.stripDirectionalityCharacters(this._format(dtf, new Date(2017, i, 1))));
         }
         return DEFAULT_MONTH_NAMES[style];
     }
 
     public getDayOfWeekNames( style: 'long' | 'short' | 'narrow' ): string[] {
         if (SUPPORTS_INTL_API) {
-            const dtf = new Intl.DateTimeFormat(this.locale, {weekday: style});
+            const dtf = new Intl.DateTimeFormat(this.locale, {weekday: style, timeZone: 'utc'});
             return range(7, i => this.stripDirectionalityCharacters(
-                dtf.format(new Date(2017, 0, i + 1))));
+                this._format(dtf, new Date(2017, 0, i + 1))));
         }
 
         return DEFAULT_DAY_OF_WEEK_NAMES[style];
@@ -264,7 +270,7 @@ export class NativeDateTimeAdapter extends DateTimeAdapter<Date> {
     }
 
     public clone( date: Date ): Date {
-        return new Date(date.getTime());
+        return this.createDate(this.getYear(date), this.getMonth(date), this.getDate(date), this.getHours(date), this.getMinutes(date), this.getSeconds(date));
     }
 
     public now(): Date {
@@ -278,15 +284,14 @@ export class NativeDateTimeAdapter extends DateTimeAdapter<Date> {
 
         if (SUPPORTS_INTL_API) {
 
-            if (this.useUtcForDisplay) {
-                date = new Date(Date.UTC(
-                    date.getFullYear(), date.getMonth(), date.getDate(), date.getHours(),
-                    date.getMinutes(), date.getSeconds(), date.getMilliseconds()));
-                displayFormat = {...displayFormat, timeZone: 'utc'};
+            if (this._clampDate && (date.getFullYear() < 1 || date.getFullYear() > 9999)) {
+                date = this.clone(date);
+                date.setFullYear(Math.max(1, Math.min(9999, date.getFullYear())));
             }
 
+            displayFormat = {...displayFormat, timeZone: 'utc'};
             const dtf = new Intl.DateTimeFormat(this.locale, displayFormat);
-            return this.stripDirectionalityCharacters(dtf.format(date));
+            return this.stripDirectionalityCharacters(this._format(dtf, date));
         }
 
         return this.stripDirectionalityCharacters(date.toDateString());
@@ -351,5 +356,23 @@ export class NativeDateTimeAdapter extends DateTimeAdapter<Date> {
      */
     private stripDirectionalityCharacters( str: string ) {
         return str.replace(/[\u200e\u200f]/g, '');
+    }
+
+    /**
+     * When converting Date object to string, javascript built-in functions may return wrong
+     * results because it applies its internal DST rules. The DST rules around the world change
+     * very frequently, and the current valid rule is not always valid in previous years though.
+     * We work around this problem building a new Date object which has its internal UTC
+     * representation with the local date and time.
+     * @param dtf Intl.DateTimeFormat object, containg the desired string format. It must have
+     *    timeZone set to 'utc' to work fine.
+     * @param date Date from which we want to get the string representation according to dtf
+     * @returns A Date object with its UTC representation based on the passed in date info
+     */
+    private _format(dtf: Intl.DateTimeFormat, date: Date) {
+        const d = new Date(Date.UTC(
+            date.getFullYear(), date.getMonth(), date.getDate(), date.getHours(),
+            date.getMinutes(), date.getSeconds(), date.getMilliseconds()));
+        return dtf.format(d);
     }
 }

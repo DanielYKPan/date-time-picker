@@ -3,15 +3,19 @@
  */
 
 import { NgModule } from '@angular/core';
-import { MomentDateTimeAdapter } from './moment-date-time-adapter.class';
+import { MomentDateTimeAdapter, OWL_MOMENT_DATE_TIME_ADAPTER_OPTIONS } from './moment-date-time-adapter.class';
 import { OWL_MOMENT_DATE_TIME_FORMATS } from './moment-date-time-format.class';
-import { DateTimeAdapter, OWL_DATE_TIME_FORMATS, OWL_DATE_TIME_LOCALE_PROVIDER } from '../../../../../../../../../../Library/Application Support/Unclutter/FileStorage';
+import { DateTimeAdapter, OWL_DATE_TIME_LOCALE } from '../date-time-adapter.class';
+import { OWL_DATE_TIME_FORMATS } from '../date-time-format.class';
 // import { DateTimeAdapter, OWL_DATE_TIME_FORMATS, OWL_DATE_TIME_LOCALE_PROVIDER } from 'ng-pick-datetime';
 
 @NgModule({
     providers: [
-        {provide: DateTimeAdapter, useClass: MomentDateTimeAdapter},
-        OWL_DATE_TIME_LOCALE_PROVIDER,
+        {
+            provide: DateTimeAdapter,
+            useClass: MomentDateTimeAdapter,
+            deps: [OWL_DATE_TIME_LOCALE, OWL_MOMENT_DATE_TIME_ADAPTER_OPTIONS]
+        },
     ],
 })
 export class MomentDateTimeModule {

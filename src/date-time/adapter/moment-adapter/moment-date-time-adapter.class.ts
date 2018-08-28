@@ -2,13 +2,37 @@
  * moment-date-time-adapter.class
  */
 
-import { Inject, Injectable, Optional } from '@angular/core';
+import { Inject, Injectable, Optional, InjectionToken } from '@angular/core';
 // import { DateTimeAdapter, OWL_DATE_TIME_LOCALE } from 'ng-pick-datetime';
 import * as _moment from 'moment/moment';
 import { Moment } from 'moment/moment';
-import { DateTimeAdapter, OWL_DATE_TIME_LOCALE } from '../../../../../../../../../../Library/Application Support/Unclutter/FileStorage';
+import { DateTimeAdapter, OWL_DATE_TIME_LOCALE } from '../date-time-adapter.class';
 
 const moment = (_moment as any).default ? (_moment as any).default : _moment;
+
+/** Configurable options for {@see MomentDateAdapter}. */
+export interface OwlMomentDateTimeAdapterOptions {
+    /**
+     * Turns the use of utc dates on or off.
+     * Changing this will change how the DateTimePicker output value.
+     * {@default false}
+     */
+    useUtc: boolean;
+}
+
+/** InjectionToken for moment date adapter to configure options. */
+export const OWL_MOMENT_DATE_TIME_ADAPTER_OPTIONS = new InjectionToken<OwlMomentDateTimeAdapterOptions>(
+    'OWL_MOMENT_DATE_TIME_ADAPTER_OPTIONS', {
+        providedIn: 'root',
+        factory: OWL_MOMENT_DATE_TIME_ADAPTER_OPTIONS_FACTORY
+    });
+
+/** @docs-private */
+export function OWL_MOMENT_DATE_TIME_ADAPTER_OPTIONS_FACTORY(): OwlMomentDateTimeAdapterOptions {
+    return {
+        useUtc: false
+    };
+}
 
 @Injectable()
 export class MomentDateTimeAdapter extends DateTimeAdapter<Moment> {
@@ -21,7 +45,8 @@ export class MomentDateTimeAdapter extends DateTimeAdapter<Moment> {
         narrowDaysOfWeek: string[]
     };
 
-    constructor( @Optional() @Inject(OWL_DATE_TIME_LOCALE) private owlDateTimeLocale: string ) {
+    constructor( @Optional() @Inject(OWL_DATE_TIME_LOCALE) private owlDateTimeLocale: string,
+                 @Optional() @Inject(OWL_MOMENT_DATE_TIME_ADAPTER_OPTIONS) private options?: OwlMomentDateTimeAdapterOptions ) {
         super();
         this.setLocale(owlDateTimeLocale || moment.locale());
     }
@@ -178,7 +203,7 @@ export class MomentDateTimeAdapter extends DateTimeAdapter<Moment> {
             throw Error(`Invalid seconds "${seconds}". Seconds has to be between 0 and 59.`);
         }
 
-        const result = moment({year, month, date, hours, minutes, seconds}).locale(this.locale);
+        const result = this.createMoment({year, month, date, hours, minutes, seconds}).locale(this.locale);
 
         // If the result isn't valid, the date must have been out of bounds for this month.
         if (!result.isValid()) {
@@ -189,11 +214,11 @@ export class MomentDateTimeAdapter extends DateTimeAdapter<Moment> {
     }
 
     public clone( date: Moment ): Moment {
-        return moment(date).clone().locale(this.locale);
+        return this.createMoment(date).clone().locale(this.locale);
     }
 
     public now(): Moment {
-        return moment().locale(this.locale);
+        return this.createMoment().locale(this.locale);
     }
 
     public format( date: Moment, displayFormat: any ): string {
@@ -206,9 +231,9 @@ export class MomentDateTimeAdapter extends DateTimeAdapter<Moment> {
 
     public parse( value: any, parseFormat: any ): Moment | null {
         if (value && typeof value === 'string') {
-            return moment(value, parseFormat, this.locale);
+            return this.createMoment(value, parseFormat, this.locale);
         }
-        return value ? moment(value).locale(this.locale) : null;
+        return value ? this.createMoment(value).locale(this.locale) : null;
     }
 
     /**
@@ -219,17 +244,22 @@ export class MomentDateTimeAdapter extends DateTimeAdapter<Moment> {
     deserialize( value: any ): Moment | null {
         let date;
         if (value instanceof Date) {
-            date = moment(value);
+            date = this.createMoment(value);
         }
         if (typeof value === 'string') {
             if (!value) {
                 return null;
             }
-            date = moment(value, moment.ISO_8601).locale(this.locale);
+            date = this.createMoment(value, moment.ISO_8601).locale(this.locale);
         }
         if (date && this.isValid(date)) {
             return date;
         }
         return super.deserialize(value);
+    }
+
+    /** Creates a Moment instance while respecting the current UTC settings. */
+    private createMoment(...args: any[]): Moment {
+        return (this.options && this.options.useUtc) ? moment.utc(...args) : moment(...args);
     }
 }
