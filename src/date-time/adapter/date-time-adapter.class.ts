@@ -135,6 +135,12 @@ export abstract class DateTimeAdapter<T> {
     abstract getDayOfWeekNames( style: 'long' | 'short' | 'narrow' ): string[];
 
     /**
+     * Gets a list of names for the dates of the month.
+     * @returns An ordered list of all date of the month names, starting with '1'.
+     */
+    abstract getDateNames(): string[];
+
+    /**
      * Return a Date object as a string, using the ISO standard
      * @param date -- The date to get the ISO date string for.
      * @return {string} -- The ISO date string date string.

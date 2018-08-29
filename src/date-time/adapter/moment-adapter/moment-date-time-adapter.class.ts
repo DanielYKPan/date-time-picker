@@ -34,6 +34,16 @@ export function OWL_MOMENT_DATE_TIME_ADAPTER_OPTIONS_FACTORY(): OwlMomentDateTim
     };
 }
 
+/** Creates an array and fills it with values. */
+function range<T>(length: number, valueFunction: (index: number) => T): T[] {
+    const valuesArray = Array(length);
+    for (let i = 0; i < length; i++) {
+        valuesArray[i] = valueFunction(i);
+    }
+    return valuesArray;
+}
+
+
 @Injectable()
 export class MomentDateTimeAdapter extends DateTimeAdapter<Moment> {
 
@@ -42,7 +52,8 @@ export class MomentDateTimeAdapter extends DateTimeAdapter<Moment> {
         shortMonths: string[],
         longDaysOfWeek: string[],
         shortDaysOfWeek: string[],
-        narrowDaysOfWeek: string[]
+        narrowDaysOfWeek: string[],
+        dates: string[],
     };
 
     constructor( @Optional() @Inject(OWL_DATE_TIME_LOCALE) private owlDateTimeLocale: string,
@@ -61,6 +72,7 @@ export class MomentDateTimeAdapter extends DateTimeAdapter<Moment> {
             longDaysOfWeek: momentLocaleData.weekdays(),
             shortDaysOfWeek: momentLocaleData.weekdaysShort(),
             narrowDaysOfWeek: momentLocaleData.weekdaysMin(),
+            dates: range(31, (i) => this.createDate(2017, 0, i + 1).format('D')),
         };
     }
 
@@ -121,6 +133,10 @@ export class MomentDateTimeAdapter extends DateTimeAdapter<Moment> {
             return this._localeData.shortDaysOfWeek;
         }
         return this._localeData.narrowDaysOfWeek;
+    }
+
+    public getDateNames(): string[] {
+        return this._localeData.dates;
     }
 
     public toIso8601( date: Moment ): string {

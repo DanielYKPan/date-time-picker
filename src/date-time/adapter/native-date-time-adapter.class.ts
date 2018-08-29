@@ -23,6 +23,9 @@ const DEFAULT_DAY_OF_WEEK_NAMES = {
     'narrow': ['S', 'M', 'T', 'W', 'T', 'F', 'S']
 };
 
+/** The default date names to use if Intl API is not available. */
+const DEFAULT_DATE_NAMES = range(31, i => String(i + 1));
+
 /** Whether the browser supports the Intl API. */
 const SUPPORTS_INTL_API = typeof Intl !== 'undefined';
 
@@ -154,6 +157,15 @@ export class NativeDateTimeAdapter extends DateTimeAdapter<Date> {
         }
 
         return DEFAULT_DAY_OF_WEEK_NAMES[style];
+    }
+
+    public getDateNames(): string[] {
+        if (SUPPORTS_INTL_API) {
+            const dtf = new Intl.DateTimeFormat(this.locale, {day: 'numeric', timeZone: 'utc'});
+            return range(31, i => this.stripDirectionalityCharacters(
+                this._format(dtf, new Date(2017, 0, i + 1))));
+        }
+        return DEFAULT_DATE_NAMES;
     }
 
     public toIso8601( date: Date ): string {

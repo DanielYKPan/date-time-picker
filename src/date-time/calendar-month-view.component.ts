@@ -228,6 +228,8 @@ export class OwlMonthViewComponent<T> implements OnInit, AfterContentInit, OnDes
 
     private initiated = false;
 
+    private dateNames: string[];
+
     /**
      * The date of the month that today falls on.
      * */
@@ -410,6 +412,8 @@ export class OwlMonthViewComponent<T> implements OnInit, AfterContentInit, OnDes
 
         this._weekdays = weekdays.slice(firstDayOfWeek).concat(weekdays.slice(0, firstDayOfWeek));
 
+        this.dateNames = this.dateTimeAdapter.getDateNames();
+
         return;
     }
 
@@ -465,6 +469,8 @@ export class OwlMonthViewComponent<T> implements OnInit, AfterContentInit, OnDes
         // total days of the month
         const daysInMonth = this.dateTimeAdapter.getNumDaysInMonth(this.pickerMoment);
         const dateNum = this.dateTimeAdapter.getDate(date);
+        // const dateName = this.dateNames[dateNum - 1];
+        const dateName = dateNum.toString();
         const ariaLabel = this.dateTimeAdapter.format(date, this.dateTimeFormats.dateA11yLabel);
 
         // check if the date if selectable
@@ -475,7 +481,7 @@ export class OwlMonthViewComponent<T> implements OnInit, AfterContentInit, OnDes
         const out = dayValue < 1 || dayValue > daysInMonth;
         const cellClass = 'owl-dt-day-' + this.dateTimeAdapter.getDay(date);
 
-        return new CalendarCell(dayValue, dateNum.toString(), ariaLabel, enabled, out, cellClass);
+        return new CalendarCell(dayValue, dateName, ariaLabel, enabled, out, cellClass);
     }
 
     /**
