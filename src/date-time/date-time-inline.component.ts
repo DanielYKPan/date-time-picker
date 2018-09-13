@@ -214,6 +214,10 @@ export class OwlDateTimeInlineComponent<T> extends OwlDateTime<T> implements OnI
         this.changeDetector.markForCheck();
     }
 
+    get opened(): boolean {
+        return true;
+    }
+
     get pickerMode(): PickerMode {
         return 'inline';
     }

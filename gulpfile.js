@@ -39,7 +39,7 @@
     });
 
     gulp.task('backup.ts.tmp', function () {
-        return gulp.src(config.allTs).pipe(gulp.dest(config.tmpOutputPath));
+        return gulp.src([config.allTs, '!' + config.allSpecTs]).pipe(gulp.dest(config.tmpOutputPath));
     });
 
     gulp.task('copy.assets.to.tmp', function () {

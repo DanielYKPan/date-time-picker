@@ -2,10 +2,18 @@
  * date-time-adapter.class
  */
 import { Observable, Subject } from 'rxjs';
-import { InjectionToken, LOCALE_ID } from '@angular/core';
+import { inject, InjectionToken, LOCALE_ID } from '@angular/core';
 
 /** InjectionToken for date time picker that can be used to override default locale code. */
-export const OWL_DATE_TIME_LOCALE = new InjectionToken<string>('OWL_DATE_TIME_LOCALE');
+export const OWL_DATE_TIME_LOCALE = new InjectionToken<string>('OWL_DATE_TIME_LOCALE', {
+    providedIn: 'root',
+    factory: OWL_DATE_TIME_LOCALE_FACTORY,
+});
+
+/** @docs-private */
+export function OWL_DATE_TIME_LOCALE_FACTORY(): string {
+    return inject(LOCALE_ID);
+}
 
 /** Provider for OWL_DATE_TIME_LOCALE injection token. */
 export const OWL_DATE_TIME_LOCALE_PROVIDER = {provide: OWL_DATE_TIME_LOCALE, useExisting: LOCALE_ID};
@@ -125,6 +133,12 @@ export abstract class DateTimeAdapter<T> {
      * @return {string[]} -- An ordered list of all week names, starting with Sunday.
      * */
     abstract getDayOfWeekNames( style: 'long' | 'short' | 'narrow' ): string[];
+
+    /**
+     * Gets a list of names for the dates of the month.
+     * @returns An ordered list of all date of the month names, starting with '1'.
+     */
+    abstract getDateNames(): string[];
 
     /**
      * Return a Date object as a string, using the ISO standard

@@ -1,6 +1,9 @@
 Angular Date Time Picker
 ========================
 
+[![npm](https://img.shields.io/npm/v/ng-pick-datetime.svg?maxAge=2592000?style=flat-square)](https://www.npmjs.com/package/ng-pick-datetime)
+[![npm](https://img.shields.io/npm/dm/ng-pick-datetime.svg)](https://www.npmjs.com/package/ng-pick-datetime)
+
 **Angular date time picker - Angular reusable UI component**
 **This package supports Angular 6+**
 
@@ -13,7 +16,7 @@ Breaking Changes
 
 Description
 -------
-Simple Angular date time picker. Online demo is [here](https://danielykpan.github.io/date-time-picker/), Online StackBlitz is [here](https://stackblitz.com/github/DanielYKPan/owl-examples/tree/date-time-picker).
+Simple Angular date time picker. Online doc is [here](https://daniel-projects.firebaseapp.com/owlng/date-time-picker), Online demo(StackBlitz) is [here](https://stackblitz.com/github/DanielYKPan/owl-examples/tree/date-time-picker).
 This picker is responsive design, so feel free to try it in your desktops, tablets and mobile devices. 
 
 How to Use
@@ -106,6 +109,7 @@ Properties for `owl-date-time`
 |`stepHour`|number|Optional|`1`| Hours to change per step.|
 |`stepMinute`|number|Optional|`1`| Minutes to change per step.|
 |`stepSecond`|number|Optional|`1`| Seconds to change per step.|
+|`scrollStrategy`|ScrollStrategy|Optional|`BlockScrollStrategy`| Define the scroll strategy when the picker is open. Learn more this from https://material.angular.io/cdk/overlay/overview#scroll-strategies.|
 |`disabled`|boolean|Optional|`false`|When specify to true, it would disable the picker.|
 |`backdropClass`|string/string[]|Optional|`null`|Custom class for the picker backdrop.|
 |`panelClass`|string/string[]|Optional|`null`|Custom class for the picker overlay panel.|
@@ -116,8 +120,8 @@ Events for `owl-date-time`
 |:--- |:--- |:--- |
 |`afterPickerOpen`|null|Callback to invoke when the picker is opened|
 |`afterPickerClosed`|null|Callback to invoke when the picker is closed.|
-|`yearSelected`|T|Callback to invoke when the picker is closed.This doesn't imply a change on the selected date.|
-|`monthSelected`|T|Callback to invoke when the picker is closed.This doesn't imply a change on the selected date.|
+|`yearSelected`|T|Callback to invoke when the year is selected.This doesn't imply a change on the selected date.|
+|`monthSelected`|T|Callback to invoke when the month is selected.This doesn't imply a change on the selected date.|
 
 Properties for `input[owlDateTime]`
 -------
@@ -185,8 +189,8 @@ none
 
 Demo
 -------
-- Online demo is [here](https://danielykpan.github.io/date-time-picker/)
-- Online StackBlitz is [here](https://stackblitz.com/github/DanielYKPan/owl-examples/tree/date-time-picker)
+- Online doc is [here](https://daniel-projects.firebaseapp.com/owlng/date-time-picker)
+- Online demo(StackBlitz) is [here](https://stackblitz.com/github/DanielYKPan/owl-examples/tree/date-time-picker)
 
 License
 -------

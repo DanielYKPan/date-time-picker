@@ -4,7 +4,7 @@
 
 import {
     AfterContentInit,
-    ChangeDetectionStrategy,
+    ChangeDetectionStrategy, ChangeDetectorRef,
     Component,
     EventEmitter,
     HostBinding,
@@ -46,7 +46,19 @@ export class OwlMultiYearViewComponent<T> implements OnInit, AfterContentInit {
     /**
      * The select mode of the picker;
      * */
-    @Input() selectMode: SelectMode;
+    private _selectMode: SelectMode = 'single';
+    @Input()
+    get selectMode(): SelectMode {
+        return this._selectMode;
+    }
+
+    set selectMode( val: SelectMode ) {
+        this._selectMode = val;
+        if (this.initiated) {
+            this.setSelectedYears();
+            this.cdRef.markForCheck();
+        }
+    }
 
     /** The currently selected date. */
     private _selected: T | null;
@@ -191,7 +203,7 @@ export class OwlMultiYearViewComponent<T> implements OnInit, AfterContentInit {
     /**
      * Callback to invoke when a new month is selected
      * */
-    @Output() readonly selectedChange = new EventEmitter<T>();
+    @Output() readonly change = new EventEmitter<T>();
 
     /**
      * Emits the selected year. This doesn't imply a change on the selected date
@@ -217,7 +229,8 @@ export class OwlMultiYearViewComponent<T> implements OnInit, AfterContentInit {
         return true;
     }
 
-    constructor( private pickerIntl: OwlDateTimeIntl,
+    constructor( private cdRef: ChangeDetectorRef,
+                 private pickerIntl: OwlDateTimeIntl,
                  @Optional() private dateTimeAdapter: DateTimeAdapter<T> ) {
     }
 
@@ -256,7 +269,7 @@ export class OwlMultiYearViewComponent<T> implements OnInit, AfterContentInit {
             this.dateTimeAdapter.getSeconds(this.pickerMoment),
         );
 
-        this.selectedChange.emit(selected);
+        this.change.emit(selected);
     }
 
     /**

@@ -1,12 +1,12 @@
 <div class="owl-dt-calendar-control">
     <!-- focus when keyboard tab (http://kizu.ru/en/blog/keyboard-only-focus/#x) -->
-    <button class="owl-dt-control-button owl-dt-control-arrow-button"
+    <button class="owl-dt-control owl-dt-control-button owl-dt-control-arrow-button"
             type="button" tabindex="0"
             [style.visibility]="showControlArrows? 'visible': 'hidden'"
             [disabled]="!prevButtonEnabled()"
             [attr.aria-label]="prevButtonLabel"
             (click)="previousClicked()">
-        <span class="owl-dt-control-button-content" tabindex="-1">
+        <span class="owl-dt-control-content owl-dt-control-button-content" tabindex="-1">
             <!-- <editor-fold desc="SVG Arrow Left"> -->
         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                  version="1.1" x="0px" y="0px" viewBox="0 0 250.738 250.738"
@@ -18,11 +18,11 @@
         </span>
     </button>
     <div class="owl-dt-calendar-control-content">
-        <button class="owl-dt-control-button owl-dt-control-period-button"
+        <button class="owl-dt-control owl-dt-control-button owl-dt-control-period-button"
                 type="button" tabindex="0"
                 [attr.aria-label]="periodButtonLabel"
                 (click)="toggleViews()">
-            <span class="owl-dt-control-button-content" tabindex="-1">
+            <span class="owl-dt-control-content owl-dt-control-button-content" tabindex="-1">
                 {{periodButtonText}}
 
                 <span class="owl-dt-control-button-arrow"
@@ -42,13 +42,13 @@
             </span>
         </button>
     </div>
-    <button class="owl-dt-control-button owl-dt-control-arrow-button"
+    <button class="owl-dt-control owl-dt-control-button owl-dt-control-arrow-button"
             type="button" tabindex="0"
             [style.visibility]="showControlArrows? 'visible': 'hidden'"
             [disabled]="!nextButtonEnabled()"
             [attr.aria-label]="nextButtonLabel"
             (click)="nextClicked()">
-        <span class="owl-dt-control-button-content" tabindex="-1">
+        <span class="owl-dt-control-content owl-dt-control-button-content" tabindex="-1">
             <!-- <editor-fold desc="SVG Arrow Right"> -->
         <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
                  viewBox="0 0 250.738 250.738" style="enable-background:new 0 0 250.738 250.738;" xml:space="preserve">
@@ -61,7 +61,7 @@
         </span>
     </button>
 </div>
-<div class="owl-dt-calendar-main" cdkMonitorSubtreeFocus [ngSwitch]="currentView">
+<div class="owl-dt-calendar-main" cdkMonitorSubtreeFocus [ngSwitch]="currentView" tabindex="-1">
     <owl-date-time-month-view
             *ngSwitchCase="'month'"
             [pickerMoment]="pickerMoment"
@@ -89,7 +89,7 @@
             (keyboardEnter)="focusActiveCell()"
             (pickerMomentChange)="handlePickerMomentChange($event)"
             (monthSelected)="selectMonthInYearView($event)"
-            (selectedChange)="goToDateInView($event, 'month')"></owl-date-time-year-view>
+            (change)="goToDateInView($event, 'month')"></owl-date-time-year-view>
 
     <owl-date-time-multi-year-view
             *ngSwitchCase="'multi-years'"
@@ -103,5 +103,5 @@
             (keyboardEnter)="focusActiveCell()"
             (pickerMomentChange)="handlePickerMomentChange($event)"
             (yearSelected)="selectYearInMultiYearView($event)"
-            (selectedChange)="goToDateInView($event, 'year')"></owl-date-time-multi-year-view>
+            (change)="goToDateInView($event, 'year')"></owl-date-time-multi-year-view>
 </div>

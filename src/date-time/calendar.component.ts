@@ -4,7 +4,9 @@
 
 import {
     AfterContentInit,
+    AfterViewChecked,
     ChangeDetectionStrategy,
+    ChangeDetectorRef,
     Component,
     ElementRef,
     EventEmitter,
@@ -12,6 +14,7 @@ import {
     Inject,
     Input,
     NgZone,
+    OnDestroy,
     OnInit,
     Optional,
     Output
@@ -21,6 +24,7 @@ import { DateTimeAdapter } from './adapter/date-time-adapter.class';
 import { OWL_DATE_TIME_FORMATS, OwlDateTimeFormats } from './adapter/date-time-format.class';
 import { SelectMode } from './date-time.class';
 import { take } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
 
 @Component({
     selector: 'owl-date-time-calendar',
@@ -31,7 +35,7 @@ import { take } from 'rxjs/operators';
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 
-export class OwlCalendarComponent<T> implements OnInit, AfterContentInit {
+export class OwlCalendarComponent<T> implements OnInit, AfterContentInit, AfterViewChecked, OnDestroy {
 
     /**
      * Date filter for the month and year view
@@ -189,6 +193,11 @@ export class OwlCalendarComponent<T> implements OnInit, AfterContentInit {
         return this._currentView;
     }
 
+    set currentView( view: 'month' | 'year' | 'multi-years' ) {
+        this._currentView = view;
+        this.moveFocusOnNextTick = true;
+    }
+
     get isInSingleMode(): boolean {
         return this.selectMode === 'single';
     }
@@ -225,11 +234,25 @@ export class OwlCalendarComponent<T> implements OnInit, AfterContentInit {
         return true;
     }
 
+    private intlChangesSub = Subscription.EMPTY;
+
+    /**
+     * Used for scheduling that focus should be moved to the active cell on the next tick.
+     * We need to schedule it, rather than do it immediately, because we have to wait
+     * for Angular to re-evaluate the view children.
+     */
+    private moveFocusOnNextTick = false;
+
     constructor( private elmRef: ElementRef,
                  private pickerIntl: OwlDateTimeIntl,
                  private ngZone: NgZone,
+                 private cdRef: ChangeDetectorRef,
                  @Optional() private dateTimeAdapter: DateTimeAdapter<T>,
                  @Optional() @Inject(OWL_DATE_TIME_FORMATS) private dateTimeFormats: OwlDateTimeFormats ) {
+
+        this.intlChangesSub = this.pickerIntl.changes.subscribe(() => {
+            this.cdRef.markForCheck();
+        });
     }
 
     public ngOnInit() {
@@ -239,12 +262,23 @@ export class OwlCalendarComponent<T> implements OnInit, AfterContentInit {
         this._currentView = this.startView;
     }
 
+    public ngAfterViewChecked() {
+        if (this.moveFocusOnNextTick) {
+            this.moveFocusOnNextTick = false;
+            this.focusActiveCell();
+        }
+    }
+
+    public ngOnDestroy(): void {
+        this.intlChangesSub.unsubscribe();
+    }
+
     /**
      * Toggle between month view and year view
      * @return {void}
      * */
     public toggleViews(): void {
-        this._currentView = this._currentView == 'month' ? 'multi-years' : 'month';
+        this.currentView = this._currentView == 'month' ? 'multi-years' : 'month';
     }
 
     /**
@@ -274,10 +308,12 @@ export class OwlCalendarComponent<T> implements OnInit, AfterContentInit {
             return;
         }
 
-        if ((this.isInSingleMode && !this.dateTimeAdapter.isSameDay(date, this.selected)) ||
+        this.selectedChange.emit(date);
+
+        /*if ((this.isInSingleMode && !this.dateTimeAdapter.isSameDay(date, this.selected)) ||
             this.isInRangeMode) {
             this.selectedChange.emit(date);
-        }
+        }*/
     }
 
     /**
@@ -288,7 +324,7 @@ export class OwlCalendarComponent<T> implements OnInit, AfterContentInit {
      * */
     public goToDateInView( date: T, view: 'month' | 'year' | 'multi-years' ): void {
         this.handlePickerMomentChange(date);
-        this._currentView = view;
+        this.currentView = view;
         return;
     }
 

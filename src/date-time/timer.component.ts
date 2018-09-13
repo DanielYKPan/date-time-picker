@@ -312,8 +312,7 @@ export class OwlTimerComponent<T> implements OnInit {
      * 0 is equal the comparedDate
      * */
     private compareHours( amount: number, comparedDate: T ): number {
-        let hours = this.dateTimeAdapter.getHours(this.pickerMoment) + amount;
-        hours = Math.max(0, Math.min(hours, 23));
+        const hours = this.dateTimeAdapter.getHours(this.pickerMoment) + amount;
         const result = this.dateTimeAdapter.setHours(this.pickerMoment, hours);
         return this.dateTimeAdapter.compare(result, comparedDate);
     }
@@ -328,8 +327,7 @@ export class OwlTimerComponent<T> implements OnInit {
      * 0 is equal the comparedDate
      * */
     private compareMinutes( amount: number, comparedDate: T ): number {
-        let minutes = this.dateTimeAdapter.getMinutes(this.pickerMoment) + amount;
-        minutes = Math.max(0, Math.min(minutes, 59));
+        const minutes = this.dateTimeAdapter.getMinutes(this.pickerMoment) + amount;
         const result = this.dateTimeAdapter.setMinutes(this.pickerMoment, minutes);
         return this.dateTimeAdapter.compare(result, comparedDate);
     }
@@ -344,8 +342,7 @@ export class OwlTimerComponent<T> implements OnInit {
      * 0 is equal the comparedDate
      * */
     private compareSeconds( amount: number, comparedDate: T ): number {
-        let seconds = this.dateTimeAdapter.getSeconds(this.pickerMoment) + amount;
-        seconds = Math.max(0, Math.min(seconds, 59));
+        const seconds = this.dateTimeAdapter.getSeconds(this.pickerMoment) + amount;
         const result = this.dateTimeAdapter.setSeconds(this.pickerMoment, seconds);
         return this.dateTimeAdapter.compare(result, comparedDate);
     }

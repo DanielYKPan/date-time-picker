@@ -34,6 +34,7 @@ import { DateTimeAdapter } from './adapter/date-time-adapter.class';
 import { OWL_DATE_TIME_FORMATS, OwlDateTimeFormats } from './adapter/date-time-format.class';
 import { Subscription } from 'rxjs';
 import { SelectMode } from './date-time.class';
+import { coerceBooleanProperty } from '@angular/cdk/coercion';
 
 export const OWL_DATETIME_VALUE_ACCESSOR: any = {
     provide: NG_VALUE_ACCESSOR,
@@ -86,13 +87,24 @@ export class OwlDateTimeInputDirective<T> implements OnInit, AfterContentInit,
     @Input()
     private _disabled: boolean;
     get disabled() {
-        return this._disabled;
+        return !!this._disabled;
     }
 
     set disabled( value: boolean ) {
-        if (this._disabled !== value) {
-            this._disabled = value;
-            this.disabledChange.emit(value);
+        const newValue = coerceBooleanProperty(value);
+        const element = this.elmRef.nativeElement;
+
+        if (this._disabled !== newValue) {
+            this._disabled = newValue;
+            this.disabledChange.emit(newValue);
+        }
+
+        // We need to null check the `blur` method, because it's undefined during SSR.
+        if (newValue && element.blur) {
+            // Normally, native input elements automatically blur if they turn disabled. This behavior
+            // is problematic, because it would mean that it triggers another change detection cycle,
+            // which then causes a changed after checked error if the input element was focused before.
+            element.blur();
         }
     }
 
@@ -158,12 +170,11 @@ export class OwlDateTimeInputDirective<T> implements OnInit, AfterContentInit,
         value = this.dateTimeAdapter.deserialize(value);
         this.lastValueValid = !value || this.dateTimeAdapter.isValid(value);
         value = this.getValidDate(value);
-        const oldDate = this.value;
+        const oldDate = this._value;
         this._value = value;
 
         // set the input property 'value'
-        this.renderer.setProperty(this.elmRef.nativeElement, 'value',
-            value ? this.dateTimeAdapter.format(value, this.dtPicker.formatString) : '');
+        this.formatNativeInputValue();
 
         // check if the input value changed
         if (!this.dateTimeAdapter.isEqual(oldDate, value)) {
@@ -183,28 +194,14 @@ export class OwlDateTimeInputDirective<T> implements OnInit, AfterContentInit,
                 v = this.dateTimeAdapter.deserialize(v);
                 return this.getValidDate(v);
             });
-            const from = this._values[0];
-            const to = this._values[1];
-            this.lastValueValid = (!from || this.dateTimeAdapter.isValid(from)) && (!to || this.dateTimeAdapter.isValid(to));
-            const fromFormatted = from ? this.dateTimeAdapter.format(from, this.dtPicker.formatString) : '';
-            const toFormatted = to ? this.dateTimeAdapter.format(to, this.dtPicker.formatString) : '';
-
-            if (!fromFormatted && !toFormatted) {
-                this.renderer.setProperty(this.elmRef.nativeElement, 'value', null);
-            } else {
-                if (this._selectMode === 'range') {
-                    this.renderer.setProperty(this.elmRef.nativeElement, 'value', fromFormatted + ' ' + this.rangeSeparator + ' ' + toFormatted);
-                } else if (this._selectMode === 'rangeFrom') {
-                    this.renderer.setProperty(this.elmRef.nativeElement, 'value', fromFormatted);
-                } else if (this._selectMode === 'rangeTo') {
-                    this.renderer.setProperty(this.elmRef.nativeElement, 'value', toFormatted);
-                }
-            }
-
+            this.lastValueValid = (!this._values[0] || this.dateTimeAdapter.isValid(this._values[0])) && (!this._values[1] || this.dateTimeAdapter.isValid(this._values[1]));
         } else {
             this._values = [];
-            this.renderer.setProperty(this.elmRef.nativeElement, 'value', '');
+            this.lastValueValid = true;
         }
+
+        // set the input property 'value'
+        this.formatNativeInputValue();
 
         this.valueChange.emit(this._values);
     }
@@ -395,6 +392,7 @@ export class OwlDateTimeInputDirective<T> implements OnInit, AfterContentInit,
             this.onModelChange(selecteds);
             this.onModelTouched();
             this.dateTimeChange.emit({source: this, value: selecteds, input: this.elmRef.nativeElement});
+            this.dateTimeInput.emit({source: this, value: selecteds, input: this.elmRef.nativeElement});
         });
     }
 
@@ -479,6 +477,46 @@ export class OwlDateTimeInputDirective<T> implements OnInit, AfterContentInit,
     }
 
     /**
+     * Set the native input property 'value'
+     * @return {void}
+     * */
+    public formatNativeInputValue(): void {
+        if (this.isInSingleMode) {
+
+            this.renderer.setProperty(this.elmRef.nativeElement, 'value',
+                this._value ? this.dateTimeAdapter.format(this._value, this.dtPicker.formatString) : '');
+
+        } else if (this.isInRangeMode) {
+
+            if (this._values && this.values.length > 0) {
+
+                const from = this._values[0];
+                const to = this._values[1];
+
+                const fromFormatted = from ? this.dateTimeAdapter.format(from, this.dtPicker.formatString) : '';
+                const toFormatted = to ? this.dateTimeAdapter.format(to, this.dtPicker.formatString) : '';
+
+                if (!fromFormatted && !toFormatted) {
+                    this.renderer.setProperty(this.elmRef.nativeElement, 'value', null);
+                } else {
+                    if (this._selectMode === 'range') {
+                        this.renderer.setProperty(this.elmRef.nativeElement, 'value', fromFormatted + ' ' + this.rangeSeparator + ' ' + toFormatted);
+                    } else if (this._selectMode === 'rangeFrom') {
+                        this.renderer.setProperty(this.elmRef.nativeElement, 'value', fromFormatted);
+                    } else if (this._selectMode === 'rangeTo') {
+                        this.renderer.setProperty(this.elmRef.nativeElement, 'value', toFormatted);
+                    }
+                }
+
+            } else {
+                this.renderer.setProperty(this.elmRef.nativeElement, 'value', '');
+            }
+        }
+
+        return;
+    }
+
+    /**
      * Register the relationship between this input and its picker component
      * @param {OwlDateTimeComponent} picker -- associated picker component to this input
      * @return {void}
@@ -533,11 +571,16 @@ export class OwlDateTimeInputDirective<T> implements OnInit, AfterContentInit,
         let result = this.dateTimeAdapter.parse(value, this.dateTimeFormats.parseInput);
         this.lastValueValid = !result || this.dateTimeAdapter.isValid(result);
         result = this.getValidDate(result);
-        this._value = result;
 
-        this.valueChange.emit(result);
-        this.onModelChange(result);
-        this.dateTimeInput.emit({source: this, value: result, input: this.elmRef.nativeElement});
+        // if the newValue is the same as the oldValue, we intend to not fire the valueChange event
+        // result equals to null means there is input event, but the input value is invalid
+        if (!this.isSameValue(result, this._value) ||
+            result === null) {
+            this._value = result;
+            this.valueChange.emit(result);
+            this.onModelChange(result);
+            this.dateTimeInput.emit({source: this, value: result, input: this.elmRef.nativeElement});
+        }
     }
 
     /**
@@ -556,8 +599,13 @@ export class OwlDateTimeInputDirective<T> implements OnInit, AfterContentInit,
         this.lastValueValid = !result || this.dateTimeAdapter.isValid(result);
         result = this.getValidDate(result);
 
-        this._values = this._selectMode === 'rangeFrom' ? [result, this._values[1]] : [this._values[0], result];
+        // if the newValue is the same as the oldValue, we intend to not fire the valueChange event
+        if ((this._selectMode === 'rangeFrom' && this.isSameValue(result, this._values[0]) && result) ||
+            (this._selectMode === 'rangeTo' && this.isSameValue(result, this._values[1])) && result) {
+            return;
+        }
 
+        this._values = this._selectMode === 'rangeFrom' ? [result, this._values[1]] : [this._values[0], result];
         this.valueChange.emit(this._values);
         this.onModelChange(this._values);
         this.dateTimeInput.emit({source: this, value: this._values, input: this.elmRef.nativeElement});
@@ -583,10 +631,27 @@ export class OwlDateTimeInputDirective<T> implements OnInit, AfterContentInit,
         this.lastValueValid = (!from || this.dateTimeAdapter.isValid(from)) && (!to || this.dateTimeAdapter.isValid(to));
         from = this.getValidDate(from);
         to = this.getValidDate(to);
-        this._values = [from, to];
 
-        this.valueChange.emit(this._values);
-        this.onModelChange(this._values);
-        this.dateTimeInput.emit({source: this, value: this._values, input: this.elmRef.nativeElement});
+        // if the newValue is the same as the oldValue, we intend to not fire the valueChange event
+        if (!this.isSameValue(from, this._values[0]) ||
+            !this.isSameValue(to, this._values[1]) ||
+            (from === null && to === null)) {
+            this._values = [from, to];
+            this.valueChange.emit(this._values);
+            this.onModelChange(this._values);
+            this.dateTimeInput.emit({source: this, value: this._values, input: this.elmRef.nativeElement});
+        }
+    }
+
+    /**
+     * Check if the two value is the same
+     * @return {boolean}
+     * */
+    private isSameValue( first: T | null, second: T | null ): boolean {
+        if (first && second) {
+            return this.dateTimeAdapter.compare(first, second) === 0;
+        }
+
+        return first == second;
     }
 }

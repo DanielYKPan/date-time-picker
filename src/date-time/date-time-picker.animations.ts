@@ -21,7 +21,7 @@ export const owlDateTimePickerAnimations: {
         state('void', style({opacity: 0, transform: 'scale(1, 0)'})),
         state('enter', style({opacity: 1, transform: 'scale(1, 1)'})),
         transition('void => enter', group([
-            query('@fadeInPicker', animateChild()),
+            query('@fadeInPicker', animateChild(), { optional: true }),
             animate('400ms cubic-bezier(0.25, 0.8, 0.25, 1)')
         ])),
         transition('enter => void', animate('100ms linear', style({opacity: 0})))

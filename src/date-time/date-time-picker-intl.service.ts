@@ -3,9 +3,16 @@
  */
 
 import { Injectable } from '@angular/core';
+import { Subject } from 'rxjs';
 
-@Injectable()
+@Injectable({providedIn: 'root'})
 export class OwlDateTimeIntl {
+
+    /**
+     * Stream that emits whenever the labels here are changed. Use this to notify
+     * components if the labels have changed after initialization.
+     */
+    readonly changes: Subject<void> = new Subject<void>();
 
     /** A label for the up second button (used by screen readers).  */
     upSecondLabel = 'Add a second';

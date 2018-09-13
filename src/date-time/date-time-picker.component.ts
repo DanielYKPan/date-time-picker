@@ -28,7 +28,7 @@ import {
     PositionStrategy,
     ScrollStrategy
 } from '@angular/cdk/overlay';
-import { ESCAPE } from '@angular/cdk/keycodes';
+import { ESCAPE, UP_ARROW } from '@angular/cdk/keycodes';
 import { coerceArray, coerceBooleanProperty } from '@angular/cdk/coercion';
 import { OwlDateTimeContainerComponent } from './date-time-picker-container.component';
 import { OwlDateTimeInputDirective } from './date-time-picker-input.directive';
@@ -121,10 +121,8 @@ export class OwlDateTimeComponent<T> extends OwlDateTime<T> implements OnInit, O
     set pickerType( val: PickerType ) {
         if (val !== this._pickerType) {
             this._pickerType = val;
-            if (this._dtInput.isInSingleMode) {
-                this._dtInput.value = this._dtInput.value;
-            } else {
-                this._dtInput.values = this._dtInput.values;
+            if (this._dtInput) {
+                this._dtInput.formatNativeInputValue();
             }
         }
     }
@@ -149,7 +147,7 @@ export class OwlDateTimeComponent<T> extends OwlDateTime<T> implements OnInit, O
     }
 
     /** Whether the date time picker should be disabled. */
-    private _disabled = false;
+    private _disabled: boolean;
     @Input()
     get disabled(): boolean {
         return this._disabled === undefined && this._dtInput ?
@@ -163,6 +161,24 @@ export class OwlDateTimeComponent<T> extends OwlDateTime<T> implements OnInit, O
             this.disabledChange.next(value);
         }
     }
+
+    /** Whether the calendar is open. */
+    private _opened: boolean = false;
+    @Input()
+    get opened(): boolean {
+        return this._opened;
+    }
+
+    set opened( val: boolean ) {
+        val ? this.open() : this.close();
+    }
+
+    /**
+     * The scroll strategy when the picker is open
+     * Learn more this from https://material.angular.io/cdk/overlay/overview#scroll-strategies
+     * */
+    @Input()
+    public scrollStrategy: ScrollStrategy;
 
     /**
      * Callback when the picker is closed
@@ -196,8 +212,6 @@ export class OwlDateTimeComponent<T> extends OwlDateTime<T> implements OnInit, O
      * */
     public disabledChange = new EventEmitter<boolean>();
 
-    public opened: boolean;
-
     private pickerContainerPortal: ComponentPortal<OwlDateTimeContainerComponent<T>>;
     private pickerContainer: OwlDateTimeContainerComponent<T>;
     private popupRef: OverlayRef;
@@ -205,6 +219,7 @@ export class OwlDateTimeComponent<T> extends OwlDateTime<T> implements OnInit, O
     private dtInputSub = Subscription.EMPTY;
     private hidePickerStreamSub = Subscription.EMPTY;
     private confirmSelectedStreamSub = Subscription.EMPTY;
+    private pickerOpenedStreamSub = Subscription.EMPTY;
 
     /** The element that was focused before the date time picker was opened. */
     private focusedElementBeforeOpen: HTMLElement | null = null;
@@ -266,7 +281,7 @@ export class OwlDateTimeComponent<T> extends OwlDateTime<T> implements OnInit, O
                  private ngZone: NgZone,
                  protected changeDetector: ChangeDetectorRef,
                  @Optional() protected dateTimeAdapter: DateTimeAdapter<T>,
-                 @Inject(OWL_DTPICKER_SCROLL_STRATEGY) private scrollStrategy: () => ScrollStrategy,
+                 @Inject(OWL_DTPICKER_SCROLL_STRATEGY) private defaultScrollStrategy: () => ScrollStrategy,
                  @Optional() @Inject(OWL_DATE_TIME_FORMATS) protected dateTimeFormats: OwlDateTimeFormats,
                  @Optional() @Inject(DOCUMENT) private document: any ) {
         super(dateTimeAdapter, dateTimeFormats);
@@ -302,7 +317,7 @@ export class OwlDateTimeComponent<T> extends OwlDateTime<T> implements OnInit, O
 
     public open(): void {
 
-        if (this.opened || this.disabled) {
+        if (this._opened || this.disabled) {
             return;
         }
 
@@ -319,6 +334,19 @@ export class OwlDateTimeComponent<T> extends OwlDateTime<T> implements OnInit, O
             this.selected = this._dtInput.value;
         } else if (this.isInRangeMode) {
             this.selecteds = this._dtInput.values;
+        }
+
+        // when the picker is open , we make sure the picker's current selected time value
+        // is the same as the _startAt time value.
+        if (this.selected && this.pickerType !== 'calendar' && this._startAt) {
+            this.selected = this.dateTimeAdapter.createDate(
+                this.dateTimeAdapter.getYear(this.selected),
+                this.dateTimeAdapter.getMonth(this.selected),
+                this.dateTimeAdapter.getDate(this.selected),
+                this.dateTimeAdapter.getHours(this._startAt),
+                this.dateTimeAdapter.getMinutes(this._startAt),
+                this.dateTimeAdapter.getSeconds(this._startAt),
+            );
         }
 
         this.pickerMode === 'dialog' ?
@@ -339,9 +367,6 @@ export class OwlDateTimeComponent<T> extends OwlDateTime<T> implements OnInit, O
             .subscribe(( event: any ) => {
                 this.confirmSelect(event);
             });
-
-        this.opened = true;
-        this.afterPickerOpen.emit();
     }
 
     /**
@@ -363,10 +388,15 @@ export class OwlDateTimeComponent<T> extends OwlDateTime<T> implements OnInit, O
          * 2) picker type is 'calendar' and selectMode is 'single'.
          * 3) picker type is 'calendar' and selectMode is 'range' and
          *    the 'selecteds' has 'from'(selecteds[0]) and 'to'(selecteds[1]) values.
+         * 4) selectMode is 'rangeFrom' and selecteds[0] has value.
+         * 5) selectMode is 'rangeTo' and selecteds[1] has value.
          * */
         if (this.pickerMode !== 'dialog' &&
             this.pickerType === 'calendar' &&
-            (this.isInSingleMode || (this.isInRangeMode && this.selecteds[0] && this.selecteds[1]))) {
+            ((this.selectMode === 'single' && this.selected) ||
+                (this.selectMode === 'rangeFrom' && this.selecteds[0]) ||
+                (this.selectMode === 'rangeTo' && this.selecteds[1]) ||
+                (this.selectMode === 'range' && this.selecteds[0] && this.selecteds[1]))) {
             this.confirmSelect();
         }
     }
@@ -390,7 +420,7 @@ export class OwlDateTimeComponent<T> extends OwlDateTime<T> implements OnInit, O
      * @return {void}
      * */
     public close(): void {
-        if (!this.opened) {
+        if (!this._opened) {
             return;
         }
 
@@ -412,14 +442,19 @@ export class OwlDateTimeComponent<T> extends OwlDateTime<T> implements OnInit, O
             this.confirmSelectedStreamSub = null;
         }
 
+        if (this.pickerOpenedStreamSub) {
+            this.pickerOpenedStreamSub.unsubscribe();
+            this.pickerOpenedStreamSub = null;
+        }
+
         if (this.dialogRef) {
             this.dialogRef.close();
             this.dialogRef = null;
         }
 
         const completeClose = () => {
-            if (this.opened) {
-                this.opened = false;
+            if (this._opened) {
+                this._opened = false;
                 this.afterPickerClosed.emit(null);
                 this.focusedElementBeforeOpen = null;
             }
@@ -444,7 +479,7 @@ export class OwlDateTimeComponent<T> extends OwlDateTime<T> implements OnInit, O
      * @param {any} event
      * @return {void}
      * */
-    private confirmSelect( event?: any ): void {
+    public confirmSelect( event?: any ): void {
 
         if (this.isInSingleMode) {
             const selected = this.selected || this.startAt || this.dateTimeAdapter.now();
@@ -467,9 +502,14 @@ export class OwlDateTimeComponent<T> extends OwlDateTime<T> implements OnInit, O
             backdropClass: ['cdk-overlay-dark-backdrop', ...coerceArray(this.backdropClass)],
             paneClass: ['owl-dt-dialog', ...coerceArray(this.panelClass)],
             viewContainerRef: this.viewContainerRef,
+            scrollStrategy: this.scrollStrategy || this.defaultScrollStrategy(),
         });
         this.pickerContainer = this.dialogRef.componentInstance;
 
+        this.dialogRef.afterOpen().subscribe(() => {
+            this.afterPickerOpen.emit(null);
+            this._opened = true;
+        });
         this.dialogRef.afterClosed().subscribe(() => this.close());
     }
 
@@ -496,6 +536,13 @@ export class OwlDateTimeComponent<T> extends OwlDateTime<T> implements OnInit, O
             this.ngZone.onStable.asObservable().pipe(take(1)).subscribe(() => {
                 this.popupRef.updatePosition();
             });
+
+            // emit open stream
+            this.pickerOpenedStreamSub =
+                this.pickerContainer.pickerOpenedStream.pipe(take(1)).subscribe(() => {
+                    this.afterPickerOpen.emit(null);
+                    this._opened = true;
+                });
         }
     }
 
@@ -504,7 +551,7 @@ export class OwlDateTimeComponent<T> extends OwlDateTime<T> implements OnInit, O
             positionStrategy: this.createPopupPositionStrategy(),
             hasBackdrop: true,
             backdropClass: ['cdk-overlay-transparent-backdrop', ...coerceArray(this.backdropClass)],
-            scrollStrategy: this.scrollStrategy(),
+            scrollStrategy: this.scrollStrategy || this.defaultScrollStrategy(),
             panelClass: ['owl-dt-popup', ...coerceArray(this.panelClass)],
         });
 
@@ -513,7 +560,8 @@ export class OwlDateTimeComponent<T> extends OwlDateTime<T> implements OnInit, O
         merge(
             this.popupRef.backdropClick(),
             this.popupRef.detachments(),
-            this.popupRef.keydownEvents().pipe(filter(event => event.keyCode === ESCAPE))
+            this.popupRef.keydownEvents().pipe(filter(event => event.keyCode === ESCAPE ||
+                (this._dtInput && event.altKey && event.keyCode === UP_ARROW)))
         ).subscribe(() => this.close());
     }
 
@@ -531,7 +579,8 @@ export class OwlDateTimeComponent<T> extends OwlDateTime<T> implements OnInit, O
                 {originX: 'start', originY: 'top', overlayX: 'start', overlayY: 'bottom'},
                 {originX: 'end', originY: 'bottom', overlayX: 'end', overlayY: 'top'},
                 {originX: 'end', originY: 'top', overlayX: 'end', overlayY: 'bottom'},
-                {originX: 'start', originY: 'top', overlayX: 'start', overlayY: 'center'},
+                {originX: 'start', originY: 'top', overlayX: 'start', overlayY: 'top', offsetY: -176},
+                {originX: 'start', originY: 'top', overlayX: 'start', overlayY: 'top', offsetY: -352},
             ]);
     }
 }

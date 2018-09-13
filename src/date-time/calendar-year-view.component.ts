@@ -51,7 +51,19 @@ export class OwlYearViewComponent<T> implements OnInit, AfterContentInit, OnDest
     /**
      * The select mode of the picker;
      * */
-    @Input() selectMode: SelectMode;
+    private _selectMode: SelectMode = 'single';
+    @Input()
+    get selectMode(): SelectMode {
+        return this._selectMode;
+    }
+
+    set selectMode( val: SelectMode ) {
+        this._selectMode = val;
+        if (this.initiated) {
+            this.generateMonthList();
+            this.cdRef.markForCheck();
+        }
+    }
 
     /** The currently selected date. */
     private _selected: T | null;
@@ -144,7 +156,7 @@ export class OwlYearViewComponent<T> implements OnInit, AfterContentInit, OnDest
         }
     }
 
-    private monthNames: string[];
+    private readonly monthNames: string[];
 
     private _months: CalendarCell[][];
     get months() {
@@ -181,7 +193,7 @@ export class OwlYearViewComponent<T> implements OnInit, AfterContentInit, OnDest
     /**
      * Callback to invoke when a new month is selected
      * */
-    @Output() readonly selectedChange = new EventEmitter<T>();
+    @Output() readonly change = new EventEmitter<T>();
 
     /**
      * Emits the selected year. This doesn't imply a change on the selected date
@@ -248,7 +260,7 @@ export class OwlYearViewComponent<T> implements OnInit, AfterContentInit, OnDest
         this.monthSelected.emit(firstDateOfMonth);
 
         const daysInMonth = this.dateTimeAdapter.getNumDaysInMonth(firstDateOfMonth);
-        const selected = this.dateTimeAdapter.createDate(
+        const result = this.dateTimeAdapter.createDate(
             this.dateTimeAdapter.getYear(this.pickerMoment),
             month,
             Math.min(daysInMonth, this.dateTimeAdapter.getDate(this.pickerMoment)),
@@ -257,7 +269,7 @@ export class OwlYearViewComponent<T> implements OnInit, AfterContentInit, OnDest
             this.dateTimeAdapter.getSeconds(this.pickerMoment),
         );
 
-        this.selectedChange.emit(selected);
+        this.change.emit(result);
     }
 
     /**
