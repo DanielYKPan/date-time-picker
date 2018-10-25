@@ -7,6 +7,7 @@ import { CommonModule } from '@angular/common';
 import { A11yModule } from '@angular/cdk/a11y';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { OwlDateTimeTriggerDirective } from './date-time-picker-trigger.directive';
+import { OwlDateTimeMaterialTriggerDirective } from './date-time-picker-material-trigger.directive';
 import { OWL_DTPICKER_SCROLL_STRATEGY_PROVIDER, OwlDateTimeComponent } from './date-time-picker.component';
 import { OwlDateTimeContainerComponent } from './date-time-picker-container.component';
 import { OwlDateTimeInputDirective } from './date-time-picker-input.directive';
@@ -28,6 +29,7 @@ import { OwlDialogModule } from '../dialog';
         OwlCalendarComponent,
         OwlTimerComponent,
         OwlDateTimeTriggerDirective,
+        OwlDateTimeMaterialTriggerDirective,
         OwlDateTimeInputDirective,
         OwlDateTimeComponent,
         OwlDateTimeInlineComponent,
@@ -49,6 +51,7 @@ import { OwlDialogModule } from '../dialog';
         OwlCalendarBodyComponent,
         NumberFixedLenPipe,
         OwlDateTimeInlineComponent,
+        OwlDateTimeMaterialTriggerDirective
     ],
     providers: [
         OwlDateTimeIntl,
