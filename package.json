@@ -26,7 +26,7 @@
     "core-js": "^2.5.7",
     "moment": "^2.22.1",
     "ng-pick-datetime": "^7.0.0",
-    "ng-pick-datetime-moment": "^1.0.6",
+    "ng-pick-datetime-moment": "^1.0.8",
     "prismjs": "^1.9.0",
     "rxjs": "^6.3.3",
     "web-animations-js": "^2.3.1",
