@@ -10,7 +10,6 @@ import {
     Component,
     ElementRef,
     EventEmitter,
-    HostBinding,
     Inject,
     Input,
     NgZone,
@@ -31,6 +30,9 @@ import { Subscription } from 'rxjs';
     exportAs: 'owlDateTimeCalendar',
     templateUrl: './calendar.component.html',
     styleUrls: ['./calendar.component.scss'],
+    host: {
+        '[class.owl-dt-calendar]': 'owlDTCalendarClass'
+    },
     preserveWhitespaces: false,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -229,7 +231,6 @@ export class OwlCalendarComponent<T> implements OnInit, AfterContentInit, AfterV
     /**
      * Bind class 'owl-dt-calendar' to host
      * */
-    @HostBinding('class.owl-dt-calendar')
     get owlDTCalendarClass(): boolean {
         return true;
     }

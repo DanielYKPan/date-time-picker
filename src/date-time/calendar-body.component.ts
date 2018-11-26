@@ -7,7 +7,6 @@ import {
     Component,
     ElementRef,
     EventEmitter,
-    HostBinding,
     Input,
     NgZone,
     OnInit,
@@ -31,6 +30,9 @@ export class CalendarCell {
     exportAs: 'owlDateTimeCalendarBody',
     templateUrl: './calendar-body.component.html',
     styleUrls: ['./calendar-body.component.scss'],
+    host:{
+        '[class.owl-dt-calendar-body]': 'owlDTCalendarBodyClass'
+    },
     preserveWhitespaces: false,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -80,7 +82,6 @@ export class OwlCalendarBodyComponent implements OnInit {
      * */
     @Output() public readonly select = new EventEmitter<CalendarCell>();
 
-    @HostBinding('class.owl-dt-calendar-body')
     get owlDTCalendarBodyClass(): boolean {
         return true;
     }

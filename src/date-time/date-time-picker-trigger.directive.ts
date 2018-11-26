@@ -7,8 +7,6 @@ import {
     AfterContentInit,
     ChangeDetectorRef,
     Directive,
-    HostBinding,
-    HostListener,
     Input,
     OnChanges,
     OnDestroy,
@@ -20,6 +18,10 @@ import { merge, of as observableOf, Subscription } from 'rxjs';
 
 @Directive({
     selector: '[owlDateTimeTrigger]',
+    host: {
+        '(click)': 'handleClickOnHost($event)',
+        '[class.owl-dt-trigger-disabled]': 'owlDTTriggerDisabledClass'
+    }
 })
 export class OwlDateTimeTriggerDirective<T> implements OnInit, OnChanges, AfterContentInit, OnDestroy {
 
@@ -35,7 +37,6 @@ export class OwlDateTimeTriggerDirective<T> implements OnInit, OnChanges, AfterC
         this._disabled = value;
     }
 
-    @HostBinding('class.owl-dt-trigger-disabled')
     get owlDTTriggerDisabledClass(): boolean {
         return this.disabled;
     }
@@ -62,7 +63,6 @@ export class OwlDateTimeTriggerDirective<T> implements OnInit, OnChanges, AfterC
         this.stateChanges.unsubscribe();
     }
 
-    @HostListener('click', ['$event'])
     public handleClickOnHost( event: Event ): void {
         if (this.dtPicker) {
             this.dtPicker.open();

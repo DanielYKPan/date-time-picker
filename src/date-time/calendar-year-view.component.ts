@@ -8,7 +8,6 @@ import {
     ChangeDetectorRef,
     Component,
     EventEmitter,
-    HostBinding,
     Inject,
     Input,
     OnDestroy,
@@ -42,6 +41,9 @@ const MONTHS_PER_ROW = 3;
     exportAs: 'owlMonthView',
     templateUrl: './calendar-year-view.component.html',
     styleUrls: ['./calendar-year-view.component.scss'],
+    host: {
+        '[class.owl-dt-calendar-view]': 'owlDTCalendarView'
+    },
     preserveWhitespaces: false,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -209,7 +211,6 @@ export class OwlYearViewComponent<T> implements OnInit, AfterContentInit, OnDest
     /** The body of calendar table */
     @ViewChild(OwlCalendarBodyComponent) calendarBodyElm: OwlCalendarBodyComponent;
 
-    @HostBinding('class.owl-dt-calendar-view')
     get owlDTCalendarView(): boolean {
         return true;
     }

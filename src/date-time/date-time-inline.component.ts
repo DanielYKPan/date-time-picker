@@ -6,7 +6,7 @@ import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component, EventEmitter,
-    forwardRef, HostBinding,
+    forwardRef,
     Inject,
     Input,
     OnInit,
@@ -30,6 +30,9 @@ export const OWL_DATETIME_VALUE_ACCESSOR: any = {
     selector: 'owl-date-time-inline',
     templateUrl: './date-time-inline.component.html',
     styleUrls: ['./date-time-inline.component.scss'],
+    host: {
+        '[class.owl-dt-inline]': 'owlDTInlineClass'
+    },
     changeDetection: ChangeDetectionStrategy.OnPush,
     preserveWhitespaces: false,
     providers: [
@@ -231,7 +234,6 @@ export class OwlDateTimeInlineComponent<T> extends OwlDateTime<T> implements OnI
             || this._selectMode === 'rangeTo';
     }
 
-    @HostBinding('class.owl-dt-inline')
     get owlDTInlineClass(): boolean {
         return true;
     }

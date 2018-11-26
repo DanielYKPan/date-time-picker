@@ -7,7 +7,6 @@ import {
     Component,
     ElementRef,
     EventEmitter,
-    HostBinding,
     Input,
     NgZone,
     OnInit,
@@ -25,6 +24,10 @@ import { take } from 'rxjs/operators';
     styleUrls: ['./timer.component.scss'],
     preserveWhitespaces: false,
     changeDetection: ChangeDetectionStrategy.OnPush,
+    host: {
+        '[class.owl-dt-timer]': 'owlDTTimerClass',
+        '[attr.tabindex]': 'owlDTTimeTabIndex'
+    }
 })
 
 export class OwlTimerComponent<T> implements OnInit {
@@ -172,12 +175,10 @@ export class OwlTimerComponent<T> implements OnInit {
 
     @Output() selectedChange = new EventEmitter<T>();
 
-    @HostBinding('class.owl-dt-timer')
     get owlDTTimerClass(): boolean {
         return true;
     }
 
-    @HostBinding('attr.tabindex')
     get owlDTTimeTabIndex(): number {
         return -1;
     }
