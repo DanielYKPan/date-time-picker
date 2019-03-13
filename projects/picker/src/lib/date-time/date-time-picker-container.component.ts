@@ -9,8 +9,6 @@ import {
     ChangeDetectorRef,
     Component,
     ElementRef,
-    HostBinding,
-    HostListener,
     OnInit,
     Optional,
     ViewChild
@@ -41,7 +39,17 @@ import {
     animations: [
         owlDateTimePickerAnimations.transformPicker,
         owlDateTimePickerAnimations.fadeInPicker
-    ]
+    ],
+    host: {
+        '(click)': 'handleContainerAnimationDone($event)',
+        '[class.owl-dt-container]': 'owlDTContainerClass',
+        '[class.owl-dt-popup-container]': 'owlDTPopupContainerClass',
+        '[class.owl-dt-dialog-container]': 'owlDTDialogContainerClass',
+        '[class.owl-dt-inline-container]': 'owlDTInlineContainerClass',
+        '[class.owl-dt-container-disabled]': 'owlDTContainerDisabledClass',
+        '[attr.id]': 'owlDTContainerId',
+        '[@transformPicker]': 'owlDTContainerAnimation',
+    }
 })
 export class OwlDateTimeContainerComponent<T>
     implements OnInit, AfterContentInit, AfterViewInit {
@@ -161,47 +169,39 @@ export class OwlDateTimeContainerComponent<T>
         return this.elmRef.nativeElement;
     }
 
-    @HostBinding('class.owl-dt-container')
     get owlDTContainerClass(): boolean {
         return true;
     }
 
-    @HostBinding('class.owl-dt-popup-container')
     get owlDTPopupContainerClass(): boolean {
         return this.picker.pickerMode === 'popup';
     }
 
-    @HostBinding('class.owl-dt-dialog-container')
     get owlDTDialogContainerClass(): boolean {
         return this.picker.pickerMode === 'dialog';
     }
 
-    @HostBinding('class.owl-dt-inline-container')
     get owlDTInlineContainerClass(): boolean {
         return this.picker.pickerMode === 'inline';
     }
 
-    @HostBinding('class.owl-dt-container-disabled')
     get owlDTContainerDisabledClass(): boolean {
         return this.picker.disabled;
     }
 
-    @HostBinding('attr.id')
     get owlDTContainerId(): string {
         return this.picker.id;
     }
 
-    @HostBinding('@transformPicker')
     get owlDTContainerAnimation(): any {
         return this.picker.pickerMode === 'inline' ? '' : 'enter';
     }
 
-    constructor(
-        private cdRef: ChangeDetectorRef,
-        private elmRef: ElementRef,
-        private pickerIntl: OwlDateTimeIntl,
-        @Optional() private dateTimeAdapter: DateTimeAdapter<T>
-    ) {}
+    constructor( private cdRef: ChangeDetectorRef,
+                  private elmRef: ElementRef,
+                  private pickerIntl: OwlDateTimeIntl,
+                 @Optional() private dateTimeAdapter: DateTimeAdapter<T> ) {
+    }
 
     public ngOnInit() {}
 
@@ -213,7 +213,6 @@ export class OwlDateTimeContainerComponent<T>
         this.focusPicker();
     }
 
-    @HostListener('@transformPicker.done', ['$event'])
     public handleContainerAnimationDone(event: AnimationEvent): void {
         const toState = event.toState;
         if (toState === 'enter') {

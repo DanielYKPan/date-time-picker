@@ -8,8 +8,6 @@ import {
     ElementRef,
     EventEmitter,
     forwardRef,
-    HostBinding,
-    HostListener,
     Inject,
     Input,
     OnDestroy,
@@ -54,7 +52,21 @@ export const OWL_DATETIME_VALIDATORS: any = {
 @Directive({
     selector: 'input[owlDateTime]',
     exportAs: 'owlDateTimeInput',
-    providers: [OWL_DATETIME_VALUE_ACCESSOR, OWL_DATETIME_VALIDATORS]
+    host: {
+        '(keydown)': 'handleKeydownOnHost($event)',
+        '(blur)': 'handleBlurOnHost($event)',
+        '(input)': 'handleInputOnHost($event)',
+        '(change)': 'handleChangeOnHost($event)',
+        '[attr.aria-haspopup]': 'owlDateTimeInputAriaHaspopup',
+        '[attr.aria-owns]': 'owlDateTimeInputAriaOwns',
+        '[attr.min]': 'minIso8601',
+        '[attr.max]': 'maxIso8601',
+        '[disabled]': 'owlDateTimeInputDisabled'
+    },
+    providers: [
+        OWL_DATETIME_VALUE_ACCESSOR,
+        OWL_DATETIME_VALIDATORS,
+    ],
 })
 export class OwlDateTimeInputDirective<T>
     implements
@@ -381,39 +393,30 @@ export class OwlDateTimeInputDirective<T>
     /** Emits when the disabled state has changed */
     public disabledChange = new EventEmitter<boolean>();
 
-    @HostBinding('attr.aria-haspopup')
     get owlDateTimeInputAriaHaspopup(): boolean {
         return true;
     }
 
-    @HostBinding('attr.aria-owns')
     get owlDateTimeInputAriaOwns(): string {
         return (this.dtPicker.opened && this.dtPicker.id) || null;
     }
 
-    @HostBinding('attr.min')
     get minIso8601(): string {
         return this.min ? this.dateTimeAdapter.toIso8601(this.min) : null;
     }
 
-    @HostBinding('attr.max')
     get maxIso8601(): string {
         return this.max ? this.dateTimeAdapter.toIso8601(this.max) : null;
     }
 
-    @HostBinding('disabled')
     get owlDateTimeInputDisabled(): boolean {
         return this.disabled;
     }
 
-    constructor(
-        private elmRef: ElementRef,
+    constructor( private elmRef: ElementRef,
         private renderer: Renderer2,
         @Optional() private dateTimeAdapter: DateTimeAdapter<T>,
-        @Optional()
-        @Inject(OWL_DATE_TIME_FORMATS)
-        private dateTimeFormats: OwlDateTimeFormats
-    ) {
+        @Optional() @Inject(OWL_DATE_TIME_FORMATS) private dateTimeFormats: OwlDateTimeFormats ) {
         if (!this.dateTimeAdapter) {
             throw Error(
                 `OwlDateTimePicker: No provider found for DateTimePicker. You must import one of the following ` +
@@ -506,21 +509,18 @@ export class OwlDateTimeInputDirective<T>
     /**
      * Open the picker when user hold alt + DOWN_ARROW
      * */
-    @HostListener('keydown', ['$event'])
-    public handleKeydownOnHost(event: KeyboardEvent): void {
+    public handleKeydownOnHost( event: KeyboardEvent ): void {
         if (event.altKey && event.keyCode === DOWN_ARROW) {
             this.dtPicker.open();
             event.preventDefault();
         }
     }
 
-    @HostListener('blur', ['$event'])
-    public handleBlurOnHost(event: Event): void {
+    public handleBlurOnHost( event: Event ): void {
         this.onModelTouched();
     }
 
-    @HostListener('input', ['$event'])
-    public handleInputOnHost(event: any): void {
+    public handleInputOnHost( event: any ): void {
         let value = event.target.value;
         if (this._selectMode === 'single') {
             this.changeInputInSingleMode(value);
@@ -531,8 +531,8 @@ export class OwlDateTimeInputDirective<T>
         }
     }
 
-    @HostListener('change', ['$event'])
-    public handleChangeOnHost(event: any): void {
+    public handleChangeOnHost( event: any ): void {
+
         let v;
         if (this.isInSingleMode) {
             v = this.value;

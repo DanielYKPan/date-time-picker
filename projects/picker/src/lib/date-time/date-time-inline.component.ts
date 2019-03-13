@@ -5,10 +5,8 @@
 import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
-    Component,
-    EventEmitter,
+    Component, EventEmitter,
     forwardRef,
-    HostBinding,
     Inject,
     Input,
     OnInit,
@@ -41,6 +39,9 @@ export const OWL_DATETIME_VALUE_ACCESSOR: any = {
     selector: 'owl-date-time-inline',
     templateUrl: './date-time-inline.component.html',
     styleUrls: ['./date-time-inline.component.scss'],
+    host: {
+        '[class.owl-dt-inline]': 'owlDTInlineClass'
+    },
     changeDetection: ChangeDetectionStrategy.OnPush,
     preserveWhitespaces: false,
     providers: [OWL_DATETIME_VALUE_ACCESSOR]
@@ -249,7 +250,6 @@ export class OwlDateTimeInlineComponent<T> extends OwlDateTime<T>
         );
     }
 
-    @HostBinding('class.owl-dt-inline')
     get owlDTInlineClass(): boolean {
         return true;
     }

@@ -7,7 +7,6 @@ import {
     ChangeDetectionStrategy, ChangeDetectorRef,
     Component,
     EventEmitter,
-    HostBinding,
     Input,
     OnInit,
     Optional,
@@ -37,6 +36,10 @@ export const YEAR_ROWS = 7;
     selector: 'owl-date-time-multi-year-view',
     templateUrl: './calendar-multi-year-view.component.html',
     styleUrls: ['./calendar-multi-year-view.component.scss'],
+    host:{
+        '[class.owl-dt-calendar-view]': 'owlDTCalendarView',
+        '[class.owl-dt-calendar-multi-year-view]': 'owlDTCalendarMultiYearView'
+    },
     preserveWhitespaces: false,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -219,12 +222,10 @@ export class OwlMultiYearViewComponent<T> implements OnInit, AfterContentInit {
     /** The body of calendar table */
     @ViewChild(OwlCalendarBodyComponent) calendarBodyElm: OwlCalendarBodyComponent;
 
-    @HostBinding('class.owl-dt-calendar-view')
     get owlDTCalendarView(): boolean {
         return true;
     }
 
-    @HostBinding('class.owl-dt-calendar-multi-year-view')
     get owlDTCalendarMultiYearView(): boolean {
         return true;
     }
