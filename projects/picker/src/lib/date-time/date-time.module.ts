@@ -20,7 +20,7 @@ import { OwlTimerComponent } from './timer.component';
 import { NumberFixedLenPipe } from './numberedFixLen.pipe';
 import { OwlCalendarComponent } from './calendar.component';
 import { OwlDateTimeInlineComponent } from './date-time-inline.component';
-import { OwlDialogModule } from '../dialog';
+import { OwlDialogModule } from '../dialog/dialog.module';
 
 @NgModule({
     imports: [CommonModule, OverlayModule, OwlDialogModule, A11yModule],

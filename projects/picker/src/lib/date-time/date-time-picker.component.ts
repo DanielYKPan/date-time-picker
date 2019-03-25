@@ -43,7 +43,8 @@ import {
     PickerType,
     SelectMode
 } from './date-time.class';
-import { OwlDialogRef, OwlDialogService } from '../dialog';
+import { OwlDialogRef } from '../dialog/dialog-ref.class';
+import { OwlDialogService } from '../dialog/dialog.service';
 import { merge, Subscription } from 'rxjs';
 import { filter, take } from 'rxjs/operators';
 
