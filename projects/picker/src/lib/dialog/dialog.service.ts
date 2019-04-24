@@ -95,7 +95,8 @@ export class OwlDialogService {
      * Stream that emits when all open dialog have finished closing.
      * Will emit on subscribe if there are no open dialogs to begin with.
      */
-    afterAllClosed: Observable<void> = defer<void>(
+
+    afterAllClosed: Observable<{}> = defer(
         () =>
             this._openDialogsAtThisLevel.length
                 ? this._afterAllClosed
