@@ -10,8 +10,7 @@ Angular Date Time Picker
 
 Breaking Changes
 -------
- - Time is set on blur instead on input event.
- - The picker has been updated for Angular 7+ apps.
+ - Time is set on blur instead of input event.
 
 Description
 -------
