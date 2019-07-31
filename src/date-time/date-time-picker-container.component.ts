@@ -40,8 +40,8 @@ import { DOWN_ARROW, LEFT_ARROW, RIGHT_ARROW, SPACE, UP_ARROW } from '@angular/c
 
 export class OwlDateTimeContainerComponent<T> implements OnInit, AfterContentInit, AfterViewInit {
 
-    @ViewChild(OwlCalendarComponent) calendar: OwlCalendarComponent<T>;
-    @ViewChild(OwlTimerComponent) timer: OwlTimerComponent<T>;
+    @ViewChild(OwlCalendarComponent, {static: true}) calendar: OwlCalendarComponent<T>;
+    @ViewChild(OwlTimerComponent, {static: true}) timer: OwlTimerComponent<T>;
 
     public picker: OwlDateTime<T>;
     public activeSelectedIndex = 0; // The current active SelectedIndex in range select mode (0: 'from', 1: 'to')

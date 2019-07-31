@@ -21,6 +21,7 @@ import { DOCUMENT } from '@angular/common';
 import { FocusTrap, FocusTrapFactory } from '@angular/cdk/a11y';
 import { BasePortalOutlet, CdkPortalOutlet, ComponentPortal, TemplatePortal } from '@angular/cdk/portal';
 import { OwlDialogConfig } from './dialog-config.class';
+import {OwlDateTimeContainerComponent} from "../date-time/date-time-picker-container.component";
 
 const zoomFadeIn = {opacity: 0, transform: 'translateX({{ x }}) translateY({{ y }}) scale({{scale}})'};
 const zoomFadeInFrom = {
@@ -55,7 +56,7 @@ const zoomFadeInFrom = {
 
 export class OwlDialogContainerComponent extends BasePortalOutlet implements OnInit {
 
-    @ViewChild(CdkPortalOutlet) portalOutlet: CdkPortalOutlet;
+    @ViewChild(CdkPortalOutlet, {static: true}) portalOutlet: CdkPortalOutlet;
 
     /** The class that traps and manages focus within the dialog. */
     private focusTrap: FocusTrap;

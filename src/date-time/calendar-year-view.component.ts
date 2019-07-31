@@ -33,6 +33,7 @@ import {
     RIGHT_ARROW,
     UP_ARROW
 } from '@angular/cdk/keycodes';
+import {OwlDateTimeContainerComponent} from "./date-time-picker-container.component";
 
 const MONTHS_PER_YEAR = 12;
 const MONTHS_PER_ROW = 3;
@@ -207,7 +208,7 @@ export class OwlYearViewComponent<T> implements OnInit, AfterContentInit, OnDest
     @Output() readonly keyboardEnter: EventEmitter<any> = new EventEmitter<any>();
 
     /** The body of calendar table */
-    @ViewChild(OwlCalendarBodyComponent) calendarBodyElm: OwlCalendarBodyComponent;
+    @ViewChild(OwlCalendarBodyComponent, {static: true}) calendarBodyElm: OwlCalendarBodyComponent;
 
     @HostBinding('class.owl-dt-calendar-view')
     get owlDTCalendarView(): boolean {

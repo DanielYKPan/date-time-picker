@@ -29,6 +29,7 @@ import {
     UP_ARROW
 } from '@angular/cdk/keycodes';
 import { OwlDateTimeIntl } from './date-time-picker-intl.service';
+import {OwlDateTimeContainerComponent} from "./date-time-picker-container.component";
 
 export const YEARS_PER_ROW = 3;
 export const YEAR_ROWS = 7;
@@ -217,7 +218,7 @@ export class OwlMultiYearViewComponent<T> implements OnInit, AfterContentInit {
     @Output() readonly keyboardEnter: EventEmitter<any> = new EventEmitter<any>();
 
     /** The body of calendar table */
-    @ViewChild(OwlCalendarBodyComponent) calendarBodyElm: OwlCalendarBodyComponent;
+    @ViewChild(OwlCalendarBodyComponent, {static: true}) calendarBodyElm: OwlCalendarBodyComponent;
 
     @HostBinding('class.owl-dt-calendar-view')
     get owlDTCalendarView(): boolean {

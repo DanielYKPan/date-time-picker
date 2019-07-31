@@ -39,7 +39,7 @@ export const OWL_DATETIME_VALUE_ACCESSOR: any = {
 
 export class OwlDateTimeInlineComponent<T> extends OwlDateTime<T> implements OnInit, ControlValueAccessor {
 
-    @ViewChild(OwlDateTimeContainerComponent) container: OwlDateTimeContainerComponent<T>;
+    @ViewChild(OwlDateTimeContainerComponent, {static: true}) container: OwlDateTimeContainerComponent<T>;
 
     /**
      * Set the type of the dateTime picker

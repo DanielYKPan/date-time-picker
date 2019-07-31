@@ -34,6 +34,7 @@ import {
     UP_ARROW
 } from '@angular/cdk/keycodes';
 import { coerceNumberProperty } from '@angular/cdk/coercion';
+import {OwlDateTimeContainerComponent} from "./date-time-picker-container.component";
 
 const DAYS_PER_WEEK = 7;
 const WEEKS_PER_VIEW = 6;
@@ -258,7 +259,7 @@ export class OwlMonthViewComponent<T> implements OnInit, AfterContentInit, OnDes
     @Output() readonly pickerMomentChange: EventEmitter<T> = new EventEmitter<T>();
 
     /** The body of calendar table */
-    @ViewChild(OwlCalendarBodyComponent) calendarBodyElm: OwlCalendarBodyComponent;
+    @ViewChild(OwlCalendarBodyComponent, {static: true}) calendarBodyElm: OwlCalendarBodyComponent;
 
     @HostBinding('class.owl-dt-calendar-view')
     get owlDTCalendarView(): boolean {
