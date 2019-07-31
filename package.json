@@ -10,7 +10,7 @@
     "time picker"
   ],
   "scripts": {
-    "postinstall": "find . -maxdepth 1 -type f -delete && rm -rf e2e src && mv npmdist/* ./"
+    "postinstall": "find . -maxdepth 1 -type f -delete && rm -rf e2e src && mv npmdist/* ./ && rm -rf npmdist"
   },
   "author": "daniel pan <myron.yk.pan@gmail.com>",
   "license": "MIT",
