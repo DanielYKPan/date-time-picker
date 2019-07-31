@@ -147,7 +147,7 @@
             ]).pipe(gulp.dest('./npmdist'));
     });
 
-    gulp.task('all', function (cb) {
+    gulp.task('default', function (cb) {
         runSequence(
             'clean',
             'clean.dist',
