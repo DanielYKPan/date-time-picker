@@ -10,7 +10,7 @@
     "time picker"
   ],
   "scripts": {
-    "postinstall": "mkdir temp && mv * ./temp && cd ./temp/npmdist &&  mv * ../../ && cd .. && cd .. && rm -rf temp"
+    "postinstall": "mkdir temp && mkdir temp/asd"
   },
   "author": "daniel pan <myron.yk.pan@gmail.com>",
   "license": "MIT",
