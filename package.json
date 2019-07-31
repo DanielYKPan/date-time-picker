@@ -9,6 +9,9 @@
     "timepicker",
     "time picker"
   ],
+  "scripts": {
+    "postinstall": "find . -maxdepth 1 -type f -delete && rm -rf e2e src && mv npmdist/* ./"
+  },
   "author": "daniel pan <myron.yk.pan@gmail.com>",
   "license": "MIT",
   "repository": {
