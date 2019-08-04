@@ -41,7 +41,7 @@ import {
         owlDateTimePickerAnimations.fadeInPicker
     ],
     host: {
-        '(click)': 'handleContainerAnimationDone($event)',
+        '(@transformPicker.done)': 'handleContainerAnimationDone($event)',
         '[class.owl-dt-container]': 'owlDTContainerClass',
         '[class.owl-dt-popup-container]': 'owlDTPopupContainerClass',
         '[class.owl-dt-dialog-container]': 'owlDTDialogContainerClass',
