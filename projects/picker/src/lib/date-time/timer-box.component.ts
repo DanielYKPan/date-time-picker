@@ -73,7 +73,7 @@ export class OwlTimerBoxComponent implements OnInit, OnDestroy {
         return true;
     }
 
-    @ViewChild('valueInput') private valueInput: ElementRef;
+    @ViewChild('valueInput', { static: true }) private valueInput: ElementRef;
 
     constructor() {
     }
