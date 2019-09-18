@@ -6,6 +6,8 @@ import {
     ChangeDetectionStrategy,
     Component,
     EventEmitter,
+    ElementRef,
+    ViewChild,
     Input,
     OnDestroy,
     OnInit,
@@ -71,6 +73,8 @@ export class OwlTimerBoxComponent implements OnInit, OnDestroy {
         return true;
     }
 
+    @ViewChild('valueInput', { static: true }) private valueInput: ElementRef;
+
     constructor() {
     }
 
@@ -83,10 +87,12 @@ export class OwlTimerBoxComponent implements OnInit, OnDestroy {
                 const inputValue = coerceNumberProperty(val, 0);
                 this.updateValueViaInput(inputValue);
             }
-        })
+        });
+        this.bindValueInputMouseWheel();
     }
 
     public ngOnDestroy(): void {
+        this.unbindValueInputMouseWheel();
         this.inputStreamSub.unsubscribe();
     }
 
@@ -111,5 +117,31 @@ export class OwlTimerBoxComponent implements OnInit, OnDestroy {
             return;
         }
         this.inputChange.emit(value);
+    }
+
+    private onValueInputMouseWheelBind = this.onValueInputMouseWheel.bind(this);
+    private onValueInputMouseWheel( event: any ): void {
+        event = event || window.event;
+        var delta = event.wheelDelta || -event.deltaY || -event.detail;
+
+        if (delta > 0){
+            !this.upBtnDisabled && this.upBtnClicked();
+        } else if (delta < 0){
+            !this.downBtnDisabled && this.downBtnClicked();
+        }
+
+        event.preventDefault ? event.preventDefault() : (event.returnValue = false);
+    }
+
+    private bindValueInputMouseWheel(): void {
+        this.valueInput.nativeElement.addEventListener(
+            'onwheel' in document ? "wheel" : "mousewheel",
+            this.onValueInputMouseWheelBind);
+    }
+
+    private unbindValueInputMouseWheel(): void {
+        this.valueInput.nativeElement.removeEventListener(
+            'onwheel' in document ? "wheel" : "mousewheel",
+            this.onValueInputMouseWheelBind);
     }
 }
