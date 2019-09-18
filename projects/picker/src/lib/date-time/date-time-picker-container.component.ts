@@ -53,9 +53,9 @@ import {
 })
 export class OwlDateTimeContainerComponent<T>
     implements OnInit, AfterContentInit, AfterViewInit {
-    @ViewChild(OwlCalendarComponent)
+    @ViewChild(OwlCalendarComponent, { static: false })
     calendar: OwlCalendarComponent<T>;
-    @ViewChild(OwlTimerComponent)
+    @ViewChild(OwlTimerComponent, { static: false })
     timer: OwlTimerComponent<T>;
 
     public picker: OwlDateTime<T>;

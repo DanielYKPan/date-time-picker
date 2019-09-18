@@ -11,7 +11,7 @@ import { OwlDateTimeComponent } from '../../projects/picker/src/public_api';
   styleUrls: ['./app.component.sass']
 })
 export class AppComponent implements AfterViewInit {
-  @ViewChild('date_range_component')
+  @ViewChild('date_range_component', { static: true })
   date_range_component: OwlDateTimeComponent<AppComponent>;
   public selectedMoments: Moment[] = [
     moment('2019-03-11T08:00:00+11:00').tz('Australia/Sydney'),

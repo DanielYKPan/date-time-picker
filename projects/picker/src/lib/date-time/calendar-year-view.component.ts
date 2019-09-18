@@ -225,7 +225,7 @@ export class OwlYearViewComponent<T>
     readonly keyboardEnter: EventEmitter<any> = new EventEmitter<any>();
 
     /** The body of calendar table */
-    @ViewChild(OwlCalendarBodyComponent)
+    @ViewChild(OwlCalendarBodyComponent, { static: true })
     calendarBodyElm: OwlCalendarBodyComponent;
 
     get owlDTCalendarView(): boolean {

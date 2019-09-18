@@ -280,7 +280,7 @@ export class OwlMonthViewComponent<T>
     readonly pickerMomentChange: EventEmitter<T> = new EventEmitter<T>();
 
     /** The body of calendar table */
-    @ViewChild(OwlCalendarBodyComponent)
+    @ViewChild(OwlCalendarBodyComponent, { static: true })
     calendarBodyElm: OwlCalendarBodyComponent;
 
     get owlDTCalendarView(): boolean {

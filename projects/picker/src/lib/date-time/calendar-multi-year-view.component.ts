@@ -220,7 +220,7 @@ export class OwlMultiYearViewComponent<T> implements OnInit, AfterContentInit {
     @Output() readonly keyboardEnter: EventEmitter<any> = new EventEmitter<any>();
 
     /** The body of calendar table */
-    @ViewChild(OwlCalendarBodyComponent) calendarBodyElm: OwlCalendarBodyComponent;
+    @ViewChild(OwlCalendarBodyComponent, { static: true }) calendarBodyElm: OwlCalendarBodyComponent;
 
     get owlDTCalendarView(): boolean {
         return true;
