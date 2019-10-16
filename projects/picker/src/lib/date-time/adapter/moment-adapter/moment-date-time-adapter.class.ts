@@ -18,6 +18,7 @@ export interface OwlMomentDateTimeAdapterOptions {
      * {@default false}
      */
     useUtc: boolean;
+    parseStrict: boolean;
 }
 
 /** InjectionToken for moment date adapter to configure options. */
@@ -30,7 +31,8 @@ export const OWL_MOMENT_DATE_TIME_ADAPTER_OPTIONS = new InjectionToken<OwlMoment
 /** @docs-private */
 export function OWL_MOMENT_DATE_TIME_ADAPTER_OPTIONS_FACTORY(): OwlMomentDateTimeAdapterOptions {
     return {
-        useUtc: false
+        useUtc: false,
+        parseStrict: false
     };
 }
 
@@ -247,9 +249,13 @@ export class MomentDateTimeAdapter extends DateTimeAdapter<Moment> {
 
     public parse( value: any, parseFormat: any ): Moment | null {
         if (value && typeof value === 'string') {
-            return this.createMoment(value, parseFormat, this.locale);
+            return this.createMoment(value, parseFormat, this.locale, this.parseStrict);
         }
         return value ? this.createMoment(value).locale(this.locale) : null;
+    }
+
+    get parseStrict() {
+        return this.options && this.options.parseStrict;
     }
 
     /**
@@ -266,7 +272,7 @@ export class MomentDateTimeAdapter extends DateTimeAdapter<Moment> {
             if (!value) {
                 return null;
             }
-            date = this.createMoment(value, moment.ISO_8601).locale(this.locale);
+            date = this.createMoment(value, moment.ISO_8601, this.parseStrict).locale(this.locale);
         }
         if (date && this.isValid(date)) {
             return date;
