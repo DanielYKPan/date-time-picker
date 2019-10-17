@@ -18,6 +18,11 @@ export interface OwlMomentDateTimeAdapterOptions {
      * {@default false}
      */
     useUtc: boolean;
+  /**
+   * Turns the use of strict string parsing in moment.
+   * Changing this will change how the DateTimePicker interprets input.
+   * {@default false}
+   */
     parseStrict: boolean;
 }
 
