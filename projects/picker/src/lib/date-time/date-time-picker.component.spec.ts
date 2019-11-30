@@ -203,16 +203,14 @@ describe('OwlDateTimeComponent', () => {
                 const popup = document.querySelector('.cdk-overlay-pane')!;
                 expect(popup).not.toBeNull();
                 expect(
-                    parseInt(getComputedStyle(popup).height as string)
+                    parseInt(getComputedStyle(popup).height, 10)
                 ).not.toBe(0);
 
                 testComponent.dateTimePicker.close();
                 fixture.detectChanges();
                 flush();
 
-                expect(parseInt(getComputedStyle(popup).height as string)).toBe(
-                    0
-                );
+                expect(getComputedStyle(popup).height).toBe('');
             }));
 
             it('should close the popup when pressing ESCAPE', fakeAsync(() => {
