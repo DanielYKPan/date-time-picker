@@ -64,7 +64,7 @@ export class OwlMonthViewComponent<T>
 
     /**
      * Define the first day of a week
-     * Sunday: 0 ~ Saturday: 6
+     * Sunday: 0 - Saturday: 6
      * */
     private _firstDayOfWeek = getLocaleFirstDayOfWeek(
         this.dateTimeAdapter.getLocale()

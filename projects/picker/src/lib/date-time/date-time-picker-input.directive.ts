@@ -63,10 +63,7 @@ export const OWL_DATETIME_VALIDATORS: any = {
         '[attr.max]': 'maxIso8601',
         '[disabled]': 'owlDateTimeInputDisabled'
     },
-    providers: [
-        OWL_DATETIME_VALUE_ACCESSOR,
-        OWL_DATETIME_VALIDATORS,
-    ],
+    providers: [OWL_DATETIME_VALUE_ACCESSOR, OWL_DATETIME_VALIDATORS]
 })
 export class OwlDateTimeInputDirective<T>
     implements
@@ -172,7 +169,7 @@ export class OwlDateTimeInputDirective<T>
      * The character to separate the 'from' and 'to' in input value
      */
     @Input()
-    rangeSeparator = '~';
+    rangeSeparator = '-';
 
     private _value: T | null;
     @Input()
@@ -413,10 +410,14 @@ export class OwlDateTimeInputDirective<T>
         return this.disabled;
     }
 
-    constructor( private elmRef: ElementRef,
+    constructor(
+        private elmRef: ElementRef,
         private renderer: Renderer2,
         @Optional() private dateTimeAdapter: DateTimeAdapter<T>,
-        @Optional() @Inject(OWL_DATE_TIME_FORMATS) private dateTimeFormats: OwlDateTimeFormats ) {
+        @Optional()
+        @Inject(OWL_DATE_TIME_FORMATS)
+        private dateTimeFormats: OwlDateTimeFormats
+    ) {
         if (!this.dateTimeAdapter) {
             throw Error(
                 `OwlDateTimePicker: No provider found for DateTimePicker. You must import one of the following ` +
@@ -509,18 +510,18 @@ export class OwlDateTimeInputDirective<T>
     /**
      * Open the picker when user hold alt + DOWN_ARROW
      * */
-    public handleKeydownOnHost( event: KeyboardEvent ): void {
+    public handleKeydownOnHost(event: KeyboardEvent): void {
         if (event.altKey && event.keyCode === DOWN_ARROW) {
             this.dtPicker.open();
             event.preventDefault();
         }
     }
 
-    public handleBlurOnHost( event: Event ): void {
+    public handleBlurOnHost(event: Event): void {
         this.onModelTouched();
     }
 
-    public handleInputOnHost( event: any ): void {
+    public handleInputOnHost(event: any): void {
         let value = event.target.value;
         if (this._selectMode === 'single') {
             this.changeInputInSingleMode(value);
@@ -531,8 +532,7 @@ export class OwlDateTimeInputDirective<T>
         }
     }
 
-    public handleChangeOnHost( event: any ): void {
-
+    public handleChangeOnHost(event: any): void {
         let v;
         if (this.isInSingleMode) {
             v = this.value;
@@ -591,11 +591,7 @@ export class OwlDateTimeInputDirective<T>
                         this.renderer.setProperty(
                             this.elmRef.nativeElement,
                             'value',
-                            fromFormatted +
-                                ' ' +
-                                this.rangeSeparator +
-                                ' ' +
-                                toFormatted
+                            `${fromFormatted} ${this.rangeSeparator} ${toFormatted}`
                         );
                     } else if (this._selectMode === 'rangeFrom') {
                         this.renderer.setProperty(
@@ -801,6 +797,6 @@ export class OwlDateTimeInputDirective<T>
             return this.dateTimeAdapter.compare(first, second) === 0;
         }
 
-        return first == second;
+        return first === second;
     }
 }

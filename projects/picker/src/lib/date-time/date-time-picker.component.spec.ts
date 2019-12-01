@@ -659,7 +659,7 @@ describe('OwlDateTimeComponent', () => {
                 if (SUPPORTS_INTL) {
                     expect(
                         fixture.nativeElement.querySelector('input').value
-                    ).toBe('1/1/2020, 12:00 AM ~ 2/1/2020, 12:00 AM');
+                    ).toBe('1/1/2020, 12:00 AM - 2/1/2020, 12:00 AM');
                 }
             });
 
@@ -853,7 +853,7 @@ describe('OwlDateTimeComponent', () => {
                     if (SUPPORTS_INTL) {
                         expect(
                             fixture.nativeElement.querySelector('input').value
-                        ).toBe('1/1/2020 ~ 2/1/2020');
+                        ).toBe('1/1/2020 - 2/1/2020');
                     }
                 });
 
