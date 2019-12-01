@@ -57,8 +57,7 @@ export const OWL_DTPICKER_SCROLL_STRATEGY = new InjectionToken<
 export function OWL_DTPICKER_SCROLL_STRATEGY_PROVIDER_FACTORY(
     overlay: Overlay
 ): () => BlockScrollStrategy {
-    const fn = () => overlay.scrollStrategies.block();
-    return fn;
+    return () => overlay.scrollStrategies.block();
 }
 
 /** @docs-private */
@@ -73,7 +72,6 @@ export const OWL_DTPICKER_SCROLL_STRATEGY_PROVIDER = {
     exportAs: 'owlDateTime',
     templateUrl: './date-time-picker.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush,
-    preserveWhitespaces: false
 })
 export class OwlDateTimeComponent<T> extends OwlDateTime<T>
     implements OnInit, OnDestroy {
@@ -173,7 +171,7 @@ export class OwlDateTimeComponent<T> extends OwlDateTime<T>
     }
 
     /** Whether the calendar is open. */
-    private _opened: boolean = false;
+    private _opened = false;
     @Input()
     get opened(): boolean {
         return this._opened;
@@ -186,44 +184,44 @@ export class OwlDateTimeComponent<T> extends OwlDateTime<T>
     /**
      * The scroll strategy when the picker is open
      * Learn more this from https://material.angular.io/cdk/overlay/overview#scroll-strategies
-     * */
+     */
     @Input()
     public scrollStrategy: ScrollStrategy;
 
     /**
      * Callback when the picker is closed
-     * */
+     */
     @Output()
     afterPickerClosed = new EventEmitter<any>();
 
     /**
      * Callback when the picker is open
-     * */
+     */
     @Output()
     afterPickerOpen = new EventEmitter<any>();
 
     /**
      * Emits selected year in multi-year view
      * This doesn't imply a change on the selected date.
-     * */
+     */
     @Output()
     yearSelected = new EventEmitter<T>();
 
     /**
      * Emits selected month in year view
      * This doesn't imply a change on the selected date.
-     * */
+     */
     @Output()
     monthSelected = new EventEmitter<T>();
 
     /**
      * Emit when the selected value has been confirmed
-     * */
+     */
     public confirmSelectedChange = new EventEmitter<T[] | T>();
 
     /**
      * Emits when the date time picker is disabled.
-     * */
+     */
     public disabledChange = new EventEmitter<boolean>();
 
     private pickerContainerPortal: ComponentPortal<
@@ -415,7 +413,7 @@ export class OwlDateTimeComponent<T> extends OwlDateTime<T>
          *    the 'selecteds' has 'from'(selecteds[0]) and 'to'(selecteds[1]) values.
          * 4) selectMode is 'rangeFrom' and selecteds[0] has value.
          * 5) selectMode is 'rangeTo' and selecteds[1] has value.
-         * */
+         */
         if (
             this.pickerMode !== 'dialog' &&
             this.pickerType === 'calendar' &&
@@ -432,14 +430,14 @@ export class OwlDateTimeComponent<T> extends OwlDateTime<T>
 
     /**
      * Emits the selected year in multi-year view
-     * */
+     */
     public selectYear(normalizedYear: T): void {
         this.yearSelected.emit(normalizedYear);
     }
 
     /**
      * Emits selected month in year view
-     * */
+     */
     public selectMonth(normalizedMonth: T): void {
         this.monthSelected.emit(normalizedMonth);
     }
@@ -565,9 +563,9 @@ export class OwlDateTimeComponent<T> extends OwlDateTime<T>
         }
 
         if (!this.popupRef.hasAttached()) {
-            const componentRef: ComponentRef<
-                OwlDateTimeContainerComponent<T>
-            > = this.popupRef.attach(this.pickerContainerPortal);
+            const componentRef: ComponentRef<OwlDateTimeContainerComponent<
+                T
+            >> = this.popupRef.attach(this.pickerContainerPortal);
             this.pickerContainer = componentRef.instance;
 
             // Update the position once the calendar has rendered.
@@ -621,7 +619,7 @@ export class OwlDateTimeComponent<T> extends OwlDateTime<T>
 
     /**
      * Create the popup PositionStrategy.
-     * */
+     */
     private createPopupPositionStrategy(): PositionStrategy {
         return this.overlay
             .position()

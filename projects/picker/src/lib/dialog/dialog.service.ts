@@ -36,7 +36,7 @@ export const OWL_DIALOG_DATA = new InjectionToken<any>('OwlDialogData');
 
 /**
  * Injection token that determines the scroll handling while the dialog is open.
- * */
+ */
 export const OWL_DIALOG_SCROLL_STRATEGY = new InjectionToken<
     () => ScrollStrategy
 >('owl-dialog-scroll-strategy');
@@ -44,8 +44,7 @@ export const OWL_DIALOG_SCROLL_STRATEGY = new InjectionToken<
 export function OWL_DIALOG_SCROLL_STRATEGY_PROVIDER_FACTORY(
     overlay: Overlay
 ): () => ScrollStrategy {
-    const fn = () => overlay.scrollStrategies.block();
-    return fn;
+    return () => overlay.scrollStrategies.block();
 }
 
 /** @docs-private */
@@ -55,9 +54,9 @@ export const OWL_DIALOG_SCROLL_STRATEGY_PROVIDER = {
     useFactory: OWL_DIALOG_SCROLL_STRATEGY_PROVIDER_FACTORY
 };
 
-/** I
- * njection token that can be used to specify default dialog options.
- * */
+/**
+ * Injection token that can be used to specify default dialog options.
+ */
 export const OWL_DIALOG_DEFAULT_OPTIONS = new InjectionToken<OwlDialogConfig>(
     'owl-dialog-default-options'
 );
@@ -96,11 +95,10 @@ export class OwlDialogService {
      * Will emit on subscribe if there are no open dialogs to begin with.
      */
 
-    afterAllClosed: Observable<{}> = defer(
-        () =>
-            this._openDialogsAtThisLevel.length
-                ? this._afterAllClosed
-                : this._afterAllClosed.pipe(startWith(undefined))
+    afterAllClosed: Observable<{}> = defer(() =>
+        this._openDialogsAtThisLevel.length
+            ? this._afterAllClosed
+            : this._afterAllClosed.pipe(startWith(undefined))
     );
 
     private scrollStrategy: () => ScrollStrategy;
@@ -132,9 +130,7 @@ export class OwlDialogService {
 
         if (config.id && this.getDialogById(config.id)) {
             throw Error(
-                `Dialog with id "${
-                    config.id
-                }" exists already. The dialog id must be unique.`
+                `Dialog with id "${config.id}" exists already. The dialog id must be unique.`
             );
         }
 
@@ -253,9 +249,9 @@ export class OwlDialogService {
             OwlDialogContainerComponent,
             config.viewContainerRef
         );
-        const containerRef: ComponentRef<
-            OwlDialogContainerComponent
-        > = overlayRef.attach(containerPortal);
+        const containerRef: ComponentRef<OwlDialogContainerComponent> = overlayRef.attach(
+            containerPortal
+        );
         containerRef.instance.setConfig(config);
 
         return containerRef.instance;
@@ -314,7 +310,7 @@ export class OwlDialogService {
             const siblings = overlayContainer.parentElement.children;
 
             for (let i = siblings.length - 1; i > -1; i--) {
-                let sibling = siblings[i];
+                const sibling = siblings[i];
 
                 if (
                     sibling !== overlayContainer &&

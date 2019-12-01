@@ -7,7 +7,10 @@ import { CommonModule } from '@angular/common';
 import { A11yModule } from '@angular/cdk/a11y';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { OwlDateTimeTriggerDirective } from './date-time-picker-trigger.directive';
-import { OWL_DTPICKER_SCROLL_STRATEGY_PROVIDER, OwlDateTimeComponent } from './date-time-picker.component';
+import {
+    OWL_DTPICKER_SCROLL_STRATEGY_PROVIDER,
+    OwlDateTimeComponent
+} from './date-time-picker.component';
 import { OwlDateTimeContainerComponent } from './date-time-picker-container.component';
 import { OwlDateTimeInputDirective } from './date-time-picker-input.directive';
 import { OwlDateTimeIntl } from './date-time-picker-intl.service';
@@ -33,7 +36,7 @@ import { OwlDialogModule } from '../dialog/dialog.module';
         OwlDateTimeInlineComponent,
         OwlMultiYearViewComponent,
         OwlYearViewComponent,
-        OwlMonthViewComponent,
+        OwlMonthViewComponent
     ],
     declarations: [
         OwlDateTimeTriggerDirective,
@@ -48,15 +51,9 @@ import { OwlDialogModule } from '../dialog/dialog.module';
         OwlCalendarComponent,
         OwlCalendarBodyComponent,
         NumberFixedLenPipe,
-        OwlDateTimeInlineComponent,
+        OwlDateTimeInlineComponent
     ],
-    providers: [
-        OwlDateTimeIntl,
-        OWL_DTPICKER_SCROLL_STRATEGY_PROVIDER,
-    ],
-    entryComponents: [
-        OwlDateTimeContainerComponent,
-    ]
+    providers: [OwlDateTimeIntl, OWL_DTPICKER_SCROLL_STRATEGY_PROVIDER],
+    entryComponents: [OwlDateTimeContainerComponent]
 })
-export class OwlDateTimeModule {
-}
+export class OwlDateTimeModule {}

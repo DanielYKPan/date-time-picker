@@ -22,7 +22,6 @@ import { take } from 'rxjs/operators';
     exportAs: 'owlDateTimeTimer',
     selector: 'owl-date-time-timer',
     templateUrl: './timer.component.html',
-    preserveWhitespaces: false,
     changeDetection: ChangeDetectionStrategy.OnPush,
     host: {
         '[class.owl-dt-timer]': 'owlDTTimerClass',
@@ -67,7 +66,7 @@ export class OwlTimerComponent<T> implements OnInit {
         this._maxDateTime = this.getValidDate(value);
     }
 
-    private isPM: boolean = false; // a flag indicates the current timer moment is in PM or AM
+    private isPM = false; // a flag indicates the current timer moment is in PM or AM
 
     /**
      * Whether to show the second's timer
@@ -107,7 +106,7 @@ export class OwlTimerComponent<T> implements OnInit {
      * The value would be displayed in hourBox.
      * We need this because the value displayed in hourBox it not
      * the same as the hourValue when the timer is in hour12Timer mode.
-     * */
+     */
     get hourBoxValue(): number {
         let hours = this.hourValue;
 
@@ -191,7 +190,7 @@ export class OwlTimerComponent<T> implements OnInit {
 
     /**
      * Focus to the host element
-     * */
+     */
     public focus() {
         this.ngZone.runOutsideAngular(() => {
             this.ngZone.onStable
@@ -206,7 +205,7 @@ export class OwlTimerComponent<T> implements OnInit {
     /**
      * Set the hour value via typing into timer box input
      * We need this to handle the hour value when the timer is in hour12 mode
-     * */
+     */
     public setHourValueViaInput(hours: number): void {
         if (this.hour12Timer && this.isPM && hours >= 1 && hours <= 11) {
             hours = hours + 12;
@@ -235,7 +234,7 @@ export class OwlTimerComponent<T> implements OnInit {
         this.cdRef.markForCheck();
     }
 
-    public setMeridiem(event: any): void {
+    public setMeridian(event: any): void {
         this.isPM = !this.isPM;
 
         let hours = this.hourValue;
@@ -318,7 +317,7 @@ export class OwlTimerComponent<T> implements OnInit {
      * 1 is after the comparedDate
      * -1 is before the comparedDate
      * 0 is equal the comparedDate
-     * */
+     */
     private compareHours(amount: number, comparedDate: T): number {
         const hours = this.dateTimeAdapter.getHours(this.pickerMoment) + amount;
         const result = this.dateTimeAdapter.setHours(this.pickerMoment, hours);
@@ -330,7 +329,7 @@ export class OwlTimerComponent<T> implements OnInit {
      * 1 is after the comparedDate
      * -1 is before the comparedDate
      * 0 is equal the comparedDate
-     * */
+     */
     private compareMinutes(amount: number, comparedDate: T): number {
         const minutes =
             this.dateTimeAdapter.getMinutes(this.pickerMoment) + amount;
@@ -346,7 +345,7 @@ export class OwlTimerComponent<T> implements OnInit {
      * 1 is after the comparedDate
      * -1 is before the comparedDate
      * 0 is equal the comparedDate
-     * */
+     */
     private compareSeconds(amount: number, comparedDate: T): number {
         const seconds =
             this.dateTimeAdapter.getSeconds(this.pickerMoment) + amount;

@@ -20,8 +20,8 @@
     "e2e": "ng e2e",
     "build_lib": "ng build picker && cp README.md dist/picker",
     "build_css": "mkdir -p dist/picker/assets/style && node-sass --output-style=compressed projects/picker/src/sass/picker.scss > dist/picker/assets/style/picker.min.css",
-    "npm_pack": "cd dist/picker && npm pack",
-    "package": "npm run build_lib && npm run build_css && npm run npm_pack"
+    "publish": "cd dist/picker && npm publish",
+    "package": "npm run build_lib && npm run build_css"
   },
   "repository": {
     "type": "git",
@@ -66,6 +66,7 @@
     "tsickle": "^0.37.1",
     "tslib": "^1.10.0",
     "tslint": "~5.16.0",
+    "tslint-config-prettier": "^1.18.0",
     "typescript": "~3.5.3"
   }
 }

@@ -1,43 +1,80 @@
-<button class="owl-dt-control-button owl-dt-control-arrow-button"
-        [disabled]="!previousEnabled()" [attr.aria-label]="prevButtonLabel"
-        type="button" tabindex="0" (click)="prevYearList($event)">
+<button
+    class="owl-dt-control-button owl-dt-control-arrow-button"
+    [disabled]="!previousEnabled()"
+    [attr.aria-label]="prevButtonLabel"
+    type="button"
+    tabindex="0"
+    (click)="prevYearList($event)"
+>
     <span class="owl-dt-control-button-content" tabindex="-1">
         <!-- <editor-fold desc="SVG Arrow Left"> -->
-    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-             version="1.1" x="0px" y="0px" viewBox="0 0 250.738 250.738"
-             style="enable-background:new 0 0 250.738 250.738;" xml:space="preserve"
-             width="100%" height="100%">
-            <path style="fill-rule: evenodd; clip-rule: evenodd;" d="M96.633,125.369l95.053-94.533c7.101-7.055,7.101-18.492,0-25.546   c-7.1-7.054-18.613-7.054-25.714,0L58.989,111.689c-3.784,3.759-5.487,8.759-5.238,13.68c-0.249,4.922,1.454,9.921,5.238,13.681   l106.983,106.398c7.101,7.055,18.613,7.055,25.714,0c7.101-7.054,7.101-18.491,0-25.544L96.633,125.369z"/>
+        <svg
+            xmlns="http://www.w3.org/2000/svg"
+            xmlns:xlink="http://www.w3.org/1999/xlink"
+            version="1.1"
+            x="0px"
+            y="0px"
+            viewBox="0 0 250.738 250.738"
+            style="enable-background:new 0 0 250.738 250.738;"
+            xml:space="preserve"
+            width="100%"
+            height="100%"
+        >
+            <path
+                style="fill-rule: evenodd; clip-rule: evenodd;"
+                d="M96.633,125.369l95.053-94.533c7.101-7.055,7.101-18.492,0-25.546   c-7.1-7.054-18.613-7.054-25.714,0L58.989,111.689c-3.784,3.759-5.487,8.759-5.238,13.68c-0.249,4.922,1.454,9.921,5.238,13.681   l106.983,106.398c7.101,7.055,18.613,7.055,25.714,0c7.101-7.054,7.101-18.491,0-25.544L96.633,125.369z"
+            />
         </svg>
         <!-- </editor-fold> -->
     </span>
 </button>
 <table class="owl-dt-calendar-table owl-dt-calendar-multi-year-table">
     <thead class="owl-dt-calendar-header">
-    <tr>
-        <th colspan="3">{{tableHeader}}</th>
-    </tr>
+        <tr>
+            <th colspan="3">{{ tableHeader }}</th>
+        </tr>
     </thead>
-    <tbody owl-date-time-calendar-body role="grid"
-           [rows]="years" [numCols]="3" [cellRatio]="3 / 7"
-           [activeCell]="activeCell"
-           [todayValue]="todayYear"
-           [selectedValues]="selectedYears"
-           [selectMode]="selectMode"
-           (keydown)="handleCalendarKeydown($event)"
-           (select)="selectCalendarCell($event)"></tbody>
+    <tbody
+        owl-date-time-calendar-body
+        role="grid"
+        [rows]="years"
+        [numCols]="3"
+        [cellRatio]="3 / 7"
+        [activeCell]="activeCell"
+        [todayValue]="todayYear"
+        [selectedValues]="selectedYears"
+        [selectMode]="selectMode"
+        (keydown)="handleCalendarKeydown($event)"
+        (select)="selectCalendarCell($event)"
+    ></tbody>
 </table>
-<button class="owl-dt-control-button owl-dt-control-arrow-button"
-        [disabled]="!nextEnabled()" [attr.aria-label]="nextButtonLabel"
-        type="button" tabindex="0" (click)="nextYearList($event)">
+<button
+    class="owl-dt-control-button owl-dt-control-arrow-button"
+    [disabled]="!nextEnabled()"
+    [attr.aria-label]="nextButtonLabel"
+    type="button"
+    tabindex="0"
+    (click)="nextYearList($event)"
+>
     <span class="owl-dt-control-button-content" tabindex="-1">
         <!-- <editor-fold desc="SVG Arrow Right"> -->
-    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-             viewBox="0 0 250.738 250.738" style="enable-background:new 0 0 250.738 250.738;" xml:space="preserve">
-            <path style="fill-rule:evenodd;clip-rule:evenodd;" d="M191.75,111.689L84.766,5.291c-7.1-7.055-18.613-7.055-25.713,0
+        <svg
+            version="1.1"
+            xmlns="http://www.w3.org/2000/svg"
+            xmlns:xlink="http://www.w3.org/1999/xlink"
+            x="0px"
+            y="0px"
+            viewBox="0 0 250.738 250.738"
+            style="enable-background:new 0 0 250.738 250.738;"
+            xml:space="preserve"
+        >
+            <path
+                style="fill-rule:evenodd;clip-rule:evenodd;"
+                d="M191.75,111.689L84.766,5.291c-7.1-7.055-18.613-7.055-25.713,0
                 c-7.101,7.054-7.101,18.49,0,25.544l95.053,94.534l-95.053,94.533c-7.101,7.054-7.101,18.491,0,25.545
                 c7.1,7.054,18.613,7.054,25.713,0L191.75,139.05c3.784-3.759,5.487-8.759,5.238-13.681
-                C197.237,120.447,195.534,115.448,191.75,111.689z"/>
+                C197.237,120.447,195.534,115.448,191.75,111.689z"
+            />
         </svg>
         <!-- </editor-fold> -->
     </span>

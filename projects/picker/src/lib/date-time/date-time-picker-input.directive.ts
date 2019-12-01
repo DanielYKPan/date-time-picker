@@ -2,6 +2,8 @@
  * date-time-picker-input.directive
  */
 
+import { coerceBooleanProperty } from '@angular/cdk/coercion';
+import { DOWN_ARROW } from '@angular/cdk/keycodes';
 import {
     AfterContentInit,
     Directive,
@@ -26,16 +28,14 @@ import {
     ValidatorFn,
     Validators
 } from '@angular/forms';
-import { DOWN_ARROW } from '@angular/cdk/keycodes';
-import { OwlDateTimeComponent } from './date-time-picker.component';
+import { Subscription } from 'rxjs';
 import { DateTimeAdapter } from './adapter/date-time-adapter.class';
 import {
     OWL_DATE_TIME_FORMATS,
     OwlDateTimeFormats
 } from './adapter/date-time-format.class';
-import { Subscription } from 'rxjs';
+import { OwlDateTimeComponent } from './date-time-picker.component';
 import { SelectMode } from './date-time.class';
-import { coerceBooleanProperty } from '@angular/cdk/coercion';
 
 export const OWL_DATETIME_VALUE_ACCESSOR: any = {
     provide: NG_VALUE_ACCESSOR,
@@ -74,7 +74,7 @@ export class OwlDateTimeInputDirective<T>
         Validator {
     /**
      * The date time picker that this input is associated with.
-     * */
+     */
     @Input()
     set owlDateTime(value: OwlDateTimeComponent<T>) {
         this.registerDateTimePicker(value);
@@ -223,13 +223,13 @@ export class OwlDateTimeInputDirective<T>
 
     /**
      * Callback to invoke when `change` event is fired on this `<input>`
-     * */
+     */
     @Output()
     dateTimeChange = new EventEmitter<any>();
 
     /**
      * Callback to invoke when an `input` event is fired on this `<input>`.
-     * */
+     */
     @Output()
     dateTimeInput = new EventEmitter<any>();
 
@@ -257,9 +257,9 @@ export class OwlDateTimeInputDirective<T>
 
     private lastValueValid = true;
 
-    private onModelChange: Function = () => {};
-    private onModelTouched: Function = () => {};
-    private validatorOnChange: Function = () => {};
+    private onModelChange = (date: T[] | T) => {};
+    private onModelTouched = () => {};
+    private validatorOnChange = () => {};
 
     /** The form control validator for whether the input parses. */
     private parseValidator: ValidatorFn = (): ValidationErrors | null => {
@@ -353,7 +353,7 @@ export class OwlDateTimeInputDirective<T>
     /**
      * The form control validator for the range.
      * Check whether the 'before' value is before the 'to' value
-     * */
+     */
     private rangeValidator: ValidatorFn = (
         control: AbstractControl
     ): ValidationErrors | null => {
@@ -509,7 +509,7 @@ export class OwlDateTimeInputDirective<T>
 
     /**
      * Open the picker when user hold alt + DOWN_ARROW
-     * */
+     */
     public handleKeydownOnHost(event: KeyboardEvent): void {
         if (event.altKey && event.keyCode === DOWN_ARROW) {
             this.dtPicker.open();
@@ -522,7 +522,7 @@ export class OwlDateTimeInputDirective<T>
     }
 
     public handleInputOnHost(event: any): void {
-        let value = event.target.value;
+        const value = event.target.value;
         if (this._selectMode === 'single') {
             this.changeInputInSingleMode(value);
         } else if (this._selectMode === 'range') {
@@ -695,7 +695,7 @@ export class OwlDateTimeInputDirective<T>
      * Handle input change in rangeFrom or rangeTo mode
      */
     private changeInputInRangeFromToMode(inputValue: string): void {
-        let originalValue =
+        const originalValue =
             this._selectMode === 'rangeFrom'
                 ? this._values[0]
                 : this._values[1];

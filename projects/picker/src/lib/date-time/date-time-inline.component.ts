@@ -5,7 +5,8 @@
 import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
-    Component, EventEmitter,
+    Component,
+    EventEmitter,
     forwardRef,
     Inject,
     Input,
@@ -42,7 +43,6 @@ export const OWL_DATETIME_VALUE_ACCESSOR: any = {
         '[class.owl-dt-inline]': 'owlDTInlineClass'
     },
     changeDetection: ChangeDetectionStrategy.OnPush,
-    preserveWhitespaces: false,
     providers: [OWL_DATETIME_VALUE_ACCESSOR]
 })
 export class OwlDateTimeInlineComponent<T> extends OwlDateTime<T>
@@ -198,14 +198,14 @@ export class OwlDateTimeInlineComponent<T> extends OwlDateTime<T>
     /**
      * Emits selected year in multi-year view
      * This doesn't imply a change on the selected date.
-     * */
+     */
     @Output()
     yearSelected = new EventEmitter<T>();
 
     /**
      * Emits selected month in year view
      * This doesn't imply a change on the selected date.
-     * */
+     */
     @Output()
     monthSelected = new EventEmitter<T>();
 
@@ -253,8 +253,8 @@ export class OwlDateTimeInlineComponent<T> extends OwlDateTime<T>
         return true;
     }
 
-    private onModelChange: Function = () => {};
-    private onModelTouched: Function = () => {};
+    private onModelChange = (date: T[] | T) => {};
+    private onModelTouched = () => {};
 
     constructor(
         protected changeDetector: ChangeDetectorRef,
@@ -310,14 +310,14 @@ export class OwlDateTimeInlineComponent<T> extends OwlDateTime<T>
 
     /**
      * Emits the selected year in multi-year view
-     * */
+     */
     public selectYear(normalizedYear: T): void {
         this.yearSelected.emit(normalizedYear);
     }
 
     /**
      * Emits selected month in year view
-     * */
+     */
     public selectMonth(normalizedMonth: T): void {
         this.monthSelected.emit(normalizedMonth);
     }

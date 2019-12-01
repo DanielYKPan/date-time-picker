@@ -19,7 +19,6 @@ import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
     exportAs: 'owlDateTimeTimerBox',
     selector: 'owl-date-time-timer-box',
     templateUrl: './timer-box.component.html',
-    preserveWhitespaces: false,
     changeDetection: ChangeDetectionStrategy.OnPush,
     host: {
         '[class.owl-dt-timer-box]': 'owlDTTimerBoxClass'
@@ -39,7 +38,7 @@ export class OwlTimerBoxComponent implements OnInit, OnDestroy {
     /**
      * Value would be displayed in the box
      * If it is null, the box would display [value]
-     * */
+     */
     @Input() boxValue: number;
 
     @Input() value: number;

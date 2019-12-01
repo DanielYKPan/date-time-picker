@@ -2,7 +2,10 @@
  * calendar-body.component.spec
  */
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { CalendarCell, OwlCalendarBodyComponent } from './calendar-body.component';
+import {
+    CalendarCell,
+    OwlCalendarBodyComponent
+} from './calendar-body.component';
 import { Component } from '@angular/core';
 import { By } from '@angular/platform-browser';
 
@@ -13,8 +16,8 @@ describe('OwlCalendarBodyComponent', () => {
                 OwlCalendarBodyComponent,
 
                 // Test components
-                StandardCalendarBodyComponent,
-            ],
+                StandardCalendarBodyComponent
+            ]
         }).compileComponents();
     }));
 
@@ -25,16 +28,20 @@ describe('OwlCalendarBodyComponent', () => {
         let rowEls: NodeListOf<Element>;
         let cellEls: NodeListOf<Element>;
 
-        let refreshElementLists = () => {
+        const refreshElementLists = () => {
             rowEls = calendarBodyNativeElement.querySelectorAll('tr');
-            cellEls = calendarBodyNativeElement.querySelectorAll('.owl-dt-calendar-cell');
+            cellEls = calendarBodyNativeElement.querySelectorAll(
+                '.owl-dt-calendar-cell'
+            );
         };
 
         beforeEach(() => {
             fixture = TestBed.createComponent(StandardCalendarBodyComponent);
             fixture.detectChanges();
 
-            let calendarBodyDebugElement = fixture.debugElement.query(By.directive(OwlCalendarBodyComponent));
+            const calendarBodyDebugElement = fixture.debugElement.query(
+                By.directive(OwlCalendarBodyComponent)
+            );
             calendarBodyNativeElement = calendarBodyDebugElement.nativeElement;
             testComponent = fixture.componentInstance;
 
@@ -47,13 +54,17 @@ describe('OwlCalendarBodyComponent', () => {
         });
 
         it('should highlight today', () => {
-            let todayCell = calendarBodyNativeElement.querySelector('.owl-dt-calendar-cell-today')!;
+            const todayCell = calendarBodyNativeElement.querySelector(
+                '.owl-dt-calendar-cell-today'
+            )!;
             expect(todayCell).not.toBeNull();
             expect(todayCell.innerHTML.trim()).toBe('3');
         });
 
         it('should highlight selected', () => {
-            let selectedCell = calendarBodyNativeElement.querySelector('.owl-dt-calendar-cell-selected')!;
+            const selectedCell = calendarBodyNativeElement.querySelector(
+                '.owl-dt-calendar-cell-selected'
+            )!;
             expect(selectedCell).not.toBeNull();
             expect(selectedCell.innerHTML.trim()).toBe('4');
         });
@@ -61,8 +72,9 @@ describe('OwlCalendarBodyComponent', () => {
         it('cell should be selected on click', () => {
             spyOn(testComponent, 'handleSelect');
             expect(testComponent.handleSelect).not.toHaveBeenCalled();
-            let todayElement =
-                calendarBodyNativeElement.querySelector('.owl-dt-calendar-cell-today') as HTMLElement;
+            const todayElement = calendarBodyNativeElement.querySelector(
+                '.owl-dt-calendar-cell-today'
+            ) as HTMLElement;
             todayElement.click();
             fixture.detectChanges();
 
@@ -71,32 +83,38 @@ describe('OwlCalendarBodyComponent', () => {
 
         it('should mark active date', () => {
             expect((cellEls[10] as HTMLElement).innerText.trim()).toBe('11');
-            expect(cellEls[10].classList).toContain('owl-dt-calendar-cell-active');
+            expect(cellEls[10].classList).toContain(
+                'owl-dt-calendar-cell-active'
+            );
         });
     });
 });
 
 @Component({
     template: `
-        <table owl-date-time-calendar-body
-               [rows]="rows"
-               [todayValue]="todayValue"
-               [selectedValues]="selectedValues"
-               [selectMode]="'single'"
-               [activeCell]="activeCell"
-               (select)="handleSelect()">
-        </table>`,
+        <table
+            owl-date-time-calendar-body
+            [rows]="rows"
+            [todayValue]="todayValue"
+            [selectedValues]="selectedValues"
+            [selectMode]="'single'"
+            [activeCell]="activeCell"
+            (select)="handleSelect()"
+        ></table>
+    `
 })
 class StandardCalendarBodyComponent {
-    rows = [[1, 2, 3, 4, 5, 6, 7], [8, 9, 10, 11, 12, 13, 14]].map(r => r.map(createCell));
+    rows = [
+        [1, 2, 3, 4, 5, 6, 7],
+        [8, 9, 10, 11, 12, 13, 14]
+    ].map(r => r.map(createCell));
     todayValue = 3;
     selectedValues = [4];
     activeCell = 10;
 
-    handleSelect() {
-    }
+    handleSelect() {}
 }
 
-function createCell( value: number ) {
+function createCell(value: number) {
     return new CalendarCell(value, `${value}`, `${value}-label`, true);
 }

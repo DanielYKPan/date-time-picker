@@ -35,14 +35,13 @@ import { Subscription } from 'rxjs';
     host: {
         '[class.owl-dt-calendar]': 'owlDTCalendarClass'
     },
-    preserveWhitespaces: false,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class OwlCalendarComponent<T>
     implements OnInit, AfterContentInit, AfterViewChecked, OnDestroy {
     /**
      * Date filter for the month and year view
-     * */
+     */
     @Input()
     dateFilter: Function;
 
@@ -141,7 +140,7 @@ export class OwlCalendarComponent<T>
 
     /**
      * Whether to hide dates in other months at the start or end of the current month.
-     * */
+     */
     @Input()
     hideOtherMonths: boolean;
 
@@ -159,13 +158,13 @@ export class OwlCalendarComponent<T>
 
     /**
      * Emits the selected year. This doesn't imply a change on the selected date
-     * */
+     */
     @Output()
     readonly yearSelected = new EventEmitter<T>();
 
     /**
      * Emits the selected month. This doesn't imply a change on the selected date
-     * */
+     */
     @Output()
     readonly monthSelected = new EventEmitter<T>();
 
@@ -250,7 +249,7 @@ export class OwlCalendarComponent<T>
 
     /**
      * Bind class 'owl-dt-calendar' to host
-     * */
+     */
     get owlDTCalendarClass(): boolean {
         return true;
     }
@@ -301,12 +300,12 @@ export class OwlCalendarComponent<T>
      */
     public toggleViews(): void {
         this.currentView =
-            this._currentView == 'month' ? 'multi-years' : 'month';
+            this._currentView === 'month' ? 'multi-years' : 'month';
     }
 
     /**
      * Handles user clicks on the previous button.
-     * */
+     */
     public previousClicked(): void {
         this.pickerMoment = this.isMonthView
             ? this.dateTimeAdapter.addCalendarMonths(this.pickerMoment, -1)
@@ -317,7 +316,7 @@ export class OwlCalendarComponent<T>
 
     /**
      * Handles user clicks on the next button.
-     * */
+     */
     public nextClicked(): void {
         this.pickerMoment = this.isMonthView
             ? this.dateTimeAdapter.addCalendarMonths(this.pickerMoment, 1)
@@ -388,7 +387,7 @@ export class OwlCalendarComponent<T>
 
     /**
      * Focus to the host element
-     * */
+     */
     public focusActiveCell() {
         this.ngZone.runOutsideAngular(() => {
             this.ngZone.onStable

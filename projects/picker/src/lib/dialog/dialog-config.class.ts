@@ -37,7 +37,7 @@ export class OwlDialogConfig {
 
     /**
      * Custom style for the backdrop
-     * */
+     */
     public backdropStyle?: any;
 
     /** Data being injected into the child component. */
@@ -58,52 +58,52 @@ export class OwlDialogConfig {
 
     /**
      * Custom class for the pane
-     * */
+     */
     public paneClass?: string | string[] = '';
 
     /**
      * Mouse Event
-     * */
+     */
     public event?: MouseEvent = null;
 
     /**
      * Custom class for the backdrop
-     * */
+     */
     public backdropClass?: string | string[] = '';
 
     /**
      * Whether the dialog should close when the user goes backwards/forwards in history.
-     * */
-    public closeOnNavigation?: boolean = true;
+     */
+    public closeOnNavigation? = true;
 
     /** Width of the dialog. */
-    public width?: string = '';
+    public width? = '';
 
     /** Height of the dialog. */
-    public height?: string = '';
+    public height? = '';
 
     /**
      * The min-width of the overlay panel.
      * If a number is provided, pixel units are assumed.
-     * */
+     */
     public minWidth?: number | string;
 
     /**
      * The min-height of the overlay panel.
      * If a number is provided, pixel units are assumed.
-     * */
+     */
     public minHeight?: number | string;
 
     /**
      * The max-width of the overlay panel.
      * If a number is provided, pixel units are assumed.
-     * */
+     */
     public maxWidth?: number | string = '85vw';
 
     /**
      * The max-height of the overlay panel.
      * If a number is provided, pixel units are assumed.
-     * */
+     */
     public maxHeight?: number | string;
 
     /** Position overrides. */
@@ -112,7 +112,7 @@ export class OwlDialogConfig {
     /**
      * The scroll strategy when the dialog is open
      * Learn more this from https://material.angular.io/cdk/overlay/overview#scroll-strategies
-     * */
+     */
     public scrollStrategy?: ScrollStrategy = new NoopScrollStrategy();
 
     public viewContainerRef?: ViewContainerRef;

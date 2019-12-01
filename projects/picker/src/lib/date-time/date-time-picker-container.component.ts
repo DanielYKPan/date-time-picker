@@ -34,7 +34,6 @@ import {
     selector: 'owl-date-time-container',
     templateUrl: './date-time-picker-container.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush,
-    preserveWhitespaces: false,
     animations: [
         owlDateTimePickerAnimations.transformPicker,
         owlDateTimePickerAnimations.fadeInPicker
@@ -47,7 +46,7 @@ import {
         '[class.owl-dt-inline-container]': 'owlDTInlineContainerClass',
         '[class.owl-dt-container-disabled]': 'owlDTContainerDisabledClass',
         '[attr.id]': 'owlDTContainerId',
-        '[@transformPicker]': 'owlDTContainerAnimation',
+        '[@transformPicker]': 'owlDTContainerAnimation'
     }
 })
 export class OwlDateTimeContainerComponent<T>
@@ -62,7 +61,7 @@ export class OwlDateTimeContainerComponent<T>
 
     /**
      * Stream emits when try to hide picker
-     * */
+     */
     private hidePicker$ = new Subject<any>();
 
     get hidePickerStream(): Observable<any> {
@@ -71,7 +70,7 @@ export class OwlDateTimeContainerComponent<T>
 
     /**
      * Stream emits when try to confirm the selected value
-     * */
+     */
     private confirmSelected$ = new Subject<any>();
 
     get confirmSelectedStream(): Observable<any> {
@@ -119,21 +118,21 @@ export class OwlDateTimeContainerComponent<T>
 
     /**
      * The range 'from' label
-     * */
+     */
     get fromLabel(): string {
         return this.pickerIntl.rangeFromLabel;
     }
 
     /**
      * The range 'to' label
-     * */
+     */
     get toLabel(): string {
         return this.pickerIntl.rangeToLabel;
     }
 
     /**
      * The range 'from' formatted value
-     * */
+     */
     get fromFormattedValue(): string {
         const value = this.picker.selecteds[0];
         return value
@@ -143,7 +142,7 @@ export class OwlDateTimeContainerComponent<T>
 
     /**
      * The range 'to' formatted value
-     * */
+     */
     get toFormattedValue(): string {
         const value = this.picker.selecteds[1];
         return value
@@ -155,7 +154,7 @@ export class OwlDateTimeContainerComponent<T>
      * Cases in which the control buttons show in the picker
      * 1) picker mode is 'dialog'
      * 2) picker type is NOT 'calendar' and the picker mode is NOT 'inline'
-     * */
+     */
     get showControlButtons(): boolean {
         return (
             this.picker.pickerMode === 'dialog' ||
@@ -196,11 +195,12 @@ export class OwlDateTimeContainerComponent<T>
         return this.picker.pickerMode === 'inline' ? '' : 'enter';
     }
 
-    constructor( private cdRef: ChangeDetectorRef,
-                  private elmRef: ElementRef,
-                  private pickerIntl: OwlDateTimeIntl,
-                 @Optional() private dateTimeAdapter: DateTimeAdapter<T> ) {
-    }
+    constructor(
+        private cdRef: ChangeDetectorRef,
+        private elmRef: ElementRef,
+        private pickerIntl: OwlDateTimeIntl,
+        @Optional() private dateTimeAdapter: DateTimeAdapter<T>
+    ) {}
 
     public ngOnInit() {}
 
@@ -469,7 +469,7 @@ export class OwlDateTimeContainerComponent<T>
 
     /**
      * Focus to the picker
-     * */
+     */
     private focusPicker(): void {
         if (this.picker.pickerMode === 'inline') {
             return;

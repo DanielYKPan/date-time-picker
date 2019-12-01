@@ -4,7 +4,7 @@
 
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { OwlDateTimeIntl } from './date-time-picker-intl.service';
-import { OwlNativeDateTimeModule } from './adapter/native-date-time.module';
+import { OwlNativeDateTimeModule } from './adapter/native';
 import { OwlDateTimeModule } from './date-time.module';
 import { Component, DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
@@ -24,7 +24,6 @@ import {
     RIGHT_ARROW,
     UP_ARROW
 } from '@angular/cdk/keycodes';
-import { OwlYearViewComponent } from './calendar-year-view.component';
 
 const JAN = 0,
     FEB = 1,
@@ -71,14 +70,14 @@ describe('OwlMultiYearViewComponent', () => {
         });
 
         it('should have correct number of years', () => {
-            let cellEls = multiYearViewElement.querySelectorAll(
+            const cellEls = multiYearViewElement.querySelectorAll(
                 '.owl-dt-calendar-cell'
             )!;
             expect(cellEls.length).toBe(YEARS_PER_ROW * YEAR_ROWS);
         });
 
         it('should shows selected year if in same range', () => {
-            let selectedElContent = multiYearViewElement.querySelector(
+            const selectedElContent = multiYearViewElement.querySelector(
                 '.owl-dt-calendar-cell-selected.owl-dt-calendar-cell-content'
             )!;
             expect(selectedElContent.innerHTML.trim()).toBe('2020');
@@ -88,27 +87,27 @@ describe('OwlMultiYearViewComponent', () => {
             testComponent.selected = new Date(2040, JAN, 10);
             fixture.detectChanges();
 
-            let selectedElContent = multiYearViewElement.querySelector(
+            const selectedElContent = multiYearViewElement.querySelector(
                 '.owl-calendar-body-selected.owl-dt-calendar-cell-content'
             );
             expect(selectedElContent).toBeNull();
         });
 
         it('should fire change event on cell clicked', () => {
-            let cellDecember = multiYearViewElement.querySelector(
+            const cellDecember = multiYearViewElement.querySelector(
                 '[aria-label="2030"]'
             );
             dispatchMouseEvent(cellDecember, 'click');
             fixture.detectChanges();
 
-            let selectedElContent = multiYearViewElement.querySelector(
+            const selectedElContent = multiYearViewElement.querySelector(
                 '.owl-dt-calendar-cell-active .owl-dt-calendar-cell-content'
             )!;
             expect(selectedElContent.innerHTML.trim()).toBe('2030');
         });
 
         it('should mark active date', () => {
-            let cell2017 = multiYearViewElement.querySelector(
+            const cell2017 = multiYearViewElement.querySelector(
                 '[aria-label="2018"]'
             );
             expect((cell2017 as HTMLElement).innerText.trim()).toBe('2018');
@@ -116,7 +115,7 @@ describe('OwlMultiYearViewComponent', () => {
         });
 
         it('should decrement year on left arrow press', () => {
-            let calendarBodyEl = multiYearViewElement.querySelector(
+            const calendarBodyEl = multiYearViewElement.querySelector(
                 '.owl-dt-calendar-body'
             );
             dispatchKeyboardEvent(calendarBodyEl, 'keydown', LEFT_ARROW);
@@ -135,7 +134,7 @@ describe('OwlMultiYearViewComponent', () => {
         });
 
         it('should increment year on right arrow press', () => {
-            let calendarBodyEl = multiYearViewElement.querySelector(
+            const calendarBodyEl = multiYearViewElement.querySelector(
                 '.owl-dt-calendar-body'
             );
             dispatchKeyboardEvent(calendarBodyEl, 'keydown', RIGHT_ARROW);
@@ -154,7 +153,7 @@ describe('OwlMultiYearViewComponent', () => {
         });
 
         it('should go up a row on up arrow press', () => {
-            let calendarBodyEl = multiYearViewElement.querySelector(
+            const calendarBodyEl = multiYearViewElement.querySelector(
                 '.owl-dt-calendar-body'
             );
             dispatchKeyboardEvent(calendarBodyEl, 'keydown', UP_ARROW);
@@ -173,7 +172,7 @@ describe('OwlMultiYearViewComponent', () => {
         });
 
         it('should go down a row on down arrow press', () => {
-            let calendarBodyEl = multiYearViewElement.querySelector(
+            const calendarBodyEl = multiYearViewElement.querySelector(
                 '.owl-dt-calendar-body'
             );
             dispatchKeyboardEvent(calendarBodyEl, 'keydown', DOWN_ARROW);
@@ -192,7 +191,7 @@ describe('OwlMultiYearViewComponent', () => {
         });
 
         it('should go to first year in current range on home press', () => {
-            let calendarBodyEl = multiYearViewElement.querySelector(
+            const calendarBodyEl = multiYearViewElement.querySelector(
                 '.owl-dt-calendar-body'
             );
             dispatchKeyboardEvent(calendarBodyEl, 'keydown', HOME);
@@ -211,7 +210,7 @@ describe('OwlMultiYearViewComponent', () => {
         });
 
         it('should go to last year in current range on end press', () => {
-            let calendarBodyEl = multiYearViewElement.querySelector(
+            const calendarBodyEl = multiYearViewElement.querySelector(
                 '.owl-dt-calendar-body'
             );
             dispatchKeyboardEvent(calendarBodyEl, 'keydown', END);
@@ -230,7 +229,7 @@ describe('OwlMultiYearViewComponent', () => {
         });
 
         it('should go to same index in previous year range page up press', () => {
-            let calendarBodyEl = multiYearViewElement.querySelector(
+            const calendarBodyEl = multiYearViewElement.querySelector(
                 '.owl-dt-calendar-body'
             );
             dispatchKeyboardEvent(calendarBodyEl, 'keydown', PAGE_UP);
@@ -249,7 +248,7 @@ describe('OwlMultiYearViewComponent', () => {
         });
 
         it('should go to same index in next year range on page down press', () => {
-            let calendarBodyEl = multiYearViewElement.querySelector(
+            const calendarBodyEl = multiYearViewElement.querySelector(
                 '.owl-dt-calendar-body'
             );
             dispatchKeyboardEvent(calendarBodyEl, 'keydown', PAGE_DOWN);
@@ -278,17 +277,17 @@ describe('OwlMultiYearViewComponent', () => {
             );
             fixture.detectChanges();
 
-            let multiYearViewDebugElement = fixture.debugElement.query(
+            const multiYearViewDebugElement = fixture.debugElement.query(
                 By.directive(OwlMultiYearViewComponent)
             );
             multiYearViewElement = multiYearViewDebugElement.nativeElement;
         });
 
         it('should disable filtered years', () => {
-            let cell2018 = multiYearViewElement.querySelector(
+            const cell2018 = multiYearViewElement.querySelector(
                 '[aria-label="2018"]'
             );
-            let cell2019 = multiYearViewElement.querySelector(
+            const cell2019 = multiYearViewElement.querySelector(
                 '[aria-label="2019"]'
             );
             expect(cell2019.classList).not.toContain(
@@ -304,9 +303,10 @@ describe('OwlMultiYearViewComponent', () => {
 @Component({
     template: `
         <owl-date-time-multi-year-view
-                [selected]="selected"
-                [(pickerMoment)]="pickerMoment"
-                (change)="handleChange($event)"></owl-date-time-multi-year-view>
+            [selected]="selected"
+            [(pickerMoment)]="pickerMoment"
+            (change)="handleChange($event)"
+        ></owl-date-time-multi-year-view>
     `
 })
 class StandardMultiYearViewComponent {
@@ -321,8 +321,9 @@ class StandardMultiYearViewComponent {
 @Component({
     template: `
         <owl-date-time-multi-year-view
-                [(pickerMoment)]="pickerMoment"
-                [dateFilter]="dateFilter"></owl-date-time-multi-year-view>
+            [(pickerMoment)]="pickerMoment"
+            [dateFilter]="dateFilter"
+        ></owl-date-time-multi-year-view>
     `
 })
 class MultiYearViewWithDateFilterComponent {

@@ -200,12 +200,12 @@ export class OwlDialogContainerComponent extends BasePortalOutlet
         }
     }
 
-    public onAnimationStart( event: AnimationEvent ): void {
+    public onAnimationStart(event: AnimationEvent): void {
         this.isAnimating = true;
         this.animationStateChanged.emit(event);
     }
 
-    public onAnimationDone( event: AnimationEvent ): void {
+    public onAnimationDone(event: AnimationEvent): void {
         if (event.toState === 'enter') {
             this.trapFocus();
         } else if (event.toState === 'exit') {

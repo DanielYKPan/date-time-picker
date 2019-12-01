@@ -49,14 +49,14 @@ export abstract class DateTimeAdapter<T> {
      * Get the month of the given date
      * 0 -- January
      * 11 -- December
-     * */
+     */
     abstract getMonth(date: T): number;
 
     /**
      * Get the day of the week of the given date
      * 0 -- Sunday
      * 6 -- Saturday
-     * */
+     */
     abstract getDay(date: T): number;
 
     /**
@@ -197,7 +197,7 @@ export abstract class DateTimeAdapter<T> {
 
     /**
      * Get a new moment
-     * */
+     */
     abstract now(): T;
 
     /**
@@ -215,7 +215,7 @@ export abstract class DateTimeAdapter<T> {
      * 1 if the first date is after the second,
      * -1 if the first date is before the second
      * 0 if dates are equal.
-     * */
+     */
     compare(first: T, second: T): number {
         if (!this.isValid(first) || !this.isValid(second)) {
             throw Error('JSNativeDate: Cannot compare invalid dates.');
@@ -241,7 +241,7 @@ export abstract class DateTimeAdapter<T> {
      * 1 if the first date's year is after the second,
      * -1 if the first date's year is before the second
      * 0 if two given dates are in the same year
-     * */
+     */
     compareYear(first: T, second: T): number {
         if (!this.isValid(first) || !this.isValid(second)) {
             throw Error('JSNativeDate: Cannot compare invalid dates.');
@@ -282,7 +282,7 @@ export abstract class DateTimeAdapter<T> {
 
     /**
      * Get the locale used for all dates.
-     * */
+     */
     getLocale() {
         return this.locale;
     }
