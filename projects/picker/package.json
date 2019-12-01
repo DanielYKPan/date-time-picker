@@ -1,6 +1,6 @@
 {
   "name": "@ye3i/ngx-datepicker",
-  "version": "8.1.0",
+  "version": "8.1.1",
   "description": "Angular Date Time Picker",
   "keywords": [
     "Angular",
@@ -16,9 +16,9 @@
     "url": "https://github.com/DanielYKPan/date-time-picker.git"
   },
   "peerDependencies": {
-    "@angular/common": "^7.0.0",
-    "@angular/core": "^7.0.0",
-    "@angular/cdk": "^7.0.0",
+    "@angular/common": "^8.0.0",
+    "@angular/core": "^8.0.0",
+    "@angular/cdk": "^8.0.0",
     "rxjs": "^6.5.3"
   }
 }
