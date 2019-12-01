@@ -26,11 +26,11 @@ export const OWL_DATE_TIME_LOCALE_PROVIDER = {
 
 export abstract class DateTimeAdapter<T> {
     /** The locale to use for all dates. */
-    protected locale: any;
+    private locale: string;
 
     /** A stream that emits when the locale changes. */
-    protected _localeChanges = new Subject<void>();
-    get localeChanges(): Observable<void> {
+    protected _localeChanges = new Subject<string>();
+    get localeChanges(): Observable<string> {
         return this._localeChanges;
     }
 
@@ -281,11 +281,18 @@ export abstract class DateTimeAdapter<T> {
     }
 
     /**
+     * Get the locale used for all dates.
+     * */
+    getLocale() {
+        return this.locale;
+    }
+
+    /**
      * Sets the locale used for all dates.
      */
-    setLocale(locale: any) {
+    setLocale(locale: string) {
         this.locale = locale;
-        this._localeChanges.next();
+        this._localeChanges.next(locale);
     }
 
     /**
