@@ -32,7 +32,6 @@ import { Subscription } from 'rxjs';
     selector: 'owl-date-time-calendar',
     exportAs: 'owlDateTimeCalendar',
     templateUrl: './calendar.component.html',
-    styleUrls: ['./calendar.component.scss'],
     host: {
         '[class.owl-dt-calendar]': 'owlDTCalendarClass'
     },

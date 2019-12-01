@@ -47,7 +47,6 @@ const WEEKS_PER_VIEW = 6;
     selector: 'owl-date-time-month-view',
     exportAs: 'owlYearView',
     templateUrl: './calendar-month-view.component.html',
-    styleUrls: ['./calendar-month-view.component.scss'],
     host: {
         '[class.owl-dt-calendar-view]': 'owlDTCalendarView'
     },

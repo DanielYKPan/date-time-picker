@@ -33,7 +33,6 @@ import {
     exportAs: 'owlDateTimeContainer',
     selector: 'owl-date-time-container',
     templateUrl: './date-time-picker-container.component.html',
-    styleUrls: ['./date-time-picker-container.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     preserveWhitespaces: false,
     animations: [

@@ -38,7 +38,6 @@ export const OWL_DATETIME_VALUE_ACCESSOR: any = {
 @Component({
     selector: 'owl-date-time-inline',
     templateUrl: './date-time-inline.component.html',
-    styleUrls: ['./date-time-inline.component.scss'],
     host: {
         '[class.owl-dt-inline]': 'owlDTInlineClass'
     },

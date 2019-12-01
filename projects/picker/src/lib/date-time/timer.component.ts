@@ -22,7 +22,6 @@ import { take } from 'rxjs/operators';
     exportAs: 'owlDateTimeTimer',
     selector: 'owl-date-time-timer',
     templateUrl: './timer.component.html',
-    styleUrls: ['./timer.component.scss'],
     preserveWhitespaces: false,
     changeDetection: ChangeDetectionStrategy.OnPush,
     host: {
