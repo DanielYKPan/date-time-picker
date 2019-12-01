@@ -26,9 +26,7 @@ import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
         '[class.owl-dt-timer-box]': 'owlDTTimerBoxClass'
     }
 })
-
 export class OwlTimerBoxComponent implements OnInit, OnDestroy {
-
     @Input() showDivider = false;
 
     @Input() upBtnAriaLabel: string;
@@ -63,6 +61,8 @@ export class OwlTimerBoxComponent implements OnInit, OnDestroy {
 
     private inputStreamSub = Subscription.EMPTY;
 
+    constructor() {}
+
     get displayValue(): number {
         return this.boxValue || this.value;
     }
@@ -71,19 +71,15 @@ export class OwlTimerBoxComponent implements OnInit, OnDestroy {
         return true;
     }
 
-    constructor() {
-    }
-
     public ngOnInit() {
-        this.inputStreamSub = this.inputStream.pipe(
-            debounceTime(500),
-            distinctUntilChanged()
-        ).subscribe(( val: string ) => {
-            if (val) {
-                const inputValue = coerceNumberProperty(val, 0);
-                this.updateValueViaInput(inputValue);
-            }
-        })
+        this.inputStreamSub = this.inputStream
+            .pipe(debounceTime(500), distinctUntilChanged())
+            .subscribe((val: string) => {
+                if (val) {
+                    const inputValue = coerceNumberProperty(val, 0);
+                    this.updateValueViaInput(inputValue);
+                }
+            });
     }
 
     public ngOnDestroy(): void {
@@ -98,15 +94,24 @@ export class OwlTimerBoxComponent implements OnInit, OnDestroy {
         this.updateValue(this.value - this.step);
     }
 
-    public handleInputChange( val: string ): void {
-        this.inputStream.next(val);
+    public handleInputChange(value: string): void {
+        this.inputStream.next(value);
     }
 
-    private updateValue( value: number ): void {
+    public handleWheelChange(event: WheelEvent) {
+        const deltaY = event.deltaY;
+        if (deltaY > 0 && !this.upBtnDisabled) {
+            this.upBtnClicked();
+        } else if (deltaY < 0 && !this.downBtnDisabled) {
+            this.downBtnClicked();
+        }
+    }
+
+    private updateValue(value: number): void {
         this.valueChange.emit(value);
     }
 
-    private updateValueViaInput( value: number ): void {
+    private updateValueViaInput(value: number): void {
         if (value > this.max || value < this.min) {
             return;
         }
