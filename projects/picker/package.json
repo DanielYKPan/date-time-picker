@@ -1,6 +1,6 @@
 {
   "name": "ng-date-and-time-picker",
-  "version": "8.1.1",
+  "version": "8.1.2",
   "description": "Angular Date Time Picker",
   "keywords": [
     "Angular",
@@ -19,6 +19,10 @@
     "@angular/common": "^8.0.0",
     "@angular/core": "^8.0.0",
     "@angular/cdk": "^8.0.0",
-    "rxjs": "^6.5.3"
+    "rxjs": "^6.5.3",
+    "moment": "^2.24.0"
+  },
+  "optionalDependencies": {
+    "moment": "^2.24.0"
   }
 }

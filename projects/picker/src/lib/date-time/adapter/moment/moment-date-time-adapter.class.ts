@@ -2,13 +2,15 @@
  * moment-date-time-adapter.class
  */
 
-import { Inject, Injectable, Optional, InjectionToken } from '@angular/core';
-import * as moment from 'moment';
+import { Inject, Injectable, InjectionToken, Optional } from '@angular/core';
+import * as importMoment from 'moment';
+import { Moment } from 'moment';
 import {
     DateTimeAdapter,
     OWL_DATE_TIME_LOCALE
 } from '../date-time-adapter.class';
-import { Moment } from 'moment';
+
+const moment = importMoment;
 
 /** Configurable options for {@see MomentDateAdapter}. */
 export interface OwlMomentDateTimeAdapterOptions {
