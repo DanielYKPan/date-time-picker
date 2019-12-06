@@ -17,10 +17,10 @@ import {
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { coerceBooleanProperty } from '@angular/cdk/coercion';
 import {
-    OwlDateTime,
-    PickerMode,
-    PickerType,
-    SelectMode
+  OwlDateTime,
+  PickerMode,
+  PickerType,
+  SelectMode, TimepickerComponent
 } from './date-time.class';
 import { DateTimeAdapter } from './adapter/date-time-adapter.class';
 import {
@@ -98,6 +98,25 @@ export class OwlDateTimeInlineComponent<T> extends OwlDateTime<T>
         this._selectMode = mode;
     }
 
+  /**
+   * The timepicker's component
+   */
+  private _timepickerComponent: TimepickerComponent = 'default';
+  @Input()
+  get timepickerComponent() {
+    return this._timepickerComponent;
+  }
+
+  set timepickerComponent(component: TimepickerComponent) {
+    if (
+      component !== 'default' &&
+      component !== 'slider'
+    ) {
+      throw Error('OwlDateTime Error: invalid timepickerComponent value!');
+    }
+
+    this._timepickerComponent = component;
+  }
     /** The date to open the calendar to initially. */
     private _startAt: T | null;
     @Input()

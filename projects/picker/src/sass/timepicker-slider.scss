@@ -1,0 +1,30 @@
+.owl-dt-timepicker-slider-container {
+  padding: .5em;
+  display: block;
+
+  .owl-dt-timepicker-slider-input-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .owl-dt-timepicker-slider-input-label {
+      width: 4em;
+    }
+
+    .owl-dt-timepicker-slider-input-input {
+      flex-grow: 1;
+      padding-left: 1em;
+      padding-right: 1em;
+
+      & > input {
+        width: 100%;
+      }
+    }
+
+    .owl-dt-timepicker-slider-input-value {
+      width: 2em;
+      text-align: right;
+    }
+  }
+
+}

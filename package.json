@@ -19,7 +19,7 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "build_lib": "ng build picker && cp README.md dist/picker",
-    "build_css": "mkdir -p dist/picker/assets/style && node-sass --output-style=compressed projects/picker/src/sass/picker.scss > dist/picker/assets/style/picker.min.css",
+    "build_css": "mkdir dist\\picker\\assets\\style && node-sass --output-style=compressed projects\\picker\\src\\sass\\picker.scss > dist\\picker\\assets\\style\\picker.min.css",
     "npm_pack": "cd dist/picker && npm pack",
     "package": "npm run build_lib && npm run build_css && npm run npm_pack"
   },

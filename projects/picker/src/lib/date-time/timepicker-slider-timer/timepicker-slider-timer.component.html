@@ -1,0 +1,8 @@
+<div class="owl-dt-timepicker-slider-input-container hour">
+  <label for="hour" class="owl-dt-timepicker-slider-input-label">{{label}}</label>
+  <div class="owl-dt-timepicker-slider-input-input">
+    <input type="range" id="hour" [(ngModel)]="model" (ngModelChange)="valueChanges($event)"
+           [min]="min" [max]="max">
+  </div>
+  <div class="owl-dt-timepicker-slider-input-value">{{model}}</div>
+</div>

@@ -34,7 +34,7 @@ import {
     OwlDateTimeFormats
 } from './adapter/date-time-format.class';
 import { Subscription } from 'rxjs';
-import { SelectMode } from './date-time.class';
+import {SelectMode, TimepickerComponent} from './date-time.class';
 import { coerceBooleanProperty } from '@angular/cdk/coercion';
 
 export const OWL_DATETIME_VALUE_ACCESSOR: any = {
@@ -223,6 +223,26 @@ export class OwlDateTimeInputDirective<T>
 
         this.valueChange.emit(this._values);
     }
+
+  /**
+   * The timepicker's component
+   */
+  private _timepickerComponent: TimepickerComponent = 'default';
+  @Input()
+  get timepickerComponent() {
+    return this._timepickerComponent;
+  }
+
+  set timepickerComponent(component: TimepickerComponent) {
+    if (
+      component !== 'default' &&
+      component !== 'slider'
+    ) {
+      throw Error('OwlDateTime Error: invalid timepickerComponent value!');
+    }
+
+    this._timepickerComponent = component;
+  }
 
     /**
      * Callback to invoke when `change` event is fired on this `<input>`

@@ -19,18 +19,32 @@
             (monthSelected)="picker.selectMonth($event)"
             (selectedChange)="dateSelected($event)"></owl-date-time-calendar>
 
+  <ng-container *ngIf="pickerType === 'both' || pickerType === 'timer'">
+    <owl-timepicker-slider *ngIf="timepickerComponent === 'slider'; else defaultTimepickerComponent"
+                           class="owl-dt-timepicker-slider-container"
+                           [pickerMoment]="pickerMoment"
+                           [minDateTime]="picker.minDateTime"
+                           [maxDateTime]="picker.maxDateTime"
+                           [showSecondsTimer]="picker.showSecondsTimer"
+                           [hour12Timer]="picker.hour12Timer"
+                           [stepHour]="picker.stepHour"
+                           [stepMinute]="picker.stepMinute"
+                           [stepSecond]="picker.stepSecond"
+                           (selectedChange)="timeSelected($event)"></owl-timepicker-slider>
+    <ng-template #defaultTimepickerComponent>
     <owl-date-time-timer
-            *ngIf="pickerType === 'both' || pickerType === 'timer'"
-            class="owl-dt-container-row"
-            [pickerMoment]="pickerMoment"
-            [minDateTime]="picker.minDateTime"
-            [maxDateTime]="picker.maxDateTime"
-            [showSecondsTimer]="picker.showSecondsTimer"
-            [hour12Timer]="picker.hour12Timer"
-            [stepHour]="picker.stepHour"
-            [stepMinute]="picker.stepMinute"
-            [stepSecond]="picker.stepSecond"
-            (selectedChange)="timeSelected($event)"></owl-date-time-timer>
+      class="owl-dt-container-row"
+      [pickerMoment]="pickerMoment"
+      [minDateTime]="picker.minDateTime"
+      [maxDateTime]="picker.maxDateTime"
+      [showSecondsTimer]="picker.showSecondsTimer"
+      [hour12Timer]="picker.hour12Timer"
+      [stepHour]="picker.stepHour"
+      [stepMinute]="picker.stepMinute"
+      [stepSecond]="picker.stepSecond"
+      (selectedChange)="timeSelected($event)"></owl-date-time-timer>
+    </ng-template>
+  </ng-container>
 
     <div *ngIf="picker.isInRangeMode"
          role="radiogroup"

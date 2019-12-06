@@ -21,9 +21,12 @@ import { NumberFixedLenPipe } from './numberedFixLen.pipe';
 import { OwlCalendarComponent } from './calendar.component';
 import { OwlDateTimeInlineComponent } from './date-time-inline.component';
 import { OwlDialogModule } from '../dialog/dialog.module';
+import { TimepickerSliderComponent } from './timepicker-slider/timepicker-slider.component';
+import {FormsModule} from '@angular/forms';
+import { TimepickerSliderTimerComponent } from './timepicker-slider-timer/timepicker-slider-timer.component';
 
 @NgModule({
-    imports: [CommonModule, OverlayModule, OwlDialogModule, A11yModule],
+  imports: [CommonModule, OverlayModule, OwlDialogModule, A11yModule, FormsModule],
     exports: [
         OwlCalendarComponent,
         OwlTimerComponent,
@@ -49,6 +52,8 @@ import { OwlDialogModule } from '../dialog/dialog.module';
         OwlCalendarBodyComponent,
         NumberFixedLenPipe,
         OwlDateTimeInlineComponent,
+        TimepickerSliderComponent,
+        TimepickerSliderTimerComponent,
     ],
     providers: [
         OwlDateTimeIntl,

@@ -1,5 +1,5 @@
 <label for="daterange">Datetime range (click, then press 'Set' to modify):</label>
-<input [(ngModel)]="selectedMoments" [selectMode]="'range'"
+<input [(ngModel)]="selectedMoments" [selectMode]="'range'" [timepickerComponent]="'slider'"
        [owlDateTimeTrigger]="date_range_component" [owlDateTime]="date_range_component"
        style="width: 100%; color: cornflowerblue"
        id="daterange" matInput>

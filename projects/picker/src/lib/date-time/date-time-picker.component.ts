@@ -38,10 +38,10 @@ import {
     OwlDateTimeFormats
 } from './adapter/date-time-format.class';
 import {
-    OwlDateTime,
-    PickerMode,
-    PickerType,
-    SelectMode
+  OwlDateTime,
+  PickerMode,
+  PickerType,
+  SelectMode, TimepickerComponent
 } from './date-time.class';
 import { OwlDialogRef } from '../dialog/dialog-ref.class';
 import { OwlDialogService } from '../dialog/dialog.service';
@@ -283,6 +283,10 @@ export class OwlDateTimeComponent<T> extends OwlDateTime<T>
     get selectMode(): SelectMode {
         return this._dtInput.selectMode;
     }
+
+  get timepickerComponent(): TimepickerComponent {
+    return this._dtInput.timepickerComponent;
+  }
 
     get isInSingleMode(): boolean {
         return this._dtInput.isInSingleMode;
