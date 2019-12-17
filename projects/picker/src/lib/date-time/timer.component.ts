@@ -3,368 +3,366 @@
  */
 
 import {
-    ChangeDetectionStrategy,
-    ChangeDetectorRef,
-    Component,
-    ElementRef,
-    EventEmitter,
-    Input,
-    NgZone,
-    OnInit,
-    Optional,
-    Output
+  ChangeDetectionStrategy, ChangeDetectorRef,
+  Component,
+  ElementRef,
+  EventEmitter,
+  HostBinding,
+  Input,
+  NgZone,
+  OnInit,
+  Optional,
+  Output
 } from '@angular/core';
 import { OwlDateTimeIntl } from './date-time-picker-intl.service';
 import { DateTimeAdapter } from './adapter/date-time-adapter.class';
 import { take } from 'rxjs/operators';
 
 @Component({
-    exportAs: 'owlDateTimeTimer',
-    selector: 'owl-date-time-timer',
-    templateUrl: './timer.component.html',
-    styleUrls: ['./timer.component.scss'],
-    preserveWhitespaces: false,
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    host: {
-        '[class.owl-dt-timer]': 'owlDTTimerClass',
-        '[attr.tabindex]': 'owlDTTimeTabIndex'
-    }
+  exportAs: 'owlDateTimeTimer',
+  selector: 'owl-date-time-timer',
+  templateUrl: './timer.component.html',
+  styleUrls: ['./timer.component.scss'],
+  preserveWhitespaces: false,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
+
 export class OwlTimerComponent<T> implements OnInit {
-    /** The current picker moment */
-    private _pickerMoment: T;
-    @Input()
-    get pickerMoment() {
-        return this._pickerMoment;
-    }
 
-    set pickerMoment(value: T) {
-        value = this.dateTimeAdapter.deserialize(value);
-        this._pickerMoment =
-            this.getValidDate(value) || this.dateTimeAdapter.now();
-    }
+  /** The current picker moment */
+  private _pickerMoment: T;
+  @Input()
+  get pickerMoment() {
+      return this._pickerMoment;
+  }
 
-    /** The minimum selectable date time. */
-    private _minDateTime: T | null;
-    @Input()
-    get minDateTime(): T | null {
-        return this._minDateTime;
-    }
+  set pickerMoment(value: T) {
+      value = this.dateTimeAdapter.deserialize(value);
+      this._pickerMoment = this.getValidDate(value) || this.dateTimeAdapter.now();
+  }
 
-    set minDateTime(value: T | null) {
-        value = this.dateTimeAdapter.deserialize(value);
-        this._minDateTime = this.getValidDate(value);
-    }
+  /** The minimum selectable date time. */
+  private _minDateTime: T | null;
+  @Input()
+  get minDateTime(): T | null {
+      return this._minDateTime;
+  }
 
-    /** The maximum selectable date time. */
-    private _maxDateTime: T | null;
-    @Input()
-    get maxDateTime(): T | null {
-        return this._maxDateTime;
-    }
+  set minDateTime(value: T | null) {
+      value = this.dateTimeAdapter.deserialize(value);
+      this._minDateTime = this.getValidDate(value);
+  }
 
-    set maxDateTime(value: T | null) {
-        value = this.dateTimeAdapter.deserialize(value);
-        this._maxDateTime = this.getValidDate(value);
-    }
+  /** The maximum selectable date time. */
+  private _maxDateTime: T | null;
+  @Input()
+  get maxDateTime(): T | null {
+      return this._maxDateTime;
+  }
 
-    private isPM: boolean = false; // a flag indicates the current timer moment is in PM or AM
+  set maxDateTime(value: T | null) {
+      value = this.dateTimeAdapter.deserialize(value);
+      this._maxDateTime = this.getValidDate(value);
+  }
 
-    /**
-     * Whether to show the second's timer
-     */
-    @Input()
-    showSecondsTimer: boolean;
+  private isPM: boolean = false; // a flag indicates the current timer moment is in PM or AM
 
-    /**
-     * Whether the timer is in hour12 format
-     */
-    @Input()
-    hour12Timer: boolean;
+  /**
+   * Whether to show the second's timer
+   * @default false
+   * @type {Boolean}
+   * */
+  @Input() showSecondsTimer: boolean;
 
-    /**
-     * Hours to change per step
-     */
-    @Input()
-    stepHour = 1;
+  /**
+   * Whether the timer is in hour12 format
+   * @default false
+   * @type {boolean}
+   * */
+  @Input() hour12Timer: boolean;
 
-    /**
-     * Minutes to change per step
-     */
-    @Input()
-    stepMinute = 1;
+  /**
+   * Hours to change per step
+   * @default {1}
+   * @type {number}
+   * */
+  @Input() stepHour = 1;
 
-    /**
-     * Seconds to change per step
-     */
-    @Input()
-    stepSecond = 1;
+  /**
+   * Minutes to change per step
+   * @default {1}
+   * @type {number}
+   * */
+  @Input() stepMinute = 1;
 
-    get hourValue(): number {
-        return this.dateTimeAdapter.getHours(this.pickerMoment);
-    }
+  /**
+   * Seconds to change per step
+   * @default {1}
+   * @type {number}
+   * */
+  @Input() stepSecond = 1;
 
-    /**
-     * The value would be displayed in hourBox.
-     * We need this because the value displayed in hourBox it not
-     * the same as the hourValue when the timer is in hour12Timer mode.
-     * */
-    get hourBoxValue(): number {
-        let hours = this.hourValue;
+  get hourValue(): number {
+      return this.dateTimeAdapter.getHours(this.pickerMoment);
+  }
 
-        if (!this.hour12Timer) {
-            return hours;
-        } else {
-            if (hours === 0) {
-                hours = 12;
-                this.isPM = false;
-            } else if (hours > 0 && hours < 12) {
-                this.isPM = false;
-            } else if (hours === 12) {
-                this.isPM = true;
-            } else if (hours > 12 && hours < 24) {
-                hours = hours - 12;
-                this.isPM = true;
-            }
+  /**
+   * The value would be displayed in hourBox.
+   * We need this because the value displayed in hourBox it not
+   * the same as the hourValue when the timer is in hour12Timer mode.
+   * */
+  get hourBoxValue(): number {
+      let hours = this.hourValue;
 
-            return hours;
-        }
-    }
+      if (!this.hour12Timer) {
+          return hours;
+      } else {
 
-    get minuteValue(): number {
-        return this.dateTimeAdapter.getMinutes(this.pickerMoment);
-    }
+          if (hours === 0) {
+              hours = 12;
+              this.isPM = false;
+          } else if (hours > 0 && hours < 12) {
+              this.isPM = false;
+          } else if (hours === 12) {
+              this.isPM = true;
+          } else if (hours > 12 && hours < 24) {
+              hours = hours - 12;
+              this.isPM = true;
+          }
 
-    get secondValue(): number {
-        return this.dateTimeAdapter.getSeconds(this.pickerMoment);
-    }
+          return hours;
+      }
+  }
 
-    get upHourButtonLabel(): string {
-        return this.pickerIntl.upHourLabel;
-    }
+  get minuteValue(): number {
+      return this.dateTimeAdapter.getMinutes(this.pickerMoment);
+  }
 
-    get downHourButtonLabel(): string {
-        return this.pickerIntl.downHourLabel;
-    }
+  get secondValue(): number {
+      return this.dateTimeAdapter.getSeconds(this.pickerMoment);
+  }
 
-    get upMinuteButtonLabel(): string {
-        return this.pickerIntl.upMinuteLabel;
-    }
+  get upHourButtonLabel(): string {
+      return this.pickerIntl.upHourLabel;
+  }
 
-    get downMinuteButtonLabel(): string {
-        return this.pickerIntl.downMinuteLabel;
-    }
+  get downHourButtonLabel(): string {
+      return this.pickerIntl.downHourLabel;
+  }
 
-    get upSecondButtonLabel(): string {
-        return this.pickerIntl.upSecondLabel;
-    }
+  get upMinuteButtonLabel(): string {
+      return this.pickerIntl.upMinuteLabel;
+  }
 
-    get downSecondButtonLabel(): string {
-        return this.pickerIntl.downSecondLabel;
-    }
+  get downMinuteButtonLabel(): string {
+      return this.pickerIntl.downMinuteLabel;
+  }
 
-    get hour12ButtonLabel(): string {
-        return this.isPM
-            ? this.pickerIntl.hour12PMLabel
-            : this.pickerIntl.hour12AMLabel;
-    }
+  get upSecondButtonLabel(): string {
+      return this.pickerIntl.upSecondLabel;
+  }
 
-    @Output()
-    selectedChange = new EventEmitter<T>();
+  get downSecondButtonLabel(): string {
+      return this.pickerIntl.downSecondLabel;
+  }
 
-    get owlDTTimerClass(): boolean {
-        return true;
-    }
+  get hour12ButtonLabel(): string {
+      return this.isPM ? this.pickerIntl.hour12PMLabel : this.pickerIntl.hour12AMLabel;
+  }
 
-    get owlDTTimeTabIndex(): number {
-        return -1;
-    }
+  @Output() selectedChange = new EventEmitter<T>();
 
-    constructor(
-        private ngZone: NgZone,
-        private elmRef: ElementRef,
-        private pickerIntl: OwlDateTimeIntl,
-        private cdRef: ChangeDetectorRef,
-        @Optional() private dateTimeAdapter: DateTimeAdapter<T>
-    ) {}
+  @HostBinding('class.owl-dt-timer')
+  get owlDTTimerClass(): boolean {
+      return true;
+  }
 
-    public ngOnInit() {}
+  @HostBinding('attr.tabindex')
+  get owlDTTimeTabIndex(): number {
+      return -1;
+  }
 
-    /**
-     * Focus to the host element
-     * */
-    public focus() {
-        this.ngZone.runOutsideAngular(() => {
-            this.ngZone.onStable
-                .asObservable()
-                .pipe(take(1))
-                .subscribe(() => {
-                    this.elmRef.nativeElement.focus();
-                });
-        });
-    }
+  hourMaxValue: number = 23;
 
-    /**
-     * Set the hour value via typing into timer box input
-     * We need this to handle the hour value when the timer is in hour12 mode
-     * */
-    public setHourValueViaInput(hours: number): void {
-        if (this.hour12Timer && this.isPM && hours >= 1 && hours <= 11) {
-            hours = hours + 12;
-        } else if (this.hour12Timer && !this.isPM && hours === 12) {
-            hours = 0;
-        }
+  constructor(private ngZone: NgZone,
+      private elmRef: ElementRef,
+      private pickerIntl: OwlDateTimeIntl,
+      private cdRef: ChangeDetectorRef,
+      @Optional() private dateTimeAdapter: DateTimeAdapter<T>) {
+  }
 
-        this.setHourValue(hours);
-    }
+  public ngOnInit() {
+      this.initMax(this.hour12Timer)
+  }
 
-    public setHourValue(hours: number): void {
-        const m = this.dateTimeAdapter.setHours(this.pickerMoment, hours);
-        this.selectedChange.emit(m);
-        this.cdRef.markForCheck();
-    }
+  /**
+   * Focus to the host element
+   * */
+  public focus() {
+      this.ngZone.runOutsideAngular(() => {
+          this.ngZone.onStable.asObservable().pipe(take(1)).subscribe(() => {
+              this.elmRef.nativeElement.focus();
+          });
+      });
+  }
 
-    public setMinuteValue(minutes: number): void {
-        const m = this.dateTimeAdapter.setMinutes(this.pickerMoment, minutes);
-        this.selectedChange.emit(m);
-        this.cdRef.markForCheck();
-    }
+  /**
+   * Set the hour value via typing into timer box input
+   * We need this to handle the hour value when the timer is in hour12 mode
+   * */
+  public setHourValueViaInput(hours: number): void {
 
-    public setSecondValue(seconds: number): void {
-        const m = this.dateTimeAdapter.setSeconds(this.pickerMoment, seconds);
-        this.selectedChange.emit(m);
-        this.cdRef.markForCheck();
-    }
+      if (this.hour12Timer && this.isPM && hours >= 1 && hours <= 11) {
+          hours = hours + 12;
+      } else if (this.hour12Timer && !this.isPM && hours === 12) {
+          hours = 0
+      }
 
-    public setMeridiem(event: any): void {
-        this.isPM = !this.isPM;
+      this.setHourValue(hours);
+  }
 
-        let hours = this.hourValue;
-        if (this.isPM) {
-            hours = hours + 12;
-        } else {
-            hours = hours - 12;
-        }
+  public setHourValue(hours: number): void {
+      const m = this.dateTimeAdapter.setHours(this.pickerMoment, hours);
+      this.selectedChange.emit(m);
+      this.cdRef.markForCheck();
+  }
 
-        if (hours >= 0 && hours <= 23) {
-            this.setHourValue(hours);
-        }
+  public setMinuteValue(minutes: number): void {
+      const m = this.dateTimeAdapter.setMinutes(this.pickerMoment, minutes);
+      this.selectedChange.emit(m);
+      this.cdRef.markForCheck();
+  }
 
-        this.cdRef.markForCheck();
-        event.preventDefault();
-    }
+  public setSecondValue(seconds: number): void {
+      const m = this.dateTimeAdapter.setSeconds(this.pickerMoment, seconds);
+      this.selectedChange.emit(m);
+      this.cdRef.markForCheck();
+  }
 
-    /**
-     * Check if the up hour button is enabled
-     */
-    public upHourEnabled(): boolean {
-        return (
-            !this.maxDateTime ||
-            this.compareHours(this.stepHour, this.maxDateTime) < 1
-        );
-    }
+  public setMeridiem(event: any): void {
+      this.isPM = !this.isPM;
 
-    /**
-     * Check if the down hour button is enabled
-     */
-    public downHourEnabled(): boolean {
-        return (
-            !this.minDateTime ||
-            this.compareHours(-this.stepHour, this.minDateTime) > -1
-        );
-    }
+      let hours = this.hourValue;
+      if (this.isPM) {
+          hours = hours + 12;
+      } else {
+          hours = hours - 12;
+      }
 
-    /**
-     * Check if the up minute button is enabled
-     */
-    public upMinuteEnabled(): boolean {
-        return (
-            !this.maxDateTime ||
-            this.compareMinutes(this.stepMinute, this.maxDateTime) < 1
-        );
-    }
+      if (hours >= 0 && hours <= 23) {
+          this.setHourValue(hours);
+      }
 
-    /**
-     * Check if the down minute button is enabled
-     */
-    public downMinuteEnabled(): boolean {
-        return (
-            !this.minDateTime ||
-            this.compareMinutes(-this.stepMinute, this.minDateTime) > -1
-        );
-    }
+      this.cdRef.markForCheck();
+      event.preventDefault();
+  }
 
-    /**
-     * Check if the up second button is enabled
-     */
-    public upSecondEnabled(): boolean {
-        return (
-            !this.maxDateTime ||
-            this.compareSeconds(this.stepSecond, this.maxDateTime) < 1
-        );
-    }
+  /**
+   * Check if the up hour button is enabled
+   * @return {boolean}
+   * */
+  public upHourEnabled(): boolean {
+      return !this.maxDateTime || this.compareHours(this.stepHour, this.maxDateTime) < 1;
+  }
 
-    /**
-     * Check if the down second button is enabled
-     */
-    public downSecondEnabled(): boolean {
-        return (
-            !this.minDateTime ||
-            this.compareSeconds(-this.stepSecond, this.minDateTime) > -1
-        );
-    }
+  /**
+   * Check if the down hour button is enabled
+   * @return {boolean}
+   * */
+  public downHourEnabled(): boolean {
+      return !this.minDateTime || this.compareHours(-this.stepHour, this.minDateTime) > -1;
+  }
 
-    /**
-     * PickerMoment's hour value +/- certain amount and compare it to the give date
-     * 1 is after the comparedDate
-     * -1 is before the comparedDate
-     * 0 is equal the comparedDate
-     * */
-    private compareHours(amount: number, comparedDate: T): number {
-        const hours = this.dateTimeAdapter.getHours(this.pickerMoment) + amount;
-        const result = this.dateTimeAdapter.setHours(this.pickerMoment, hours);
-        return this.dateTimeAdapter.compare(result, comparedDate);
-    }
+  /**
+   * Check if the up minute button is enabled
+   * @return {boolean}
+   * */
+  public upMinuteEnabled(): boolean {
+      return !this.maxDateTime || this.compareMinutes(this.stepMinute, this.maxDateTime) < 1;
+  }
 
-    /**
-     * PickerMoment's minute value +/- certain amount and compare it to the give date
-     * 1 is after the comparedDate
-     * -1 is before the comparedDate
-     * 0 is equal the comparedDate
-     * */
-    private compareMinutes(amount: number, comparedDate: T): number {
-        const minutes =
-            this.dateTimeAdapter.getMinutes(this.pickerMoment) + amount;
-        const result = this.dateTimeAdapter.setMinutes(
-            this.pickerMoment,
-            minutes
-        );
-        return this.dateTimeAdapter.compare(result, comparedDate);
-    }
+  /**
+   * Check if the down minute button is enabled
+   * @return {boolean}
+   * */
+  public downMinuteEnabled(): boolean {
+      return !this.minDateTime || this.compareMinutes(-this.stepMinute, this.minDateTime) > -1;
+  }
 
-    /**
-     * PickerMoment's second value +/- certain amount and compare it to the give date
-     * 1 is after the comparedDate
-     * -1 is before the comparedDate
-     * 0 is equal the comparedDate
-     * */
-    private compareSeconds(amount: number, comparedDate: T): number {
-        const seconds =
-            this.dateTimeAdapter.getSeconds(this.pickerMoment) + amount;
-        const result = this.dateTimeAdapter.setSeconds(
-            this.pickerMoment,
-            seconds
-        );
-        return this.dateTimeAdapter.compare(result, comparedDate);
-    }
+  /**
+   * Check if the up second button is enabled
+   * @return {boolean}
+   * */
+  public upSecondEnabled(): boolean {
+      return !this.maxDateTime || this.compareSeconds(this.stepSecond, this.maxDateTime) < 1;
+  }
 
-    /**
-     * Get a valid date object
-     */
-    private getValidDate(obj: any): T | null {
-        return this.dateTimeAdapter.isDateInstance(obj) &&
-            this.dateTimeAdapter.isValid(obj)
-            ? obj
-            : null;
-    }
+  /**
+   * Check if the down second button is enabled
+   * @return {boolean}
+   * */
+  public downSecondEnabled(): boolean {
+      return !this.minDateTime || this.compareSeconds(-this.stepSecond, this.minDateTime) > -1;
+  }
+
+  /**
+   * PickerMoment's hour value +/- certain amount and compare it to the give date
+   * @param {number} amount
+   * @param {Date} comparedDate
+   * @return {number}
+   * 1 is after the comparedDate
+   * -1 is before the comparedDate
+   * 0 is equal the comparedDate
+   * */
+  private compareHours(amount: number, comparedDate: T): number {
+      const hours = this.dateTimeAdapter.getHours(this.pickerMoment) + amount;
+      const result = this.dateTimeAdapter.setHours(this.pickerMoment, hours);
+      return this.dateTimeAdapter.compare(result, comparedDate);
+  }
+
+  /**
+   * PickerMoment's minute value +/- certain amount and compare it to the give date
+   * @param {number} amount
+   * @param {Date} comparedDate
+   * @return {number}
+   * 1 is after the comparedDate
+   * -1 is before the comparedDate
+   * 0 is equal the comparedDate
+   * */
+  private compareMinutes(amount: number, comparedDate: T): number {
+      const minutes = this.dateTimeAdapter.getMinutes(this.pickerMoment) + amount;
+      const result = this.dateTimeAdapter.setMinutes(this.pickerMoment, minutes);
+      return this.dateTimeAdapter.compare(result, comparedDate);
+  }
+
+  /**
+   * PickerMoment's second value +/- certain amount and compare it to the give date
+   * @param {number} amount
+   * @param {Date} comparedDate
+   * @return {number}
+   * 1 is after the comparedDate
+   * -1 is before the comparedDate
+   * 0 is equal the comparedDate
+   * */
+  private compareSeconds(amount: number, comparedDate: T): number {
+      const seconds = this.dateTimeAdapter.getSeconds(this.pickerMoment) + amount;
+      const result = this.dateTimeAdapter.setSeconds(this.pickerMoment, seconds);
+      return this.dateTimeAdapter.compare(result, comparedDate);
+  }
+
+  /**
+   * Get a valid date object
+   * @param {any} obj -- The object to check.
+   * @return {Date | null} -- The given object if it is both a date instance and valid, otherwise null.
+   */
+  private getValidDate(obj: any): T | null {
+      return (this.dateTimeAdapter.isDateInstance(obj) && this.dateTimeAdapter.isValid(obj)) ? obj : null;
+  }
+  /**
+   * initialzes max value for the hour box based on the nature of clock
+   * @param {boolean} is12HourClock - Determines whether the clock is 12 hour clock or not
+   */
+  private initMax(is12HourClock: boolean) {
+      this.hourMaxValue = is12HourClock ? 12 : 23;
+  }
 }
