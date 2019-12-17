@@ -98,9 +98,21 @@ export class OwlTimerBoxComponent implements OnInit, OnDestroy {
         this.updateValue(this.value - this.step);
     }
 
-    public handleInputChange( val: string ): void {
-        this.inputStream.next(val);
-    }
+    public handleInputChange( val: string, event: any ): void {
+      const value = this.filterInt(val);
+      if (!isNaN(value)) {
+          if (value > this.max || value < this.min) {
+              event.target.value = event.target.value.replace(
+                event.target.value,
+                `0${event.target.value.substring(0, event.target.value.length - 1)}`,
+              );
+              return;
+          }
+      } else {
+          event.target.value = event.target.value.replace(event.target.value, '');
+      }
+      this.inputStream.next(val);
+  }
 
     private updateValue( value: number ): void {
         this.valueChange.emit(value);
@@ -112,4 +124,13 @@ export class OwlTimerBoxComponent implements OnInit, OnDestroy {
         }
         this.inputChange.emit(value);
     }
+
+    private filterInt(value: string) {
+      if (/^[-+]?(\d+|Infinity)$/.test(value)) {
+        return Number(value);
+      } else {
+        return NaN;
+      }
+    }
+
 }

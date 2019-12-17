@@ -180,6 +180,8 @@ export class OwlTimerComponent<T> implements OnInit {
         return -1;
     }
 
+    hourMaxValue = 23;
+
     constructor(
         private ngZone: NgZone,
         private elmRef: ElementRef,
@@ -188,7 +190,9 @@ export class OwlTimerComponent<T> implements OnInit {
         @Optional() private dateTimeAdapter: DateTimeAdapter<T>
     ) {}
 
-    public ngOnInit() {}
+    public ngOnInit() {
+      this.initMax(this.hour12Timer);
+    }
 
     /**
      * Focus to the host element
@@ -366,5 +370,9 @@ export class OwlTimerComponent<T> implements OnInit {
             this.dateTimeAdapter.isValid(obj)
             ? obj
             : null;
+    }
+
+    private initMax(is12HourClock: boolean) {
+        this.hourMaxValue = is12HourClock ? 12 : 23;
     }
 }
