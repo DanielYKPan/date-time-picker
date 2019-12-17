@@ -4,7 +4,7 @@
         [upBtnDisabled]="!upHourEnabled()"
         [downBtnDisabled]="!downHourEnabled()"
         [boxValue]="hourBoxValue"
-        [value]="hourValue" [min]="0" [max]="hourMaxValue"
+        [value]="hourValue" [min]="0" [max]="23"
         [step]="stepHour" [inputLabel]="'Hour'"
         (inputChange)="setHourValueViaInput($event)"
         (valueChange)="setHourValue($event)"></owl-date-time-timer-box>
