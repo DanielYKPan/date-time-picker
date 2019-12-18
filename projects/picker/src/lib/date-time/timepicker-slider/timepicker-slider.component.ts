@@ -7,4 +7,13 @@ import {OwlTimerComponent} from '../timer.component';
   styleUrls: ['./timepicker-slider.component.scss']
 })
 export class TimepickerSliderComponent<T> extends OwlTimerComponent<T> implements OnInit {
+  get hourLabel(): any {
+    return this.pickerIntl.hourLabel;
+  }
+  get minuteLabel(): any {
+    return this.pickerIntl.minuteLabel;
+  }
+  get secondLabel(): any {
+    return this.pickerIntl.secondLabel;
+  }
 }

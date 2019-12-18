@@ -7,6 +7,10 @@ Angular Date Time Picker
 **Angular date time picker - Angular reusable UI component**
 **This package supports Angular 8**
 
+Slider version
+--------------
+
+If You want to use slider as timepicker add ` [timepickerComponent]="'slider'"` to component
 
 Breaking Changes
 -------
