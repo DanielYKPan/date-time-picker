@@ -1,29 +1,29 @@
 <tr *ngFor="let row of rows; let rowIndex = index" role="row">
-    <td
-        *ngFor="let item of row; let colIndex = index"
-        class="owl-dt-calendar-cell {{ item.cellClass }}"
-        [tabindex]="isActiveCell(rowIndex, colIndex) ? 0 : -1"
-        [class.owl-dt-calendar-cell-active]="isActiveCell(rowIndex, colIndex)"
-        [class.owl-dt-calendar-cell-disabled]="!item.enabled"
-        [class.owl-dt-calendar-cell-in-range]="isInRange(item.value)"
-        [class.owl-dt-calendar-cell-range-from]="isRangeFrom(item.value)"
-        [class.owl-dt-calendar-cell-range-to]="isRangeTo(item.value)"
-        [attr.aria-label]="item.ariaLabel"
-        [attr.aria-disabled]="!item.enabled || null"
-        [style.width.%]="100 / numCols"
-        [style.paddingTop.%]="(50 * cellRatio) / numCols"
-        [style.paddingBottom.%]="(50 * cellRatio) / numCols"
-        (click)="selectCell(item)"
+  <td
+    *ngFor="let item of row; let colIndex = index"
+    class="owl-dt-calendar-cell {{ item.cellClass }}"
+    [tabindex]="isActiveCell(rowIndex, colIndex) ? 0 : -1"
+    [class.owl-dt-calendar-cell-active]="isActiveCell(rowIndex, colIndex)"
+    [class.owl-dt-calendar-cell-disabled]="!item.enabled"
+    [class.owl-dt-calendar-cell-in-range]="isInRange(item.value)"
+    [class.owl-dt-calendar-cell-range-from]="isRangeFrom(item.value)"
+    [class.owl-dt-calendar-cell-range-to]="isRangeTo(item.value)"
+    [attr.aria-label]="item.ariaLabel"
+    [attr.aria-disabled]="!item.enabled || null"
+    [style.width.%]="100 / numCols"
+    [style.paddingTop.%]="(50 * cellRatio) / numCols"
+    [style.paddingBottom.%]="(50 * cellRatio) / numCols"
+    (click)="selectCell(item)"
+  >
+    <span
+      class="owl-dt-calendar-cell-content"
+      [ngClass]="{
+        'owl-dt-calendar-cell-out': item.out,
+        'owl-dt-calendar-cell-today': item.value === todayValue,
+        'owl-dt-calendar-cell-selected': isSelected(item.value)
+      }"
     >
-        <span
-            class="owl-dt-calendar-cell-content"
-            [ngClass]="{
-                'owl-dt-calendar-cell-out': item.out,
-                'owl-dt-calendar-cell-today': item.value === todayValue,
-                'owl-dt-calendar-cell-selected': isSelected(item.value)
-            }"
-        >
-            {{ item.displayValue }}
-        </span>
-    </td>
+      {{ item.displayValue }}
+    </span>
+  </td>
 </tr>
