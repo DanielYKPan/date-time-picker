@@ -188,7 +188,7 @@ none
 Demo
 -------
 - Online doc is [here](https://daniel-projects.firebaseapp.com/owlng/date-time-picker)
-- Online demo(StackBlitz) is [here](https://stackblitz.com/github/DanielYKPan/owl-examples/tree/date-time-picker)
+- Online demos (StackBlitz) are [here](https://stackblitz.com/edit/angular-vvp849) and [here](https://stackblitz.com/edit/angular-i7ykf5)
 
 License
 -------
