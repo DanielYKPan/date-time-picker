@@ -14,7 +14,7 @@ Breaking Changes
 
 Description
 -------
-Simple Angular date time picker. Online doc is [here](https://daniel-projects.firebaseapp.com/owlng/date-time-picker), Online demo(StackBlitz) is [here](https://stackblitz.com/github/DanielYKPan/owl-examples/tree/date-time-picker).
+Simple Angular date time picker. Online doc is [here](https://daniel-projects.firebaseapp.com/owlng/date-time-picker), Online demos (StackBlitz) are [here](https://stackblitz.com/edit/angular-vvp849) and [here](https://stackblitz.com/edit/angular-i7ykf5).
 This picker is responsive design, so feel free to try it in your desktops, tablets and mobile devices. 
 
 How to Use
