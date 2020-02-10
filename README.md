@@ -8,7 +8,7 @@
 
 ## Breaking Changes
 
--   The picker has been updated for Angular 7+ apps.
+- The picker has been updated for Angular 7+ apps.
 
 ## Description
 
@@ -31,15 +31,12 @@ This picker is responsive design, so feel free to try it in your desktops, table
     import { BrowserModule } from '@angular/platform-browser';
     import { MyTestApp } from './my-test-app';
 
-    import {
-        OwlDateTimeModule,
-        OwlNativeDateTimeModule
-    } from 'ng-pick-datetime';
+    import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 
     @NgModule({
-        imports: [BrowserModule, OwlDateTimeModule, OwlNativeDateTimeModule],
-        declarations: [MyTestApp],
-        bootstrap: [MyTestApp]
+      imports: [BrowserModule, OwlDateTimeModule, OwlNativeDateTimeModule],
+      declarations: [MyTestApp],
+      bootstrap: [MyTestApp],
     })
     export class MyTestAppModule {}
     ```
@@ -47,11 +44,7 @@ This picker is responsive design, so feel free to try it in your desktops, table
 4.  Connecting a picker to an input and a trigger.
 
     ```html
-    <input
-        [owlDateTime]="dt1"
-        [owlDateTimeTrigger]="dt1"
-        placeholder="Date Time"
-    />
+    <input [owlDateTime]="dt1" [owlDateTimeTrigger]="dt1" placeholder="Date Time" />
     <owl-date-time #dt1></owl-date-time>
     ```
 
@@ -78,12 +71,12 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
-    imports: [
-        BrowserModule,
-        BrowserAnimationsModule
-        //...
-    ]
+  imports: [
+    BrowserModule,
+    BrowserAnimationsModule,
     //...
+  ],
+  //...
 })
 export class YourAppModule {}
 ```
@@ -96,8 +89,8 @@ The date-time picker was built to be date implementation agnostic.
 Developers need to make sure to provide the appropriate pieces for the picker to work with their chosen implementation.
 There are two pre-made modules, users need to import one of them or build your own one (learn more about this from [here](https://danielykpan.github.io/date-time-picker/#locale-formats)).
 
--   `OwlNativeDateTimeModule` - support for native JavaScript Date object
--   `OwlMomentDateTimeModule` - support for MomentJs
+- `OwlNativeDateTimeModule` - support for native JavaScript Date object
+- `OwlMomentDateTimeModule` - support for MomentJs
 
 ## Properties for `owl-date-time`
 
@@ -191,12 +184,12 @@ none
 
 ## Demo
 
--   Online doc is [here](https://daniel-projects.firebaseapp.com/owlng/date-time-picker)
--   Online demo(StackBlitz) is [here](https://stackblitz.com/github/DanielYKPan/owl-examples/tree/date-time-picker)
+- Online doc is [here](https://daniel-projects.firebaseapp.com/owlng/date-time-picker)
+- Online demo(StackBlitz) is [here](https://stackblitz.com/github/DanielYKPan/owl-examples/tree/date-time-picker)
 
 ## License
 
--   License: MIT
+- License: MIT
 
 ## Author
 
