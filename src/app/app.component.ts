@@ -7,7 +7,7 @@ import { OwlDateTimeComponent } from 'picker';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.sass']
+  styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
   @ViewChild('date_range_component', { static: true })
