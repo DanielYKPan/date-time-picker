@@ -4,7 +4,6 @@ import { Component, FactoryProvider, Type, ValueProvider, ViewChild } from '@ang
 import { OwlDateTimeInputDirective } from './date-time-picker-input.directive';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/testing';
 import { OwlDateTimeModule } from './date-time.module';
 import { OverlayContainer } from '@angular/cdk/overlay';
 import { OwlNativeDateTimeModule } from '../adapter/native';
@@ -28,8 +27,7 @@ describe('OwlDateTimeComponent', () => {
   function createComponent(
     component: Type<any>,
     imports: Type<any>[] = [],
-    providers: (FactoryProvider | ValueProvider)[] = [],
-    entryComponents: Type<any>[] = []
+    providers: (FactoryProvider | ValueProvider)[] = []
   ): ComponentFixture<any> {
     TestBed.configureTestingModule({
       imports: [
@@ -40,14 +38,8 @@ describe('OwlDateTimeComponent', () => {
         ...imports
       ],
       providers,
-      declarations: [component, ...entryComponents]
+      declarations: [component]
     });
-
-    TestBed.overrideModule(BrowserDynamicTestingModule, {
-      set: {
-        entryComponents: [entryComponents]
-      }
-    }).compileComponents();
 
     return TestBed.createComponent(component);
   }

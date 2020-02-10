@@ -49,7 +49,6 @@ import { OwlDialogModule } from '../dialog/dialog.module';
     NumberFixedLenPipe,
     OwlDateTimeInlineComponent
   ],
-  providers: [OwlDateTimeIntl, OWL_DTPICKER_SCROLL_STRATEGY_PROVIDER],
-  entryComponents: [OwlDateTimeContainerComponent]
+  providers: [OwlDateTimeIntl, OWL_DTPICKER_SCROLL_STRATEGY_PROVIDER]
 })
 export class OwlDateTimeModule {}
