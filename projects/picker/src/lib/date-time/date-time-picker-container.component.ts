@@ -40,9 +40,9 @@ import { DOWN_ARROW, LEFT_ARROW, RIGHT_ARROW, SPACE, UP_ARROW } from '@angular/c
   }
 })
 export class OwlDateTimeContainerComponent<T> implements OnInit, AfterContentInit, AfterViewInit {
-  @ViewChild(OwlCalendarComponent, { static: false })
+  @ViewChild(OwlCalendarComponent)
   calendar: OwlCalendarComponent<T>;
-  @ViewChild(OwlTimerComponent, { static: false })
+  @ViewChild(OwlTimerComponent)
   timer: OwlTimerComponent<T>;
 
   public picker: OwlDateTime<T>;
