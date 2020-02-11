@@ -17,14 +17,19 @@
                 "build": {
                     "builder": "@angular-devkit/build-angular:browser",
                     "options": {
-            "aot": true,
+                        "aot": true,
                         "outputPath": "dist/date-time-picker-app",
                         "index": "src/index.html",
                         "main": "src/main.ts",
                         "polyfills": "src/polyfills.ts",
                         "tsConfig": "src/tsconfig.app.json",
-                        "assets": ["src/favicon.ico", "src/assets"],
-                        "styles": ["src/styles.sass"],
+                        "assets": [
+                            "src/favicon.ico",
+                            "src/assets"
+                        ],
+                        "styles": [
+                            "src/styles.sass"
+                        ],
                         "scripts": []
                     },
                     "configurations": {
@@ -50,10 +55,10 @@
                                     "maximumWarning": "2mb",
                                     "maximumError": "5mb"
                                 },
-                {
-                  "type": "anyComponentStyle",
-                  "maximumWarning": "6kb"
-                }
+                                {
+                                    "type": "anyComponentStyle",
+                                    "maximumWarning": "6kb"
+                                }
                             ]
                         }
                     }
@@ -82,9 +87,14 @@
                         "polyfills": "src/polyfills.ts",
                         "tsConfig": "src/tsconfig.spec.json",
                         "karmaConfig": "src/karma.conf.js",
-                        "styles": ["src/styles.sass"],
+                        "styles": [
+                            "src/styles.sass"
+                        ],
                         "scripts": [],
-                        "assets": ["src/favicon.ico", "src/assets"]
+                        "assets": [
+                            "src/favicon.ico",
+                            "src/assets"
+                        ]
                     }
                 },
                 "lint": {
@@ -94,7 +104,9 @@
                             "src/tsconfig.app.json",
                             "src/tsconfig.spec.json"
                         ],
-                        "exclude": ["**/node_modules/**"]
+                        "exclude": [
+                            "**/node_modules/**"
+                        ]
                     }
                 }
             }
@@ -120,7 +132,9 @@
                     "builder": "@angular-devkit/build-angular:tslint",
                     "options": {
                         "tsConfig": "e2e/tsconfig.e2e.json",
-                        "exclude": ["**/node_modules/**"]
+                        "exclude": [
+                            "**/node_modules/**"
+                        ]
                     }
                 }
             }
@@ -136,13 +150,13 @@
                     "options": {
                         "tsConfig": "projects/picker/tsconfig.lib.json",
                         "project": "projects/picker/ng-package.json"
+                    },
+                    "configurations": {
+                        "production": {
+                            "tsConfig": "projects/picker/tsconfig.lib.prod.json"
+                        }
                     }
-                ,          "configurations": {
-            "production": {
-              "tsConfig": "projects/picker/tsconfig.lib.prod.json"
-            }
-          }
-},
+                },
                 "test": {
                     "builder": "@angular-devkit/build-angular:karma",
                     "options": {
@@ -158,7 +172,9 @@
                             "projects/picker/tsconfig.lib.json",
                             "projects/picker/tsconfig.spec.json"
                         ],
-                        "exclude": ["**/node_modules/**"]
+                        "exclude": [
+                            "**/node_modules/**"
+                        ]
                     }
                 }
             }

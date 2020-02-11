@@ -28,7 +28,7 @@
     "url": "https://github.com/DanielYKPan/date-time-picker.git"
   },
   "dependencies": {
-    "@angular/animations": "~9.0.0",
+    "@angular/animations": "^9.0.0",
     "@angular/common": "~9.0.0",
     "@angular/compiler": "~9.0.0",
     "@angular/core": "~9.0.0",
@@ -39,6 +39,7 @@
     "core-js": "^2.6.11",
     "moment": "^2.24.0",
     "moment-timezone": "^0.5.27",
+    "np": "^6.0.0",
     "rxjs": "^6.5.4",
     "tslib": "^1.10.0",
     "zone.js": "~0.10.2"
@@ -52,9 +53,10 @@
     "@angular/language-service": "~9.0.0",
     "@types/jasmine": "^3.5.3",
     "@types/jasminewd2": "^2.0.8",
+    "@types/moment-timezone": "^0.5.12",
     "@types/node": "^12.11.1",
     "codelyzer": "^5.1.2",
-    "jasmine-core": "~3.4.0",
+    "jasmine-core": "^3.5.0",
     "jasmine-spec-reporter": "~4.2.1",
     "karma": "~4.1.0",
     "karma-chrome-launcher": "~2.2.0",

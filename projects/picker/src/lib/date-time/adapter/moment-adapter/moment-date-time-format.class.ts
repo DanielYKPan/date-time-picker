@@ -3,7 +3,7 @@
  */
 import { OwlDateTimeFormats } from '../date-time-format.class';
 
-// import { OwlDateTimeFormats } from 'ng-pick-datetime';
+// import { OwlDateTimeFormats } from 'ngx-pick-datetime';
 
 export const OWL_MOMENT_DATE_TIME_FORMATS: OwlDateTimeFormats = {
     parseInput: 'l LT',

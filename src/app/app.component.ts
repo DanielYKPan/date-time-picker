@@ -21,11 +21,5 @@ export class AppComponent implements AfterViewInit {
   open_once = false;
 
   ngAfterViewInit() {
-    /*
-    if (!this.open_once) {
-        this.date_range_component.open();
-        this.open_once = true;
-    }
-    */
   }
 }

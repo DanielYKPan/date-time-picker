@@ -1,16 +1,14 @@
 Angular Date Time Picker
 ========================
 
-[![npm](https://img.shields.io/npm/v/ng-pick-datetime.svg?maxAge=2592000?style=flat-square)](https://www.npmjs.com/package/ng-pick-datetime)
-[![npm](https://img.shields.io/npm/dm/ng-pick-datetime.svg)](https://www.npmjs.com/package/ng-pick-datetime)
+> Forked from: https://daniel-projects.firebaseapp.com/owlng/date-time-picker
 
 **Angular date time picker - Angular reusable UI component**
-**This package supports Angular 8**
-
+**This package supports Angular 8+**
 
 Breaking Changes
 -------
- - The picker has been updated for Angular 7+ apps.
+ - The picker has been updated to support Angular 8, Angular 9, as well as compilation using Ivy.
 
 Description
 -------
@@ -20,11 +18,11 @@ This picker is responsive design, so feel free to try it in your desktops, table
 How to Use
 -------
 
- 1. Install with [npm](https://www.npmjs.com):`npm install ng-pick-datetime --save`
+ 1. Install with [npm](https://www.npmjs.com):`npm install ngx-pick-datetime --save`
  2. Add styles.
     If you are using Angular CLI, you can add this to your styles.css: 
     ```css
-    @import "~ng-pick-datetime/assets/style/picker.min.css";
+    @import "~ngx-pick-datetime/assets/style/picker.min.css";
     ``` 
     If you are not using the Angular CLI, you can include the picker.min.css via a ```<link>``` element in your index.html.
  3. Add __OwlDateTimeModule__ and __OwlNativeDateTimeModule__ to your __@NgModule__ like example below
@@ -33,7 +31,7 @@ How to Use
      import { BrowserModule } from '@angular/platform-browser';
      import { MyTestApp } from './my-test-app';
     
-     import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
+     import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ngx-pick-datetime';
     
      @NgModule({
          imports: [ 
