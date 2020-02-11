@@ -40,6 +40,7 @@ $backdrop-animation-timing-function: cubic-bezier(0.25, 0.8, 0.25, 1) !default;
 // problems tied to using `transform` and without interfering with the other position
 // strategies.
 .cdk-global-overlay-wrapper {
+  display: -webkit-box;
   display: flex;
   position: absolute;
   z-index: $cdk-z-index-overlay;
@@ -56,6 +57,7 @@ $backdrop-animation-timing-function: cubic-bezier(0.25, 0.8, 0.25, 1) !default;
 
   // For connected-position overlays, we set `display: flex` in
   // order to force `max-width` and `max-height` to take effect.
+  display: -webkit-box;
   display: flex;
   max-width: 100%;
   max-height: 100%;
@@ -72,6 +74,7 @@ $backdrop-animation-timing-function: cubic-bezier(0.25, 0.8, 0.25, 1) !default;
   z-index: $cdk-z-index-overlay-backdrop;
   pointer-events: auto;
   -webkit-tap-highlight-color: transparent;
+  -webkit-transition: opacity $backdrop-animation-duration $backdrop-animation-timing-function;
   transition: opacity $backdrop-animation-duration $backdrop-animation-timing-function;
   opacity: 0;
 
@@ -111,11 +114,14 @@ $backdrop-animation-timing-function: cubic-bezier(0.25, 0.8, 0.25, 1) !default;
   // We use `display: flex` on this element exclusively for centering connected overlays.
   // When *not* centering, a top/left/bottom/right will be set which overrides the normal
   // flex layout.
+  display: -webkit-box;
   display: flex;
 
   // We use the `column` direction here to avoid some flexbox issues in Edge
   // when using the "grow after open" options.
-  flex-direction: column;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+          flex-direction: column;
 
   // Add some dimensions so the element has an `innerText` which some people depend on in tests.
   min-width: 1px;
@@ -179,24 +185,33 @@ $theme-color: #3f51b5;
 }
 
 .owl-dt-calendar {
+  display: -webkit-box;
   display: flex;
-  flex-direction: column;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+          flex-direction: column;
   width: 100%;
 }
 
 .owl-dt-calendar-control {
+  display: -webkit-box;
   display: flex;
-  align-items: center;
+  -webkit-box-align: center;
+          align-items: center;
   font-size: 1em;
   width: 100%;
   padding: .5em;
   color: #000000;
 
   .owl-dt-calendar-control-content {
-    flex: 1 1 auto;
+    -webkit-box-flex: 1;
+            flex: 1 1 auto;
+    display: -webkit-box;
     display: flex;
-    justify-content: center;
-    align-items: center;
+    -webkit-box-pack: center;
+            justify-content: center;
+    -webkit-box-align: center;
+            align-items: center;
 
     .owl-dt-calendar-control-button {
       padding: 0 .8em;
@@ -209,21 +224,28 @@ $theme-color: #3f51b5;
 }
 
 .owl-dt-calendar-main {
+  display: -webkit-box;
   display: flex;
-  flex-direction: column;
-  flex: 1 1 auto;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+          flex-direction: column;
+  -webkit-box-flex: 1;
+          flex: 1 1 auto;
   padding: 0 .5em .5em;
   outline: 0;
 }
 
 .owl-dt-calendar-view {
   display: block;
-  flex: 1 1 auto;
+  -webkit-box-flex: 1;
+          flex: 1 1 auto;
 }
 
 .owl-dt-calendar-multi-year-view {
+  display: -webkit-box;
   display: flex;
-  align-items: center;
+  -webkit-box-align: center;
+          align-items: center;
 
   .owl-dt-calendar-table {
     width: calc(100% - 3em);
@@ -284,9 +306,12 @@ $theme-color: #3f51b5;
     position: absolute;
     top: 5%;
     left: 5%;
+    display: -webkit-box;
     display: flex;
-    align-items: center;
-    justify-content: center;
+    -webkit-box-align: center;
+            align-items: center;
+    -webkit-box-pack: center;
+            justify-content: center;
     box-sizing: border-box;
     width: 90%;
     height: 90%;
@@ -352,8 +377,10 @@ $theme-color: #3f51b5;
 }
 
 .owl-dt-timer {
+  display: -webkit-box;
   display: flex;
-  justify-content: center;
+  -webkit-box-pack: center;
+          justify-content: center;
   width: 100%;
   height: 7em;
   padding: .5em;
@@ -362,18 +389,26 @@ $theme-color: #3f51b5;
 
 .owl-dt-timer-box {
   position: relative;
+  display: -webkit-inline-box;
   display: inline-flex;
-  flex-direction: column;
-  align-items: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+          flex-direction: column;
+  -webkit-box-align: center;
+          align-items: center;
   width: 25%;
   height: 100%;
 }
 
 .owl-dt-timer-content {
-  flex: 1 1 auto;
+  -webkit-box-flex: 1;
+          flex: 1 1 auto;
+  display: -webkit-box;
   display: flex;
-  justify-content: center;
-  align-items: center;
+  -webkit-box-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+          align-items: center;
   width: 100%;
   margin: .2em 0;
 
@@ -406,7 +441,8 @@ $theme-color: #3f51b5;
     position: absolute;
     left: 50%;
     border-radius: 50%;
-    transform: translateX(-50%);
+    -webkit-transform: translateX(-50%);
+            transform: translateX(-50%);
     background-color: currentColor;
   }
 
@@ -420,7 +456,10 @@ $theme-color: #3f51b5;
 }
 
 .owl-dt-control-button {
-  user-select: none;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
   cursor: pointer;
   outline: none;
   border: none;
@@ -437,9 +476,12 @@ $theme-color: #3f51b5;
 
   .owl-dt-control-button-content {
     position: relative;
+    display: -webkit-inline-box;
     display: inline-flex;
-    justify-content: center;
-    align-items: center;
+    -webkit-box-pack: center;
+            justify-content: center;
+    -webkit-box-align: center;
+            align-items: center;
     outline: none;
   }
 }
@@ -449,6 +491,7 @@ $theme-color: #3f51b5;
     height: 1.5em;
     padding: 0 .5em;
     border-radius: 3px;
+    -webkit-transition: background-color 100ms linear;
     transition: background-color 100ms linear;
   }
 
@@ -457,13 +500,19 @@ $theme-color: #3f51b5;
   }
 
   .owl-dt-control-button-arrow {
+    display: -webkit-box;
     display: flex;
-    justify-content: center;
-    align-items: center;
+    -webkit-box-pack: center;
+            justify-content: center;
+    -webkit-box-align: center;
+            align-items: center;
     width: 1em;
     height: 1em;
     margin: .1em;
+    -webkit-transition: -webkit-transform 200ms ease;
+    transition: -webkit-transform 200ms ease;
     transition: transform 200ms ease;
+    transition: transform 200ms ease, -webkit-transform 200ms ease;
   }
 }
 
@@ -549,6 +598,7 @@ $theme-color: #3f51b5;
 }
 
 .owl-dt-container-buttons {
+  display: -webkit-box;
   display: flex;
   width: 100%;
   height: 2em;
@@ -564,6 +614,7 @@ $theme-color: #3f51b5;
   .owl-dt-control-button-content {
     height: 100%;
     width: 100%;
+    -webkit-transition: background-color 100ms linear;
     transition: background-color 100ms linear;
   }
 
@@ -583,8 +634,10 @@ $theme-color: #3f51b5;
     outline: none;
 
     .owl-dt-container-range-content {
+      display: -webkit-box;
       display: flex;
-      justify-content: space-between;
+      -webkit-box-pack: justify;
+              justify-content: space-between;
       padding: .5em 0;
       font-size: .8em;
     }
@@ -608,14 +661,18 @@ $theme-color: #3f51b5;
 }
 
 .owl-dt-timer-hour12 {
+  display: -webkit-box;
   display: flex;
-  justify-content: center;
-  align-items: center;
+  -webkit-box-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+          align-items: center;
   color: $theme-color;
 
   .owl-dt-timer-hour12-box {
     border: 1px solid currentColor;
     border-radius: 2px;
+    -webkit-transition: background 200ms ease;
     transition: background 200ms ease;
 
     .owl-dt-control-button-content {
