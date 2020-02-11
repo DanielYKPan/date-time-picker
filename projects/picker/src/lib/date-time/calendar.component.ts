@@ -41,20 +41,6 @@ import { Subscription } from 'rxjs';
 })
 export class OwlCalendarComponent<T>
     implements OnInit, AfterContentInit, AfterViewChecked, OnDestroy {
-    /**
-     * Date filter for the month and year view
-     * */
-    @Input()
-    dateFilter: Function;
-
-    /**
-     * Set the first day of week
-     */
-    @Input()
-    firstDayOfWeek = 0;
-
-    /** The minimum selectable date. */
-    private _minDate: T | null;
     @Input()
     get minDate(): T | null {
         return this._minDate;
@@ -72,9 +58,6 @@ export class OwlCalendarComponent<T>
               )
             : null;
     }
-
-    /** The maximum selectable date. */
-    private _maxDate: T | null;
     @Input()
     get maxDate(): T | null {
         return this._maxDate;
@@ -92,9 +75,6 @@ export class OwlCalendarComponent<T>
               )
             : null;
     }
-
-    /** The current picker moment */
-    private _pickerMoment: T;
     @Input()
     get pickerMoment() {
         return this._pickerMoment;
@@ -105,12 +85,6 @@ export class OwlCalendarComponent<T>
         this._pickerMoment =
             this.getValidDate(value) || this.dateTimeAdapter.now();
     }
-
-    @Input()
-    selectMode: SelectMode;
-
-    /** The currently selected moment. */
-    private _selected: T | null;
     @Input()
     get selected(): T | null {
         return this._selected;
@@ -120,8 +94,6 @@ export class OwlCalendarComponent<T>
         value = this.dateTimeAdapter.deserialize(value);
         this._selected = this.getValidDate(value);
     }
-
-    private _selecteds: T[] = [];
     @Input()
     get selecteds(): T[] {
         return this._selecteds;
@@ -133,6 +105,119 @@ export class OwlCalendarComponent<T>
             return this.getValidDate(v);
         });
     }
+
+    get periodButtonText(): string {
+        return this.isMonthView
+            ? this.dateTimeAdapter.format(
+                  this.pickerMoment,
+                  this.dateTimeFormats.monthYearLabel
+              )
+            : this.dateTimeAdapter.getYearName(this.pickerMoment);
+    }
+
+    get periodButtonLabel(): string {
+        return this.isMonthView
+            ? this.pickerIntl.switchToMultiYearViewLabel
+            : this.pickerIntl.switchToMonthViewLabel;
+    }
+
+    get prevButtonLabel(): string {
+        if (this._currentView === 'month') {
+            return this.pickerIntl.prevMonthLabel;
+        } else if (this._currentView === 'year') {
+            return this.pickerIntl.prevYearLabel;
+        } else {
+            return null;
+        }
+    }
+
+    get nextButtonLabel(): string {
+        if (this._currentView === 'month') {
+            return this.pickerIntl.nextMonthLabel;
+        } else if (this._currentView === 'year') {
+            return this.pickerIntl.nextYearLabel;
+        } else {
+            return null;
+        }
+    }
+    get currentView(): 'month' | 'year' | 'multi-years' {
+        return this._currentView;
+    }
+
+    set currentView(view: 'month' | 'year' | 'multi-years') {
+        this._currentView = view;
+        this.moveFocusOnNextTick = true;
+    }
+
+    get isInSingleMode(): boolean {
+        return this.selectMode === 'single';
+    }
+
+    get isInRangeMode(): boolean {
+        return (
+            this.selectMode === 'range' ||
+            this.selectMode === 'rangeFrom' ||
+            this.selectMode === 'rangeTo'
+        );
+    }
+
+    get showControlArrows(): boolean {
+        return this._currentView !== 'multi-years';
+    }
+
+    get isMonthView() {
+        return this._currentView === 'month';
+    }
+
+    /**
+     * Bind class 'owl-dt-calendar' to host
+     * */
+    get owlDTCalendarClass(): boolean {
+        return true;
+    }
+
+    constructor(
+        private elmRef: ElementRef,
+        private pickerIntl: OwlDateTimeIntl,
+        private ngZone: NgZone,
+        private cdRef: ChangeDetectorRef,
+        @Optional() private dateTimeAdapter: DateTimeAdapter<T>,
+        @Optional()
+        @Inject(OWL_DATE_TIME_FORMATS)
+        private dateTimeFormats: OwlDateTimeFormats
+    ) {
+        this.intlChangesSub = this.pickerIntl.changes.subscribe(() => {
+            this.cdRef.markForCheck();
+        });
+    }
+    /**
+     * Date filter for the month and year view
+     * */
+    @Input()
+    dateFilter: Function;
+
+    /**
+     * Set the first day of week
+     */
+    @Input()
+    firstDayOfWeek = 0;
+
+    /** The minimum selectable date. */
+    private _minDate: T | null;
+
+    /** The maximum selectable date. */
+    private _maxDate: T | null;
+
+    /** The current picker moment */
+    private _pickerMoment: T;
+
+    @Input()
+    selectMode: SelectMode;
+
+    /** The currently selected moment. */
+    private _selected: T | null;
+
+    private _selecteds: T[] = [];
 
     /**
      * The view that the calendar should start in.
@@ -170,70 +255,16 @@ export class OwlCalendarComponent<T>
     @Output()
     readonly monthSelected = new EventEmitter<T>();
 
-    get periodButtonText(): string {
-        return this.isMonthView
-            ? this.dateTimeAdapter.format(
-                  this.pickerMoment,
-                  this.dateTimeFormats.monthYearLabel
-              )
-            : this.dateTimeAdapter.getYearName(this.pickerMoment);
-    }
-
-    get periodButtonLabel(): string {
-        return this.isMonthView
-            ? this.pickerIntl.switchToMultiYearViewLabel
-            : this.pickerIntl.switchToMonthViewLabel;
-    }
-
-    get prevButtonLabel(): string {
-        if (this._currentView === 'month') {
-            return this.pickerIntl.prevMonthLabel;
-        } else if (this._currentView === 'year') {
-            return this.pickerIntl.prevYearLabel;
-        } else {
-            return null;
-        }
-    }
-
-    get nextButtonLabel(): string {
-        if (this._currentView === 'month') {
-            return this.pickerIntl.nextMonthLabel;
-        } else if (this._currentView === 'year') {
-            return this.pickerIntl.nextYearLabel;
-        } else {
-            return null;
-        }
-    }
-
     private _currentView: 'month' | 'year' | 'multi-years';
-    get currentView(): 'month' | 'year' | 'multi-years' {
-        return this._currentView;
-    }
 
-    set currentView(view: 'month' | 'year' | 'multi-years') {
-        this._currentView = view;
-        this.moveFocusOnNextTick = true;
-    }
+    private intlChangesSub = Subscription.EMPTY;
 
-    get isInSingleMode(): boolean {
-        return this.selectMode === 'single';
-    }
-
-    get isInRangeMode(): boolean {
-        return (
-            this.selectMode === 'range' ||
-            this.selectMode === 'rangeFrom' ||
-            this.selectMode === 'rangeTo'
-        );
-    }
-
-    get showControlArrows(): boolean {
-        return this._currentView !== 'multi-years';
-    }
-
-    get isMonthView() {
-        return this._currentView === 'month';
-    }
+    /**
+     * Used for scheduling that focus should be moved to the active cell on the next tick.
+     * We need to schedule it, rather than do it immediately, because we have to wait
+     * for Angular to re-evaluate the view children.
+     */
+    private moveFocusOnNextTick = false;
 
     /**
      * Date filter for the month and year view
@@ -247,37 +278,6 @@ export class OwlCalendarComponent<T>
             (!this.maxDate ||
                 this.dateTimeAdapter.compare(date, this.maxDate) <= 0)
         );
-    };
-
-    /**
-     * Bind class 'owl-dt-calendar' to host
-     * */
-    get owlDTCalendarClass(): boolean {
-        return true;
-    }
-
-    private intlChangesSub = Subscription.EMPTY;
-
-    /**
-     * Used for scheduling that focus should be moved to the active cell on the next tick.
-     * We need to schedule it, rather than do it immediately, because we have to wait
-     * for Angular to re-evaluate the view children.
-     */
-    private moveFocusOnNextTick = false;
-
-    constructor(
-        private elmRef: ElementRef,
-        private pickerIntl: OwlDateTimeIntl,
-        private ngZone: NgZone,
-        private cdRef: ChangeDetectorRef,
-        @Optional() private dateTimeAdapter: DateTimeAdapter<T>,
-        @Optional()
-        @Inject(OWL_DATE_TIME_FORMATS)
-        private dateTimeFormats: OwlDateTimeFormats
-    ) {
-        this.intlChangesSub = this.pickerIntl.changes.subscribe(() => {
-            this.cdRef.markForCheck();
-        });
     }
 
     public ngOnInit() {}
@@ -302,7 +302,7 @@ export class OwlCalendarComponent<T>
      */
     public toggleViews(): void {
         this.currentView =
-            this._currentView == 'month' ? 'multi-years' : 'month';
+            this._currentView === 'month' ? 'multi-years' : 'month';
     }
 
     /**
