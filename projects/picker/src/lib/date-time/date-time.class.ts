@@ -1,7 +1,7 @@
 /**
  * date-time.class
  */
-import { EventEmitter, Inject, Input, Optional } from '@angular/core';
+import { EventEmitter, Inject, Input, Optional, Directive } from '@angular/core';
 import {
     coerceBooleanProperty,
     coerceNumberProperty
@@ -20,6 +20,7 @@ export type PickerMode = 'popup' | 'dialog' | 'inline';
 
 export type SelectMode = 'single' | 'range' | 'rangeFrom' | 'rangeTo';
 
+@Directive()
 export abstract class OwlDateTime<T> {
     /**
      * Whether to show the second's timer
