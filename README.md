@@ -18,11 +18,11 @@ This picker is responsive design, so feel free to try it in your desktops, table
 How to Use
 -------
 
- 1. Install with [npm](https://www.npmjs.com):`npm install ngx-pick-datetime --save`
+ 1. Install with [npm](https://www.npmjs.com):`npm install angular-datetime-picker --save`
  2. Add styles.
     If you are using Angular CLI, you can add this to your styles.css: 
     ```css
-    @import "~ngx-pick-datetime/assets/style/picker.min.css";
+    @import "~angular-datetime-picker/assets/style/picker.min.css";
     ``` 
     If you are not using the Angular CLI, you can include the picker.min.css via a ```<link>``` element in your index.html.
  3. Add __OwlDateTimeModule__ and __OwlNativeDateTimeModule__ to your __@NgModule__ like example below
@@ -31,7 +31,7 @@ How to Use
      import { BrowserModule } from '@angular/platform-browser';
      import { MyTestApp } from './my-test-app';
     
-     import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ngx-pick-datetime';
+     import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'angular-datetime-picker';
     
      @NgModule({
          imports: [ 
