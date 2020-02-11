@@ -3,6 +3,9 @@ Angular Date Time Picker
 
 > Forked from: https://daniel-projects.firebaseapp.com/owlng/date-time-picker
 
+[![npm](https://img.shields.io/npm/v/@danielmoncada/angular-datetime-picker.svg?maxAge=2592000?style=flat-square)](https://www.npmjs.com/package/@danielmoncada/angular-datetime-picker)
+[![npm](https://img.shields.io/npm/dm/@danielmoncada/angular-datetime-picker.svg)](https://www.npmjs.com/package/@danielmoncada/angular-datetime-picker)
+
 **Angular date time picker - Angular reusable UI component**
 **This package supports Angular 8+**
 
