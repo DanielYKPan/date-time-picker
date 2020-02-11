@@ -1,15 +1,19 @@
 {
-  "name": "date-time-picker-app",
-  "version": "9.0.0",
+  "name": "@danielmoncada/angular-datetime-picker",
+  "version": "9.0.1",
   "description": "Angular Date Time Picker",
   "keywords": [
     "Angular",
     "datepicker",
     "date picker",
     "timepicker",
-    "time picker"
+    "time picker",
+    "datetime picker",
+    "date time picker",
+    "material",
+    "ngx"
   ],
-  "author": "daniel pan <myron.yk.pan@gmail.com>",
+  "author": "Maintained and updated by Daniel Moncada, original implementatiom by Daniel Pan",
   "license": "MIT",
   "scripts": {
     "ng": "ng",
@@ -18,14 +22,14 @@
     "test": "ng test picker",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "build_lib": "ng build picker && cp README.md dist/picker",
-    "build_css": "mkdir -p dist/picker/assets/style && node-sass --output-style=compressed projects/picker/src/sass/picker.scss > dist/picker/assets/style/picker.min.css",
+    "build_lib": "ng build picker --prod=true && cp README.md dist/picker",
+    "build_css": "mkdir \"dist/picker/assets/style\" && node-sass --output-style=compressed projects/picker/src/sass/picker.scss > dist/picker/assets/style/picker.min.css",
     "npm_pack": "cd dist/picker && npm pack",
     "package": "npm run build_lib && npm run build_css && npm run npm_pack"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/DanielYKPan/date-time-picker.git"
+    "url": "https://github.com/danielmoncada/date-time-picker.git"
   },
   "dependencies": {
     "@angular/animations": "^9.0.0",

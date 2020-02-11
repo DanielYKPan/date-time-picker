@@ -3,7 +3,6 @@
  */
 
 import { Inject, Injectable, Optional, InjectionToken } from '@angular/core';
-// import { DateTimeAdapter, OWL_DATE_TIME_LOCALE } from 'angular-datetime-picker';
 import * as _moment from 'moment/moment';
 import { Moment } from 'moment/moment';
 import { DateTimeAdapter, OWL_DATE_TIME_LOCALE } from '../date-time-adapter.class';
