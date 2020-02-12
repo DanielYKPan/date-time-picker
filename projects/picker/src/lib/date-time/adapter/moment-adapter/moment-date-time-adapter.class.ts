@@ -3,8 +3,8 @@
  */
 
 import { Inject, Injectable, Optional, InjectionToken } from '@angular/core';
-import * as _moment from 'moment/moment';
-import { Moment } from 'moment/moment';
+import * as _moment from 'moment';
+import { Moment } from 'moment';
 import { DateTimeAdapter, OWL_DATE_TIME_LOCALE } from '../date-time-adapter.class';
 
 const moment = (_moment as any).default ? (_moment as any).default : _moment;
