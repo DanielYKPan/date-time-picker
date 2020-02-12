@@ -1,6 +1,6 @@
 {
   "name": "@danielmoncada/angular-datetime-picker",
-  "version": "9.0.1",
+  "version": "9.1.0",
   "description": "Angular Date Time Picker",
   "keywords": [
     "Angular",
@@ -23,9 +23,11 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "build_lib": "ng build picker --prod=true && cp README.md dist/picker",
-    "build_css": "mkdir \"dist/picker/assets/style\" && node-sass --output-style=compressed projects/picker/src/sass/picker.scss > dist/picker/assets/style/picker.min.css",
+    "build_css_onWindows": "mkdir \"dist/picker/assets/style\" && node-sass --output-style=compressed projects/picker/src/sass/picker.scss > dist/picker/assets/style/picker.min.css",
+    "build_css_onLinux": "mkdir -p dist/picker/assets/style && node-sass --output-style=compressed projects/picker/src/sass/picker.scss > dist/picker/assets/style/picker.min.css",
     "npm_pack": "cd dist/picker && npm pack",
-    "package": "npm run build_lib && npm run build_css && npm run npm_pack"
+    "package_windows": "npm run build_lib && npm run build_css_onWindows && npm run npm_pack",
+    "package_linux": "npm run build_lib && npm run build_css_onLinux && npm run npm_pack"
   },
   "repository": {
     "type": "git",
