@@ -20,6 +20,8 @@
 <label class="owl-dt-timer-content">
     <input class="owl-dt-timer-input" maxlength="2"
            [value]="displayValue | numberFixedLen : 2"
+           (keydown.arrowup)="!upBtnDisabled && upBtnClicked()"
+           (keydown.arrowdown)="!downBtnDisabled && downBtnClicked()"
            (input)="handleInputChange(valueInput.value)" #valueInput>
     <span class="owl-hidden-accessible">{{inputLabel}}</span>
 </label>
