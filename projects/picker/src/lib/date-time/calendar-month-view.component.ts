@@ -38,7 +38,7 @@ import {
     RIGHT_ARROW,
     UP_ARROW
 } from '@angular/cdk/keycodes';
-import { coerceNumberProperty } from '@angular/cdk/coercion';
+import { getLocaleFirstDayOfWeek } from '@angular/common';
 
 const DAYS_PER_WEEK = 7;
 const WEEKS_PER_VIEW = 6;
@@ -62,20 +62,24 @@ export class OwlMonthViewComponent<T>
     @Input()
     hideOtherMonths: boolean = false;
 
+    private isDefaultFirstDayOfWeek = true;
+
     /**
      * Define the first day of a week
      * Sunday: 0 ~ Saturday: 6
      * */
-    private _firstDayOfWeek: number = 0;
+    private _firstDayOfWeek = getLocaleFirstDayOfWeek(
+        this.dateTimeAdapter.getLocale()
+    );
     @Input()
     get firstDayOfWeek(): number {
         return this._firstDayOfWeek;
     }
 
     set firstDayOfWeek(val: number) {
-        val = coerceNumberProperty(val);
         if (val >= 0 && val <= 6 && val !== this._firstDayOfWeek) {
             this._firstDayOfWeek = val;
+            this.isDefaultFirstDayOfWeek = false;
 
             if (this.initiated) {
                 this.generateWeekDays();
@@ -298,11 +302,16 @@ export class OwlMonthViewComponent<T>
     public ngOnInit() {
         this.generateWeekDays();
 
-        this.localeSub = this.dateTimeAdapter.localeChanges.subscribe(() => {
-            this.generateWeekDays();
-            this.generateCalendar();
-            this.cdRef.markForCheck();
-        });
+        this.localeSub = this.dateTimeAdapter.localeChanges.subscribe(
+            locale => {
+                this.generateWeekDays();
+                this.generateCalendar();
+                this.firstDayOfWeek = this.isDefaultFirstDayOfWeek
+                    ? getLocaleFirstDayOfWeek(locale)
+                    : this.firstDayOfWeek;
+                this.cdRef.markForCheck();
+            }
+        );
     }
 
     public ngAfterContentInit(): void {

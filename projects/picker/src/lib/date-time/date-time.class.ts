@@ -96,16 +96,16 @@ export abstract class OwlDateTime<T> {
     /**
      * Set the first day of week
      */
-    private _firstDayOfWeek = 0;
+    private _firstDayOfWeek: number;
     @Input()
     get firstDayOfWeek() {
         return this._firstDayOfWeek;
     }
 
     set firstDayOfWeek(value: number) {
-        value = coerceNumberProperty(value, 0);
+        value = coerceNumberProperty(value);
         if (value > 6 || value < 0) {
-            this._firstDayOfWeek = 0;
+            this._firstDayOfWeek = undefined;
         } else {
             this._firstDayOfWeek = value;
         }
@@ -124,7 +124,7 @@ export abstract class OwlDateTime<T> {
         this._hideOtherMonths = coerceBooleanProperty(val);
     }
 
-    private _id: string;
+    private readonly _id: string;
     get id(): string {
         return this._id;
     }

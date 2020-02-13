@@ -200,7 +200,7 @@ export class OwlCalendarComponent<T>
      * Set the first day of week
      */
     @Input()
-    firstDayOfWeek = 0;
+    firstDayOfWeek: number;
 
     /** The minimum selectable date. */
     private _minDate: T | null;
