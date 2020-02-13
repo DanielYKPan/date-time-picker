@@ -226,7 +226,7 @@ export class MomentDateTimeAdapter extends DateTimeAdapter<Moment> {
             throw Error(`Invalid seconds "${seconds}". Seconds has to be between 0 and 59.`);
         }
 
-        const result = this.createMoment({year, month, date, hours, minutes, seconds}).locale(this.locale);
+        const result = this.createMoment({year, month, date, hours, minutes, seconds}).locale(this.getLocale());
 
         // If the result isn't valid, the date must have been out of bounds for this month.
         if (!result.isValid()) {
@@ -237,11 +237,11 @@ export class MomentDateTimeAdapter extends DateTimeAdapter<Moment> {
     }
 
     public clone( date: Moment ): Moment {
-        return this.createMoment(date).clone().locale(this.locale);
+        return this.createMoment(date).clone().locale(this.getLocale());
     }
 
     public now(): Moment {
-        return this.createMoment().locale(this.locale);
+        return this.createMoment().locale(this.getLocale());
     }
 
     public format( date: Moment, displayFormat: any ): string {
@@ -254,9 +254,9 @@ export class MomentDateTimeAdapter extends DateTimeAdapter<Moment> {
 
     public parse( value: any, parseFormat: any ): Moment | null {
         if (value && typeof value === 'string') {
-            return this.createMoment(value, parseFormat, this.locale, this.parseStrict);
+            return this.createMoment(value, parseFormat, this.getLocale(), this.parseStrict);
         }
-        return value ? this.createMoment(value).locale(this.locale) : null;
+        return value ? this.createMoment(value).locale(this.getLocale()) : null;
     }
 
     get parseStrict() {
@@ -277,7 +277,7 @@ export class MomentDateTimeAdapter extends DateTimeAdapter<Moment> {
             if (!value) {
                 return null;
             }
-            date = this.createMoment(value, moment.ISO_8601, this.parseStrict).locale(this.locale);
+            date = this.createMoment(value, moment.ISO_8601, this.parseStrict).locale(this.getLocale());
         }
         if (date && this.isValid(date)) {
             return date;
