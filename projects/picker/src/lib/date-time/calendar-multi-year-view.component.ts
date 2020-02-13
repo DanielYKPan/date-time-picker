@@ -191,7 +191,7 @@ export class OwlMultiYearViewComponent<T> implements OnInit, AfterContentInit {
 
     get tableHeader(): string {
         if (this._years && this._years.length > 0) {
-            return `${this._years[0][0].displayValue} ~ ${this._years[YEAR_ROWS - 1][YEARS_PER_ROW - 1].displayValue}`
+            return `${this._years[0][0].displayValue} - ${this._years[YEAR_ROWS - 1][YEARS_PER_ROW - 1].displayValue}`
         }
     }
 
