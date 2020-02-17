@@ -57,7 +57,7 @@
     "@angular/cli": "^9.0.2",
     "@angular/compiler-cli": "^9.0.1",
     "@angular/language-service": "^9.0.1",
-    "@types/jasmine": "^3.5.3",
+    "@types/jasmine": "^3.5.4",
     "@types/jasminewd2": "^2.0.8",
     "@types/moment-timezone": "^0.5.12",
     "@types/node": "^12.12.27",
