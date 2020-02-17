@@ -35,20 +35,19 @@ import { ENTER, ESCAPE, RIGHT_ARROW, UP_ARROW } from '@angular/cdk/keycodes';
 import { By } from '@angular/platform-browser';
 import { OwlDateTimeContainerComponent } from './date-time-picker-container.component';
 import { OwlDateTimeTriggerDirective } from './date-time-picker-trigger.directive';
-import { OWL_DATE_TIME_FORMATS } from './adapter/date-time-format.class';
 
 const JAN = 0,
-    FEB = 1,
-    MAR = 2,
-    APR = 3,
-    MAY = 4,
-    JUN = 5,
-    JUL = 6,
-    AUG = 7,
-    SEP = 8,
-    OCT = 9,
-    NOV = 10,
-    DEC = 11;
+      FEB = 1,
+      MAR = 2,
+      APR = 3,
+      MAY = 4,
+      JUN = 5,
+      JUL = 6,
+      AUG = 7,
+      SEP = 8,
+      OCT = 9,
+      NOV = 10,
+      DEC = 11;
 
 describe('OwlDateTimeComponent', () => {
     const SUPPORTS_INTL = typeof Intl !== 'undefined';
@@ -57,8 +56,7 @@ describe('OwlDateTimeComponent', () => {
     function createComponent(
         component: Type<any>,
         imports: Type<any>[] = [],
-        providers: (FactoryProvider | ValueProvider)[] = [],
-        entryComponents: Type<any>[] = []
+        providers: (FactoryProvider | ValueProvider)[] = []
     ): ComponentFixture<any> {
         TestBed.configureTestingModule({
             imports: [
@@ -69,15 +67,8 @@ describe('OwlDateTimeComponent', () => {
                 ...imports
             ],
             providers,
-            declarations: [component, ...entryComponents]
+            declarations: [component]
         });
-
-        TestBed.overrideModule(BrowserDynamicTestingModule, {
-            set: {
-                entryComponents: [entryComponents]
-            }
-        }).compileComponents();
-
         return TestBed.createComponent(component);
     }
 

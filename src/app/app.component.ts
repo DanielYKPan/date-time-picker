@@ -14,8 +14,8 @@ export class AppComponent implements AfterViewInit {
   @ViewChild('date_range_component', { static: true })
   date_range_component: OwlDateTimeComponent<AppComponent>;
   public selectedMoments: Moment[] = [
-    moment('2019-03-11T08:00:00+11:00').tz('Australia/Sydney'),
-    moment('2019-03-11T15:00:00+11:00').tz('Australia/Sydney')
+    moment('2019-03-11T08:00:00+11:00').tz('America/Los_Angeles'),
+    moment('2019-03-11T15:00:00+11:00').tz('America/Los_Angeles')
   ];
 
   open_once = false;

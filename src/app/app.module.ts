@@ -6,6 +6,7 @@ import { FormsModule } from '@angular/forms';
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from '../../projects/picker/src/public_api';
 
 import { AppComponent } from './app.component';
+import { OWL_DATE_TIME_LOCALE } from '../../projects/picker/src/public_api';
 
 
 @NgModule({
@@ -16,7 +17,9 @@ import { AppComponent } from './app.component';
     BrowserModule, BrowserAnimationsModule, FormsModule,
     OwlDateTimeModule, OwlNativeDateTimeModule
   ],
-  providers: [],
+  providers: [
+   { provide: OWL_DATE_TIME_LOCALE, useValue: 'en-US' }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
