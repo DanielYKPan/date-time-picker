@@ -405,7 +405,7 @@ export class OwlDateTimeContainerComponent<T>
           // (and stay on 'to' to allow editing the time)
           // If the new 'from' date is later than the current 'to' date,
           // or the new 'to' date is earlier than the current 'from' date,
-          // then set the new date as both 'from' and 'to'
+          // then set the new date as both 'from' and 'to' (ram)
           if (this.activeSelectedIndex === 0) {
             from = result;
             if (to && this.dateTimeAdapter.differenceInCalendarDays(to, result) < 0) {
