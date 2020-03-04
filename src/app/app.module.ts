@@ -5,7 +5,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
 // import { OwlDateTimeModule, OwlNativeDateTimeModule } from '../../npmdist';
-import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
+import { OwlDateTimeModule, OwlNativeDateTimeModule } from '@ansyn/ng-pick-datetime';
 // import { OwlMomentDateTimeModule } from 'ng-pick-datetime-moment';
 import { MatTabsModule } from '@angular/material';
 import { CodeHighlightDirective } from './code-highlight.directive';
