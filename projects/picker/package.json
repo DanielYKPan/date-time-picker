@@ -1,5 +1,5 @@
 {
-  "name": "ng-pick-datetime-ansyn",
+  "name": "@ansyn/ng-pick-datetime",
   "version": "8.0.0",
   "description": "Angular Date Time Picker",
   "keywords": [
