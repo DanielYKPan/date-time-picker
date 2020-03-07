@@ -60,7 +60,7 @@ export class OwlMonthViewComponent<T>
      * Whether to hide dates in other months at the start or end of the current month.
      * */
     @Input()
-    hideOtherMonths: boolean = false;
+    hideOtherMonths = false;
 
     private isDefaultFirstDayOfWeek = true;
 

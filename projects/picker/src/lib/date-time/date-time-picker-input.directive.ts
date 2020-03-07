@@ -416,9 +416,9 @@ export class OwlDateTimeInputDirective<T>
     constructor(
         private elmRef: ElementRef,
         private renderer: Renderer2,
-        @Optional() 
+        @Optional()
         private dateTimeAdapter: DateTimeAdapter<T>,
-        @Optional() @Inject(OWL_DATE_TIME_FORMATS) 
+        @Optional() @Inject(OWL_DATE_TIME_FORMATS)
         private dateTimeFormats: OwlDateTimeFormats ) {
         if (!this.dateTimeAdapter) {
             throw Error(
@@ -524,7 +524,7 @@ export class OwlDateTimeInputDirective<T>
     }
 
     public handleInputOnHost(event: any ): void {
-        let value = event.target.value;
+        const value = event.target.value;
         if (this._selectMode === 'single') {
             this.changeInputInSingleMode(value);
         } else if (this._selectMode === 'range') {
@@ -702,7 +702,7 @@ export class OwlDateTimeInputDirective<T>
      * Handle input change in rangeFrom or rangeTo mode
      */
     private changeInputInRangeFromToMode(inputValue: string): void {
-        let originalValue =
+        const originalValue =
             this._selectMode === 'rangeFrom'
                 ? this._values[0]
                 : this._values[1];

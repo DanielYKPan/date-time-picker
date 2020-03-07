@@ -73,7 +73,7 @@ export class OwlTimerBoxComponent implements OnInit, OnDestroy {
         return true;
     }
 
-    @ViewChild('valueInput', { static: true }) 
+    @ViewChild('valueInput', { static: true })
     private valueInput: ElementRef;
     private onValueInputMouseWheelBind = this.onValueInputMouseWheel.bind(this);
 
@@ -123,12 +123,16 @@ export class OwlTimerBoxComponent implements OnInit, OnDestroy {
 
     private onValueInputMouseWheel( event: any ): void {
         event = event || window.event;
-        var delta = event.wheelDelta || -event.deltaY || -event.detail;
+        const delta = event.wheelDelta || -event.deltaY || -event.detail;
 
-        if (delta > 0){
-            !this.upBtnDisabled && this.upBtnClicked();
-        } else if (delta < 0){
-            !this.downBtnDisabled && this.downBtnClicked();
+        if (delta > 0) {
+          if (!this.upBtnDisabled) {
+            this.upBtnClicked();
+          }
+        } else if (delta < 0) {
+          if (!this.downBtnDisabled) {
+            this.downBtnClicked();
+          }
         }
 
         event.preventDefault ? event.preventDefault() : (event.returnValue = false);
@@ -136,13 +140,13 @@ export class OwlTimerBoxComponent implements OnInit, OnDestroy {
 
     private bindValueInputMouseWheel(): void {
         this.valueInput.nativeElement.addEventListener(
-            'onwheel' in document ? "wheel" : "mousewheel",
+            'onwheel' in document ? 'wheel' : 'mousewheel',
             this.onValueInputMouseWheelBind);
     }
 
     private unbindValueInputMouseWheel(): void {
         this.valueInput.nativeElement.removeEventListener(
-            'onwheel' in document ? "wheel" : "mousewheel",
+            'onwheel' in document ? 'wheel' : 'mousewheel',
             this.onValueInputMouseWheelBind);
     }
 }

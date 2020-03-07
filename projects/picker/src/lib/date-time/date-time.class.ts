@@ -190,7 +190,7 @@ export abstract class OwlDateTime<T> {
         return false;
     }
 
-    constructor(
+    protected constructor(
         @Optional() protected dateTimeAdapter: DateTimeAdapter<T>,
         @Optional()
         @Inject(OWL_DATE_TIME_FORMATS)

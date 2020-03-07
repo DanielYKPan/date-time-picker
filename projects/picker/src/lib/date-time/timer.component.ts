@@ -68,7 +68,7 @@ export class OwlTimerComponent<T> implements OnInit {
         this._maxDateTime = this.getValidDate(value);
     }
 
-    private isPM: boolean = false; // a flag indicates the current timer moment is in PM or AM
+    private isPM = false; // a flag indicates the current timer moment is in PM or AM
 
     /**
      * Whether to show the second's timer

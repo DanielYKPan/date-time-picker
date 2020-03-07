@@ -56,7 +56,7 @@ export class OwlDialogRef<T> {
                 this.locationChanged.unsubscribe();
                 this._afterClosed$.next(this.result);
                 this._afterClosed$.complete();
-                this.componentInstance = null!;
+                this.componentInstance = null;
             });
 
         this.overlayRef.keydownEvents()
@@ -108,7 +108,7 @@ export class OwlDialogRef<T> {
      * @param position New dialog position.
      */
     public updatePosition( position?: DialogPosition ): this {
-        let strategy = this.getPositionStrategy();
+        const strategy = this.getPositionStrategy();
 
         if (position && (position.left || position.right)) {
             position.left ? strategy.left(position.left) : strategy.right(position.right);
