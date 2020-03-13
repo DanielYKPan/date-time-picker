@@ -378,13 +378,39 @@ export class OwlDateTimeInputDirective<T>
             : { owlDateTimeRange: true };
     };
 
+
+    /**
+     * The form control validator for the range when required.
+     * Check whether the 'before' and 'to' values are present
+     * */
+    private requiredRangeValidator: ValidatorFn = (
+        control: AbstractControl
+    ): ValidationErrors | null => {
+        if (this.isInSingleMode || !control.value) {
+            return null;
+        }
+
+        const controlValueFrom = this.getValidDate(
+            this.dateTimeAdapter.deserialize(control.value[0])
+        );
+        const controlValueTo = this.getValidDate(
+            this.dateTimeAdapter.deserialize(control.value[1])
+        );
+
+        return !controlValueFrom ||
+            !controlValueTo
+            ? { owlRequiredDateTimeRange: [controlValueFrom, controlValueTo] }
+            : null;
+    };
+
     /** The combined form control validator for this input. */
     private validator: ValidatorFn | null = Validators.compose([
         this.parseValidator,
         this.minValidator,
         this.maxValidator,
         this.filterValidator,
-        this.rangeValidator
+        this.rangeValidator,
+        this.requiredRangeValidator
     ]);
 
     /** Emits when the value changes (either due to user input or programmatic change). */
