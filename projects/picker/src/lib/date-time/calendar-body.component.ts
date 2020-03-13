@@ -31,7 +31,7 @@ export class CalendarCell {
     exportAs: 'owlDateTimeCalendarBody',
     templateUrl: './calendar-body.component.html',
     styleUrls: ['./calendar-body.component.scss'],
-    host:{
+    host: {
         '[class.owl-dt-calendar-body]': 'owlDTCalendarBodyClass'
     },
     preserveWhitespaces: false,

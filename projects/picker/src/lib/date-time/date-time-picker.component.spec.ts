@@ -20,7 +20,6 @@ import {
 import { OwlDateTimeInputDirective } from './date-time-picker-input.directive';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/testing';
 import { OwlDateTimeModule } from './date-time.module';
 import { OverlayContainer } from '@angular/cdk/overlay';
 import { OwlNativeDateTimeModule } from './adapter/native-date-time.module';
@@ -86,12 +85,12 @@ describe('OwlDateTimeComponent', () => {
 
     describe('with OwlNativeDateTimeModule', () => {
         describe('standard DateTimePicker', () => {
-            let fixture: ComponentFixture<StandardDateTimePicker>;
-            let testComponent: StandardDateTimePicker;
+            let fixture: ComponentFixture<StandardDateTimePickerComponent>;
+            let testComponent: StandardDateTimePickerComponent;
             let containerElement: HTMLElement;
 
             beforeEach(fakeAsync(() => {
-                fixture = createComponent(StandardDateTimePicker, [
+                fixture = createComponent(StandardDateTimePickerComponent, [
                     OwlNativeDateTimeModule
                 ]);
                 fixture.detectChanges();
@@ -199,7 +198,7 @@ describe('OwlDateTimeComponent', () => {
                 fixture.detectChanges();
                 flush();
 
-                const popup = document.querySelector('.cdk-overlay-pane')!;
+                const popup = document.querySelector('.cdk-overlay-pane');
                 expect(popup).not.toBeNull();
                 expect(
                     parseInt(getComputedStyle(popup).height, 10)
@@ -638,12 +637,12 @@ describe('OwlDateTimeComponent', () => {
         });
 
         describe('range DateTimePicker', () => {
-            let fixture: ComponentFixture<RangeDateTimePicker>;
-            let testComponent: RangeDateTimePicker;
+            let fixture: ComponentFixture<RangeDateTimePickerComponent>;
+            let testComponent: RangeDateTimePickerComponent;
             let containerElement: HTMLElement;
 
             beforeEach(fakeAsync(() => {
-                fixture = createComponent(RangeDateTimePicker, [
+                fixture = createComponent(RangeDateTimePickerComponent, [
                     OwlNativeDateTimeModule
                 ]);
                 fixture.detectChanges();
@@ -934,7 +933,7 @@ describe('OwlDateTimeComponent', () => {
 
         describe('DateTimePicker with too many inputs', () => {
             it('should throw when multiple inputs registered', fakeAsync(() => {
-                const fixture = createComponent(MultiInputDateTimePicker, [
+                const fixture = createComponent(MultiInputDateTimePickerComponent, [
                     OwlNativeDateTimeModule
                 ]);
                 expect(() => fixture.detectChanges()).toThrow();
@@ -942,11 +941,11 @@ describe('OwlDateTimeComponent', () => {
         });
 
         describe('DateTimePicker with no input', () => {
-            let fixture: ComponentFixture<NoInputDateTimePicker>;
-            let testComponent: NoInputDateTimePicker;
+            let fixture: ComponentFixture<NoInputDateTimePickerComponent>;
+            let testComponent: NoInputDateTimePickerComponent;
 
             beforeEach(fakeAsync(() => {
-                fixture = createComponent(NoInputDateTimePicker, [
+                fixture = createComponent(NoInputDateTimePickerComponent, [
                     OwlNativeDateTimeModule
                 ]);
                 fixture.detectChanges();
@@ -971,11 +970,11 @@ describe('OwlDateTimeComponent', () => {
         });
 
         describe('DateTimePicker with startAt', () => {
-            let fixture: ComponentFixture<DateTimePickerWithStartAt>;
-            let testComponent: DateTimePickerWithStartAt;
+            let fixture: ComponentFixture<DateTimePickerWithStartAtComponent>;
+            let testComponent: DateTimePickerWithStartAtComponent;
 
             beforeEach(fakeAsync(() => {
-                fixture = createComponent(DateTimePickerWithStartAt, [
+                fixture = createComponent(DateTimePickerWithStartAtComponent, [
                     OwlNativeDateTimeModule
                 ]);
                 fixture.detectChanges();
@@ -996,13 +995,13 @@ describe('OwlDateTimeComponent', () => {
         });
 
         describe('DateTimePicker with startView', () => {
-            let fixture: ComponentFixture<DateTimePickerWithStartView>;
-            let testComponent: DateTimePickerWithStartView;
+            let fixture: ComponentFixture<DateTimePickerWithStartViewComponent>;
+            let testComponent: DateTimePickerWithStartViewComponent;
             let containerDebugElement;
             let containerElement;
 
             beforeEach(() => {
-                fixture = createComponent(DateTimePickerWithStartView, [
+                fixture = createComponent(DateTimePickerWithStartViewComponent, [
                     OwlNativeDateTimeModule
                 ]);
                 fixture.detectChanges();
@@ -1107,11 +1106,11 @@ describe('OwlDateTimeComponent', () => {
         });
 
         describe('DateTimePicker with NgModel', () => {
-            let fixture: ComponentFixture<DateTimePickerWithNgModel>;
-            let testComponent: DateTimePickerWithNgModel;
+            let fixture: ComponentFixture<DateTimePickerWithNgModelComponent>;
+            let testComponent: DateTimePickerWithNgModelComponent;
 
             beforeEach(fakeAsync(() => {
-                fixture = createComponent(DateTimePickerWithNgModel, [
+                fixture = createComponent(DateTimePickerWithNgModelComponent, [
                     OwlNativeDateTimeModule
                 ]);
                 fixture.detectChanges();
@@ -1575,11 +1574,11 @@ describe('OwlDateTimeComponent', () => {
         });
 
         describe('DateTimePicker with FormControl', () => {
-            let fixture: ComponentFixture<DateTimePickerWithFormControl>;
-            let testComponent: DateTimePickerWithFormControl;
+            let fixture: ComponentFixture<DateTimePickerWithFormControlComponent>;
+            let testComponent: DateTimePickerWithFormControlComponent;
 
             beforeEach(fakeAsync(() => {
-                fixture = createComponent(DateTimePickerWithFormControl, [
+                fixture = createComponent(DateTimePickerWithFormControlComponent, [
                     OwlNativeDateTimeModule
                 ]);
                 fixture.detectChanges();
@@ -1648,11 +1647,11 @@ describe('OwlDateTimeComponent', () => {
         });
 
         describe('DateTimePicker with owlDateTimeTrigger', () => {
-            let fixture: ComponentFixture<DateTimePickerWithTrigger>;
-            let testComponent: DateTimePickerWithTrigger;
+            let fixture: ComponentFixture<DateTimePickerWithTriggerComponent>;
+            let testComponent: DateTimePickerWithTriggerComponent;
 
             beforeEach(fakeAsync(() => {
-                fixture = createComponent(DateTimePickerWithTrigger, [
+                fixture = createComponent(DateTimePickerWithTriggerComponent, [
                     OwlNativeDateTimeModule
                 ]);
                 fixture.detectChanges();
@@ -1723,15 +1722,15 @@ describe('OwlDateTimeComponent', () => {
 
         describe('DateTimePicker with min and max validation', () => {
             let fixture: ComponentFixture<
-                DateTimePickerWithMinAndMaxValidation
+                DateTimePickerWithMinAndMaxValidationComponent
             >;
-            let testComponent: DateTimePickerWithMinAndMaxValidation;
+            let testComponent: DateTimePickerWithMinAndMaxValidationComponent;
             let minMoment;
             let maxMoment;
 
             beforeEach(fakeAsync(() => {
                 fixture = createComponent(
-                    DateTimePickerWithMinAndMaxValidation,
+                    DateTimePickerWithMinAndMaxValidationComponent,
                     [OwlNativeDateTimeModule]
                 );
                 fixture.detectChanges();
@@ -1881,11 +1880,11 @@ describe('OwlDateTimeComponent', () => {
         });
 
         describe('DateTimePicker with filter validation', () => {
-            let fixture: ComponentFixture<DateTimePickerWithFilterValidation>;
-            let testComponent: DateTimePickerWithFilterValidation;
+            let fixture: ComponentFixture<DateTimePickerWithFilterValidationComponent>;
+            let testComponent: DateTimePickerWithFilterValidationComponent;
 
             beforeEach(fakeAsync(() => {
-                fixture = createComponent(DateTimePickerWithFilterValidation, [
+                fixture = createComponent(DateTimePickerWithFilterValidationComponent, [
                     OwlNativeDateTimeModule
                 ]);
                 fixture.detectChanges();
@@ -1953,14 +1952,14 @@ describe('OwlDateTimeComponent', () => {
 
         describe('DateTimePicker with change and input events', () => {
             let fixture: ComponentFixture<
-                DateTimePickerWithChangeAndInputEvents
+                DateTimePickerWithChangeAndInputEventsComponent
             >;
-            let testComponent: DateTimePickerWithChangeAndInputEvents;
+            let testComponent: DateTimePickerWithChangeAndInputEventsComponent;
             let inputEl: HTMLInputElement;
 
             beforeEach(fakeAsync(() => {
                 fixture = createComponent(
-                    DateTimePickerWithChangeAndInputEvents,
+                    DateTimePickerWithChangeAndInputEventsComponent,
                     [OwlNativeDateTimeModule]
                 );
                 fixture.detectChanges();
@@ -2235,11 +2234,11 @@ describe('OwlDateTimeComponent', () => {
         });
 
         describe('DateTimePicker with ISO strings', () => {
-            let fixture: ComponentFixture<DateTimePickerWithISOStrings>;
-            let testComponent: DateTimePickerWithISOStrings;
+            let fixture: ComponentFixture<DateTimePickerWithISOStringsComponent>;
+            let testComponent: DateTimePickerWithISOStringsComponent;
 
             beforeEach(fakeAsync(() => {
-                fixture = createComponent(DateTimePickerWithISOStrings, [
+                fixture = createComponent(DateTimePickerWithISOStringsComponent, [
                     OwlNativeDateTimeModule
                 ]);
                 fixture.detectChanges();
@@ -2273,11 +2272,11 @@ describe('OwlDateTimeComponent', () => {
         });
 
         describe('DateTimePicker with events', () => {
-            let fixture: ComponentFixture<DateTimePickerWithEvents>;
-            let testComponent: DateTimePickerWithEvents;
+            let fixture: ComponentFixture<DateTimePickerWithEventsComponent>;
+            let testComponent: DateTimePickerWithEventsComponent;
 
             beforeEach(fakeAsync(() => {
-                fixture = createComponent(DateTimePickerWithEvents, [
+                fixture = createComponent(DateTimePickerWithEventsComponent, [
                     OwlNativeDateTimeModule
                 ]);
                 fixture.detectChanges();
@@ -2314,7 +2313,7 @@ describe('OwlDateTimeComponent', () => {
 
     describe('with missing DateTimeAdapter and OWL_DATE_TIME_FORMATS', () => {
         it('should throw when created', () => {
-            expect(() => createComponent(StandardDateTimePicker)).toThrowError(
+            expect(() => createComponent(StandardDateTimePickerComponent)).toThrowError(
                 /OwlDateTimePicker: No provider found for .*/
             );
         });
@@ -2330,7 +2329,7 @@ describe('OwlDateTimeComponent', () => {
                        [pickerMode]="pickerMode" #dt></owl-date-time>
     `
 })
-class StandardDateTimePicker {
+class StandardDateTimePickerComponent {
     date: Date | null = new Date(2020, JAN, 1);
     pickerType = 'both';
     pickerMode = 'popup';
@@ -2349,7 +2348,7 @@ class StandardDateTimePicker {
                        [pickerType]="pickerType" #dt></owl-date-time>
     `
 })
-class RangeDateTimePicker {
+class RangeDateTimePickerComponent {
     dates: Date[] | null = [new Date(2020, JAN, 1), new Date(2020, FEB, 1)];
     selectMode = 'range';
     pickerType = 'both';
@@ -2367,14 +2366,14 @@ class RangeDateTimePicker {
         <owl-date-time #dt></owl-date-time>
     `
 })
-class MultiInputDateTimePicker { }
+class MultiInputDateTimePickerComponent { }
 
 @Component({
     template: `
         <owl-date-time #dt></owl-date-time>
     `
 })
-class NoInputDateTimePicker {
+class NoInputDateTimePickerComponent {
     @ViewChild('dt', { static: true })
     dateTimePicker: OwlDateTimeComponent<Date>;
 }
@@ -2385,7 +2384,7 @@ class NoInputDateTimePicker {
         <owl-date-time #dt [startAt]="startDate"></owl-date-time>
     `
 })
-class DateTimePickerWithStartAt {
+class DateTimePickerWithStartAtComponent {
     date = new Date(2020, JAN, 1);
     startDate = new Date(2010, JAN, 1);
     @ViewChild('dt', { static: true })
@@ -2400,7 +2399,7 @@ class DateTimePickerWithStartAt {
                        (yearSelected)="onYearSelection()"></owl-date-time>
     `
 })
-class DateTimePickerWithStartView {
+class DateTimePickerWithStartViewComponent {
     date = new Date(2020, JAN, 1);
     startView = 'month';
     @ViewChild('dt', { static: true })
@@ -2417,7 +2416,7 @@ class DateTimePickerWithStartView {
         <owl-date-time #dt></owl-date-time>
     `
 })
-class DateTimePickerWithNgModel {
+class DateTimePickerWithNgModelComponent {
     moment: Date[] | Date | null = null;
     selectMode = 'single';
     @ViewChild('dt', { static: true })
@@ -2434,7 +2433,7 @@ class DateTimePickerWithNgModel {
         <owl-date-time #dt></owl-date-time>
     `
 })
-class DateTimePickerWithFormControl {
+class DateTimePickerWithFormControlComponent {
     formControl = new FormControl();
     @ViewChild('dt', { static: true })
     dateTimePicker: OwlDateTimeComponent<Date>;
@@ -2451,7 +2450,7 @@ class DateTimePickerWithFormControl {
         <owl-date-time #dt></owl-date-time>
     `
 })
-class DateTimePickerWithTrigger {
+class DateTimePickerWithTriggerComponent {
     @ViewChild('dt', { static: true })
     dateTimePicker: OwlDateTimeComponent<Date>;
     @ViewChild(OwlDateTimeInputDirective, { static: true })
@@ -2466,7 +2465,7 @@ class DateTimePickerWithTrigger {
         <owl-date-time [showSecondsTimer]="true" #dt></owl-date-time>
     `
 })
-class DateTimePickerWithMinAndMaxValidation {
+class DateTimePickerWithMinAndMaxValidationComponent {
     @ViewChild('dt', { static: true })
     dateTimePicker: OwlDateTimeComponent<Date>;
     @ViewChild(OwlDateTimeInputDirective, { static: true })
@@ -2488,7 +2487,7 @@ class DateTimePickerWithMinAndMaxValidation {
         <owl-date-time [showSecondsTimer]="true" #dt></owl-date-time>
     `
 })
-class DateTimePickerWithFilterValidation {
+class DateTimePickerWithFilterValidationComponent {
     @ViewChild('dt', { static: true })
     dateTimePicker: OwlDateTimeComponent<Date>;
     @ViewChild(OwlDateTimeInputDirective, { static: true })
@@ -2510,7 +2509,7 @@ class DateTimePickerWithFilterValidation {
         <owl-date-time [showSecondsTimer]="true" #dt></owl-date-time>
     `
 })
-class DateTimePickerWithChangeAndInputEvents {
+class DateTimePickerWithChangeAndInputEventsComponent {
     @ViewChild('dt', { static: true })
     dateTimePicker: OwlDateTimeComponent<Date>;
     @ViewChild(OwlDateTimeInputDirective, { static: true })
@@ -2533,7 +2532,7 @@ class DateTimePickerWithChangeAndInputEvents {
     <owl-date-time #dt [startAt]="startAt"></owl-date-time>
   `
 })
-class DateTimePickerWithISOStrings {
+class DateTimePickerWithISOStringsComponent {
     value = new Date(2017, JUN, 1).toISOString();
     min = new Date(2017, JAN, 1).toISOString();
     max = new Date(2017, DEC, 31).toISOString();
@@ -2550,7 +2549,7 @@ class DateTimePickerWithISOStrings {
     <owl-date-time (afterPickerOpen)="openedSpy()" (afterPickerClosed)="closedSpy()" #dt></owl-date-time>
   `
 })
-class DateTimePickerWithEvents {
+class DateTimePickerWithEventsComponent {
     selected: Date | null = null;
     openedSpy = jasmine.createSpy('opened spy');
     closedSpy = jasmine.createSpy('closed spy');

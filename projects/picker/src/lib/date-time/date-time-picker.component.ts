@@ -174,7 +174,7 @@ export class OwlDateTimeComponent<T> extends OwlDateTime<T>
     }
 
     /** Whether the calendar is open. */
-    private _opened: boolean = false;
+    private _opened = false;
     @Input()
     get opened(): boolean {
         return this._opened;
@@ -292,7 +292,7 @@ export class OwlDateTimeComponent<T> extends OwlDateTime<T>
         return this._dtInput.isInRangeMode;
     }
 
-    private defaultScrollStrategy: () => ScrollStrategy;
+    private readonly defaultScrollStrategy: () => ScrollStrategy;
 
     constructor(
         private overlay: Overlay,

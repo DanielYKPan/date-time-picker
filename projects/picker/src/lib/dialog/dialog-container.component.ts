@@ -31,7 +31,7 @@ import {
     ComponentPortal,
     TemplatePortal
 } from '@angular/cdk/portal';
-import { OwlDialogConfig } from './dialog-config.class';
+import { OwlDialogConfigInterface } from './dialog-config.class';
 
 const zoomFadeIn = {
     opacity: 0,
@@ -109,8 +109,8 @@ export class OwlDialogContainerComponent extends BasePortalOutlet
 
     public isAnimating = false;
 
-    private _config: OwlDialogConfig;
-    get config(): OwlDialogConfig {
+    private _config: OwlDialogConfigInterface;
+    get config(): OwlDialogConfigInterface {
         return this._config;
     }
 
@@ -192,7 +192,7 @@ export class OwlDialogContainerComponent extends BasePortalOutlet
         throw new Error('Method not implemented.');
     }
 
-    public setConfig(config: OwlDialogConfig): void {
+    public setConfig(config: OwlDialogConfigInterface): void {
         this._config = config;
 
         if (config.event) {

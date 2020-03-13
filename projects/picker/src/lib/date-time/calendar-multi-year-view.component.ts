@@ -36,7 +36,7 @@ export const YEAR_ROWS = 7;
     selector: 'owl-date-time-multi-year-view',
     templateUrl: './calendar-multi-year-view.component.html',
     styleUrls: ['./calendar-multi-year-view.component.scss'],
-    host:{
+    host: {
         '[class.owl-dt-calendar-view]': 'owlDTCalendarView',
         '[class.owl-dt-calendar-multi-year-view]': 'owlDTCalendarMultiYearView'
     },
@@ -191,7 +191,7 @@ export class OwlMultiYearViewComponent<T> implements OnInit, AfterContentInit {
 
     get tableHeader(): string {
         if (this._years && this._years.length > 0) {
-            return `${this._years[0][0].displayValue} - ${this._years[YEAR_ROWS - 1][YEARS_PER_ROW - 1].displayValue}`
+            return `${this._years[0][0].displayValue} - ${this._years[YEAR_ROWS - 1][YEARS_PER_ROW - 1].displayValue}`;
         }
     }
 
@@ -415,7 +415,7 @@ export class OwlMultiYearViewComponent<T> implements OnInit, AfterContentInit {
                 } else {
                     return null;
                 }
-            })
+            });
         }
     }
 
@@ -436,7 +436,7 @@ export class OwlMultiYearViewComponent<T> implements OnInit, AfterContentInit {
         const firstOfYear = this.dateTimeAdapter.createDate(year, 0, 1);
 
         // If any date in the year is enabled count the year as enabled.
-        for (let date = firstOfYear; this.dateTimeAdapter.getYear(date) == year;
+        for (let date = firstOfYear; this.dateTimeAdapter.getYear(date) === year;
              date = this.dateTimeAdapter.addCalendarDays(date, 1)) {
             if (this.dateFilter(date)) {
                 return true;
