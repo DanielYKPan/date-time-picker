@@ -37,17 +37,17 @@ import { OwlDateTimeContainerComponent } from './date-time-picker-container.comp
 import { OwlDateTimeTriggerDirective } from './date-time-picker-trigger.directive';
 
 const JAN = 0,
-      FEB = 1,
-      MAR = 2,
-      APR = 3,
-      MAY = 4,
-      JUN = 5,
-      JUL = 6,
-      AUG = 7,
-      SEP = 8,
-      OCT = 9,
-      NOV = 10,
-      DEC = 11;
+    FEB = 1,
+    MAR = 2,
+    APR = 3,
+    MAY = 4,
+    JUN = 5,
+    JUL = 6,
+    AUG = 7,
+    SEP = 8,
+    OCT = 9,
+    NOV = 10,
+    DEC = 11;
 
 describe('OwlDateTimeComponent', () => {
     const SUPPORTS_INTL = typeof Intl !== 'undefined';
@@ -56,7 +56,8 @@ describe('OwlDateTimeComponent', () => {
     function createComponent(
         component: Type<any>,
         imports: Type<any>[] = [],
-        providers: (FactoryProvider | ValueProvider)[] = []
+        providers: (FactoryProvider | ValueProvider)[] = [],
+        entryComponents: Type<any>[] = []
     ): ComponentFixture<any> {
         TestBed.configureTestingModule({
             imports: [
@@ -67,8 +68,15 @@ describe('OwlDateTimeComponent', () => {
                 ...imports
             ],
             providers,
-            declarations: [component]
+            declarations: [component, ...entryComponents]
         });
+
+        TestBed.overrideModule(BrowserDynamicTestingModule, {
+            set: {
+                entryComponents: [entryComponents]
+            }
+        }).compileComponents();
+
         return TestBed.createComponent(component);
     }
 
