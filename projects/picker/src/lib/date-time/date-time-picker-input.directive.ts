@@ -78,7 +78,8 @@ export class OwlDateTimeInputDirective<T>
      /**
      * Required flag to be used for range of [null, null]
      * */
-    @Input() required = false;
+    @Input()
+    required: boolean;
 
     /**
      * The date time picker that this input is associated with.
