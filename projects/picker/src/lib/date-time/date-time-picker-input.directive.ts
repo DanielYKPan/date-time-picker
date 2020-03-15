@@ -75,6 +75,11 @@ export class OwlDateTimeInputDirective<T>
         OnDestroy,
         ControlValueAccessor,
         Validator {
+     /**
+     * Required flag to be used for range of [null, null]
+     * */
+    @Input() required = false;
+
     /**
      * The date time picker that this input is associated with.
      * */
@@ -385,7 +390,7 @@ export class OwlDateTimeInputDirective<T>
     private requiredRangeValidator: ValidatorFn = (
         control: AbstractControl
     ): ValidationErrors | null => {
-        if (this.isInSingleMode || !control.value) {
+        if (this.isInSingleMode || !control.value || !this.required) {
             return null;
         }
 
