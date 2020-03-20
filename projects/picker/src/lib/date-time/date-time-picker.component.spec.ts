@@ -34,6 +34,7 @@ import { ENTER, ESCAPE, RIGHT_ARROW, UP_ARROW } from '@angular/cdk/keycodes';
 import { By } from '@angular/platform-browser';
 import { OwlDateTimeContainerComponent } from './date-time-picker-container.component';
 import { OwlDateTimeTriggerDirective } from './date-time-picker-trigger.directive';
+import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/testing';
 
 const JAN = 0,
     FEB = 1,
