@@ -295,7 +295,7 @@ export class OwlDateTimeComponent<T> extends OwlDateTime<T>
     private readonly defaultScrollStrategy: () => ScrollStrategy;
 
     constructor(
-        private overlay: Overlay,
+        public overlay: Overlay,
         private viewContainerRef: ViewContainerRef,
         private dialogService: OwlDialogService,
         private ngZone: NgZone,
