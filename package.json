@@ -37,6 +37,7 @@
     "@angular/platform-browser-dynamic": "~8.2.6",
     "@angular/router": "~8.2.6",
     "core-js": "^2.6.5",
+    "dayjs": "^1.8.23",
     "moment": "^2.24.0",
     "moment-timezone": "^0.5.25",
     "rxjs": "~6.5.3",
