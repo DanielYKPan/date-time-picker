@@ -6,6 +6,9 @@ import {
 
 import * as _dayjs from 'dayjs';
 import * as localData from 'dayjs/plugin/localeData';
+import * as LocalizedFormat from 'dayjs/plugin/localizedFormat';
+
+_dayjs.extend(LocalizedFormat);
 _dayjs.extend(localData);
 
 export const CUSTOM_DATE_TIME_FORMATS = {
@@ -82,7 +85,7 @@ export class DayjsDateTimeAdapter extends DateTimeAdapter<_dayjs.Dayjs> {
         this._localeData = {
             longMonths: dayjsLocalData.months(),
             shortMonths: dayjsLocalData.monthsShort(),
-            longDaysOfWeek: dayjsLocalData.weekdays(),
+            longDaysOfWeek: dayjsLocalData.weekdaysShort(), //Doesn't support long names yet, will be available in future release https://github.com/iamkun/dayjs/issues/779
             shortDaysOfWeek: dayjsLocalData.weekdaysShort(),
             narrowDaysOfWeek: dayjsLocalData.weekdaysMin(),
             dates: range(31, i => this.createDate(2017, 0, i + 1).format('D'))
@@ -155,7 +158,7 @@ export class DayjsDateTimeAdapter extends DateTimeAdapter<_dayjs.Dayjs> {
         return this.clone(dateLeft).isSame(this.clone(dateRight), 'day');
     }
     isValid(date: _dayjs.Dayjs): boolean {
-        return date.isValid();
+        return this.clone(date).isValid();
     }
     invalid(): _dayjs.Dayjs {
         return _dayjs(NaN);
@@ -228,14 +231,26 @@ export class DayjsDateTimeAdapter extends DateTimeAdapter<_dayjs.Dayjs> {
             );
         }
 
-        const result = this.createDayjs()
-            .set('year', year)
-            .set('month', month)
-            .set('date', date)
-            .set('hour', hours)
-            .set('minute', minutes)
-            .set('second', seconds)
-            .locale(this.locale);
+        let result = this.createDayjs(_dayjs());
+
+        function trySetUnit(
+            date: _dayjs.Dayjs,
+            unitType: _dayjs.UnitType,
+            amount: number
+        ) {
+            if (amount) {
+                return date.set(unitType, amount);
+            }
+            return date;
+        }
+
+        result = trySetUnit(result, 'year', year);
+        result = trySetUnit(result, 'month', year);
+        result = trySetUnit(result, 'date', year);
+        result = trySetUnit(result, 'hour', year);
+        result = trySetUnit(result, 'minute', year);
+        result = trySetUnit(result, 'second', year);
+        result.locale(this.locale);
 
         // If the result isn't valid, the date must have been out of bounds for this month.
         if (!result.isValid()) {
@@ -252,17 +267,19 @@ export class DayjsDateTimeAdapter extends DateTimeAdapter<_dayjs.Dayjs> {
             .locale(this.locale);
     }
 
-    private createDayjs(...args: any[]): _dayjs.Dayjs {
-        return _dayjs(...args, {
-            utc: this.options.useUtc
-        });
+    private createDayjs(date: _dayjs.Dayjs): _dayjs.Dayjs {
+        return date === null
+            ? _dayjs(null, { utc: this.options.useUtc })
+            : _dayjs(date, {
+                  utc: this.options.useUtc
+              });
     }
 
     now(): _dayjs.Dayjs {
         return this.clone(_dayjs());
     }
     format(date: _dayjs.Dayjs, displayFormat: any): string {
-        return date.format(displayFormat);
+        return this.clone(date).format(displayFormat);
     }
     parse(value: any, parseFormat: any): _dayjs.Dayjs {
         return _dayjs(value, {
