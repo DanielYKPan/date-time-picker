@@ -61,6 +61,10 @@ export class OwlDateTimeContainerComponent<T>
     public picker: OwlDateTime<T>;
     public activeSelectedIndex = 0; // The current active SelectedIndex in range select mode (0: 'from', 1: 'to')
 
+    // retain start and end time
+    private retainStartTime: T;
+    private retainEndTime: T;
+    
     /**
      * Stream emits when try to hide picker
      * */
@@ -203,7 +207,16 @@ export class OwlDateTimeContainerComponent<T>
                  @Optional() private dateTimeAdapter: DateTimeAdapter<T> ) {
     }
 
-    public ngOnInit() {}
+    public ngOnInit() {
+        if (this.picker.selectMode === 'range') {
+            if (this.picker.selecteds[0]) {
+                this.retainStartTime = this.dateTimeAdapter.clone(this.picker.selecteds[0]);
+            }
+            if (this.picker.selecteds[1]) {
+                this.retainEndTime = this.dateTimeAdapter.clone(this.picker.selecteds[1]);
+            }
+        }
+    }
 
     public ngAfterContentInit(): void {
         this.initPicker();
@@ -283,6 +296,12 @@ export class OwlDateTimeContainerComponent<T>
                 selecteds[this.activeSelectedIndex] = this.pickerMoment;
             }
 
+            if (selecteds[0]) {
+                this.retainStartTime = this.dateTimeAdapter.clone(selecteds[0]);
+            }
+            if (selecteds[1]) {
+                this.retainEndTime = this.dateTimeAdapter.clone(selecteds[1]);
+            }
             this.picker.select(selecteds);
         }
     }
@@ -409,10 +428,47 @@ export class OwlDateTimeContainerComponent<T>
                 from &&
                 this.dateTimeAdapter.differenceInCalendarDays(result, from) >= 0
             ) {
-                to = result;
+                if (this.picker.endAt && !this.retainEndTime) {
+                    to = this.dateTimeAdapter.createDate(
+                        this.dateTimeAdapter.getYear(result),
+                        this.dateTimeAdapter.getMonth(result),
+                        this.dateTimeAdapter.getDate(result),
+                        this.dateTimeAdapter.getHours(this.picker.endAt),
+                        this.dateTimeAdapter.getMinutes(this.picker.endAt),
+                        this.dateTimeAdapter.getSeconds(this.picker.endAt));
+                } else if (this.retainEndTime) {
+                    to = this.dateTimeAdapter.createDate(
+                        this.dateTimeAdapter.getYear(result),
+                        this.dateTimeAdapter.getMonth(result),
+                        this.dateTimeAdapter.getDate(result),
+                        this.dateTimeAdapter.getHours(this.retainEndTime),
+                        this.dateTimeAdapter.getMinutes(this.retainEndTime),
+                        this.dateTimeAdapter.getSeconds(this.retainEndTime));
+                } else {
+                    to = result;
+                }
                 this.activeSelectedIndex = 1;
             } else {
-                from = result;
+                if (this.picker.startAt && !this.retainStartTime) {
+                    from = this.dateTimeAdapter.createDate(
+                        this.dateTimeAdapter.getYear(result),
+                        this.dateTimeAdapter.getMonth(result),
+                        this.dateTimeAdapter.getDate(result),
+                        this.dateTimeAdapter.getHours(this.picker.startAt),
+                        this.dateTimeAdapter.getMinutes(this.picker.startAt),
+                        this.dateTimeAdapter.getSeconds(this.picker.startAt)
+                    );
+                } else if (this.retainStartTime) {
+                    from = this.dateTimeAdapter.createDate(
+                        this.dateTimeAdapter.getYear(result),
+                        this.dateTimeAdapter.getMonth(result),
+                        this.dateTimeAdapter.getDate(result),
+                        this.dateTimeAdapter.getHours(this.retainStartTime),
+                        this.dateTimeAdapter.getMinutes(this.retainStartTime),
+                        this.dateTimeAdapter.getSeconds(this.retainStartTime));
+                } else {
+                    from = result;
+                }
                 to = null;
                 this.activeSelectedIndex = 0;
             }

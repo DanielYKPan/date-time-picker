@@ -118,6 +118,34 @@ export class OwlDateTimeComponent<T> extends OwlDateTime<T>
         );
     }
 
+    /** The end date to set for range calendar. */
+    private _endAt: T | null;
+    @Input()
+    get endAt(): T | null {
+        if (this._endAt) {
+            return this._endAt;
+        }
+
+        if (this._dtInput) {
+            if (this._dtInput.selectMode === 'single') {
+                return this._dtInput.value || null;
+            } else if (
+                this._dtInput.selectMode === 'range' ||
+                this._dtInput.selectMode === 'rangeFrom'
+            ) {
+                return this._dtInput.values[1] || null;
+            }
+        } else {
+            return null;
+        }
+    }
+
+    set endAt(date: T | null) {
+        this._endAt = this.getValidDate(
+            this.dateTimeAdapter.deserialize(date)
+        );
+    }
+
     /**
      * Set the type of the dateTime picker
      *      'both' -- show both calendar and timer
