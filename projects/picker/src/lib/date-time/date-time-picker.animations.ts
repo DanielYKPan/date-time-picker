@@ -18,8 +18,8 @@ export const owlDateTimePickerAnimations: {
 } = {
 
     transformPicker: trigger('transformPicker', [
-        state('void', style({opacity: 0, transform: 'scale(1, 0)'})),
-        state('enter', style({opacity: 1, transform: 'scale(1, 1)'})),
+        state('void', style({opacity: 0, transform: 'scale(.8, 0)'})),
+        state('enter', style({opacity: 1, transform: 'scale(.8, .8)'})),
         transition('void => enter', group([
             query('@fadeInPicker', animateChild(), { optional: true }),
             animate('400ms cubic-bezier(0.25, 0.8, 0.25, 1)')

@@ -53,9 +53,9 @@ import {
 })
 export class OwlDateTimeContainerComponent<T>
     implements OnInit, AfterContentInit, AfterViewInit {
-    @ViewChild(OwlCalendarComponent, { static: false })
+    @ViewChild(OwlCalendarComponent)
     calendar: OwlCalendarComponent<T>;
-    @ViewChild(OwlTimerComponent, { static: false })
+    @ViewChild(OwlTimerComponent)
     timer: OwlTimerComponent<T>;
 
     public picker: OwlDateTime<T>;
@@ -398,24 +398,25 @@ export class OwlDateTimeContainerComponent<T>
             return null;
         }
 
-        // if the given calendar day is after or equal to 'from',
-        // set ths given date as 'to'
-        // otherwise, set it as 'from' and set 'to' to null
         if (this.picker.selectMode === 'range') {
-            if (
-                this.picker.selecteds &&
-                this.picker.selecteds.length &&
-                !to &&
-                from &&
-                this.dateTimeAdapter.differenceInCalendarDays(result, from) >= 0
-            ) {
-                to = result;
-                this.activeSelectedIndex = 1;
-            } else {
-                from = result;
-                to = null;
-                this.activeSelectedIndex = 0;
+          // If 'from' is selected, update 'from' date
+          // (and stay on 'from' to allow editing the time)
+          // If 'to' is selected, update 'to' date
+          // (and stay on 'to' to allow editing the time)
+          // If the new 'from' date is later than the current 'to' date,
+          // or the new 'to' date is earlier than the current 'from' date,
+          // then set the new date as both 'from' and 'to' (ram)
+          if (this.activeSelectedIndex === 0) {
+            from = result;
+            if (to && this.dateTimeAdapter.differenceInCalendarDays(to, result) < 0) {
+              to = result;
             }
+          } else {
+            to = result;
+            if (from && this.dateTimeAdapter.differenceInCalendarDays(result, from) < 0) {
+              from = result;
+            }
+          }
         } else if (this.picker.selectMode === 'rangeFrom') {
             from = result;
 

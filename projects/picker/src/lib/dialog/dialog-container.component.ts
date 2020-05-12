@@ -95,7 +95,7 @@ const zoomFadeInFrom = {
 })
 export class OwlDialogContainerComponent extends BasePortalOutlet
     implements OnInit {
-    @ViewChild(CdkPortalOutlet, { static: true })
+    @ViewChild(CdkPortalOutlet)
     portalOutlet: CdkPortalOutlet;
 
     /** The class that traps and manages focus within the dialog. */

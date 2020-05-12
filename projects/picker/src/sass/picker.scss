@@ -156,6 +156,9 @@ $backdrop-animation-timing-function: cubic-bezier(0.25, 0.8, 0.25, 1) !default;
 }
 
 $theme-color: #3f51b5;
+// ram
+$active-fgcolor: #ffffff;
+$active-bgcolor: #0091ff;
 
 .owl-dt-container,
 .owl-dt-container * {
@@ -585,7 +588,7 @@ $theme-color: #3f51b5;
     .owl-dt-container-range-content {
       display: flex;
       justify-content: space-between;
-      padding: .5em 0;
+      padding: .5em .5em; // ram
       font-size: .8em;
     }
 
@@ -595,7 +598,8 @@ $theme-color: #3f51b5;
   }
 
   .owl-dt-container-info-active {
-    color: $theme-color;
+    color: $active-fgcolor; // ram
+    background-color: $active-bgcolor;
   }
 }
 
