@@ -679,7 +679,7 @@ describe('OwlDateTimeComponent', () => {
             it('clicking the dateCell should set the rangeFrom value when both rangeFrom and rangeTo had NO value', fakeAsync(() => {
                 testComponent.dates = [];
                 fixture.detectChanges();
-
+                
                 testComponent.dateTimePicker.open();
                 fixture.detectChanges();
                 flush();
@@ -802,6 +802,72 @@ describe('OwlDateTimeComponent', () => {
                 expect(testComponent.dateTimePicker.selecteds[1]).toEqual(
                     new Date(2020, JAN, 3)
                 );
+            }));
+
+            it('if startAt value is set, the start time value should be shown in the rangeTo calendar start time', fakeAsync(() => {
+                testComponent.startAt = new Date('1/19/2020, 09:33 AM');
+                testComponent.dateTimePicker.open();
+                fixture.detectChanges();
+                flush();
+
+                const containerDebugElement = fixture.debugElement.query(
+                    By.directive(OwlDateTimeContainerComponent)
+                );
+                containerElement = containerDebugElement.nativeElement;
+                const timeCells = containerElement.querySelectorAll<HTMLInputElement>('.owl-dt-timer-input');
+                
+                expect(timeCells[0].value).toEqual('09');
+                expect(timeCells[1].value).toEqual('33');
+            }));
+
+
+            it('if endAt value is set, the end time value should be shown in the rangeTo calendar end time', fakeAsync(() => {
+                testComponent.dates = [new Date(2020, JAN, 2), null];
+                testComponent.endAt = new Date('1/19/2020, 10:55 PM');
+                fixture.detectChanges();
+
+                testComponent.dateTimePicker.open();
+                fixture.detectChanges();
+                flush();
+
+                const containerDebugElement = fixture.debugElement.query(
+                    By.directive(OwlDateTimeContainerComponent)
+                );
+                containerElement = containerDebugElement.nativeElement;
+                const dateCell = containerElement.querySelector(
+                    '[aria-label="January 20, 2020"]'
+                );
+                dispatchMouseEvent(dateCell, 'click');
+                fixture.detectChanges();
+                flush();
+
+                const timeCells = containerElement.querySelectorAll<HTMLInputElement>('.owl-dt-timer-input');
+                
+                expect(timeCells[0].value).toEqual('22');
+                expect(timeCells[1].value).toEqual('55');
+            }));
+
+            it('auto select previous time if dates is selected', fakeAsync(() => {
+                testComponent.dates = [new Date('1/19/2020, 09:33 AM'), new Date('1/22/2020, 10:44 PM')];
+                testComponent.dateTimePicker.open();
+                fixture.detectChanges();
+                
+                const containerDebugElement = fixture.debugElement.query(
+                    By.directive(OwlDateTimeContainerComponent)
+                );
+                containerElement = containerDebugElement.nativeElement;
+                const dateCell = containerElement.querySelector(
+                    '[aria-label="January 20, 2020"]'
+                );
+                dispatchMouseEvent(dateCell, 'click');
+                fixture.detectChanges();
+                flush();
+
+                const timeInput = containerElement.querySelectorAll<HTMLInputElement>('.owl-dt-timer-input');
+
+                expect(timeInput[0].value).toEqual('09');
+                expect(timeInput[1].value).toEqual('33');
+
             }));
 
             it('should have the container info row', () => {
@@ -2345,15 +2411,16 @@ class StandardDateTimePickerComponent {
 @Component({
     template: `
         <input [owlDateTime]="dt" [selectMode]="selectMode" [values]="dates">
-        <owl-date-time [startAt]="startAt"
+        <owl-date-time [startAt]="startAt" [endAt]="endAt" 
                        [pickerType]="pickerType" #dt></owl-date-time>
     `
 })
 class RangeDateTimePickerComponent {
-    dates: Date[] | null = [new Date(2020, JAN, 1), new Date(2020, FEB, 1)];
+     dates: Date[] | null = [new Date(2020, JAN, 1), new Date(2020, FEB, 1)];
     selectMode = 'range';
     pickerType = 'both';
     startAt = new Date(2020, JAN, 1);
+    endAt = new Date(2020, JAN, 2);
     @ViewChild('dt', { static: true })
     dateTimePicker: OwlDateTimeComponent<Date>;
     @ViewChild(OwlDateTimeInputDirective, { static: true })
