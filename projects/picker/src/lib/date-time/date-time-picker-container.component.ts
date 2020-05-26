@@ -18,7 +18,7 @@ import { OwlDateTimeIntl } from './date-time-picker-intl.service';
 import { OwlCalendarComponent } from './calendar.component';
 import { OwlTimerComponent } from './timer.component';
 import { DateTimeAdapter } from './adapter/date-time-adapter.class';
-import { OwlDateTime, PickerType } from './date-time.class';
+import {OwlDateTime, PickerType, TimepickerComponent} from './date-time.class';
 import { Observable, Subject } from 'rxjs';
 import { owlDateTimePickerAnimations } from './date-time-picker.animations';
 import {
@@ -108,6 +108,10 @@ export class OwlDateTimeContainerComponent<T>
 
     get pickerType(): PickerType {
         return this.picker.pickerType;
+    }
+
+    get timepickerComponent(): TimepickerComponent {
+        return this.picker.timepickerComponent;
     }
 
     get cancelLabel(): string {

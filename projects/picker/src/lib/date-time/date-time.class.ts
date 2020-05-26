@@ -20,6 +20,8 @@ export type PickerMode = 'popup' | 'dialog' | 'inline';
 
 export type SelectMode = 'single' | 'range' | 'rangeFrom' | 'rangeTo';
 
+export type TimepickerComponent = 'default' | 'slider';
+
 export abstract class OwlDateTime<T> {
     /**
      * Whether to show the second's timer
@@ -145,6 +147,8 @@ export abstract class OwlDateTime<T> {
     abstract get opened(): boolean;
 
     abstract get pickerMode(): PickerMode;
+
+    abstract get timepickerComponent(): TimepickerComponent;
 
     abstract get pickerType(): PickerType;
 

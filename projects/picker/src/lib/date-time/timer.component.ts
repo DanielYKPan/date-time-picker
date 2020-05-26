@@ -183,7 +183,7 @@ export class OwlTimerComponent<T> implements OnInit {
     constructor(
         private ngZone: NgZone,
         private elmRef: ElementRef,
-        private pickerIntl: OwlDateTimeIntl,
+        protected pickerIntl: OwlDateTimeIntl,
         private cdRef: ChangeDetectorRef,
         @Optional() private dateTimeAdapter: DateTimeAdapter<T>
     ) {}
