@@ -9,6 +9,7 @@ export class TimepickerSliderTimerComponent implements OnInit {
   @Input() label: string;
   @Input() min = 0;
   @Input() max = 59;
+  @Input() step = 1;
 
   private _value: number;
   get value(): number {

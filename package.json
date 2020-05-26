@@ -13,7 +13,7 @@
   "license": "MIT",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "ng serve --port=4002",
     "build": "ng build picker",
     "test": "ng test picker",
     "lint": "ng lint",

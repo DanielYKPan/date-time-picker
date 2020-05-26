@@ -1,12 +1,14 @@
 <owl-timepicker-slider-timer
   [label]="hourLabel"
   [min]="0" [max]="23"
+  [step]="stepHour"
   [value]="hourValue"
   (valueChange)="setHourValue($event)"></owl-timepicker-slider-timer>
 
 <owl-timepicker-slider-timer
   [label]="minuteLabel"
   [min]="0" [max]="59"
+  [step]="stepMinute"
   [value]="minuteValue"
   (valueChange)="setMinuteValue($event)"></owl-timepicker-slider-timer>
 
@@ -14,6 +16,7 @@
   *ngIf="showSecondsTimer"
   [label]="secondLabel"
   [min]="0" [max]="59"
+  [step]="stepSecond"
   [value]="secondValue"
   (valueChange)="setSecondValue($event)"></owl-timepicker-slider-timer>
 
