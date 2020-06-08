@@ -143,6 +143,8 @@ export abstract class OwlDateTime<T> {
 
     abstract get startAt(): T | null;
 
+    abstract get endAt(): T | null;
+
     abstract get opened(): boolean;
 
     abstract get pickerMode(): PickerMode;

@@ -100,6 +100,7 @@ Properties for `owl-date-time`
 |`pickerMode`|`popup`, `dialog`|Optional|`popup`| The style the picker would open as. |
 |`startView`|`month`, `year`, `multi-year`|Optional|`month`| The view that the calendar should start in. |
 |`startAt`| T/null |Optional|`null`| The moment to open the picker to initially. |
+|`endAt`| T/null |Optional|`null`| The the default selected time for range calendar end time | 
 |`firstDayOfWeek`|number|Optional|`0`| Set the first day of week. Valid value is from 0 to 6. 0: Sunday - 6: Saturday|
 |`showSecondsTimer`|boolean|Optional|`false`| When specify it to true, it would show a timer to configure the second's value |
 |`hideOtherMonths`|boolean|Optional|`false`| Whether to hide dates in other months at the start or end of the current month |
@@ -163,6 +164,7 @@ Properties for `owl-date-time-inline`
 |`pickerType`|`both`, `calendar`, `timer`|Optional|`both`| Set the type of the dateTime picker. `both`: show both calendar and timer, `calendar`: only show calendar, `timer`: only show timer. |
 |`startView`|`month`, `year`, `multi-year`|Optional|`month`| The view that the calendar should start in. |
 |`startAt`| T/null |Optional|`null`| The moment to open the picker to initially. |
+|`endAt`| T/null |Optional|`null`| The the default selected time for range calendar end time | 
 |`firstDayOfWeek`|number|Optional|`0`| Set the first day of week. Valid value is from 0 to 6. 0: Sunday - 6: Saturday|
 |`showSecondsTimer`|boolean|Optional|`false`| When specify it to true, it would show a timer to configure the second's value |
 |`hideOtherMonths`|boolean|Optional|`false`| Whether to hide dates in other months at the start or end of the current month |

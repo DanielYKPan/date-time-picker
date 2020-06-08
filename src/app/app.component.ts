@@ -18,6 +18,10 @@ export class AppComponent implements AfterViewInit {
     moment('2019-03-11T15:00:00+11:00').tz('America/Los_Angeles')
   ];
 
+
+  currentValue: Date = new Date('4/21/2020, 12:00 AM');
+  endValue: Date = new Date('4/21/2020, 11:59 PM');
+
   open_once = false;
 
   ngAfterViewInit() {
