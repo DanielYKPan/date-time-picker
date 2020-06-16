@@ -194,7 +194,7 @@ export class OwlCalendarComponent<T>
      * Date filter for the month and year view
      * */
     @Input()
-    dateFilter: Function;
+    dateFilter: (date: T) => boolean;
 
     /**
      * Set the first day of week
@@ -266,7 +266,7 @@ export class OwlCalendarComponent<T>
      */
     private moveFocusOnNextTick = false;
 
-    /**
+    /** 
      * Date filter for the month and year view
      */
     public dateFilterForViews = (date: T) => {
