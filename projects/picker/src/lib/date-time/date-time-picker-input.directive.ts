@@ -75,17 +75,19 @@ export class OwlDateTimeInputDirective<T>
         OnDestroy,
         ControlValueAccessor,
         Validator {
+    static ngAcceptInputType_disabled: boolean|'';
+
      /**
      * Required flag to be used for range of [null, null]
      * */
     private _required: boolean;
     @Input()
-    get required(){
+    get required() {
         return this._required;
     }
 
-    set required(value: boolean){
-        this._required = value;
+    set required(value: any) {
+        this._required = value === '' || value;
         this.validatorOnChange();
     }
 
@@ -283,7 +285,7 @@ export class OwlDateTimeInputDirective<T>
         return this.lastValueValid
             ? null
             : { owlDateTimeParse: { text: this.elmRef.nativeElement.value } };
-    };
+    }
 
     /** The form control validator for the min date. */
     private minValidator: ValidatorFn = (
@@ -317,7 +319,7 @@ export class OwlDateTimeInputDirective<T>
                       }
                   };
         }
-    };
+    }
 
     /** The form control validator for the max date. */
     private maxValidator: ValidatorFn = (
@@ -351,7 +353,7 @@ export class OwlDateTimeInputDirective<T>
                       }
                   };
         }
-    };
+    }
 
     /** The form control validator for the date filter. */
     private filterValidator: ValidatorFn = (
@@ -365,7 +367,7 @@ export class OwlDateTimeInputDirective<T>
             this._dateTimeFilter(controlValue)
             ? null
             : { owlDateTimeFilter: true };
-    };
+    }
 
     /**
      * The form control validator for the range.
@@ -390,7 +392,7 @@ export class OwlDateTimeInputDirective<T>
             this.dateTimeAdapter.compare(controlValueFrom, controlValueTo) <= 0
             ? null
             : { owlDateTimeRange: true };
-    };
+    }
 
     /**
      * The form control validator for the range when required.
@@ -414,7 +416,7 @@ export class OwlDateTimeInputDirective<T>
             !controlValueTo
             ? { owlRequiredDateTimeRange: [controlValueFrom, controlValueTo] }
             : null;
-    };
+    }
 
     /** The combined form control validator for this input. */
     private validator: ValidatorFn | null = Validators.compose([
