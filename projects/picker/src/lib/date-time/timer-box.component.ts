@@ -82,7 +82,7 @@ export class OwlTimerBoxComponent implements OnInit, OnDestroy {
 
     public ngOnInit() {
         this.inputStreamSub = this.inputStream.pipe(
-            debounceTime(1),
+            debounceTime(500),
             distinctUntilChanged()
         ).subscribe(( val: string ) => {
             if (val) {
@@ -106,8 +106,15 @@ export class OwlTimerBoxComponent implements OnInit, OnDestroy {
         this.updateValue(this.value - this.step);
     }
 
-    public handleInputChange( val: string ): void {
+    public handleInputChange(val: string ): void {
         this.inputStream.next(val);
+    }
+
+    public focusOut(value: string): void {
+        if (value) {
+            const inputValue = coerceNumberProperty(value, 0);
+            this.updateValueViaInput(inputValue);
+        }
     }
 
     private updateValue( value: number ): void {
