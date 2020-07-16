@@ -22,7 +22,9 @@
            [value]="displayValue | numberFixedLen : 2"
            (keydown.arrowup)="!upBtnDisabled && upBtnClicked()"
            (keydown.arrowdown)="!downBtnDisabled && downBtnClicked()"
-           (input)="handleInputChange(valueInput.value)" #valueInput>
+           (input)="handleInputChange(valueInput.value)" 
+           (focusout)="focusOut(valueInput.value)"
+           #valueInput>
     <span class="owl-hidden-accessible">{{inputLabel}}</span>
 </label>
 <button class="owl-dt-control-button owl-dt-control-arrow-button"
