@@ -10,7 +10,7 @@
             "prefix": "owl",
             "schematics": {
                 "@schematics/angular:component": {
-                    "styleext": "sass"
+                    "style": "sass"
                 }
             },
             "architect": {
