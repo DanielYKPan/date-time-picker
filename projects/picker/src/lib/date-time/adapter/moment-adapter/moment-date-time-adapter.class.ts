@@ -55,6 +55,10 @@ export class MomentDateTimeAdapter extends DateTimeAdapter<Moment> {
         narrowDaysOfWeek: string[],
         dates: string[],
     };
+  
+    public getMoment() {
+        return moment; 
+    }
 
     constructor( @Optional() @Inject(OWL_DATE_TIME_LOCALE) private owlDateTimeLocale: string,
                  @Optional() @Inject(OWL_MOMENT_DATE_TIME_ADAPTER_OPTIONS) private options?: OwlMomentDateTimeAdapterOptions ) {
