@@ -9,7 +9,7 @@ import {
     Input,
     OnDestroy,
     OnInit,
-    Output
+    Output,
 } from '@angular/core';
 import { coerceNumberProperty } from '@angular/cdk/coercion';
 import { Subject, Subscription } from 'rxjs';
@@ -23,11 +23,13 @@ import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
     preserveWhitespaces: false,
     changeDetection: ChangeDetectionStrategy.OnPush,
     host: {
-        '[class.owl-dt-timer-box]': 'owlDTTimerBoxClass'
-    }
+        '[class.owl-dt-timer-box]': 'owlDTTimerBoxClass',
+    },
 })
-
 export class OwlTimerBoxComponent implements OnInit, OnDestroy {
+    inputField: string = '';
+
+    @Input() maxNumber: number = 60;
 
     @Input() showDivider = false;
 
@@ -71,19 +73,17 @@ export class OwlTimerBoxComponent implements OnInit, OnDestroy {
         return true;
     }
 
-    constructor() {
-    }
+    constructor() {}
 
     public ngOnInit() {
-        this.inputStreamSub = this.inputStream.pipe(
-            debounceTime(500),
-            distinctUntilChanged()
-        ).subscribe(( val: string ) => {
-            if (val) {
-                const inputValue = coerceNumberProperty(val, 0);
-                this.updateValueViaInput(inputValue);
-            }
-        })
+        this.inputStreamSub = this.inputStream
+            .pipe(debounceTime(500), distinctUntilChanged())
+            .subscribe((val: string) => {
+                if (val) {
+                    const inputValue = coerceNumberProperty(val, 0);
+                    this.updateValueViaInput(inputValue);
+                }
+            });
     }
 
     public ngOnDestroy(): void {
@@ -98,15 +98,15 @@ export class OwlTimerBoxComponent implements OnInit, OnDestroy {
         this.updateValue(this.value - this.step);
     }
 
-    public handleInputChange( val: string ): void {
+    public handleInputChange(val: string): void {
         this.inputStream.next(val);
     }
 
-    private updateValue( value: number ): void {
+    private updateValue(value: number): void {
         this.valueChange.emit(value);
     }
 
-    private updateValueViaInput( value: number ): void {
+    private updateValueViaInput(value: number): void {
         if (value > this.max || value < this.min) {
             return;
         }
