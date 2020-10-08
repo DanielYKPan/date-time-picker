@@ -91,6 +91,7 @@ There are two pre-made modules, users need to import one of them or build your o
 
 - `OwlNativeDateTimeModule` - support for native JavaScript Date object
 - `OwlMomentDateTimeModule` - support for MomentJs
+- `OwlUnixTimestampDateTimeModule` - support for milliseconds since Epoch (number)
 
 Properties for `owl-date-time`
 -------
