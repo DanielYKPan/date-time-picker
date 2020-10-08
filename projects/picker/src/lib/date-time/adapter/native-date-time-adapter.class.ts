@@ -8,60 +8,14 @@ import {
     DateTimeAdapter,
     OWL_DATE_TIME_LOCALE
 } from './date-time-adapter.class';
-
-/** The default month names to use if Intl API is not available. */
-const DEFAULT_MONTH_NAMES = {
-    long: [
-        'January',
-        'February',
-        'March',
-        'April',
-        'May',
-        'June',
-        'July',
-        'August',
-        'September',
-        'October',
-        'November',
-        'December'
-    ],
-    short: [
-        'Jan',
-        'Feb',
-        'Mar',
-        'Apr',
-        'May',
-        'Jun',
-        'Jul',
-        'Aug',
-        'Sep',
-        'Oct',
-        'Nov',
-        'Dec'
-    ],
-    narrow: ['J', 'F', 'M', 'A', 'M', 'J', 'J', 'A', 'S', 'O', 'N', 'D']
-};
-
-/** The default day of the week names to use if Intl API is not available. */
-const DEFAULT_DAY_OF_WEEK_NAMES = {
-    long: [
-        'Sunday',
-        'Monday',
-        'Tuesday',
-        'Wednesday',
-        'Thursday',
-        'Friday',
-        'Saturday'
-    ],
-    short: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
-    narrow: ['S', 'M', 'T', 'W', 'T', 'F', 'S']
-};
-
-/** The default date names to use if Intl API is not available. */
-const DEFAULT_DATE_NAMES = range(31, i => String(i + 1));
-
-/** Whether the browser supports the Intl API. */
-const SUPPORTS_INTL_API = typeof Intl !== 'undefined';
+import { range } from '../../utils/array.utils';
+import { createDate, getNumDaysInMonth } from '../../utils/date.utils';
+import {
+    DEFAULT_DATE_NAMES,
+    DEFAULT_DAY_OF_WEEK_NAMES,
+    DEFAULT_MONTH_NAMES,
+    SUPPORTS_INTL_API
+} from '../../utils/constants';
 
 /**
  * Matches strings that have the form of a valid RFC 3339 string
@@ -69,15 +23,6 @@ const SUPPORTS_INTL_API = typeof Intl !== 'undefined';
  * because the regex will match strings an with out of bounds month, date, etc.
  */
 const ISO_8601_REGEX = /^\d{4}-\d{2}-\d{2}(?:T\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:Z|(?:[+\-]\d{2}:\d{2}))?)?$/;
-
-/** Creates an array and fills it with values. */
-function range<T>(length: number, valueFunction: (index: number) => T): T[] {
-    const valuesArray = Array(length);
-    for (let i = 0; i < length; i++) {
-        valuesArray[i] = valueFunction(i);
-    }
-    return valuesArray;
-}
 
 @Injectable()
 export class NativeDateTimeAdapter extends DateTimeAdapter<Date> {
@@ -139,13 +84,7 @@ export class NativeDateTimeAdapter extends DateTimeAdapter<Date> {
     }
 
     public getNumDaysInMonth(date: Date): number {
-        const lastDateOfMonth = this.createDateWithOverflow(
-            this.getYear(date),
-            this.getMonth(date) + 1,
-            0
-        );
-
-        return this.getDate(lastDateOfMonth);
+        return getNumDaysInMonth(date);
     }
 
     public differenceInCalendarDays(dateLeft: Date, dateRight: Date): number {
@@ -325,54 +264,7 @@ export class NativeDateTimeAdapter extends DateTimeAdapter<Date> {
         minutes: number = 0,
         seconds: number = 0
     ): Date {
-        if (month < 0 || month > 11) {
-            throw Error(
-                `Invalid month index "${month}". Month index has to be between 0 and 11.`
-            );
-        }
-
-        if (date < 1) {
-            throw Error(
-                `Invalid date "${date}". Date has to be greater than 0.`
-            );
-        }
-
-        if (hours < 0 || hours > 23) {
-            throw Error(
-                `Invalid hours "${hours}". Hours has to be between 0 and 23.`
-            );
-        }
-
-        if (minutes < 0 || minutes > 59) {
-            throw Error(
-                `Invalid minutes "${minutes}". Minutes has to between 0 and 59.`
-            );
-        }
-
-        if (seconds < 0 || seconds > 59) {
-            throw Error(
-                `Invalid seconds "${seconds}". Seconds has to be between 0 and 59.`
-            );
-        }
-
-        const result = this.createDateWithOverflow(
-            year,
-            month,
-            date,
-            hours,
-            minutes,
-            seconds
-        );
-
-        // Check that the date wasn't above the upper bound for the month, causing the month to overflow
-        // For example, createDate(2017, 1, 31) would try to create a date 2017/02/31 which is invalid
-        if (result.getMonth() !== month) {
-            throw Error(
-                `Invalid date "${date}" for month with index "${month}".`
-            );
-        }
-
-        return result;
+        return createDate(year, month, date, hours, minutes, seconds);
     }
 
     public clone(date: Date): Date {
@@ -442,25 +334,6 @@ export class NativeDateTimeAdapter extends DateTimeAdapter<Date> {
             }
         }
         return super.deserialize(value);
-    }
-
-    /**
-     * Creates a date but allows the month and date to overflow.
-     */
-    private createDateWithOverflow(
-        year: number,
-        month: number,
-        date: number,
-        hours: number = 0,
-        minutes: number = 0,
-        seconds: number = 0
-    ): Date {
-        const result = new Date(year, month, date, hours, minutes, seconds);
-
-        if (year >= 0 && year < 100) {
-            result.setFullYear(this.getYear(result) - 1900);
-        }
-        return result;
     }
 
     /**
