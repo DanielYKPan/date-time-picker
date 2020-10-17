@@ -207,7 +207,7 @@ export class MomentDateTimeAdapter extends DateTimeAdapter<Moment> {
   }
 
   now(): Moment {
-    return this._createMoment().locale(this.locale);
+    return this._createMoment(moment()).locale(this.locale);
   }
 
   parse(value: any, parseFormat: string | string[]): Moment | null {
