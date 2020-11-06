@@ -15,7 +15,7 @@ import {
 } from '@angular/core';
 import { coerceNumberProperty } from '@angular/cdk/coercion';
 import { Subject, Subscription } from 'rxjs';
-import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { debounceTime } from 'rxjs/operators';
 
 @Component({
     exportAs: 'owlDateTimeTimerBox',
@@ -82,8 +82,7 @@ export class OwlTimerBoxComponent implements OnInit, OnDestroy {
 
     public ngOnInit() {
         this.inputStreamSub = this.inputStream.pipe(
-            debounceTime(500),
-            distinctUntilChanged()
+            debounceTime(500)
         ).subscribe(( val: string ) => {
             if (val) {
                 const inputValue = coerceNumberProperty(val, 0);
@@ -92,7 +91,7 @@ export class OwlTimerBoxComponent implements OnInit, OnDestroy {
         });
         this.bindValueInputMouseWheel();
     }
-
+        
     public ngOnDestroy(): void {
         this.unbindValueInputMouseWheel();
         this.inputStreamSub.unsubscribe();
