@@ -7,7 +7,6 @@ import {
     ChangeDetectionStrategy, ChangeDetectorRef,
     Component,
     EventEmitter,
-    Inject,
     Input,
     OnInit,
     Optional,
@@ -29,7 +28,9 @@ import {
     UP_ARROW
 } from '@angular/cdk/keycodes';
 import { OwlDateTimeIntl } from './date-time-picker-intl.service';
-import { OptionsTokens, Options } from './options-provider';
+
+export const YEARS_PER_ROW = 3;
+export const YEAR_ROWS = 7;
 
 @Component({
     selector: 'owl-date-time-multi-year-view',
@@ -184,13 +185,13 @@ export class OwlMultiYearViewComponent<T> implements OnInit, AfterContentInit {
 
     get activeCell(): number {
         if (this._pickerMoment) {
-            return this.dateTimeAdapter.getYear(this._pickerMoment) % (this.options.yearsPerRow * this.options.yearRows);
+            return this.dateTimeAdapter.getYear(this._pickerMoment) % (YEARS_PER_ROW * YEAR_ROWS);
         }
     }
 
     get tableHeader(): string {
         if (this._years && this._years.length > 0) {
-            return `${this._years[0][0].displayValue} - ${this._years[this.options.yearRows - 1][this.options.yearsPerRow - 1].displayValue}`;
+            return `${this._years[0][0].displayValue} - ${this._years[YEAR_ROWS - 1][YEARS_PER_ROW - 1].displayValue}`;
         }
     }
 
@@ -231,8 +232,7 @@ export class OwlMultiYearViewComponent<T> implements OnInit, AfterContentInit {
 
     constructor( private cdRef: ChangeDetectorRef,
                  private pickerIntl: OwlDateTimeIntl,
-                 @Optional() private dateTimeAdapter: DateTimeAdapter<T>,
-                 @Inject(OptionsTokens.multiYear) private options: Options['multiYear'] ) {
+                 @Optional() private dateTimeAdapter: DateTimeAdapter<T> ) {
     }
 
     public ngOnInit() {
@@ -275,7 +275,7 @@ export class OwlMultiYearViewComponent<T> implements OnInit, AfterContentInit {
      * Generate the previous year list
      * */
     public prevYearList( event: any ): void {
-        this._pickerMoment = this.dateTimeAdapter.addCalendarYears(this.pickerMoment, -1 * this.options.yearRows * this.options.yearsPerRow);
+        this._pickerMoment = this.dateTimeAdapter.addCalendarYears(this.pickerMoment, -1 * YEAR_ROWS * YEARS_PER_ROW);
         this.generateYearList();
         event.preventDefault();
     }
@@ -284,7 +284,7 @@ export class OwlMultiYearViewComponent<T> implements OnInit, AfterContentInit {
      * Generate the next year list
      * */
     public nextYearList( event: any ): void {
-        this._pickerMoment = this.dateTimeAdapter.addCalendarYears(this.pickerMoment, this.options.yearRows * this.options.yearsPerRow);
+        this._pickerMoment = this.dateTimeAdapter.addCalendarYears(this.pickerMoment, YEAR_ROWS * YEARS_PER_ROW);
         this.generateYearList();
         event.preventDefault();
     }
@@ -293,13 +293,13 @@ export class OwlMultiYearViewComponent<T> implements OnInit, AfterContentInit {
         this._years = [];
 
         const pickerMomentYear = this.dateTimeAdapter.getYear(this._pickerMoment);
-        const offset = pickerMomentYear % (this.options.yearsPerRow * this.options.yearRows);
+        const offset = pickerMomentYear % (YEARS_PER_ROW * YEAR_ROWS);
 
-        for (let i = 0; i < this.options.yearRows; i++) {
+        for (let i = 0; i < YEAR_ROWS; i++) {
             const row = [];
 
-            for (let j = 0; j < this.options.yearsPerRow; j++) {
-                const year = pickerMomentYear - offset + (j + i * this.options.yearsPerRow);
+            for (let j = 0; j < YEARS_PER_ROW; j++) {
+                const year = pickerMomentYear - offset + (j + i * YEARS_PER_ROW);
                 const yearCell = this.createYearCell(year);
                 row.push(yearCell);
             }
@@ -341,40 +341,39 @@ export class OwlMultiYearViewComponent<T> implements OnInit, AfterContentInit {
 
             // minus 3 years
             case UP_ARROW:
-                moment = this.dateTimeAdapter.addCalendarYears(this._pickerMoment, -1 * this.options.yearsPerRow);
+                moment = this.dateTimeAdapter.addCalendarYears(this._pickerMoment, -1 * YEARS_PER_ROW);
                 this.pickerMomentChange.emit(moment);
                 break;
 
             // add 3 years
             case DOWN_ARROW:
-                moment = this.dateTimeAdapter.addCalendarYears(this._pickerMoment, this.options.yearsPerRow);
+                moment = this.dateTimeAdapter.addCalendarYears(this._pickerMoment, YEARS_PER_ROW);
                 this.pickerMomentChange.emit(moment);
                 break;
 
             // go to the first year of the year page
             case HOME:
                 moment = this.dateTimeAdapter.addCalendarYears(this._pickerMoment,
-                    -this.dateTimeAdapter.getYear(this._pickerMoment) % (this.options.yearsPerRow * this.options.yearRows));
+                    -this.dateTimeAdapter.getYear(this._pickerMoment) % (YEARS_PER_ROW * YEAR_ROWS));
                 this.pickerMomentChange.emit(moment);
                 break;
 
             // go to the last year of the year page
             case END:
                 moment = this.dateTimeAdapter.addCalendarYears(this._pickerMoment,
-                    (this.options.yearsPerRow * this.options.yearRows)
-                    - this.dateTimeAdapter.getYear(this._pickerMoment) % (this.options.yearsPerRow * this.options.yearRows) - 1);
+                    (YEARS_PER_ROW * YEAR_ROWS) - this.dateTimeAdapter.getYear(this._pickerMoment) % (YEARS_PER_ROW * YEAR_ROWS) - 1);
                 this.pickerMomentChange.emit(moment);
                 break;
 
             // minus 1 year page (or 10 year pages)
             case PAGE_UP:
-                moment = this.dateTimeAdapter.addCalendarYears(this.pickerMoment, event.altKey ? -10 * (this.options.yearsPerRow * this.options.yearRows) : -1 * (this.options.yearsPerRow * this.options.yearRows));
+                moment = this.dateTimeAdapter.addCalendarYears(this.pickerMoment, event.altKey ? -10 * (YEARS_PER_ROW * YEAR_ROWS) : -1 * (YEARS_PER_ROW * YEAR_ROWS));
                 this.pickerMomentChange.emit(moment);
                 break;
 
             // add 1 year page (or 10 year pages)
             case PAGE_DOWN:
-                moment = this.dateTimeAdapter.addCalendarYears(this.pickerMoment, event.altKey ? 10 * (this.options.yearsPerRow * this.options.yearRows) : (this.options.yearsPerRow * this.options.yearRows));
+                moment = this.dateTimeAdapter.addCalendarYears(this.pickerMoment, event.altKey ? 10 * (YEARS_PER_ROW * YEAR_ROWS) : (YEARS_PER_ROW * YEAR_ROWS));
                 this.pickerMomentChange.emit(moment);
                 break;
 
@@ -448,8 +447,8 @@ export class OwlMultiYearViewComponent<T> implements OnInit, AfterContentInit {
     }
 
     private isSameYearList( date1: T, date2: T ): boolean {
-        return Math.floor(this.dateTimeAdapter.getYear(date1) / (this.options.yearsPerRow * this.options.yearRows)) ===
-            Math.floor(this.dateTimeAdapter.getYear(date2) / (this.options.yearsPerRow * this.options.yearRows));
+        return Math.floor(this.dateTimeAdapter.getYear(date1) / (YEARS_PER_ROW * YEAR_ROWS)) ===
+            Math.floor(this.dateTimeAdapter.getYear(date2) / (YEARS_PER_ROW * YEAR_ROWS));
     }
 
     /**

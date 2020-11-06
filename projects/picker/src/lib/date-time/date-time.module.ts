@@ -21,7 +21,6 @@ import { NumberFixedLenPipe } from './numberedfixlen.pipe';
 import { OwlCalendarComponent } from './calendar.component';
 import { OwlDateTimeInlineComponent } from './date-time-inline.component';
 import { OwlDialogModule } from '../dialog/dialog.module';
-import { optionsProviders } from './options-provider';
 
 @NgModule({
     imports: [CommonModule, OverlayModule, OwlDialogModule, A11yModule],
@@ -54,7 +53,6 @@ import { optionsProviders } from './options-provider';
     providers: [
         OwlDateTimeIntl,
         OWL_DTPICKER_SCROLL_STRATEGY_PROVIDER,
-        ...optionsProviders
     ],
     entryComponents: [
         OwlDateTimeContainerComponent,
