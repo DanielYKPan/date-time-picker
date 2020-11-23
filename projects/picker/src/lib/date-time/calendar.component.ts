@@ -20,10 +20,7 @@ import {
 } from '@angular/core';
 import {OwlDateTimeIntl} from './date-time-picker-intl.service';
 import {DateTimeAdapter} from './adapter/date-time-adapter.class';
-import {
-    OWL_DATE_TIME_FORMATS,
-    OwlDateTimeFormats
-} from './adapter/date-time-format.class';
+import {OWL_DATE_TIME_FORMATS, OwlDateTimeFormats} from './adapter/date-time-format.class';
 import {DateView, DateViewType, SelectMode} from './date-time.class';
 import {take} from 'rxjs/operators';
 import {Subscription} from 'rxjs';
@@ -235,6 +232,12 @@ export class OwlCalendarComponent<T>
     startView: DateViewType = DateView.MONTH;
 
     /**
+     * The view that the calendar should start in.
+     */
+    @Input()
+    yearOnly = false;
+
+    /**
      * Whether to hide dates in other months at the start or end of the current month.
      * */
     @Input()
@@ -311,8 +314,17 @@ export class OwlCalendarComponent<T>
      * Toggle between month view and year view
      */
     public toggleViews(): void {
-        this.currentView =
-            this._currentView === DateView.MONTH ? DateView.MULTI_YEARS : DateView.MONTH;
+        let nextView = null;
+        if (this._currentView === DateView.MONTH) {
+            nextView = DateView.MULTI_YEARS;
+        } else {
+            if (this.yearOnly) {
+                nextView = this._currentView === DateView.YEAR ? DateView.MULTI_YEARS : DateView.YEAR;
+            } else {
+                nextView = DateView.MONTH;
+            }
+        }
+        this.currentView = nextView;
     }
 
     /**
@@ -358,7 +370,9 @@ export class OwlCalendarComponent<T>
         view: DateViewType
     ): void {
         this.handlePickerMomentChange(date);
-        this.currentView = view;
+        if (!this.yearOnly || this.yearOnly && view !== DateView.MONTH) {
+            this.currentView = view;
+        }
         return;
     }
 

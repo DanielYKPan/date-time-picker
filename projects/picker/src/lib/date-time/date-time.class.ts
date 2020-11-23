@@ -63,6 +63,12 @@ export abstract class OwlDateTime<T> {
     startView: DateViewType = DateView.MONTH;
 
     /**
+     * The view that the calendar should start in.
+     */
+    @Input()
+    yearOnly = false;
+
+    /**
      * Hours to change per step
      */
     private _stepHour = 1;
