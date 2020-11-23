@@ -63,7 +63,7 @@
 </div>
 <div class="owl-dt-calendar-main" cdkMonitorSubtreeFocus [ngSwitch]="currentView" tabindex="-1">
     <owl-date-time-month-view
-            *ngSwitchCase="'month'"
+            *ngSwitchCase="DateView.MONTH"
             [pickerMoment]="pickerMoment"
             [firstDayOfWeek]="firstDayOfWeek"
             [selected]="selected"
@@ -78,7 +78,7 @@
             (userSelection)="userSelected()"></owl-date-time-month-view>
 
     <owl-date-time-year-view
-            *ngSwitchCase="'year'"
+            *ngSwitchCase="DateView.YEAR"
             [pickerMoment]="pickerMoment"
             [selected]="selected"
             [selecteds]="selecteds"
@@ -89,10 +89,10 @@
             (keyboardEnter)="focusActiveCell()"
             (pickerMomentChange)="handlePickerMomentChange($event)"
             (monthSelected)="selectMonthInYearView($event)"
-            (change)="goToDateInView($event, 'month')"></owl-date-time-year-view>
+            (change)="goToDateInView($event, DateView.MONTH)"></owl-date-time-year-view>
 
     <owl-date-time-multi-year-view
-            *ngSwitchCase="'multi-years'"
+            *ngSwitchCase="DateView.MULTI_YEARS"
             [pickerMoment]="pickerMoment"
             [selected]="selected"
             [selecteds]="selecteds"
@@ -103,5 +103,5 @@
             (keyboardEnter)="focusActiveCell()"
             (pickerMomentChange)="handlePickerMomentChange($event)"
             (yearSelected)="selectYearInMultiYearView($event)"
-            (change)="goToDateInView($event, 'year')"></owl-date-time-multi-year-view>
+            (change)="goToDateInView($event, DateView.YEAR)"></owl-date-time-multi-year-view>
 </div>

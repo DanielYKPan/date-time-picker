@@ -20,6 +20,14 @@ export type PickerMode = 'popup' | 'dialog' | 'inline';
 
 export type SelectMode = 'single' | 'range' | 'rangeFrom' | 'rangeTo';
 
+export enum DateView {
+    MONTH = 'month',
+    YEAR = 'year',
+    MULTI_YEARS = 'multi-years'
+}
+
+export type DateViewType =  DateView.MONTH | DateView.YEAR | DateView.MULTI_YEARS;
+
 @Directive()
 export abstract class OwlDateTime<T> {
     /**
@@ -52,7 +60,7 @@ export abstract class OwlDateTime<T> {
      * The view that the calendar should start in.
      */
     @Input()
-    startView: 'month' | 'year' | 'multi-years' = 'month';
+    startView: DateViewType = DateView.MONTH;
 
     /**
      * Hours to change per step
