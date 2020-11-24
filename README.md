@@ -101,6 +101,7 @@ Properties for `owl-date-time`
 |`pickerMode`|`popup`, `dialog`|Optional|`popup`| The style the picker would open as. |
 |`startView`|`month`, `year`, `multi-year`|Optional|`month`| The view that the calendar should start in. |
 |`yearOnly`|boolean|Optional|`false`| Restricts the calendar to only show the year and multi-year views for month selection. |
+|`multiyearOnly`|boolean|Optional|`false`| Restricts the calendar to only show the multi-year view for year selection. |
 |`startAt`| T/null |Optional|`null`| The moment to open the picker to initially. |
 |`endAt`| T/null |Optional|`null`| The the default selected time for range calendar end time | 
 |`firstDayOfWeek`|number|Optional|`0`| Set the first day of week. Valid value is from 0 to 6. 0: Sunday - 6: Saturday|

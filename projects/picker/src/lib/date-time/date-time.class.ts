@@ -1,12 +1,12 @@
 /**
  * date-time.class
  */
-import { EventEmitter, Inject, Input, Optional, Directive } from '@angular/core';
+import {EventEmitter, Inject, Input, Optional, Directive} from '@angular/core';
 import {
     coerceBooleanProperty,
     coerceNumberProperty
 } from '@angular/cdk/coercion';
-import { DateTimeAdapter } from './adapter/date-time-adapter.class';
+import {DateTimeAdapter} from './adapter/date-time-adapter.class';
 import {
     OWL_DATE_TIME_FORMATS,
     OwlDateTimeFormats
@@ -26,7 +26,7 @@ export enum DateView {
     MULTI_YEARS = 'multi-years'
 }
 
-export type DateViewType =  DateView.MONTH | DateView.YEAR | DateView.MULTI_YEARS;
+export type DateViewType = DateView.MONTH | DateView.YEAR | DateView.MULTI_YEARS;
 
 @Directive()
 export abstract class OwlDateTime<T> {
@@ -62,11 +62,18 @@ export abstract class OwlDateTime<T> {
     @Input()
     startView: DateViewType = DateView.MONTH;
 
+
     /**
-     * The view that the calendar should start in.
+     * Whether to should only the year and multi-year views.
      */
     @Input()
     yearOnly = false;
+
+    /**
+     * Whether to should only the multi-year view.
+     */
+    @Input()
+    multiyearOnly = false;
 
     /**
      * Hours to change per step
@@ -196,7 +203,7 @@ export abstract class OwlDateTime<T> {
             (!this.dateTimeFilter || this.dateTimeFilter(dateTime)) &&
             (!this.minDateTime ||
                 this.dateTimeAdapter.compare(dateTime, this.minDateTime) >=
-                    0) &&
+                0) &&
             (!this.maxDateTime ||
                 this.dateTimeAdapter.compare(dateTime, this.maxDateTime) <= 0)
         );
@@ -215,16 +222,16 @@ export abstract class OwlDateTime<T> {
         if (!this.dateTimeAdapter) {
             throw Error(
                 `OwlDateTimePicker: No provider found for DateTimeAdapter. You must import one of the following ` +
-                    `modules at your application root: OwlNativeDateTimeModule, OwlMomentDateTimeModule, or provide a ` +
-                    `custom implementation.`
+                `modules at your application root: OwlNativeDateTimeModule, OwlMomentDateTimeModule, or provide a ` +
+                `custom implementation.`
             );
         }
 
         if (!this.dateTimeFormats) {
             throw Error(
                 `OwlDateTimePicker: No provider found for OWL_DATE_TIME_FORMATS. You must import one of the following ` +
-                    `modules at your application root: OwlNativeDateTimeModule, OwlMomentDateTimeModule, or provide a ` +
-                    `custom implementation.`
+                `modules at your application root: OwlNativeDateTimeModule, OwlMomentDateTimeModule, or provide a ` +
+                `custom implementation.`
             );
         }
 
@@ -233,7 +240,7 @@ export abstract class OwlDateTime<T> {
 
     protected getValidDate(obj: any): T | null {
         return this.dateTimeAdapter.isDateInstance(obj) &&
-            this.dateTimeAdapter.isValid(obj)
+        this.dateTimeAdapter.isValid(obj)
             ? obj
             : null;
     }

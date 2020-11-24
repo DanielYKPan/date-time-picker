@@ -232,10 +232,16 @@ export class OwlCalendarComponent<T>
     startView: DateViewType = DateView.MONTH;
 
     /**
-     * The view that the calendar should start in.
+     * Whether to should only the year and multi-year views.
      */
     @Input()
     yearOnly = false;
+
+    /**
+     * Whether to should only the multi-year view.
+     */
+    @Input()
+    multiyearOnly = false;
 
     /**
      * Whether to hide dates in other months at the start or end of the current month.
@@ -318,7 +324,9 @@ export class OwlCalendarComponent<T>
         if (this._currentView === DateView.MONTH) {
             nextView = DateView.MULTI_YEARS;
         } else {
-            if (this.yearOnly) {
+            if (this.multiyearOnly) {
+                nextView = DateView.MULTI_YEARS;
+            } else if (this.yearOnly) {
                 nextView = this._currentView === DateView.YEAR ? DateView.MULTI_YEARS : DateView.YEAR;
             } else {
                 nextView = DateView.MONTH;
@@ -370,7 +378,9 @@ export class OwlCalendarComponent<T>
         view: DateViewType
     ): void {
         this.handlePickerMomentChange(date);
-        if (!this.yearOnly || this.yearOnly && view !== DateView.MONTH) {
+        if ((!this.yearOnly && !this.multiyearOnly) ||
+            (this.multiyearOnly && (view !== DateView.MONTH && view !== DateView.YEAR)) ||
+            (this.yearOnly && view !== DateView.MONTH)) {
             this.currentView = view;
         }
         return;
