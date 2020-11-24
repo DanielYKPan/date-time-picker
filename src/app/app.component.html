@@ -3,4 +3,4 @@
        [owlDateTimeTrigger]="date_range_component" [owlDateTime]="date_range_component"
        style="width: 100%; color: cornflowerblue"
        id="daterange" matInput required>
-<owl-date-time #date_range_component [startAt]="currentValue" [endAt]="endValue"></owl-date-time>
+<owl-date-time #date_range_component [startAt]="currentValue" startView="year" [yearOnly]="true" [endAt]="endValue"></owl-date-time>
