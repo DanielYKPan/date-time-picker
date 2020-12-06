@@ -39,6 +39,7 @@
     (keydown.arrowUp)="!upBtnDisabled && upBtnClicked()"
     (keydown.arrowDown)="!downBtnAriaLabel && downBtnClicked()"
     (input)="handleInputChange(valueInput.value)"
+    (focusout)="focusOut(valueInput.value)"
     #valueInput
   />
   <span class="owl-hidden-accessible">{{ inputLabel }}</span>

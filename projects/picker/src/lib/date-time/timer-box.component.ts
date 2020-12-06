@@ -9,7 +9,7 @@ import {
 } from '@angular/core';
 import { coerceNumberProperty } from '@angular/cdk/coercion';
 import { Subject, Subscription } from 'rxjs';
-import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { debounceTime } from 'rxjs/operators';
 
 @Component({
   exportAs: 'owlDateTimeTimerBox',
@@ -67,14 +67,12 @@ export class OwlTimerBoxComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit() {
-    this.inputStreamSub = this.inputStream
-      .pipe(debounceTime(500), distinctUntilChanged())
-      .subscribe((val: string) => {
-        if (val) {
-          const inputValue = coerceNumberProperty(val, 0);
-          this.updateValueViaInput(inputValue);
-        }
-      });
+    this.inputStreamSub = this.inputStream.pipe(debounceTime(500)).subscribe((val: string) => {
+      if (val) {
+        const inputValue = coerceNumberProperty(val, 0);
+        this.updateValueViaInput(inputValue);
+      }
+    });
   }
 
   public ngOnDestroy(): void {
@@ -99,6 +97,13 @@ export class OwlTimerBoxComponent implements OnInit, OnDestroy {
 
   public handleInputChange(value: string): void {
     this.inputStream.next(value);
+  }
+
+  public focusOut(value: string): void {
+    if (value) {
+      const inputValue = coerceNumberProperty(value, 0);
+      this.updateValueViaInput(inputValue);
+    }
   }
 
   public handleWheelChange(event: WheelEvent) {
