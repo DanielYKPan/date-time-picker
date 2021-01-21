@@ -1,6 +1,6 @@
 {
   "name": "ng-date-and-time-picker",
-  "version": "10.1.1",
+  "version": "11.0.0",
   "description": "Angular Date Time Picker",
   "keywords": [
     "Angular",
@@ -16,16 +16,16 @@
     "url": "https://github.com/DanielYKPan/date-time-picker.git"
   },
   "peerDependencies": {
-    "@angular/common": "^10.0.0",
-    "@angular/core": "^10.0.0",
-    "@angular/cdk": "^10.0.0",
-    "rxjs": "^6.5.4",
-    "moment": "^2.24.0"
+    "@angular/common": "^11.1.0",
+    "@angular/core": "^11.1.0",
+    "@angular/cdk": "^11.1.0",
+    "rxjs": "^6.6.0",
+    "moment": "^2.29.1"
   },
   "dependencies": {
     "tslib": "^2.0.0"
   },
   "optionalDependencies": {
-    "moment": "^2.24.0"
+    "moment": "^2.29.1"
   }
 }

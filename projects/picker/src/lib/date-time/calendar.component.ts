@@ -37,7 +37,7 @@ export class OwlCalendarComponent<T>
    * Date filter for the month and year view
    */
   @Input()
-  dateFilter: Function;
+  dateFilter: ((date: T) => boolean) | undefined;
 
   /**
    * Set the first day of week

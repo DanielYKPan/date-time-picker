@@ -1,5 +1,5 @@
 import { LOCALE_ID } from '@angular/core';
-import { async, inject, TestBed } from '@angular/core/testing';
+import { inject, TestBed, waitForAsync } from '@angular/core/testing';
 
 import * as moment from 'moment';
 import { MomentDateTimeModule } from './moment-date-time.module';
@@ -14,7 +14,7 @@ describe('MomentDateTimeAdapter', () => {
   let adapter: MomentDateTimeAdapter;
   let assertValidDate: (d: moment.Moment | null, valid: boolean) => void;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [MomentDateTimeModule]
     }).compileComponents();
@@ -522,7 +522,7 @@ describe('MomentDateTimeAdapter', () => {
 describe('MomentDateAdapter with MAT_DATE_LOCALE override', () => {
   let adapter: MomentDateTimeAdapter;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [MomentDateTimeModule],
       providers: [{ provide: OWL_DATE_TIME_LOCALE, useValue: 'ja-JP' }]
@@ -541,7 +541,7 @@ describe('MomentDateAdapter with MAT_DATE_LOCALE override', () => {
 describe('MomentDateAdapter with LOCALE_ID override', () => {
   let adapter: MomentDateTimeAdapter;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [MomentDateTimeModule],
       providers: [{ provide: LOCALE_ID, useValue: 'fr' }]
@@ -560,7 +560,7 @@ describe('MomentDateAdapter with LOCALE_ID override', () => {
 describe('MomentDateAdapter with MAT_MOMENT_DATE_ADAPTER_OPTIONS override', () => {
   let adapter: MomentDateTimeAdapter;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [MomentDateTimeModule],
       providers: [
@@ -595,7 +595,7 @@ describe('MomentDateAdapter with MAT_MOMENT_DATE_ADAPTER_OPTIONS override', () =
   });
 
   describe('strict mode', () => {
-    beforeEach(async(() => {
+    beforeEach(waitForAsync(() => {
       TestBed.resetTestingModule();
       TestBed.configureTestingModule({
         imports: [MomentDateTimeModule],

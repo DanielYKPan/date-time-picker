@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { OwlDateTimeIntl } from './date-time-picker-intl.service';
 import { OwlNativeDateTimeModule } from '../adapter/native';
 import { OwlDateTimeModule } from './date-time.module';
@@ -19,7 +19,7 @@ import {
 import { APR, DEC, FEB, JAN, JUL, JUN, MAR, NOV, OCT, SEP } from '../utils/month-constants';
 
 describe('OwlYearViewComponent', () => {
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [OwlNativeDateTimeModule, OwlDateTimeModule],
       declarations: [StandardYearViewComponent, YearViewWithDateFilterComponent],

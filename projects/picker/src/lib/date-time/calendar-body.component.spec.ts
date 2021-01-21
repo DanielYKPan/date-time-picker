@@ -1,10 +1,10 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { CalendarCell, OwlCalendarBodyComponent } from './calendar-body.component';
 import { Component } from '@angular/core';
 import { By } from '@angular/platform-browser';
 
 describe('OwlCalendarBodyComponent', () => {
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         OwlCalendarBodyComponent,

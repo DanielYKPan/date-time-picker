@@ -1,6 +1,6 @@
 import { Platform } from '@angular/cdk/platform';
 import { LOCALE_ID } from '@angular/core';
-import { async, inject, TestBed } from '@angular/core/testing';
+import { inject, TestBed, waitForAsync } from '@angular/core/testing';
 import { NativeDateTimeAdapter } from './native-date-time-adapter.class';
 import { NativeDateTimeModule } from './native-date-time.module';
 import { DateTimeAdapter, OWL_DATE_TIME_LOCALE } from '../date-time-adapter.class';
@@ -13,7 +13,7 @@ describe('NativeDateTimeAdapter', () => {
   let adapter: NativeDateTimeAdapter;
   let assertValidDate: (d: Date | null, valid: boolean) => void;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [NativeDateTimeModule]
     }).compileComponents();
@@ -571,7 +571,7 @@ describe('NativeDateTimeAdapter', () => {
 describe('NativeDateTimeAdapter with OWL_DATE_TIME_LOCALE override', () => {
   let adapter: NativeDateTimeAdapter;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [NativeDateTimeModule],
       providers: [{ provide: OWL_DATE_TIME_LOCALE, useValue: 'da-DK' }]
@@ -594,7 +594,7 @@ describe('NativeDateTimeAdapter with OWL_DATE_TIME_LOCALE override', () => {
 describe('NativeDateTimeAdapter with LOCALE_ID override', () => {
   let adapter: NativeDateTimeAdapter;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [NativeDateTimeModule],
       providers: [{ provide: LOCALE_ID, useValue: 'da-DK' }]

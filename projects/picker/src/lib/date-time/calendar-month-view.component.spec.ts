@@ -1,5 +1,5 @@
 import { OwlMonthViewComponent } from './calendar-month-view.component';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { OwlDateTimeIntl } from './date-time-picker-intl.service';
 import { OwlNativeDateTimeModule } from '../adapter/native';
 import { OwlDateTimeModule } from './date-time.module';
@@ -20,7 +20,7 @@ import {
 import { DEC, FEB, JAN, MAR, NOV } from '../utils/month-constants';
 
 describe('OwlMonthViewComponent', () => {
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [OwlNativeDateTimeModule, OwlDateTimeModule],
       declarations: [StandardMonthViewComponent, MonthViewWithDateFilterComponent],
