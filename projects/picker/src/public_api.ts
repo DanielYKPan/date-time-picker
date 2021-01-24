@@ -23,6 +23,12 @@ export {
 
 export { OWL_DATE_TIME_FORMATS, OwlDateTimeFormats } from './lib/date-time/adapter/date-time-format.class';
 
+export {
+  UnixTimestampDateTimeAdapter
+} from './lib/date-time/adapter/unix-timestamp-adapter/unix-timestamp-date-time-adapter.class';
+
+export { OWL_UNIX_TIMESTAMP_DATE_TIME_FORMATS } from './lib/date-time/adapter/unix-timestamp-adapter/unix-timestamp-date-time-format.class';
+
 export { OwlDateTimeInlineComponent } from './lib/date-time/date-time-inline.component';
 
 export { OwlDateTimeComponent } from './lib/date-time/date-time-picker.component';
