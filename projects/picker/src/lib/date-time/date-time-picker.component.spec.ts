@@ -35,6 +35,7 @@ import { By } from '@angular/platform-browser';
 import { OwlDateTimeContainerComponent } from './date-time-picker-container.component';
 import { OwlDateTimeTriggerDirective } from './date-time-picker-trigger.directive';
 import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/testing';
+import {DateView} from './date-time.class';
 
 const JAN = 0,
     FEB = 1,
@@ -679,7 +680,7 @@ describe('OwlDateTimeComponent', () => {
             it('clicking the dateCell should set the rangeFrom value when both rangeFrom and rangeTo had NO value', fakeAsync(() => {
                 testComponent.dates = [];
                 fixture.detectChanges();
-                
+
                 testComponent.dateTimePicker.open();
                 fixture.detectChanges();
                 flush();
@@ -815,7 +816,7 @@ describe('OwlDateTimeComponent', () => {
                 );
                 containerElement = containerDebugElement.nativeElement;
                 const timeCells = containerElement.querySelectorAll<HTMLInputElement>('.owl-dt-timer-input');
-                
+
                 expect(timeCells[0].value).toEqual('09');
                 expect(timeCells[1].value).toEqual('33');
             }));
@@ -842,7 +843,7 @@ describe('OwlDateTimeComponent', () => {
                 flush();
 
                 const timeCells = containerElement.querySelectorAll<HTMLInputElement>('.owl-dt-timer-input');
-                
+
                 expect(timeCells[0].value).toEqual('22');
                 expect(timeCells[1].value).toEqual('55');
             }));
@@ -851,7 +852,7 @@ describe('OwlDateTimeComponent', () => {
                 testComponent.dates = [new Date('1/19/2020, 09:33 AM'), new Date('1/22/2020, 10:44 PM')];
                 testComponent.dateTimePicker.open();
                 fixture.detectChanges();
-                
+
                 const containerDebugElement = fixture.debugElement.query(
                     By.directive(OwlDateTimeContainerComponent)
                 );
@@ -1083,7 +1084,7 @@ describe('OwlDateTimeComponent', () => {
 
             describe('set to year', () => {
                 beforeEach(() => {
-                    testComponent.startView = 'year';
+                    testComponent.startView = DateView.YEAR;
                     fixture.detectChanges();
                 });
 
@@ -1128,7 +1129,7 @@ describe('OwlDateTimeComponent', () => {
 
             describe('set to multi-years', () => {
                 beforeEach(() => {
-                    testComponent.startView = 'multi-years';
+                    testComponent.startView = DateView.MULTI_YEARS;
                     fixture.detectChanges();
                 });
 
@@ -2411,7 +2412,7 @@ class StandardDateTimePickerComponent {
 @Component({
     template: `
         <input [owlDateTime]="dt" [selectMode]="selectMode" [values]="dates">
-        <owl-date-time [startAt]="startAt" [endAt]="endAt" 
+        <owl-date-time [startAt]="startAt" [endAt]="endAt"
                        [pickerType]="pickerType" #dt></owl-date-time>
     `
 })

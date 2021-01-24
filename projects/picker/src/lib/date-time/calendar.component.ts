@@ -18,15 +18,12 @@ import {
     Optional,
     Output
 } from '@angular/core';
-import { OwlDateTimeIntl } from './date-time-picker-intl.service';
-import { DateTimeAdapter } from './adapter/date-time-adapter.class';
-import {
-    OWL_DATE_TIME_FORMATS,
-    OwlDateTimeFormats
-} from './adapter/date-time-format.class';
-import { SelectMode } from './date-time.class';
-import { take } from 'rxjs/operators';
-import { Subscription } from 'rxjs';
+import {OwlDateTimeIntl} from './date-time-picker-intl.service';
+import {DateTimeAdapter} from './adapter/date-time-adapter.class';
+import {OWL_DATE_TIME_FORMATS, OwlDateTimeFormats} from './adapter/date-time-format.class';
+import {DateView, DateViewType, SelectMode} from './date-time.class';
+import {take} from 'rxjs/operators';
+import {Subscription} from 'rxjs';
 
 @Component({
     selector: 'owl-date-time-calendar',
@@ -41,6 +38,9 @@ import { Subscription } from 'rxjs';
 })
 export class OwlCalendarComponent<T>
     implements OnInit, AfterContentInit, AfterViewChecked, OnDestroy {
+
+    DateView = DateView;
+
     @Input()
     get minDate(): T | null {
         return this._minDate;
@@ -52,12 +52,13 @@ export class OwlCalendarComponent<T>
 
         this._minDate = value
             ? this.dateTimeAdapter.createDate(
-                  this.dateTimeAdapter.getYear(value),
-                  this.dateTimeAdapter.getMonth(value),
-                  this.dateTimeAdapter.getDate(value)
-              )
+                this.dateTimeAdapter.getYear(value),
+                this.dateTimeAdapter.getMonth(value),
+                this.dateTimeAdapter.getDate(value)
+            )
             : null;
     }
+
     @Input()
     get maxDate(): T | null {
         return this._maxDate;
@@ -69,12 +70,13 @@ export class OwlCalendarComponent<T>
 
         this._maxDate = value
             ? this.dateTimeAdapter.createDate(
-                  this.dateTimeAdapter.getYear(value),
-                  this.dateTimeAdapter.getMonth(value),
-                  this.dateTimeAdapter.getDate(value)
-              )
+                this.dateTimeAdapter.getYear(value),
+                this.dateTimeAdapter.getMonth(value),
+                this.dateTimeAdapter.getDate(value)
+            )
             : null;
     }
+
     @Input()
     get pickerMoment() {
         return this._pickerMoment;
@@ -85,6 +87,7 @@ export class OwlCalendarComponent<T>
         this._pickerMoment =
             this.getValidDate(value) || this.dateTimeAdapter.now();
     }
+
     @Input()
     get selected(): T | null {
         return this._selected;
@@ -94,6 +97,7 @@ export class OwlCalendarComponent<T>
         value = this.dateTimeAdapter.deserialize(value);
         this._selected = this.getValidDate(value);
     }
+
     @Input()
     get selecteds(): T[] {
         return this._selecteds;
@@ -109,9 +113,9 @@ export class OwlCalendarComponent<T>
     get periodButtonText(): string {
         return this.isMonthView
             ? this.dateTimeAdapter.format(
-                  this.pickerMoment,
-                  this.dateTimeFormats.monthYearLabel
-              )
+                this.pickerMoment,
+                this.dateTimeFormats.monthYearLabel
+            )
             : this.dateTimeAdapter.getYearName(this.pickerMoment);
     }
 
@@ -122,9 +126,9 @@ export class OwlCalendarComponent<T>
     }
 
     get prevButtonLabel(): string {
-        if (this._currentView === 'month') {
+        if (this._currentView === DateView.MONTH) {
             return this.pickerIntl.prevMonthLabel;
-        } else if (this._currentView === 'year') {
+        } else if (this._currentView === DateView.YEAR) {
             return this.pickerIntl.prevYearLabel;
         } else {
             return null;
@@ -132,19 +136,20 @@ export class OwlCalendarComponent<T>
     }
 
     get nextButtonLabel(): string {
-        if (this._currentView === 'month') {
+        if (this._currentView === DateView.MONTH) {
             return this.pickerIntl.nextMonthLabel;
-        } else if (this._currentView === 'year') {
+        } else if (this._currentView === DateView.YEAR) {
             return this.pickerIntl.nextYearLabel;
         } else {
             return null;
         }
     }
-    get currentView(): 'month' | 'year' | 'multi-years' {
+
+    get currentView(): DateViewType {
         return this._currentView;
     }
 
-    set currentView(view: 'month' | 'year' | 'multi-years') {
+    set currentView(view: DateViewType) {
         this._currentView = view;
         this.moveFocusOnNextTick = true;
     }
@@ -162,11 +167,11 @@ export class OwlCalendarComponent<T>
     }
 
     get showControlArrows(): boolean {
-        return this._currentView !== 'multi-years';
+        return this._currentView !== DateView.MULTI_YEARS;
     }
 
     get isMonthView() {
-        return this._currentView === 'month';
+        return this._currentView === DateView.MONTH;
     }
 
     /**
@@ -190,6 +195,7 @@ export class OwlCalendarComponent<T>
             this.cdRef.markForCheck();
         });
     }
+
     /**
      * Date filter for the month and year view
      * */
@@ -223,7 +229,19 @@ export class OwlCalendarComponent<T>
      * The view that the calendar should start in.
      */
     @Input()
-    startView: 'month' | 'year' | 'multi-years' = 'month';
+    startView: DateViewType = DateView.MONTH;
+
+    /**
+     * Whether to should only the year and multi-year views.
+     */
+    @Input()
+    yearOnly = false;
+
+    /**
+     * Whether to should only the multi-year view.
+     */
+    @Input()
+    multiyearOnly = false;
 
     /**
      * Whether to hide dates in other months at the start or end of the current month.
@@ -255,7 +273,7 @@ export class OwlCalendarComponent<T>
     @Output()
     readonly monthSelected = new EventEmitter<T>();
 
-    private _currentView: 'month' | 'year' | 'multi-years';
+    private _currentView: DateViewType;
 
     private intlChangesSub = Subscription.EMPTY;
 
@@ -266,7 +284,7 @@ export class OwlCalendarComponent<T>
      */
     private moveFocusOnNextTick = false;
 
-    /** 
+    /**
      * Date filter for the month and year view
      */
     public dateFilterForViews = (date: T) => {
@@ -278,9 +296,10 @@ export class OwlCalendarComponent<T>
             (!this.maxDate ||
                 this.dateTimeAdapter.compare(date, this.maxDate) <= 0)
         );
-    }
+    };
 
-    public ngOnInit() {}
+    public ngOnInit() {
+    }
 
     public ngAfterContentInit(): void {
         this._currentView = this.startView;
@@ -301,8 +320,19 @@ export class OwlCalendarComponent<T>
      * Toggle between month view and year view
      */
     public toggleViews(): void {
-        this.currentView =
-            this._currentView === 'month' ? 'multi-years' : 'month';
+        let nextView = null;
+        if (this._currentView === DateView.MONTH) {
+            nextView = DateView.MULTI_YEARS;
+        } else {
+            if (this.multiyearOnly) {
+                nextView = DateView.MULTI_YEARS;
+            } else if (this.yearOnly) {
+                nextView = this._currentView === DateView.YEAR ? DateView.MULTI_YEARS : DateView.YEAR;
+            } else {
+                nextView = DateView.MONTH;
+            }
+        }
+        this.currentView = nextView;
     }
 
     /**
@@ -345,10 +375,14 @@ export class OwlCalendarComponent<T>
      */
     public goToDateInView(
         date: T,
-        view: 'month' | 'year' | 'multi-years'
+        view: DateViewType
     ): void {
         this.handlePickerMomentChange(date);
-        this.currentView = view;
+        if ((!this.yearOnly && !this.multiyearOnly) ||
+            (this.multiyearOnly && (view !== DateView.MONTH && view !== DateView.YEAR)) ||
+            (this.yearOnly && view !== DateView.MONTH)) {
+            this.currentView = view;
+        }
         return;
     }
 
@@ -415,21 +449,21 @@ export class OwlCalendarComponent<T>
      * Whether the two dates represent the same view in the current view mode (month or year).
      */
     private isSameView(date1: T, date2: T): boolean {
-        if (this._currentView === 'month') {
+        if (this._currentView === DateView.MONTH) {
             return !!(
                 date1 &&
                 date2 &&
                 this.dateTimeAdapter.getYear(date1) ===
-                    this.dateTimeAdapter.getYear(date2) &&
+                this.dateTimeAdapter.getYear(date2) &&
                 this.dateTimeAdapter.getMonth(date1) ===
-                    this.dateTimeAdapter.getMonth(date2)
+                this.dateTimeAdapter.getMonth(date2)
             );
-        } else if (this._currentView === 'year') {
+        } else if (this._currentView === DateView.YEAR) {
             return !!(
                 date1 &&
                 date2 &&
                 this.dateTimeAdapter.getYear(date1) ===
-                    this.dateTimeAdapter.getYear(date2)
+                this.dateTimeAdapter.getYear(date2)
             );
         } else {
             return false;
@@ -441,7 +475,7 @@ export class OwlCalendarComponent<T>
      */
     private getValidDate(obj: any): T | null {
         return this.dateTimeAdapter.isDateInstance(obj) &&
-            this.dateTimeAdapter.isValid(obj)
+        this.dateTimeAdapter.isValid(obj)
             ? obj
             : null;
     }
