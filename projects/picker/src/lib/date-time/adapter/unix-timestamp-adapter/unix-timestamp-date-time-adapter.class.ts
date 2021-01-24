@@ -42,8 +42,9 @@ export class UnixTimestampDateTimeAdapter extends DateTimeAdapter<number> {
      * other browsers do not. We remove them to make output consistent and because they interfere with
      * date parsing.
      */
+    private static search_ltr_rtl_pattern = '/[\u200e\u200f]/g';
     private static stripDirectionalityCharacters(str: string) {
-        return str.replace(/[\u200e\u200f]/g, '');
+        return str.replace(UnixTimestampDateTimeAdapter.search_ltr_rtl_pattern, '');
     }
 
     /**
