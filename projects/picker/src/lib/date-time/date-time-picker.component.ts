@@ -276,6 +276,11 @@ export class OwlDateTimeComponent<T> extends OwlDateTime<T>
         return this._dtInput && this._dtInput.max;
     }
 
+    /** The maximum selectable date. */
+    get maxRangeInterval(): number | null {
+        return this._dtInput && this._dtInput.maxRange;
+    }
+
     get dateTimeFilter(): (date: T | null) => boolean {
         return this._dtInput && this._dtInput.dateTimeFilter;
     }
@@ -520,7 +525,7 @@ export class OwlDateTimeComponent<T> extends OwlDateTime<T>
             this.confirmSelectedChange.emit(this.selecteds);
         }
 
-        this.close();
+       this.close();
         return;
     }
 

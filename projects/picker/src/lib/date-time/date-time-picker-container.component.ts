@@ -65,6 +65,7 @@ export class OwlDateTimeContainerComponent<T>
      * Stream emits when try to hide picker
      * */
     private hidePicker$ = new Subject<any>();
+    errMessage = '';
 
     get hidePickerStream(): Observable<any> {
         return this.hidePicker$.asObservable();
@@ -152,6 +153,16 @@ export class OwlDateTimeContainerComponent<T>
             : '';
     }
 
+    get maxRangeToValue(): Date {
+        if (this.picker.isInRangeMode && this.fromFormattedValue) {
+            const maxRangetoValue = new Date(this.dateTimeAdapter.getTime(this.picker.selecteds[0]) +
+                (1000 * 60 * 60 * 24 * this.picker.maxRangeInterval));
+            return maxRangetoValue;
+        } else {
+            return null;
+        }
+    }
+
     /**
      * Cases in which the control buttons show in the picker
      * 1) picker mode is 'dialog'
@@ -198,9 +209,9 @@ export class OwlDateTimeContainerComponent<T>
     }
 
     constructor( private cdRef: ChangeDetectorRef,
-                  private elmRef: ElementRef,
-                  private pickerIntl: OwlDateTimeIntl,
-                 @Optional() private dateTimeAdapter: DateTimeAdapter<T> ) {
+        private elmRef: ElementRef,
+        private pickerIntl: OwlDateTimeIntl,
+        @Optional() private dateTimeAdapter: DateTimeAdapter<T> ) {
     }
 
     public ngOnInit() {}
@@ -260,7 +271,7 @@ export class OwlDateTimeContainerComponent<T>
 
         if (this.picker.isInRangeMode) {
             const selecteds = [...this.picker.selecteds];
-
+            
             // check if the 'from' is after 'to' or 'to'is before 'from'
             // In this case, we set both the 'from' and 'to' the same value
             if (
@@ -310,6 +321,39 @@ export class OwlDateTimeContainerComponent<T>
         event.preventDefault();
         return;
     }
+
+    /**
+       * Check if the up minute button is enabled
+       */
+    public setButtonEnabled(): boolean {
+        let result = false;
+        let errMsg = '';
+        if (this.picker.isInRangeMode && this.picker.maxRangeInterval && this.picker.selecteds[0]) {
+            if (this.picker.selecteds[1]) {
+                if (this.dateTimeAdapter.getTime(this.picker.selecteds[0]) === this.dateTimeAdapter.getTime(this.picker.selecteds[1])) {
+                    errMsg = 'From Date & To date cannot be same!';
+                    result = true;
+                } else {
+                    const diff = this.dateTimeAdapter.getTime(this.picker.selecteds[1]) -
+                        this.dateTimeAdapter.getTime(this.picker.selecteds[0]);
+                    if (diff > ((this.picker.maxRangeInterval) * 24 * 60 * 60 * 1000)) {
+                        result = true;
+                        errMsg = 'From Date & To Date difference cannot be greater than ' + this.picker.maxRangeInterval + ' days.';
+                    } else {
+                        result = false;
+                    }
+                }
+            } else {
+                errMsg = 'Please select TO Date!';
+                result = true;
+            }
+        } else {
+            result = false;
+        }
+        this.errMessage = errMsg;
+        return result;
+    }
+
 
     /**
      * Handle click on inform radio group
