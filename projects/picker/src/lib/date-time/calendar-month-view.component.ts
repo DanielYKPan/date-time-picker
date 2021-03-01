@@ -130,6 +130,12 @@ export class OwlMonthViewComponent<T>
             v = this.dateTimeAdapter.deserialize(v);
             return this.getValidDate(v);
         });
+
+        if (this.maxRange) {
+            this.generateCalendar();
+            this.cdRef.markForCheck();
+        }
+
         this.setSelectedDates();
     }
 
@@ -207,6 +213,17 @@ export class OwlMonthViewComponent<T>
             this.generateCalendar();
             this.cdRef.markForCheck();
         }
+    }
+
+    /** The maximum selectable range. */
+    private _maxRange: number | null;
+    @Input()
+    get maxRange(): number | null {
+        return this._maxRange;
+    }
+
+    set maxRange(value: number | null) {
+        this._maxRange = this.selectMode === 'range' ? this.dateTimeAdapter.isPositiveNumber(value) : null;
     }
 
     private _weekdays: Array<{ long: string; short: string; narrow: string }>;
@@ -398,7 +415,7 @@ export class OwlMonthViewComponent<T>
                 moment = this.dateTimeAdapter.addCalendarDays(
                     this.pickerMoment,
                     this.dateTimeAdapter.getNumDaysInMonth(this.pickerMoment) -
-                        this.dateTimeAdapter.getDate(this.pickerMoment)
+                    this.dateTimeAdapter.getDate(this.pickerMoment)
                 );
                 this.pickerMomentChange.emit(moment);
                 break;
@@ -407,13 +424,13 @@ export class OwlMonthViewComponent<T>
             case PAGE_UP:
                 moment = event.altKey
                     ? this.dateTimeAdapter.addCalendarYears(
-                          this.pickerMoment,
-                          -1
-                      )
+                        this.pickerMoment,
+                        -1
+                    )
                     : this.dateTimeAdapter.addCalendarMonths(
-                          this.pickerMoment,
-                          -1
-                      );
+                        this.pickerMoment,
+                        -1
+                    );
                 this.pickerMomentChange.emit(moment);
                 break;
 
@@ -421,13 +438,13 @@ export class OwlMonthViewComponent<T>
             case PAGE_DOWN:
                 moment = event.altKey
                     ? this.dateTimeAdapter.addCalendarYears(
-                          this.pickerMoment,
-                          1
-                      )
+                        this.pickerMoment,
+                        1
+                    )
                     : this.dateTimeAdapter.addCalendarMonths(
-                          this.pickerMoment,
-                          1
-                      );
+                        this.pickerMoment,
+                        1
+                    );
                 this.pickerMomentChange.emit(moment);
                 break;
 
@@ -569,8 +586,17 @@ export class OwlMonthViewComponent<T>
                 this.dateTimeAdapter.compare(date, this.minDate) >= 0) &&
             (!this.maxDate ||
                 this.dateTimeAdapter.compare(date, this.maxDate) <= 0)
+            && ((!this._selecteds[0] || !this.maxRange) ? true : (!this._selecteds[1] ? ((this.dateTimeAdapter.compare(date, this._selecteds[0]) >= 0) ?
+                this.dateDifferenceInDays(date, this._selecteds[0]) <= this.maxRange : true) : true))
         );
     }
+
+    private dateDifferenceInDays(firstDate: any, secondDate: any) {
+        const oneDay = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
+        const diffDays = Math.ceil(Math.abs((firstDate - secondDate) / oneDay));
+        return diffDays;
+    }
+
 
     /**
      * Get a valid date object
@@ -592,9 +618,9 @@ export class OwlMonthViewComponent<T>
             this.dateTimeAdapter.isValid(dateLeft) &&
             this.dateTimeAdapter.isValid(dateRight) &&
             this.dateTimeAdapter.getYear(dateLeft) ===
-                this.dateTimeAdapter.getYear(dateRight) &&
+            this.dateTimeAdapter.getYear(dateRight) &&
             this.dateTimeAdapter.getMonth(dateLeft) ===
-                this.dateTimeAdapter.getMonth(dateRight)
+            this.dateTimeAdapter.getMonth(dateRight)
         );
     }
 

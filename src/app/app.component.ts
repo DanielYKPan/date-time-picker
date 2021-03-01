@@ -17,15 +17,14 @@ export class AppComponent implements AfterViewInit {
     moment('2019-03-11T08:00:00+11:00').tz('Australia/Sydney'),
     moment('2019-03-11T15:00:00+11:00').tz('Australia/Sydney')
   ];
-
+  maxDate = new Date();
+  maxRange = 3;
   open_once = false;
 
   ngAfterViewInit() {
-    /*
-    if (!this.open_once) {
-        this.date_range_component.open();
-        this.open_once = true;
-    }
-    */
+  }
+
+  checkValidation(value: any) {
+    return true;
   }
 }

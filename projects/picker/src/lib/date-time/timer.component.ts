@@ -68,6 +68,18 @@ export class OwlTimerComponent<T> implements OnInit {
         this._maxDateTime = this.getValidDate(value);
     }
 
+    /** The maximum selectable date time. */
+    private _maxRangeDateTime: T | null;
+    @Input()
+    get maxRangeDateTime(): T | null {
+        return this._maxRangeDateTime;
+    }
+
+    set maxRangeDateTime(value: T | null) {
+        value = this.dateTimeAdapter.deserialize(value);
+        this._maxRangeDateTime = this.getValidDate(value);
+    }
+
     private isPM: boolean = false; // a flag indicates the current timer moment is in PM or AM
 
     /**
@@ -259,8 +271,9 @@ export class OwlTimerComponent<T> implements OnInit {
      */
     public upHourEnabled(): boolean {
         return (
-            !this.maxDateTime ||
-            this.compareHours(this.stepHour, this.maxDateTime) < 1
+            (!this.maxDateTime ||
+                this.compareHours(this.stepHour, this.maxDateTime) < 1) &&
+            (!this.maxRangeDateTime || this.compareHours(this.stepHour, this.maxRangeDateTime) < 1)
         );
     }
 
@@ -279,8 +292,9 @@ export class OwlTimerComponent<T> implements OnInit {
      */
     public upMinuteEnabled(): boolean {
         return (
-            !this.maxDateTime ||
-            this.compareMinutes(this.stepMinute, this.maxDateTime) < 1
+            (!this.maxDateTime ||
+                this.compareMinutes(this.stepMinute, this.maxDateTime) < 1) &&
+            (!this.maxRangeDateTime || this.compareMinutes(this.stepHour, this.maxRangeDateTime) < 1)
         );
     }
 

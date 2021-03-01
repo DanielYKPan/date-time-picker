@@ -61,6 +61,7 @@ export const OWL_DATETIME_VALIDATORS: any = {
         '[attr.aria-owns]': 'owlDateTimeInputAriaOwns',
         '[attr.min]': 'minIso8601',
         '[attr.max]': 'maxIso8601',
+        '[attr.maxRange]': 'owlMaxRangeInterval',        
         '[disabled]': 'owlDateTimeInputDisabled'
     },
     providers: [
@@ -166,6 +167,17 @@ export class OwlDateTimeInputDirective<T>
         }
 
         this._selectMode = mode;
+    }
+
+    /** The maximum range */
+    private _maxRange: number | null;
+    @Input()
+    get maxRange(): number | null {
+        return this._maxRange;
+    }
+
+    set maxRange(value: number | null) {
+        this._maxRange = this.selectMode === 'range' ?  this.dateTimeAdapter.isPositiveNumber(value)  : null;
     }
 
     /**
@@ -407,6 +419,10 @@ export class OwlDateTimeInputDirective<T>
 
     get maxIso8601(): string {
         return this.max ? this.dateTimeAdapter.toIso8601(this.max) : null;
+    }
+
+    get owlMaxRangeInterval(): number | null {
+        return this.maxRange;
     }
 
     get owlDateTimeInputDisabled(): boolean {

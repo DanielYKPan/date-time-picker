@@ -1,6 +1,16 @@
 <label for="daterange">Datetime range (click, then press 'Set' to modify):</label>
 <input [(ngModel)]="selectedMoments" [selectMode]="'range'"
+       [maxRange]="maxRange"
        [owlDateTimeTrigger]="date_range_component" [owlDateTime]="date_range_component"
-       style="width: 100%; color: cornflowerblue"
-       id="daterange" matInput>
-<owl-date-time #date_range_component></owl-date-time>
+       id="daterange" matInput
+       style="width: 30%;">
+<owl-date-time #date_range_component (afterPickerClosed)="checkValidation($event)"></owl-date-time>
+
+<br>
+<br>
+
+<label for="datesingle">Datetime single (click, then press 'Set' to modify):</label>
+<input [(ngModel)]="selectedMoments" [owlDateTime]="datetimePicker" class="form-control" [max]="maxDate"
+    [owlDateTimeTrigger]="datetimePicker" id="datesingle" />
+<owl-date-time [hour12Timer]=" true" [showSecondsTimer]="true" #datetimePicker (afterPickerClosed)="checkValidation()">
+</owl-date-time>

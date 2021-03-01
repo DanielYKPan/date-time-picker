@@ -138,6 +138,8 @@ export abstract class OwlDateTime<T> {
 
     abstract get minDateTime(): T | null;
 
+    abstract get maxRangeInterval(): number | null;
+
     abstract get selectMode(): SelectMode;
 
     abstract get startAt(): T | null;
