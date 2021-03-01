@@ -3,6 +3,7 @@
  */
 import { Observable, Subject } from 'rxjs';
 import { inject, InjectionToken, LOCALE_ID } from '@angular/core';
+import { coerceNumberProperty } from '@angular/cdk/coercion';
 
 /** InjectionToken for date time picker that can be used to override default locale code. */
 export const OWL_DATE_TIME_LOCALE = new InjectionToken<string>(
@@ -300,4 +301,13 @@ export abstract class DateTimeAdapter<T> {
         }
         return date;
     }
+
+    isPositiveNumber(val: any): number | null {
+        if (coerceNumberProperty(val) > 0) {
+            return val;
+        } else {
+            return null;
+        }
+    }
+
 }

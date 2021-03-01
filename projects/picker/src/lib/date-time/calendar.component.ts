@@ -66,10 +66,10 @@ export class OwlCalendarComponent<T>
 
         this._minDate = value
             ? this.dateTimeAdapter.createDate(
-                  this.dateTimeAdapter.getYear(value),
-                  this.dateTimeAdapter.getMonth(value),
-                  this.dateTimeAdapter.getDate(value)
-              )
+                this.dateTimeAdapter.getYear(value),
+                this.dateTimeAdapter.getMonth(value),
+                this.dateTimeAdapter.getDate(value)
+            )
             : null;
     }
 
@@ -86,11 +86,22 @@ export class OwlCalendarComponent<T>
 
         this._maxDate = value
             ? this.dateTimeAdapter.createDate(
-                  this.dateTimeAdapter.getYear(value),
-                  this.dateTimeAdapter.getMonth(value),
-                  this.dateTimeAdapter.getDate(value)
-              )
+                this.dateTimeAdapter.getYear(value),
+                this.dateTimeAdapter.getMonth(value),
+                this.dateTimeAdapter.getDate(value)
+            )
             : null;
+    }
+
+    /** The maximum selectable range. */
+    private _maxRange: number | null;
+    @Input()
+    get maxRange(): number | null {
+        return this._maxRange;
+    }
+
+    set maxRange(value: number | null) {
+        this._maxRange = this.dateTimeAdapter.isPositiveNumber(value);
     }
 
     /** The current picker moment */
@@ -173,9 +184,9 @@ export class OwlCalendarComponent<T>
     get periodButtonText(): string {
         return this.isMonthView
             ? this.dateTimeAdapter.format(
-                  this.pickerMoment,
-                  this.dateTimeFormats.monthYearLabel
-              )
+                this.pickerMoment,
+                this.dateTimeFormats.monthYearLabel
+            )
             : this.dateTimeAdapter.getYearName(this.pickerMoment);
     }
 
@@ -420,16 +431,16 @@ export class OwlCalendarComponent<T>
                 date1 &&
                 date2 &&
                 this.dateTimeAdapter.getYear(date1) ===
-                    this.dateTimeAdapter.getYear(date2) &&
+                this.dateTimeAdapter.getYear(date2) &&
                 this.dateTimeAdapter.getMonth(date1) ===
-                    this.dateTimeAdapter.getMonth(date2)
+                this.dateTimeAdapter.getMonth(date2)
             );
         } else if (this._currentView === 'year') {
             return !!(
                 date1 &&
                 date2 &&
                 this.dateTimeAdapter.getYear(date1) ===
-                    this.dateTimeAdapter.getYear(date2)
+                this.dateTimeAdapter.getYear(date2)
             );
         } else {
             return false;

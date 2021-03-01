@@ -162,6 +162,18 @@ export class OwlDateTimeInlineComponent<T> extends OwlDateTime<T>
         this.changeDetector.markForCheck();
     }
 
+    /** The maximum valid date. */
+    private _maxRange: number | null;
+
+    get maxRangeInterval(): number | null {
+        return this._maxRange || null;
+    }
+
+    @Input('max')
+    set maxRangeInterval(value: number | null) {
+        this._maxRange = this.selectMode === 'range' ? this.dateTimeAdapter.isPositiveNumber(value) : null;
+    }
+
     private _value: T | null;
     @Input()
     get value() {
