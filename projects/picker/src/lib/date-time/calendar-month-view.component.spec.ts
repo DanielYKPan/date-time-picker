@@ -1,6 +1,9 @@
 /**
  * calendar-month-view.component.spec
  */
+import { registerLocaleData } from '@angular/common';
+import localeDutch from '@angular/common/locales/nl';
+import { DateTimeAdapter } from './adapter/date-time-adapter.class';
 import { OwlMonthViewComponent } from './calendar-month-view.component';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { OwlDateTimeIntl } from './date-time-picker-intl.service';
@@ -295,6 +298,68 @@ describe('OwlMonthViewComponent', () => {
             expect(cellTwo.classList).not.toContain(
                 'owl-dt-calendar-cell-disabled'
             );
+        });
+    });
+
+
+    describe('standard month view (locale tests)', () => {
+        let fixture: ComponentFixture<StandardMonthViewComponent>;
+        let adapter: DateTimeAdapter<unknown>;
+        let monthViewDebugElement: DebugElement;
+        let monthViewElement: HTMLElement;
+        let monthViewInstance: OwlMonthViewComponent<Date>;
+
+        beforeAll(() => {
+            registerLocaleData(localeDutch);
+        });
+
+        beforeEach(() => {
+            fixture = TestBed.createComponent(StandardMonthViewComponent);
+
+            adapter = TestBed.inject(DateTimeAdapter);
+            monthViewDebugElement = fixture.debugElement.query(
+                By.directive(OwlMonthViewComponent)
+            );
+            monthViewElement = monthViewDebugElement.nativeElement;
+            monthViewInstance = monthViewDebugElement.componentInstance;
+        });
+
+        it('should derive the first day of the week based on the active locale', () => {
+            adapter.setLocale('nl-NL');
+
+            fixture.detectChanges();
+            const weekdayCells = monthViewElement.querySelectorAll(
+                '.owl-dt-weekday'
+            );
+            expect(weekdayCells[0].getAttribute('aria-label')).toBe('maandag');
+        });
+
+        it('should fallback to Sunday as first day of the week when when locale data is missing', () => {
+            adapter.setLocale('unknown');
+
+            fixture.detectChanges();
+            const weekdayCells = monthViewElement.querySelectorAll(
+                '.owl-dt-weekday'
+            );
+            expect(weekdayCells[0].getAttribute('aria-label')).toBe('Sunday');
+        });
+
+        it('should update the default day of the week when locale changes', () => {
+            adapter.setLocale('nl-NL');
+
+            fixture.detectChanges();
+            const weekdayCellsNl = monthViewElement.querySelectorAll(
+                '.owl-dt-weekday'
+            );
+            expect(weekdayCellsNl[0].getAttribute('aria-label')).toBe('maandag');
+
+            adapter.setLocale('en-US');
+
+            fixture.detectChanges();
+            const weekdayCellsUs = monthViewElement.querySelectorAll(
+                '.owl-dt-weekday'
+            );
+            expect(weekdayCellsUs[0].getAttribute('aria-label')).toBe('Sunday');
         });
     });
 });
