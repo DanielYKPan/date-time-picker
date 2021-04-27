@@ -68,9 +68,8 @@ export class OwlMonthViewComponent<T>
      * Define the first day of a week
      * Sunday: 0 - Saturday: 6
      * */
-    private _firstDayOfWeek = getLocaleFirstDayOfWeek(
-        this.dateTimeAdapter.getLocale()
-    );
+    private _firstDayOfWeek: number;
+
     @Input()
     get firstDayOfWeek(): number {
         return this._firstDayOfWeek;
@@ -300,15 +299,14 @@ export class OwlMonthViewComponent<T>
     ) {}
 
     public ngOnInit() {
+        this.updateFirstDayOfWeek(this.dateTimeAdapter.getLocale());
         this.generateWeekDays();
 
         this.localeSub = this.dateTimeAdapter.localeChanges.subscribe(
             locale => {
+                this.updateFirstDayOfWeek(locale);
                 this.generateWeekDays();
                 this.generateCalendar();
-                this.firstDayOfWeek = this.isDefaultFirstDayOfWeek
-                    ? getLocaleFirstDayOfWeek(locale)
-                    : this.firstDayOfWeek;
                 this.cdRef.markForCheck();
             }
         );
@@ -531,6 +529,16 @@ export class OwlMonthViewComponent<T>
         }
 
         this.setSelectedDates();
+    }
+
+    private updateFirstDayOfWeek(locale: string): void {
+        if (this.isDefaultFirstDayOfWeek) {
+            try {
+                this._firstDayOfWeek = getLocaleFirstDayOfWeek(locale);
+            } catch {
+                this._firstDayOfWeek = 0;
+            }
+        }
     }
 
     /**
