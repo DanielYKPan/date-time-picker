@@ -16,6 +16,7 @@ import { OwlNativeDateTimeModule } from './adapter/native-date-time.module';
 import { OwlDateTimeModule } from './date-time.module';
 import { By } from '@angular/platform-browser';
 import { OwlTimerComponent } from './timer.component';
+import { dispatchFakeEvent } from '../../test-helpers';
 
 const JAN = 0,
     FEB = 1,
@@ -343,6 +344,22 @@ describe('OwlTimerComponent', () => {
             expect(arrowBtns[3].hasAttribute('disabled')).toBe(false);
             expect(arrowBtns[5].hasAttribute('disabled')).toBe(false);
         });
+
+        it('should not reformat input text while field is focused', fakeAsync(() => {
+            const timeCells = timerElement.querySelectorAll<HTMLInputElement>('.owl-dt-timer-input');
+
+            dispatchFakeEvent(timeCells[0], 'focusin');
+            timeCells[0].value = '5';
+            dispatchFakeEvent(timeCells[0], 'input');
+
+            timeCells[1].value = '8';
+            dispatchFakeEvent(timeCells[1], 'input');
+
+            fixture.detectChanges();
+
+            expect(timeCells[0].value).toEqual('5');
+            expect(timeCells[1].value).toEqual('08');
+        }));
     });
 });
 
