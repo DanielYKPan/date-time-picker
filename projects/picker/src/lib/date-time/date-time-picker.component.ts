@@ -246,6 +246,12 @@ export class OwlDateTimeComponent<T> extends OwlDateTime<T>
     monthSelected = new EventEmitter<T>();
 
     /**
+     * Emits selected date
+     * */
+    @Output()
+    dateSelected = new EventEmitter<T>();
+
+    /**
      * Emit when the selected value has been confirmed
      * */
     public confirmSelectedChange = new EventEmitter<T[] | T>();
@@ -474,6 +480,13 @@ export class OwlDateTimeComponent<T> extends OwlDateTime<T>
     }
 
     /**
+     * Emits the selected date
+     * */
+     public selectDate(normalizedDate: T): void {
+        this.dateSelected.emit(normalizedDate);
+    }
+
+    /**
      * Hide the picker
      */
     public close(): void {
@@ -515,7 +528,8 @@ export class OwlDateTimeComponent<T> extends OwlDateTime<T>
         const completeClose = () => {
             if (this._opened) {
                 this._opened = false;
-                this.afterPickerClosed.emit(null);
+                const selected = this.selected || this.selecteds;
+                this.afterPickerClosed.emit(selected);
                 this.focusedElementBeforeOpen = null;
             }
         };

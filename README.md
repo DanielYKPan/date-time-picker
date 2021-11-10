@@ -124,6 +124,9 @@ Events for `owl-date-time`
 |`afterPickerClosed`|null|Callback to invoke when the picker is closed.|
 |`yearSelected`|T|Callback to invoke when the year is selected.This doesn't imply a change on the selected date.|
 |`monthSelected`|T|Callback to invoke when the month is selected.This doesn't imply a change on the selected date.|
+|`dateClicked`|T|Callback when the selected data changes.|
+|`selectedChanged`|T|Callback when the currently selected data changes.|
+|`userSelection`|null|Callback when any date is selected.|
 
 Properties for `input[owlDateTime]`
 -------

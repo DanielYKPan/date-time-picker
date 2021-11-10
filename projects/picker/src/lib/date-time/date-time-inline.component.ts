@@ -236,6 +236,12 @@ export class OwlDateTimeInlineComponent<T> extends OwlDateTime<T>
     @Output()
     monthSelected = new EventEmitter<T>();
 
+    /**
+     * Emits selected date
+     * */
+    @Output()
+    dateSelected = new EventEmitter<T>();
+
     private _selected: T | null;
     get selected() {
         return this._selected;
@@ -347,5 +353,12 @@ export class OwlDateTimeInlineComponent<T> extends OwlDateTime<T>
      * */
     public selectMonth(normalizedMonth: T): void {
         this.monthSelected.emit(normalizedMonth);
+    }
+    
+    /**
+     * Emits the selected date
+     * */
+     public selectDate(normalizedDate: T): void {
+        this.dateSelected.emit(normalizedDate);
     }
 }

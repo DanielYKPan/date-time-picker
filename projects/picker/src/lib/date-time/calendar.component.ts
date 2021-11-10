@@ -253,13 +253,17 @@ export class OwlCalendarComponent<T>
     @Output()
     pickerMomentChange = new EventEmitter<T>();
 
+    /** Emits when the selected date changes. */
+    @Output()
+    readonly dateClicked = new EventEmitter<T>();
+
     /** Emits when the currently selected date changes. */
     @Output()
-    selectedChange = new EventEmitter<T>();
+    readonly selectedChange = new EventEmitter<T>();
 
     /** Emits when any date is selected. */
     @Output()
-    userSelection = new EventEmitter<void>();
+    readonly userSelection = new EventEmitter<void>();
 
     /**
      * Emits the selected year. This doesn't imply a change on the selected date
@@ -362,6 +366,7 @@ export class OwlCalendarComponent<T>
             return;
         }
 
+        this.dateClicked.emit(date);
         this.selectedChange.emit(date);
 
         /*if ((this.isInSingleMode && !this.dateTimeAdapter.isSameDay(date, this.selected)) ||
