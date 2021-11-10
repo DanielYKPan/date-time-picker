@@ -255,15 +255,15 @@ export class OwlCalendarComponent<T>
 
     /** Emits when the selected date changes. */
     @Output()
-    dateClicked = new EventEmitter<T>();
+    readonly dateClicked = new EventEmitter<T>();
 
     /** Emits when the currently selected date changes. */
     @Output()
-    selectedChange = new EventEmitter<T>();
+    readonly selectedChange = new EventEmitter<T>();
 
     /** Emits when any date is selected. */
     @Output()
-    userSelection = new EventEmitter<void>();
+    readonly userSelection = new EventEmitter<void>();
 
     /**
      * Emits the selected year. This doesn't imply a change on the selected date
