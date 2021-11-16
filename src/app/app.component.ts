@@ -26,4 +26,8 @@ export class AppComponent implements AfterViewInit {
 
   ngAfterViewInit() {
   }
+
+  selectedTrigger(_date) {
+    console.log(_date);
+  }
 }

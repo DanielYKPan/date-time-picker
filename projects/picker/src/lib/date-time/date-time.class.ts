@@ -182,9 +182,13 @@ export abstract class OwlDateTime<T> {
 
     abstract monthSelected: EventEmitter<T>;
 
+    abstract dateSelected: EventEmitter<T>;
+
     abstract selectYear(normalizedYear: T): void;
 
     abstract selectMonth(normalizedMonth: T): void;
+
+    abstract selectDate(normalizedDate: T): void;
 
     get formatString(): string {
         return this.pickerType === 'both'

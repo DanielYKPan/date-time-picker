@@ -53,4 +53,4 @@ export * from './lib/date-time/calendar.component';
 
 export * from './lib/date-time/timer.component';
 
-export * from './lib/date-time/options-provider';
+export { NativeDateTimeAdapter } from './lib/date-time/adapter/native-date-time-adapter.class';
