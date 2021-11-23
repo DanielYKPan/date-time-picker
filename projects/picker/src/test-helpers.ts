@@ -26,8 +26,8 @@ export function dispatchKeyboardEvent(
 }
 
 export function createKeyboardEvent(type: string, keyCode: number, target?: Element, key?: string) {
-  let event = document.createEvent('KeyboardEvent') as any;
-  let originalPreventDefault = event.preventDefault;
+  const event = document.createEvent('KeyboardEvent') as any;
+  const originalPreventDefault = event.preventDefault;
 
   // Firefox does not support `initKeyboardEvent`, but supports `initKeyEvent`.
   if (event.initKeyEvent) {
@@ -45,7 +45,7 @@ export function createKeyboardEvent(type: string, keyCode: number, target?: Elem
   });
 
   // IE won't set `defaultPrevented` on synthetic events so we need to do it manually.
-  event.preventDefault = function() {
+  event.preventDefault = function () {
     Object.defineProperty(event, 'defaultPrevented', { get: () => true });
     return originalPreventDefault.apply(this, arguments);
   };

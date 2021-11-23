@@ -13,7 +13,7 @@ import { OwlDateTimeComponent } from './date-time-picker.component';
 
 @Directive({
   selector: '[owlDateTimeTrigger]',
-  // tslint:disable-next-line:no-host-metadata-property
+  // eslint-disable-next-line @angular-eslint/no-host-metadata-property
   host: {
     '(click)': 'handleClickOnHost($event)',
     '[class.owl-dt-trigger-disabled]': 'owlDTTriggerDisabledClass'

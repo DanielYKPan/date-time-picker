@@ -45,7 +45,7 @@ export const OWL_DATETIME_VALIDATORS: any = {
 @Directive({
   selector: 'input[owlDateTime]',
   exportAs: 'owlDateTimeInput',
-  // tslint:disable-next-line:no-host-metadata-property
+  // eslint-disable-next-line @angular-eslint/no-host-metadata-property
   host: {
     '(keydown)': 'handleKeydownOnHost($event)',
     '(blur)': 'handleBlurOnHost($event)',

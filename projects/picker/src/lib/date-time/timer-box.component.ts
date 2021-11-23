@@ -16,7 +16,7 @@ import { debounceTime } from 'rxjs/operators';
   selector: 'owl-date-time-timer-box',
   templateUrl: './timer-box.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  // tslint:disable-next-line:no-host-metadata-property
+  // eslint-disable-next-line @angular-eslint/no-host-metadata-property
   host: {
     '[class.owl-dt-timer-box]': 'owlDTTimerBoxClass'
   }

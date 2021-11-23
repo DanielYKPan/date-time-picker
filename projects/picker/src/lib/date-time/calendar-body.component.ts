@@ -26,7 +26,7 @@ export class CalendarCell {
   selector: '[owl-date-time-calendar-body]',
   exportAs: 'owlDateTimeCalendarBody',
   templateUrl: './calendar-body.component.html',
-  // tslint:disable-next-line:no-host-metadata-property
+  // eslint-disable-next-line @angular-eslint/no-host-metadata-property
   host: {
     '[class.owl-dt-calendar-body]': 'owlDTCalendarBodyClass'
   },

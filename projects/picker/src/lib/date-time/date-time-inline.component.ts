@@ -27,14 +27,15 @@ export const OWL_DATETIME_VALUE_ACCESSOR: any = {
 @Component({
   selector: 'owl-date-time-inline',
   templateUrl: './date-time-inline.component.html',
-  // tslint:disable-next-line:no-host-metadata-property
+  // eslint-disable-next-line @angular-eslint/no-host-metadata-property
   host: {
     '[class.owl-dt-inline]': 'owlDTInlineClass'
   },
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [OWL_DATETIME_VALUE_ACCESSOR]
 })
-export class OwlDateTimeInlineComponent<T> extends OwlDateTime<T>
+export class OwlDateTimeInlineComponent<T>
+  extends OwlDateTime<T>
   implements OnInit, ControlValueAccessor {
   @ViewChild(OwlDateTimeContainerComponent, { static: true })
   container: OwlDateTimeContainerComponent<T>;
