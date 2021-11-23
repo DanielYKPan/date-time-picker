@@ -19,7 +19,7 @@ import { take } from 'rxjs/operators';
   selector: 'owl-date-time-timer',
   templateUrl: './timer.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  // tslint:disable-next-line:no-host-metadata-property
+  // eslint-disable-next-line @angular-eslint/no-host-metadata-property
   host: {
     '[class.owl-dt-timer]': 'owlDTTimerClass',
     '[attr.tabindex]': 'owlDTTimeTabIndex'

@@ -19,13 +19,15 @@ import {
 import { APR, DEC, FEB, JAN, JUL, JUN, MAR, NOV, OCT, SEP } from '../utils/month-constants';
 
 describe('OwlYearViewComponent', () => {
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      imports: [OwlNativeDateTimeModule, OwlDateTimeModule],
-      declarations: [StandardYearViewComponent, YearViewWithDateFilterComponent],
-      providers: [OwlDateTimeIntl]
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [OwlNativeDateTimeModule, OwlDateTimeModule],
+        declarations: [StandardYearViewComponent, YearViewWithDateFilterComponent],
+        providers: [OwlDateTimeIntl]
+      }).compileComponents();
+    })
+  );
 
   describe('standard year view', () => {
     let fixture: ComponentFixture<StandardYearViewComponent>;

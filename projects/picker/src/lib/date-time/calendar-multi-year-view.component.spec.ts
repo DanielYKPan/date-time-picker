@@ -23,13 +23,15 @@ import {
 import { JAN } from '../utils/month-constants';
 
 describe('OwlMultiYearViewComponent', () => {
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      imports: [OwlNativeDateTimeModule, OwlDateTimeModule],
-      declarations: [StandardMultiYearViewComponent, MultiYearViewWithDateFilterComponent],
-      providers: [OwlDateTimeIntl]
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [OwlNativeDateTimeModule, OwlDateTimeModule],
+        declarations: [StandardMultiYearViewComponent, MultiYearViewWithDateFilterComponent],
+        providers: [OwlDateTimeIntl]
+      }).compileComponents();
+    })
+  );
 
   describe('standard multi-years view', () => {
     let fixture: ComponentFixture<StandardMultiYearViewComponent>;

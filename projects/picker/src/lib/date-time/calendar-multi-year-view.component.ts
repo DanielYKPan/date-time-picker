@@ -32,7 +32,7 @@ export const YEAR_ROWS = 7;
 @Component({
   selector: 'owl-date-time-multi-year-view',
   templateUrl: './calendar-multi-year-view.component.html',
-  // tslint:disable-next-line:no-host-metadata-property
+  // eslint-disable-next-line @angular-eslint/no-host-metadata-property
   host: {
     '[class.owl-dt-calendar-view]': 'owlDTCalendarView',
     '[class.owl-dt-calendar-multi-year-view]': 'owlDTCalendarMultiYearView'

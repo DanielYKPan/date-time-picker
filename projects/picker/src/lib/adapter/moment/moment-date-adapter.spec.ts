@@ -14,11 +14,13 @@ describe('MomentDateTimeAdapter', () => {
   let adapter: MomentDateTimeAdapter;
   let assertValidDate: (d: moment.Moment | null, valid: boolean) => void;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      imports: [MomentDateTimeModule]
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [MomentDateTimeModule]
+      }).compileComponents();
+    })
+  );
 
   beforeEach(inject([DateTimeAdapter], (dateAdapter: MomentDateTimeAdapter) => {
     moment.locale('en');
@@ -522,12 +524,14 @@ describe('MomentDateTimeAdapter', () => {
 describe('MomentDateAdapter with MAT_DATE_LOCALE override', () => {
   let adapter: MomentDateTimeAdapter;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      imports: [MomentDateTimeModule],
-      providers: [{ provide: OWL_DATE_TIME_LOCALE, useValue: 'ja-JP' }]
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [MomentDateTimeModule],
+        providers: [{ provide: OWL_DATE_TIME_LOCALE, useValue: 'ja-JP' }]
+      }).compileComponents();
+    })
+  );
 
   beforeEach(inject([DateTimeAdapter], (d: MomentDateTimeAdapter) => {
     adapter = d;
@@ -541,12 +545,14 @@ describe('MomentDateAdapter with MAT_DATE_LOCALE override', () => {
 describe('MomentDateAdapter with LOCALE_ID override', () => {
   let adapter: MomentDateTimeAdapter;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      imports: [MomentDateTimeModule],
-      providers: [{ provide: LOCALE_ID, useValue: 'fr' }]
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [MomentDateTimeModule],
+        providers: [{ provide: LOCALE_ID, useValue: 'fr' }]
+      }).compileComponents();
+    })
+  );
 
   beforeEach(inject([DateTimeAdapter], (d: MomentDateTimeAdapter) => {
     adapter = d;
@@ -560,17 +566,19 @@ describe('MomentDateAdapter with LOCALE_ID override', () => {
 describe('MomentDateAdapter with MAT_MOMENT_DATE_ADAPTER_OPTIONS override', () => {
   let adapter: MomentDateTimeAdapter;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      imports: [MomentDateTimeModule],
-      providers: [
-        {
-          provide: OWL_MOMENT_DATE_TIME_ADAPTER_OPTIONS,
-          useValue: { useUtc: true }
-        }
-      ]
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [MomentDateTimeModule],
+        providers: [
+          {
+            provide: OWL_MOMENT_DATE_TIME_ADAPTER_OPTIONS,
+            useValue: { useUtc: true }
+          }
+        ]
+      }).compileComponents();
+    })
+  );
 
   beforeEach(inject([DateTimeAdapter], (d: MomentDateTimeAdapter) => {
     adapter = d;
@@ -595,20 +603,22 @@ describe('MomentDateAdapter with MAT_MOMENT_DATE_ADAPTER_OPTIONS override', () =
   });
 
   describe('strict mode', () => {
-    beforeEach(waitForAsync(() => {
-      TestBed.resetTestingModule();
-      TestBed.configureTestingModule({
-        imports: [MomentDateTimeModule],
-        providers: [
-          {
-            provide: OWL_MOMENT_DATE_TIME_ADAPTER_OPTIONS,
-            useValue: {
-              strict: true
+    beforeEach(
+      waitForAsync(() => {
+        TestBed.resetTestingModule();
+        TestBed.configureTestingModule({
+          imports: [MomentDateTimeModule],
+          providers: [
+            {
+              provide: OWL_MOMENT_DATE_TIME_ADAPTER_OPTIONS,
+              useValue: {
+                strict: true
+              }
             }
-          }
-        ]
-      }).compileComponents();
-    }));
+          ]
+        }).compileComponents();
+      })
+    );
 
     beforeEach(inject([DateTimeAdapter], (d: MomentDateTimeAdapter) => {
       adapter = d;

@@ -22,12 +22,13 @@ export interface OwlMomentDateTimeAdapterOptions {
 }
 
 /** InjectionToken for moment date adapter to configure options. */
-export const OWL_MOMENT_DATE_TIME_ADAPTER_OPTIONS = new InjectionToken<
-  OwlMomentDateTimeAdapterOptions
->('OWL_MOMENT_DATE_TIME_ADAPTER_OPTIONS', {
-  providedIn: 'root',
-  factory: OWL_MOMENT_DATE_TIME_ADAPTER_OPTIONS_FACTORY
-});
+export const OWL_MOMENT_DATE_TIME_ADAPTER_OPTIONS = new InjectionToken<OwlMomentDateTimeAdapterOptions>(
+  'OWL_MOMENT_DATE_TIME_ADAPTER_OPTIONS',
+  {
+    providedIn: 'root',
+    factory: OWL_MOMENT_DATE_TIME_ADAPTER_OPTIONS_FACTORY
+  }
+);
 
 /** @docs-private */
 export function OWL_MOMENT_DATE_TIME_ADAPTER_OPTIONS_FACTORY(): OwlMomentDateTimeAdapterOptions {

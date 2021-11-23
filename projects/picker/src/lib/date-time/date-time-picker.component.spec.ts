@@ -1932,9 +1932,7 @@ class RangeDateTimePickerComponent {
 class MultiInputDateTimePickerComponent {}
 
 @Component({
-  template: `
-    <owl-date-time #dt></owl-date-time>
-  `
+  template: ` <owl-date-time #dt></owl-date-time> `
 })
 class NoInputDateTimePickerComponent {
   @ViewChild('dt', { static: true })
