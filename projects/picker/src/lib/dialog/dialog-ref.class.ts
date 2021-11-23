@@ -39,7 +39,7 @@ export class OwlDialogRef<T> {
         take(1)
       )
       .subscribe(() => {
-        this._afterOpen$.next();
+        this._afterOpen$.next(null);
         this._afterOpen$.complete();
       });
 

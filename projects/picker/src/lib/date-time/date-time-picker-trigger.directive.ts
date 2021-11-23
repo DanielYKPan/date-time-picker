@@ -74,7 +74,7 @@ export class OwlDateTimeTriggerDirective<T>
 
     const pickerDisabled = this.dtPicker ? this.dtPicker.disabledChange : observableOf();
 
-    this.stateChanges = merge(pickerDisabled, inputDisabled).subscribe(() => {
+    this.stateChanges = merge([pickerDisabled, inputDisabled]).subscribe(() => {
       this.changeDetector.markForCheck();
     });
   }

@@ -199,7 +199,7 @@ export class OwlDateTimeContainerComponent<T> implements OnInit, AfterContentIni
   public handleContainerAnimationDone(event: AnimationEvent): void {
     const toState = event.toState;
     if (toState === 'enter') {
-      this.pickerOpened$.next();
+      this.pickerOpened$.next(null);
     }
   }
 
