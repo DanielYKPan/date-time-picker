@@ -379,7 +379,7 @@ export class OwlDateTimeInputDirective<T>
     if (!this.dateTimeAdapter) {
       throw Error(
         `OwlDateTimePicker: No provider found for DateTimePicker. You must import one of the following ` +
-          `modules at your application root: OwlNativeDateTimeModule, OwlMomentDateTimeModule, or provide a ` +
+          `modules at your application root: OwlNativeDateTimeModule or provide a ` +
           `custom implementation.`
       );
     }
@@ -387,7 +387,7 @@ export class OwlDateTimeInputDirective<T>
     if (!this.dateTimeFormats) {
       throw Error(
         `OwlDateTimePicker: No provider found for OWL_DATE_TIME_FORMATS. You must import one of the following ` +
-          `modules at your application root: OwlNativeDateTimeModule, OwlMomentDateTimeModule, or provide a ` +
+          `modules at your application root: OwlNativeDateTimeModule or provide a ` +
           `custom implementation.`
       );
     }

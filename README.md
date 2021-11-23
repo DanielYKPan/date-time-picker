@@ -90,7 +90,6 @@ Developers need to make sure to provide the appropriate pieces for the picker to
 There are two pre-made modules, users need to import one of them or build your own one (learn more about this from [here](https://danielykpan.github.io/date-time-picker/#locale-formats)).
 
 - `OwlNativeDateTimeModule` - support for native JavaScript Date object
-- `OwlMomentDateTimeModule` - support for MomentJs
 
 ## Properties for `owl-date-time`
 
