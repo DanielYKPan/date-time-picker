@@ -232,7 +232,7 @@ export class OwlMultiYearViewComponent<T> implements OnInit, AfterContentInit {
     constructor( private cdRef: ChangeDetectorRef,
                  private pickerIntl: OwlDateTimeIntl,
                  @Optional() private dateTimeAdapter: DateTimeAdapter<T>,
-                 @Inject(OptionsTokens.multiYear) private options: Options['multiYear']  ) {
+                 @Inject(OptionsTokens.multiYear) private options: any) {
     }
 
     public ngOnInit() {
