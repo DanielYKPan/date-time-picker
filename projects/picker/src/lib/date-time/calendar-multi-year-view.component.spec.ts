@@ -10,8 +10,6 @@ import { Component, DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import {
     OwlMultiYearViewComponent,
-    YEAR_ROWS,
-    YEARS_PER_ROW
 } from './calendar-multi-year-view.component';
 import { dispatchMouseEvent, dispatchKeyboardEvent } from '../../test-helpers';
 import {
@@ -24,6 +22,7 @@ import {
     RIGHT_ARROW,
     UP_ARROW
 } from '@angular/cdk/keycodes';
+import { Options, OptionsTokens } from './options-provider';
 
 const JAN = 0,
     FEB = 1,
@@ -38,6 +37,9 @@ const JAN = 0,
     NOV = 10,
     DEC = 11;
 
+const YEAR_ROWS = 7;
+const YEARS_PER_ROW = 3;
+
 describe('OwlMultiYearViewComponent', () => {
     beforeEach(async(() => {
         TestBed.configureTestingModule({
@@ -46,7 +48,14 @@ describe('OwlMultiYearViewComponent', () => {
                 StandardMultiYearViewComponent,
                 MultiYearViewWithDateFilterComponent
             ],
-            providers: [OwlDateTimeIntl]
+            providers: [OwlDateTimeIntl, {
+                provide: OptionsTokens.multiYear,
+                useFactory: () =>
+                    ({
+                        yearRows: YEAR_ROWS,
+                        yearsPerRow: YEARS_PER_ROW,
+                    } as Options['multiYear']),
+            },]
         }).compileComponents();
     }));
 
