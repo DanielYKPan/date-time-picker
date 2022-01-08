@@ -56,3 +56,5 @@ export * from './lib/date-time/timer.component';
 export { NativeDateTimeAdapter } from './lib/date-time/adapter/native-date-time-adapter.class';
 
 export * from './lib/date-time/options-provider';
+
+export { PickerType, PickerMode, SelectMode, DateView, DateViewType } from './lib/date-time/date-time.class'
