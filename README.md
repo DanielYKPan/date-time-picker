@@ -1,4 +1,4 @@
-:tw-1f4c6: :tw-1f559: Angular Date/Time Picker
+:date: :clock1: Angular Date/Time Picker
 ========================
 
 [![npm](https://img.shields.io/npm/v/@danielmoncada/angular-datetime-picker.svg?maxAge=2592000?style=flat-square)](https://www.npmjs.com/package/@danielmoncada/angular-datetime-picker)
@@ -99,7 +99,7 @@ There are two pre-made modules, users need to import one of them or build your o
 
 <img src="https://avatars.githubusercontent.com/u/4129662?s=200&v=4" width="50"/> https://momentjs.com/
 - `OwlMomentDateTimeModule` - support for MomentJs
-    - You must install an optional adapater to use this. see [here](https://github.com/danielmoncada/date-time-picker-moment-adapter), [nmpm](https://www.npmjs.com/package/@danielmoncada/angular-datetime-picker-moment-adapter)
+    - You must install an optional adapater to use this. see [here](https://github.com/danielmoncada/date-time-picker-moment-adapter), [npm](https://www.npmjs.com/package/@danielmoncada/angular-datetime-picker-moment-adapter)
 
 Properties for `owl-date-time`
 -------
