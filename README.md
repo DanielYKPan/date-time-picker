@@ -1,17 +1,15 @@
-Angular Date Time Picker
+:tw-1f4c6: :tw-1f559: Angular Date/Time Picker
 ========================
 
 [![npm](https://img.shields.io/npm/v/@danielmoncada/angular-datetime-picker.svg?maxAge=2592000?style=flat-square)](https://www.npmjs.com/package/@danielmoncada/angular-datetime-picker)
 [![npm](https://img.shields.io/npm/dm/@danielmoncada/angular-datetime-picker.svg)](https://www.npmjs.com/package/@danielmoncada/angular-datetime-picker)
 
-**Angular date time picker - Angular reusable UI component**
-
-**This package supports Angular 9+ / Angular 10 / Angular 11 / Angular 12 / Angular 13**
+** *This package supports Angular 9/10/11/12/13**
 
 Breaking Changes
 -------
- - Version 13.1.0+ no longer supports the MomentJs time adapter natively. If you want to use the MomentJs adapter, see [GitHub](@danielmoncada/angular-datetime-picker-moment-adapter) or [npm](https://www.npmjs.com/package/@danielmoncada/angular-datetime-picker-moment-adapter).
- - The date/time picker has been updated to support Angular 9+, Angular 10, Angular 11, Angular 12, Angular 13 as well as compilation using Ivy.
+ - Version 13.1.0+ no longer supports the `MomentJs` time adapter natively. If you want to use the MomentJs adapter, see [GitHub](https://github.com/danielmoncada/date-time-picker-moment-adapter) or [npm](https://www.npmjs.com/package/@danielmoncada/angular-datetime-picker-moment-adapter).
+ - The date/time picker has been updated to support Angular 9-13, as well as compilation using Ivy.
  - If you need Ng8 support, please stick with: https://github.com/DanielYKPan/date-time-picker
 
 Description
@@ -22,7 +20,7 @@ This picker is responsive design, so feel free to try it in your desktops, table
 How to Use
 -------
 
- 1. Install with [npm](https://www.npmjs.com):`npm install @danielmoncada/angular-datetime-picker --save`
+ 1. Install with [npm](https://www.npmjs.com): `npm install @danielmoncada/angular-datetime-picker --save`
  2. Add styles.
     If you are using Angular CLI, you can add this to your styles.css: 
     ```css
@@ -34,13 +32,12 @@ How to Use
      import { NgModule } from '@angular/core';
      import { BrowserModule } from '@angular/platform-browser';
      import { MyTestApp } from './my-test-app';
-    
      import { OwlDateTimeModule, OwlNativeDateTimeModule } from '@danielmoncada/angular-datetime-picker';
-    
+
      @NgModule({
-         imports: [ 
-             BrowserModule, 
-             OwlDateTimeModule, 
+         imports: [
+             BrowserModule,
+             OwlDateTimeModule,
              OwlNativeDateTimeModule,
          ],
          declarations: [ MyTestApp ],
@@ -65,7 +62,7 @@ How to Use
 Animation
 -------
 This picker uses angular animations to improve the user experience, 
-therefore you need to install `@angular/animations` and import `BrowserAnimationsModule` to your application. 
+therefore you need to install `@angular/animations` and import `BrowserAnimationsModule` to your application.
 ```
 npm install @angular/animations --save
 ```
@@ -87,14 +84,22 @@ If you prefer to disable animation effect, use `NoopAnimationsModule` instead.
 
 Choose a date implementation
 -------
-The date-time picker was built to be date implementation agnostic. 
+The date-time picker was built to be date implementation agnostic.
 Developers need to make sure to provide the appropriate pieces for the picker to work with their chosen implementation.
 There are two pre-made modules, users need to import one of them or build your own one (learn more about this from [here](https://danielykpan.github.io/date-time-picker/#locale-formats)).
 
 - `OwlNativeDateTimeModule` - support for native JavaScript Date object
-- `OwlMomentDateTimeModule` - support for MomentJs 
-    - You must install an optional adapater to use this. see [here](https://github.com/danielmoncada/date-time-picker-moment-adapter), [nmpm](https://www.npmjs.com/package/@danielmoncada/angular-datetime-picker-moment-adapter)
 - `OwlUnixTimestampDateTimeModule` - support for milliseconds since Epoch (number)
+
+##### Date/Time Adapter Extensions
+
+<img src="https://day.js.org/img/logo.png" width="50"/> https://day.js.org/
+- `OwlDayJsDateTimeModule` - support for DayJs
+    - You must install an optional adapater to use this. see [here](https://github.com/danielmoncada/date-time-picker-dayjs-adapter), [npm](https://www.npmjs.com/package/@danielmoncada/angular-datetime-picker-dayjs-adapter)
+
+<img src="https://avatars.githubusercontent.com/u/4129662?s=200&v=4" width="50"/> https://momentjs.com/
+- `OwlMomentDateTimeModule` - support for MomentJs
+    - You must install an optional adapater to use this. see [here](https://github.com/danielmoncada/date-time-picker-moment-adapter), [nmpm](https://www.npmjs.com/package/@danielmoncada/angular-datetime-picker-moment-adapter)
 
 Properties for `owl-date-time`
 -------
