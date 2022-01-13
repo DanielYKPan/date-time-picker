@@ -16,8 +16,8 @@
     "url": "https://github.com/DanielYKPan/date-time-picker.git"
   },
   "peerDependencies": {
-    "@angular/common": "^12.2.15",
-    "@angular/core": "^12.2.15",
-    "@angular/cdk": "^12.2.15"
+    "@angular/common": "^13.1.2",
+    "@angular/core": "^13.1.2",
+    "@angular/cdk": "^13.1.1"
   }
 }
