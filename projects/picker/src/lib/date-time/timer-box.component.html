@@ -20,7 +20,7 @@
 <label class="owl-dt-timer-content">
     <input class="owl-dt-timer-input" maxlength="2"
            [value]="displayValue | numberFixedLen : 2"
-           (input)="handleInputChange(valueInput.value)" #valueInput>
+           (input)="handleInputChange(valueInput.value, $event)" #valueInput>
     <span class="owl-hidden-accessible">{{inputLabel}}</span>
 </label>
 <button class="owl-dt-control-button owl-dt-control-arrow-button"
