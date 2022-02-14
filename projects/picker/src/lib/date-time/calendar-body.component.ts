@@ -128,6 +128,7 @@ export class OwlCalendarBodyComponent implements OnInit {
 
       return value === fromValue || value === toValue;
     }
+    return false;
   }
 
   /**
@@ -144,12 +145,13 @@ export class OwlCalendarBodyComponent implements OnInit {
         return value === fromValue || value === toValue;
       }
     }
+    return false;
   }
 
   /**
    * Check if the cell is the range from
    */
-  public isRangeFrom(value: number): boolean {
+  public isRangeFrom(value: number): boolean | void {
     if (this.isInRangeMode) {
       const fromValue = this.selectedValues[0];
       return fromValue !== null && value === fromValue;
@@ -159,7 +161,7 @@ export class OwlCalendarBodyComponent implements OnInit {
   /**
    * Check if the cell is the range to
    */
-  public isRangeTo(value: number): boolean {
+  public isRangeTo(value: number): boolean | void {
     if (this.isInRangeMode) {
       const toValue = this.selectedValues[1];
       return toValue !== null && value === toValue;

@@ -36,7 +36,8 @@ export const OWL_DATETIME_VALUE_ACCESSOR: any = {
 })
 export class OwlDateTimeInlineComponent<T>
   extends OwlDateTime<T>
-  implements OnInit, ControlValueAccessor {
+  implements OnInit, ControlValueAccessor
+{
   @ViewChild(OwlDateTimeContainerComponent, { static: true })
   container: OwlDateTimeContainerComponent<T>;
 
@@ -60,11 +61,11 @@ export class OwlDateTimeInlineComponent<T>
 
   private _disabled = false;
   @Input()
-  get disabled(): boolean {
+  override get disabled(): boolean {
     return !!this._disabled;
   }
 
-  set disabled(value: boolean) {
+  override set disabled(value: boolean) {
     this._disabled = coerceBooleanProperty(value);
   }
 
@@ -238,10 +239,10 @@ export class OwlDateTimeInlineComponent<T>
 
   constructor(
     protected changeDetector: ChangeDetectorRef,
-    @Optional() protected dateTimeAdapter: DateTimeAdapter<T>,
+    @Optional() protected override dateTimeAdapter: DateTimeAdapter<T>,
     @Optional()
     @Inject(OWL_DATE_TIME_FORMATS)
-    protected dateTimeFormats: OwlDateTimeFormats
+    protected override dateTimeFormats: OwlDateTimeFormats
   ) {
     super(dateTimeAdapter, dateTimeFormats);
   }

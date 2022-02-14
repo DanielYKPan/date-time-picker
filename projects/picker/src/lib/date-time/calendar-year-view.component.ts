@@ -158,10 +158,11 @@ export class OwlYearViewComponent<T> implements OnInit, AfterContentInit, OnDest
     return this._months;
   }
 
-  get activeCell(): number {
+  get activeCell(): number | null {
     if (this._pickerMoment) {
       return this.dateTimeAdapter.getMonth(this._pickerMoment);
     }
+    return null;
   }
 
   get isInSingleMode(): boolean {

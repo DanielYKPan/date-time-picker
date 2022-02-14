@@ -20,7 +20,8 @@ import { OwlDateTimeComponent } from './date-time-picker.component';
   }
 })
 export class OwlDateTimeTriggerDirective<T>
-  implements OnInit, OnChanges, AfterContentInit, OnDestroy {
+  implements OnInit, OnChanges, AfterContentInit, OnDestroy
+{
   @Input('owlDateTimeTrigger') dtPicker: OwlDateTimeComponent<T>;
 
   private _disabled: boolean;
@@ -44,7 +45,7 @@ export class OwlDateTimeTriggerDirective<T>
   public ngOnInit(): void {}
 
   public ngOnChanges(changes: SimpleChanges) {
-    if (changes.datepicker) {
+    if (changes['datepicker']) {
       this.watchStateChanges();
     }
   }

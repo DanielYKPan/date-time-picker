@@ -214,9 +214,8 @@ export class OwlDialogService {
       OwlDialogContainerComponent,
       config.viewContainerRef
     );
-    const containerRef: ComponentRef<OwlDialogContainerComponent> = overlayRef.attach(
-      containerPortal
-    );
+    const containerRef: ComponentRef<OwlDialogContainerComponent> =
+      overlayRef.attach(containerPortal);
     containerRef.instance.setConfig(config);
 
     return containerRef.instance;
