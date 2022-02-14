@@ -88,9 +88,8 @@ export class OwlDateTimeComponent<T> extends OwlDateTime<T> implements OnInit, O
       } else if (this._dtInput.selectMode === 'rangeTo') {
         return this._dtInput.values[1] || null;
       }
-    } else {
-      return null;
     }
+    return null;
   }
 
   set startAt(date: T | null) {
@@ -138,13 +137,13 @@ export class OwlDateTimeComponent<T> extends OwlDateTime<T> implements OnInit, O
   /** Whether the date time picker should be disabled. */
   private _disabled: boolean;
   @Input()
-  get disabled(): boolean {
+  override get disabled(): boolean {
     return this._disabled === undefined && this._dtInput
       ? this._dtInput.disabled
       : !!this._disabled;
   }
 
-  set disabled(value: boolean) {
+  override set disabled(value: boolean) {
     value = coerceBooleanProperty(value);
     if (value !== this._disabled) {
       this._disabled = value;
@@ -277,11 +276,11 @@ export class OwlDateTimeComponent<T> extends OwlDateTime<T> implements OnInit, O
     private dialogService: OwlDialogService,
     private ngZone: NgZone,
     protected changeDetector: ChangeDetectorRef,
-    @Optional() protected dateTimeAdapter: DateTimeAdapter<T>,
+    @Optional() protected override dateTimeAdapter: DateTimeAdapter<T>,
     @Inject(OWL_DTPICKER_SCROLL_STRATEGY) defaultScrollStrategy: any,
     @Optional()
     @Inject(OWL_DATE_TIME_FORMATS)
-    protected dateTimeFormats: OwlDateTimeFormats,
+    protected override dateTimeFormats: OwlDateTimeFormats,
     @Optional()
     @Inject(DOCUMENT)
     private document: any

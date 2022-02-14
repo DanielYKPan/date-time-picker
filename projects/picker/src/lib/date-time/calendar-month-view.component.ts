@@ -201,10 +201,11 @@ export class OwlMonthViewComponent<T> implements OnInit, AfterContentInit, OnDes
     return this._days;
   }
 
-  get activeCell(): number {
+  get activeCell(): number | null {
     if (this.pickerMoment) {
       return this.dateTimeAdapter.getDate(this.pickerMoment) + this.firstRowOffset - 1;
     }
+    return null;
   }
 
   get isInSingleMode(): boolean {

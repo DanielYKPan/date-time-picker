@@ -179,13 +179,14 @@ export class OwlMultiYearViewComponent<T> implements OnInit, AfterContentInit {
     );
   }
 
-  get activeCell(): number {
+  get activeCell(): number | null {
     if (this._pickerMoment) {
       return this.dateTimeAdapter.getYear(this._pickerMoment) % (YEARS_PER_ROW * YEAR_ROWS);
     }
+    return null;
   }
 
-  get tableHeader(): string {
+  get tableHeader(): string | void {
     if (this._years && this._years.length > 0) {
       return `${this._years[0][0].displayValue} - ${
         this._years[YEAR_ROWS - 1][YEARS_PER_ROW - 1].displayValue

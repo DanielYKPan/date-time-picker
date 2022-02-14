@@ -60,7 +60,8 @@ export const OWL_DATETIME_VALIDATORS: any = {
   providers: [OWL_DATETIME_VALUE_ACCESSOR, OWL_DATETIME_VALIDATORS]
 })
 export class OwlDateTimeInputDirective<T>
-  implements OnInit, AfterContentInit, OnDestroy, ControlValueAccessor, Validator {
+  implements OnInit, AfterContentInit, OnDestroy, ControlValueAccessor, Validator
+{
   /**
    * The date time picker that this input is associated with.
    */
@@ -276,6 +277,7 @@ export class OwlDateTimeInputDirective<T>
             }
           };
     }
+    return null;
   };
 
   /** The form control validator for the max date. */
@@ -304,6 +306,7 @@ export class OwlDateTimeInputDirective<T>
             }
           };
     }
+    return null;
   };
 
   /** The form control validator for the date filter. */

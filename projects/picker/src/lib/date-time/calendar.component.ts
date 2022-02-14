@@ -32,7 +32,8 @@ import { Subscription } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class OwlCalendarComponent<T>
-  implements OnInit, AfterContentInit, AfterViewChecked, OnDestroy {
+  implements OnInit, AfterContentInit, AfterViewChecked, OnDestroy
+{
   /**
    * Date filter for the month and year view
    */
