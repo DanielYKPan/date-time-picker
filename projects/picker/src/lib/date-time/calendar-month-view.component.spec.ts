@@ -5,7 +5,7 @@ import { registerLocaleData } from '@angular/common';
 import localeDutch from '@angular/common/locales/nl';
 import { DateTimeAdapter } from './adapter/date-time-adapter.class';
 import { OwlMonthViewComponent } from './calendar-month-view.component';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { OwlDateTimeIntl } from './date-time-picker-intl.service';
 import { OwlNativeDateTimeModule } from './adapter/native-date-time.module';
 import { OwlDateTimeModule } from './date-time.module';
@@ -38,7 +38,7 @@ const JAN = 0,
     DEC = 11;
 
 describe('OwlMonthViewComponent', () => {
-    beforeEach(async(() => {
+    beforeEach(() => {
         TestBed.configureTestingModule({
             imports: [OwlNativeDateTimeModule, OwlDateTimeModule],
             declarations: [
@@ -47,7 +47,7 @@ describe('OwlMonthViewComponent', () => {
             ],
             providers: [OwlDateTimeIntl]
         }).compileComponents();
-    }));
+    });
 
     describe('standard month view', () => {
         let fixture: ComponentFixture<StandardMonthViewComponent>;
