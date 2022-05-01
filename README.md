@@ -8,7 +8,7 @@
 
 Breaking Changes
 -------
- - Version 14.0.0 no longer supports > ng 13. If you need View Enginer support, stick with version 13.X.X.
+ - Version 14.x.x no longer supports < ng 13. If you need View Enginer support, stick with version 13.x.x.
  - Version 13.1.0+ no longer supports the `MomentJs` time adapter natively. If you want to use the MomentJs adapter, see [GitHub](https://github.com/danielmoncada/date-time-picker-moment-adapter) or [npm](https://www.npmjs.com/package/@danielmoncada/angular-datetime-picker-moment-adapter).
  - The date/time picker has been updated to support Angular 9-13, as well as compilation using Ivy.
  - If you need Ng8 support, please stick with: https://github.com/DanielYKPan/date-time-picker
