@@ -23,7 +23,7 @@
     "test-with-coverage": "ng test --watch=false --no-progress --browsers=ChromeHeadlessNoSandbox --code-coverage=true picker",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "build_lib": "ng build picker --prod=true && cp README.md dist/picker",
+    "build_lib": "ng build picker --configuration production && cp README.md dist/picker",
     "build_css_onWindows": "mkdir \"dist/picker/assets/style\" && node-sass --output-style=compressed projects/picker/src/sass/picker.scss > dist/picker/assets/style/picker.min.css",
     "build_css_onLinux": "mkdir -p dist/picker/assets/style && node-sass --output-style=compressed projects/picker/src/sass/picker.scss > dist/picker/assets/style/picker.min.css",
     "npm_pack": "cd dist/picker && npm pack",
@@ -47,7 +47,7 @@
     "moment": "^2.29.3",
     "moment-timezone": "^0.5.34",
     "np": "^6.5.0",
-    "rxjs": "^6.6.7",
+    "rxjs": "^6.6.7", 
     "tslib": "^2.4.0",
     "uuid": "^8.3.2",
     "zone.js": "~0.11.4"
