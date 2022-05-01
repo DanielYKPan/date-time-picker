@@ -4,7 +4,6 @@
 
 import { EventEmitter } from '@angular/core';
 import {
-    async,
     ComponentFixture,
     fakeAsync,
     flush,
@@ -50,7 +49,7 @@ class MockNgZone extends NgZone {
 describe('OwlTimerComponent', () => {
     let zone: MockNgZone;
 
-    beforeEach(async(() => {
+    beforeEach(() => {
         TestBed.configureTestingModule({
             imports: [OwlNativeDateTimeModule, OwlDateTimeModule],
             declarations: [StandardTimerComponent],
@@ -59,7 +58,7 @@ describe('OwlTimerComponent', () => {
                 { provide: NgZone, useFactory: () => (zone = new MockNgZone()) }
             ]
         }).compileComponents();
-    }));
+    });
 
     describe('standard timer', () => {
         let fixture: ComponentFixture<StandardTimerComponent>;

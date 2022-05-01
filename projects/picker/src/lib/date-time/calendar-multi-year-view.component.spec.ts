@@ -2,7 +2,7 @@
  * calendar-multi-year-view.component.spec
  */
 
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { OwlDateTimeIntl } from './date-time-picker-intl.service';
 import { OwlNativeDateTimeModule } from './adapter/native-date-time.module';
 import { OwlDateTimeModule } from './date-time.module';
@@ -41,7 +41,7 @@ const YEAR_ROWS = 7;
 const YEARS_PER_ROW = 3;
 
 describe('OwlMultiYearViewComponent', () => {
-    beforeEach(async(() => {
+    beforeEach(() => {
         TestBed.configureTestingModule({
             imports: [OwlNativeDateTimeModule, OwlDateTimeModule],
             declarations: [
@@ -57,7 +57,7 @@ describe('OwlMultiYearViewComponent', () => {
                     } as Options['multiYear']),
             },]
         }).compileComponents();
-    }));
+    });
 
     describe('standard multi-years view', () => {
         let fixture: ComponentFixture<StandardMultiYearViewComponent>;

@@ -2,7 +2,7 @@
  * calendar-year-view.component.spec
  */
 
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { OwlDateTimeIntl } from './date-time-picker-intl.service';
 import { OwlNativeDateTimeModule } from './adapter/native-date-time.module';
 import { OwlDateTimeModule } from './date-time.module';
@@ -35,7 +35,7 @@ const JAN = 0,
     DEC = 11;
 
 describe('OwlYearViewComponent', () => {
-    beforeEach(async(() => {
+    beforeEach(() => {
         TestBed.configureTestingModule({
             imports: [OwlNativeDateTimeModule, OwlDateTimeModule],
             declarations: [
@@ -44,7 +44,7 @@ describe('OwlYearViewComponent', () => {
             ],
             providers: [OwlDateTimeIntl]
         }).compileComponents();
-    }));
+    });
 
     describe('standard year view', () => {
         let fixture: ComponentFixture<StandardYearViewComponent>;

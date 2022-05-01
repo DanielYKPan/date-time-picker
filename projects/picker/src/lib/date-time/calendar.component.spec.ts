@@ -3,7 +3,6 @@
  */
 
 import {
-    async,
     ComponentFixture,
     inject,
     TestBed
@@ -42,7 +41,7 @@ export const JAN = 0,
 describe('OwlCalendarComponent', () => {
     let zone: MockNgZone;
 
-    beforeEach(async(() => {
+    beforeEach(() => {
         TestBed.configureTestingModule({
             imports: [OwlNativeDateTimeModule, OwlDateTimeModule],
             declarations: [
@@ -55,7 +54,7 @@ describe('OwlCalendarComponent', () => {
                 { provide: NgZone, useFactory: () => (zone = new MockNgZone()) }
             ]
         }).compileComponents();
-    }));
+    });
 
     describe('standard calendar', () => {
         let fixture: ComponentFixture<StandardCalendarComponent>;
@@ -80,12 +79,12 @@ describe('OwlCalendarComponent', () => {
             testComponent = fixture.componentInstance;
         });
 
-        it('should be in month view with specified month active', async(() => {
+        it('should be in month view with specified month active', () => {
             expect(calendarInstance.currentView).toBe(DateView.MONTH);
             expect(calendarInstance.pickerMoment).toEqual(
                 new Date(2018, JAN, 31)
             );
-        }));
+        });
 
         it('should select date in month view', () => {
             const monthCell = calendarElement.querySelector(
