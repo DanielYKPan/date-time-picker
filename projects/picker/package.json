@@ -1,5 +1,5 @@
 {
-  "name": "@danielmoncada/angular-datetime-picker",
+  "name": "@leeviviertola/date-time-picker",
   "version": "14.0.1",
   "description": "Angular Date Time Picker",
   "keywords": [
@@ -13,13 +13,13 @@
     "material",
     "ngx"
   ],
-  "author": "Maintained and updated by Daniel Moncada, original implementatiom by Daniel Pan",
+  "author": "Fork of a fork made by Daniel Moncada, Maintained and updated by Leevi Viertola, original implementatiom by Daniel Pan",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/danielmoncada/date-time-picker.git"
+    "url": "https://github.com/leeviViertola/date-time-picker.git"
   },
-  "homepage": "https://github.com/danielmoncada/date-time-picker",
+  "homepage": "https://github.com/leeviViertola/date-time-picker",
   "publishConfig": {
     "access": "public"
   },
