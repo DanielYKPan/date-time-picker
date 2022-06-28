@@ -15,7 +15,7 @@ import {
 } from '@angular/core';
 import { coerceNumberProperty } from '@angular/cdk/coercion';
 import { Subject, Subscription } from 'rxjs';
-import { debounceTime, takeUntil } from 'rxjs/operators';
+import { debounceTime } from 'rxjs/operators';
 
 @Component({
     exportAs: 'owlDateTimeTimerBox',
