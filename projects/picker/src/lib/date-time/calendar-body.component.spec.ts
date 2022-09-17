@@ -4,18 +4,16 @@ import { Component } from '@angular/core';
 import { By } from '@angular/platform-browser';
 
 describe('OwlCalendarBodyComponent', () => {
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        declarations: [
-          OwlCalendarBodyComponent,
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [
+        OwlCalendarBodyComponent,
 
-          // Test components
-          StandardCalendarBodyComponent
-        ]
-      }).compileComponents();
-    })
-  );
+        // Test components
+        StandardCalendarBodyComponent
+      ]
+    }).compileComponents();
+  }));
 
   describe('standard CalendarBodyComponent', () => {
     let fixture: ComponentFixture<StandardCalendarBodyComponent>;

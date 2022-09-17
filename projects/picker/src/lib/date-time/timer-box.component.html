@@ -34,7 +34,7 @@
   <input
     class="owl-dt-timer-input"
     maxlength="2"
-    [value]="displayValue | numberFixedLen: 2"
+    [value]="displayValue | numberFixedLen : 2"
     (wheel)="handleWheelChange($event)"
     (keydown.arrowUp)="!upBtnDisabled && upBtnClicked()"
     (keydown.arrowDown)="!downBtnAriaLabel && downBtnClicked()"

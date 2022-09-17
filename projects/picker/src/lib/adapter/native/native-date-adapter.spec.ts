@@ -13,13 +13,11 @@ describe('NativeDateTimeAdapter', () => {
   let adapter: NativeDateTimeAdapter;
   let assertValidDate: (d: Date | null, valid: boolean) => void;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [NativeDateTimeModule]
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [NativeDateTimeModule]
+    }).compileComponents();
+  }));
 
   beforeEach(inject(
     [DateTimeAdapter, Platform],
@@ -573,14 +571,12 @@ describe('NativeDateTimeAdapter', () => {
 describe('NativeDateTimeAdapter with OWL_DATE_TIME_LOCALE override', () => {
   let adapter: NativeDateTimeAdapter;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [NativeDateTimeModule],
-        providers: [{ provide: OWL_DATE_TIME_LOCALE, useValue: 'da-DK' }]
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [NativeDateTimeModule],
+      providers: [{ provide: OWL_DATE_TIME_LOCALE, useValue: 'da-DK' }]
+    }).compileComponents();
+  }));
 
   beforeEach(inject([DateTimeAdapter], (d: NativeDateTimeAdapter) => {
     adapter = d;
@@ -598,14 +594,12 @@ describe('NativeDateTimeAdapter with OWL_DATE_TIME_LOCALE override', () => {
 describe('NativeDateTimeAdapter with LOCALE_ID override', () => {
   let adapter: NativeDateTimeAdapter;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [NativeDateTimeModule],
-        providers: [{ provide: LOCALE_ID, useValue: 'da-DK' }]
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [NativeDateTimeModule],
+      providers: [{ provide: LOCALE_ID, useValue: 'da-DK' }]
+    }).compileComponents();
+  }));
 
   beforeEach(inject([DateTimeAdapter], (d: NativeDateTimeAdapter) => {
     adapter = d;

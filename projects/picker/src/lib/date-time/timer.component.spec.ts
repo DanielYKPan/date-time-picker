@@ -30,18 +30,13 @@ class MockNgZone extends NgZone {
 describe('OwlTimerComponent', () => {
   let zone: MockNgZone;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [OwlNativeDateTimeModule, OwlDateTimeModule],
-        declarations: [StandardTimerComponent],
-        providers: [
-          OwlDateTimeIntl,
-          { provide: NgZone, useFactory: () => (zone = new MockNgZone()) }
-        ]
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [OwlNativeDateTimeModule, OwlDateTimeModule],
+      declarations: [StandardTimerComponent],
+      providers: [OwlDateTimeIntl, { provide: NgZone, useFactory: () => (zone = new MockNgZone()) }]
+    }).compileComponents();
+  }));
 
   describe('standard timer', () => {
     let fixture: ComponentFixture<StandardTimerComponent>;
