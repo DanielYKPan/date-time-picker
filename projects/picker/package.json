@@ -1,6 +1,6 @@
 {
   "name": "ng-pick-datetime",
-  "version": "13.1.2",
+  "version": "14.0.2",
   "description": "Angular Date Time Picker",
   "keywords": [
     "Angular",
@@ -16,8 +16,8 @@
     "url": "https://github.com/DanielYKPan/date-time-picker.git"
   },
   "peerDependencies": {
-    "@angular/common": "^13.1.2",
-    "@angular/core": "^13.1.2",
-    "@angular/cdk": "^13.1.1"
+    "@angular/common": "^14.0.2",
+    "@angular/core": "^14.0.2",
+    "@angular/cdk": "^14.0.2"
   }
 }
