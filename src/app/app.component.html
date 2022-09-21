@@ -1,6 +1,17 @@
-<label for="daterange">Datetime range (click, then press 'Set' to modify):</label>
-<input [(ngModel)]="selectedMoments" [selectMode]="'range'"
-       [owlDateTimeTrigger]="date_range_component" [owlDateTime]="date_range_component"
-       style="width: 100%; color: cornflowerblue"
-       id="daterange" matInput>
+<label for="daterange"
+    >Datetime range (click, then press 'Set' to modify):</label
+>
+<input
+    [(ngModel)]="selectedMoments"
+    [selectMode]="'range'"
+    [owlDateTimeTrigger]="date_range_component"
+    [owlDateTime]="date_range_component"
+    style="width: 100%; color: cornflowerblue"
+    id="daterange"
+    matInput
+/>
 <owl-date-time #date_range_component></owl-date-time>
+
+<span>Inline:</span>
+<br />
+<owl-date-time-inline></owl-date-time-inline>
