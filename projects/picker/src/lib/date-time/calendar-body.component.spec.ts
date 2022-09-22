@@ -75,9 +75,10 @@ describe('OwlCalendarBodyComponent', () => {
         });
 
         it('should have aria-current set for today', () => {
-            const currentCells = calendarBodyNativeElement.querySelectorAll('.owl-dt-calendar-cell[aria-current=date]');
+            const currentCells = calendarBodyNativeElement.querySelectorAll('.owl-dt-calendar-cell[aria-current]');
             expect(currentCells.length).toBe(1);
             const todayCell = calendarBodyNativeElement.querySelector('.owl-dt-calendar-cell-today');
+            expect(currentCells[0].getAttribute('aria-current')).toBe('date');
             expect(currentCells[0].firstChild).toBe(todayCell);
         });
 
