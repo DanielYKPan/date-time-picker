@@ -9,6 +9,8 @@
         [class.owl-dt-calendar-cell-range-to]="isRangeTo(item.value)"
         [attr.aria-label]="item.ariaLabel"
         [attr.aria-disabled]="!item.enabled || null"
+        [attr.aria-current]="item.value === todayValue ? 'date' : null"
+        [attr.aria-selected]="isSelected(item.value)"
         [style.width.%]="100 / numCols"
         [style.paddingTop.%]="50 * cellRatio / numCols"
         [style.paddingBottom.%]="50 * cellRatio / numCols"
