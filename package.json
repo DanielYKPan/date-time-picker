@@ -1,6 +1,6 @@
 {
   "name": "@danielmoncada/angular-datetime-picker",
-  "version": "14.1.0",
+  "version": "14.2.0",
   "description": "Angular Date Time Picker",
   "keywords": [
     "Angular",
@@ -47,7 +47,7 @@
     "moment": "^2.29.3",
     "moment-timezone": "^0.5.34",
     "np": "^6.5.0",
-    "rxjs": "^6.6.7", 
+    "rxjs": "^6.6.7",
     "tslib": "^2.4.0",
     "uuid": "^8.3.2",
     "zone.js": "~0.11.5"
