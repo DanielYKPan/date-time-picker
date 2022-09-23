@@ -94,8 +94,8 @@ export class OwlTimerBoxComponent implements OnInit, OnDestroy {
     }
 
     public ngOnInit() {
-        this.inputStreamSub = this.inputStream.pipe(debounceTime(1000)).subscribe(( val: string ) => {
-            if (val && this.hasFocus) {
+        this.inputStreamSub = this.inputStream.pipe(debounceTime(750)).subscribe(( val: string ) => {
+            if (val) {
                 const inputValue = coerceNumberProperty(val, 0);
                 this.updateValueViaInput(inputValue);
             }
