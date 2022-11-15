@@ -7,6 +7,8 @@ Angular Date Time Picker
 **Angular date time picker - Angular reusable UI component**
 **This package supports Angular 8**
 
+- **For Angular 9+ support, use [Angular Date/Time Picker](https://www.npmjs.com/package/@danielmoncada/angular-datetime-picker)**
+
 
 Breaking Changes
 -------
