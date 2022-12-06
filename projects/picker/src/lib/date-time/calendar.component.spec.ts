@@ -20,22 +20,17 @@ import { FEB, JAN, NOV } from '../utils/month-constants';
 describe('OwlCalendarComponent', () => {
   let zone: MockNgZone;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [OwlNativeDateTimeModule, OwlDateTimeModule],
-        declarations: [
-          StandardCalendarComponent,
-          CalendarWithMinMaxComponent,
-          CalendarWithDateFilterComponent
-        ],
-        providers: [
-          OwlDateTimeIntl,
-          { provide: NgZone, useFactory: () => (zone = new MockNgZone()) }
-        ]
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [OwlNativeDateTimeModule, OwlDateTimeModule],
+      declarations: [
+        StandardCalendarComponent,
+        CalendarWithMinMaxComponent,
+        CalendarWithDateFilterComponent
+      ],
+      providers: [OwlDateTimeIntl, { provide: NgZone, useFactory: () => (zone = new MockNgZone()) }]
+    }).compileComponents();
+  }));
 
   describe('standard calendar', () => {
     let fixture: ComponentFixture<StandardCalendarComponent>;
@@ -56,13 +51,10 @@ describe('OwlCalendarComponent', () => {
       testComponent = fixture.componentInstance;
     });
 
-    it(
-      'should be in month view with specified month active',
-      waitForAsync(() => {
-        expect(calendarInstance.currentView).toBe('month');
-        expect(calendarInstance.pickerMoment).toEqual(new Date(2018, JAN, 31));
-      })
-    );
+    it('should be in month view with specified month active', waitForAsync(() => {
+      expect(calendarInstance.currentView).toBe('month');
+      expect(calendarInstance.pickerMoment).toEqual(new Date(2018, JAN, 31));
+    }));
 
     it('should select date in month view', () => {
       const monthCell = calendarElement.querySelector('[aria-label="January 31, 2018"]');
