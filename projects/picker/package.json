@@ -30,5 +30,10 @@
   },
   "dependencies": {
     "tslib": "^2.3.1"
+  },
+  "exports": {
+    "./assets/style/picker.min.css": {
+      "default":  "./assets/style/picker.min.css"
+    }
   }
 }
