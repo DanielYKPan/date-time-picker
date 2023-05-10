@@ -4,7 +4,7 @@
 [![npm](https://img.shields.io/npm/v/@danielmoncada/angular-datetime-picker.svg?maxAge=2592000?style=flat-square)](https://www.npmjs.com/package/@danielmoncada/angular-datetime-picker)
 [![npm](https://img.shields.io/npm/dm/@danielmoncada/angular-datetime-picker.svg)](https://www.npmjs.com/package/@danielmoncada/angular-datetime-picker)
 
-** *This package supports Angular 9/10/11/12/13/14/15**
+** *This package supports Angular 9/10/11/12/13/14/15/16**
 
 Breaking Changes
 -------
