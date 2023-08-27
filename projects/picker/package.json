@@ -1,6 +1,6 @@
 {
   "name": "ng-date-and-time-picker",
-  "version": "14.1.0",
+  "version": "15.0.0",
   "description": "Angular Date Time Picker",
   "keywords": [
     "Angular",
@@ -15,13 +15,18 @@
     "type": "git",
     "url": "https://github.com/DanielYKPan/date-time-picker.git"
   },
+  "exports": {
+    "./styles/picker": {
+      "sass": "./styles/picker.scss"
+    }
+  },
   "peerDependencies": {
-    "@angular/common": "^14.2.12",
-    "@angular/core": "^14.2.12",
-    "@angular/cdk": "^14.2.7",
-    "rxjs": "^7.5.7"
+    "@angular/common": "^15.2.9",
+    "@angular/core": "^15.2.9",
+    "@angular/cdk": "^15.2.9",
+    "rxjs": "^7.8.1"
   },
   "dependencies": {
-    "tslib": "^2.4.1"
+    "tslib": "^2.6.2"
   }
 }

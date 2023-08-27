@@ -10,7 +10,6 @@ import {
   Input,
   NgZone,
   OnDestroy,
-  OnInit,
   Optional,
   Output
 } from '@angular/core';
@@ -25,15 +24,12 @@ import { Subscription } from 'rxjs';
   selector: 'owl-date-time-calendar',
   exportAs: 'owlDateTimeCalendar',
   templateUrl: './calendar.component.html',
-  // eslint-disable-next-line @angular-eslint/no-host-metadata-property
   host: {
     '[class.owl-dt-calendar]': 'owlDTCalendarClass'
   },
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class OwlCalendarComponent<T>
-  implements OnInit, AfterContentInit, AfterViewChecked, OnDestroy
-{
+export class OwlCalendarComponent<T>  implements AfterContentInit, AfterViewChecked, OnDestroy {
   /**
    * Date filter for the month and year view
    */
@@ -243,7 +239,7 @@ export class OwlCalendarComponent<T>
     return true;
   }
 
-  private intlChangesSub = Subscription.EMPTY;
+  private readonly intlChangesSub: Subscription;
 
   /**
    * Used for scheduling that focus should be moved to the active cell on the next tick.
@@ -266,8 +262,6 @@ export class OwlCalendarComponent<T>
       this.cdRef.markForCheck();
     });
   }
-
-  public ngOnInit() {}
 
   public ngAfterContentInit(): void {
     this._currentView = this.startView;
@@ -327,7 +321,6 @@ export class OwlCalendarComponent<T>
   public goToDateInView(date: T, view: 'month' | 'year' | 'multi-years'): void {
     this.handlePickerMomentChange(date);
     this.currentView = view;
-    return;
   }
 
   /**
@@ -336,7 +329,6 @@ export class OwlCalendarComponent<T>
   public handlePickerMomentChange(date: T): void {
     this.pickerMoment = this.dateTimeAdapter.clampDate(date, this.minDate, this.maxDate);
     this.pickerMomentChange.emit(this.pickerMoment);
-    return;
   }
 
   public userSelected(): void {
