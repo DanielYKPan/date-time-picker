@@ -7,7 +7,7 @@ cache:
 addons:
   chrome: stable
 before_script:
-  - npm install -g @angular/cli@9.0.4
+  - npm install -g @angular/cli@latest
   - npm install
 script:
   - npm run test-with-coverage
