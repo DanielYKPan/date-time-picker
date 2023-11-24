@@ -229,7 +229,7 @@ export class OwlDateTimeContainerComponent<T>
     public handleContainerAnimationDone(event: AnimationEvent): void {
         const toState = event.toState;
         if (toState === 'enter') {
-            this.pickerOpened$.next();
+            this.pickerOpened$.next(null);
         }
     }
 
