@@ -226,6 +226,12 @@ export class OwlDateTimeComponent<T> extends OwlDateTime<T>
     afterPickerClosed = new EventEmitter<any>();
 
     /**
+     * Callback before the picker is open
+     * */
+    @Output()
+    beforePickerOpen = new EventEmitter<any>();
+
+    /**
      * Callback when the picker is open
      * */
     @Output()
@@ -271,6 +277,7 @@ export class OwlDateTimeComponent<T> extends OwlDateTime<T>
     private hidePickerStreamSub = Subscription.EMPTY;
     private confirmSelectedStreamSub = Subscription.EMPTY;
     private pickerOpenedStreamSub = Subscription.EMPTY;
+    private pickerBeforeOpenedStreamSub = Subscription.EMPTY;
 
     /** The element that was focused before the date time picker was opened. */
     private focusedElementBeforeOpen: HTMLElement | null = null;
@@ -515,6 +522,11 @@ export class OwlDateTimeComponent<T> extends OwlDateTime<T>
             this.confirmSelectedStreamSub = null;
         }
 
+        if (this.pickerBeforeOpenedStreamSub) {
+            this.pickerBeforeOpenedStreamSub.unsubscribe();
+            this.pickerBeforeOpenedStreamSub = null;
+        }
+
         if (this.pickerOpenedStreamSub) {
             this.pickerOpenedStreamSub.unsubscribe();
             this.pickerOpenedStreamSub = null;
@@ -586,6 +598,9 @@ export class OwlDateTimeComponent<T> extends OwlDateTime<T>
         );
         this.pickerContainer = this.dialogRef.componentInstance;
 
+        this.dialogRef.beforeOpen().subscribe(() => {
+            this.beforePickerOpen.emit(null);
+        });
         this.dialogRef.afterOpen().subscribe(() => {
             this.afterPickerOpen.emit(null);
             this._opened = true;
@@ -619,6 +634,12 @@ export class OwlDateTimeComponent<T> extends OwlDateTime<T>
                 .pipe(take(1))
                 .subscribe(() => {
                     this.popupRef.updatePosition();
+                });
+
+            this.pickerBeforeOpenedStreamSub = this.pickerContainer.beforePickerOpenedStream
+                .pipe(take(1))
+                .subscribe(() => {
+                    this.beforePickerOpen.emit(null);
                 });
 
             // emit open stream

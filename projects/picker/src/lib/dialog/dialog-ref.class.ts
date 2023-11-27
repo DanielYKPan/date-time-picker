@@ -16,6 +16,8 @@ export class OwlDialogRef<T> {
 
     private _beforeClose$ = new Subject<any>();
 
+    private _beforeOpen$ = new Subject<any>();
+
     private _afterOpen$ = new Subject<any>();
 
     private _afterClosed$ = new Subject<any>();
@@ -35,6 +37,16 @@ export class OwlDialogRef<T> {
                  private container: OwlDialogContainerComponent,
                  public readonly id: string,
                  location?: Location ) {
+
+        this.container.animationStateChanged
+            .pipe(
+                filter(( event: AnimationEvent ) => event.phaseName === 'start' && event.toState === 'enter'),
+                take(1)
+            )
+            .subscribe(() => {
+                this._beforeOpen$.next();
+                this._beforeOpen$.complete();
+            });
 
         this.container.animationStateChanged
             .pipe(
@@ -140,6 +152,10 @@ export class OwlDialogRef<T> {
 
     public isAnimating(): boolean {
         return this.container.isAnimating;
+    }
+
+    public beforeOpen(): Observable<any> {
+        return this._beforeOpen$.asObservable();
     }
 
     public afterOpen(): Observable<any> {

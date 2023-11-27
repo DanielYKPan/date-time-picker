@@ -67,6 +67,7 @@ export class OwlDialogService {
     private ariaHiddenElements = new Map<Element, string | null>();
 
     private _openDialogsAtThisLevel: OwlDialogRef<any>[] = [];
+    private _beforeOpenAtThisLevel = new Subject<OwlDialogRef<any>>();
     private _afterOpenAtThisLevel = new Subject<OwlDialogRef<any>>();
     private _afterAllClosedAtThisLevel = new Subject<void>();
 
@@ -75,6 +76,13 @@ export class OwlDialogService {
         return this.parentDialog
             ? this.parentDialog.openDialogs
             : this._openDialogsAtThisLevel;
+    }
+
+    /** Stream that emits when a dialog has been opened. */
+    get beforeOpen(): Subject<OwlDialogRef<any>> {
+        return this.parentDialog
+            ? this.parentDialog.beforeOpen
+            : this._beforeOpenAtThisLevel;
     }
 
     /** Stream that emits when a dialog has been opened. */
@@ -155,6 +163,7 @@ export class OwlDialogService {
         dialogRef
             .afterClosed()
             .subscribe(() => this.removeOpenDialog(dialogRef));
+        this.beforeOpen.next(dialogRef);
         this.afterOpen.next(dialogRef);
         return dialogRef;
     }
