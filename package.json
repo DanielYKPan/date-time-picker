@@ -23,12 +23,13 @@
     "test-with-coverage": "ng test --watch=false --no-progress --browsers=ChromeHeadlessNoSandbox --code-coverage=true picker",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "build_lib": "ng build picker --configuration production && cp README.md dist/picker",
+    "build_lib_onWindows": "ng build picker --configuration production && copy \"README.md\" \"dist/picker\"",
+    "build_lib_onLinux": "ng build picker --configuration production && cp README.md dist/picker",
     "build_css_onWindows": "mkdir \"dist/picker/assets/style\" && node-sass --output-style=compressed projects/picker/src/sass/picker.scss > dist/picker/assets/style/picker.min.css",
     "build_css_onLinux": "mkdir -p dist/picker/assets/style && node-sass --output-style=compressed projects/picker/src/sass/picker.scss > dist/picker/assets/style/picker.min.css",
     "npm_pack": "cd dist/picker && npm pack",
-    "package_windows": "npm run build_lib && npm run build_css_onWindows && npm run npm_pack",
-    "package_linux": "npm run build_lib && npm run build_css_onLinux && npm run npm_pack"
+    "package_windows": "npm run build_lib_onWindows && npm run build_css_onWindows && npm run npm_pack",
+    "package_linux": "npm run build_lib_onLinux && npm run build_css_onLinux && npm run npm_pack"
   },
   "repository": {
     "type": "git",

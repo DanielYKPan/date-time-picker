@@ -41,6 +41,7 @@ import {
         owlDateTimePickerAnimations.fadeInPicker
     ],
     host: {
+        '(@transformPicker.start)': 'handleContainerAnimationStart($event)',
         '(@transformPicker.done)': 'handleContainerAnimationDone($event)',
         '[class.owl-dt-container]': 'owlDTContainerClass',
         '[class.owl-dt-popup-container]': 'owlDTPopupContainerClass',
@@ -64,7 +65,7 @@ export class OwlDateTimeContainerComponent<T>
     // retain start and end time
     private retainStartTime: T;
     private retainEndTime: T;
-    
+
     /**
      * Stream emits when try to hide picker
      * */
@@ -81,6 +82,12 @@ export class OwlDateTimeContainerComponent<T>
 
     get confirmSelectedStream(): Observable<any> {
         return this.confirmSelected$.asObservable();
+    }
+
+    private beforePickerOpened$ = new Subject<any>();
+
+    get beforePickerOpenedStream(): Observable<any> {
+        return this.beforePickerOpened$.asObservable();
     }
 
     private pickerOpened$ = new Subject<any>();
@@ -226,6 +233,12 @@ export class OwlDateTimeContainerComponent<T>
         this.focusPicker();
     }
 
+    public handleContainerAnimationStart(event: AnimationEvent): void {
+        const toState = event.toState;
+        if (toState === 'enter') {
+            this.beforePickerOpened$.next();
+        }
+    }
     public handleContainerAnimationDone(event: AnimationEvent): void {
         const toState = event.toState;
         if (toState === 'enter') {
