@@ -79,7 +79,7 @@ export class OwlDateTimeTriggerDirective<T> implements OnInit, OnChanges, AfterC
         const pickerDisabled = this.dtPicker ?
             this.dtPicker.disabledChange : observableOf();
 
-        this.stateChanges = merge(pickerDisabled, inputDisabled)
+        this.stateChanges = merge([pickerDisabled, inputDisabled])
             .subscribe(() => {
                 this.changeDetector.markForCheck();
             });

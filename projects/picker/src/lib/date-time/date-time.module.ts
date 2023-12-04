@@ -55,9 +55,6 @@ import { optionsProviders } from './options-provider';
         OwlDateTimeIntl,
         OWL_DTPICKER_SCROLL_STRATEGY_PROVIDER,
         ...optionsProviders,
-    ],
-    entryComponents: [
-        OwlDateTimeContainerComponent,
     ]
 })
 export class OwlDateTimeModule {

@@ -4,14 +4,16 @@
 [![npm](https://img.shields.io/npm/v/@danielmoncada/angular-datetime-picker.svg?maxAge=2592000?style=flat-square)](https://www.npmjs.com/package/@danielmoncada/angular-datetime-picker)
 [![npm](https://img.shields.io/npm/dm/@danielmoncada/angular-datetime-picker.svg)](https://www.npmjs.com/package/@danielmoncada/angular-datetime-picker)
 
-** *This package supports Angular 9/10/11/12/13/14/15/16**
+**The current version of this package supports Angular 17**
+
+If you need support for other Angular version, see *Breaking Changes* below.
 
 Breaking Changes
 -------
- - Version 14.x.x >= no longer supports < ng 13. If you need View Enginer support, stick with version 13.x.x.
+ - Version 17.x.x >= no longer supports ng 16 - 13. If you need ng 16-13 support, stick with version 16.x.x.
+ - Version 14.x.x >= no longer supports < ng 13. If you need View Engine support, stick with version 13.x.x.
  - Version 13.1.0+ no longer supports the `MomentJs` time adapter natively. If you want to use the MomentJs adapter, see [GitHub](https://github.com/danielmoncada/date-time-picker-moment-adapter) or [npm](https://www.npmjs.com/package/@danielmoncada/angular-datetime-picker-moment-adapter).
- - The date/time picker has been updated to support Angular 9-15, as well as compilation using Ivy.
- - If you need Ng8 support, please stick with: https://github.com/DanielYKPan/date-time-picker
+ - If you need ng 8 support, please stick with: https://github.com/DanielYKPan/date-time-picker
 
 Description
 -------
