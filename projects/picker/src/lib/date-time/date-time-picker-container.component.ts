@@ -236,7 +236,7 @@ export class OwlDateTimeContainerComponent<T>
     public handleContainerAnimationStart(event: AnimationEvent): void {
         const toState = event.toState;
         if (toState === 'enter') {
-            this.beforePickerOpened$.next();
+            this.beforePickerOpened$.next(null);
         }
     }
     public handleContainerAnimationDone(event: AnimationEvent): void {
