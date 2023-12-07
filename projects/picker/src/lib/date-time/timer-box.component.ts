@@ -6,6 +6,8 @@ import {
     ChangeDetectionStrategy,
     Component,
     EventEmitter,
+    ElementRef,
+    ViewChild,
     Input,
     OnDestroy,
     OnInit,
@@ -13,7 +15,7 @@ import {
 } from '@angular/core';
 import { coerceNumberProperty } from '@angular/cdk/coercion';
 import { Subject, Subscription } from 'rxjs';
-import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { debounceTime } from 'rxjs/operators';
 
 @Component({
     exportAs: 'owlDateTimeTimerBox',
@@ -63,30 +65,46 @@ export class OwlTimerBoxComponent implements OnInit, OnDestroy {
 
     private inputStreamSub = Subscription.EMPTY;
 
-    get displayValue(): number {
-        return this.boxValue || this.value;
+    private hasFocus = false;
+
+    get displayValue(): string {
+        if (this.hasFocus) {
+            // Don't try to reformat the value that user is currently editing
+            return this.valueInput.nativeElement.value;
+        }
+
+        const value = this.boxValue || this.value;
+
+        if (value === null || isNaN(value)) {
+            return '';
+        }
+
+        return value < 10 ? '0' + value.toString() : value.toString();
     }
 
     get owlDTTimerBoxClass(): boolean {
         return true;
     }
 
+    @ViewChild('valueInput', { static: true })
+    private valueInput: ElementRef<HTMLInputElement>;
+    private onValueInputMouseWheelBind = this.onValueInputMouseWheel.bind(this);
+
     constructor() {
     }
 
     public ngOnInit() {
-        this.inputStreamSub = this.inputStream.pipe(
-            debounceTime(500),
-            distinctUntilChanged()
-        ).subscribe(( val: string ) => {
+        this.inputStreamSub = this.inputStream.pipe(debounceTime(750)).subscribe(( val: string ) => {
             if (val) {
                 const inputValue = coerceNumberProperty(val, 0);
                 this.updateValueViaInput(inputValue);
             }
-        })
+        });
+        this.bindValueInputMouseWheel();
     }
 
     public ngOnDestroy(): void {
+        this.unbindValueInputMouseWheel();
         this.inputStreamSub.unsubscribe();
     }
 
@@ -98,8 +116,20 @@ export class OwlTimerBoxComponent implements OnInit, OnDestroy {
         this.updateValue(this.value - this.step);
     }
 
-    public handleInputChange( val: string ): void {
+    public handleInputChange(val: string ): void {
         this.inputStream.next(val);
+    }
+
+    public focusIn(): void {
+        this.hasFocus = true;
+    }
+
+    public focusOut(value: string): void {
+        this.hasFocus = false;
+        if (value) {
+            const inputValue = coerceNumberProperty(value, 0);
+            this.updateValueViaInput(inputValue);
+        }
     }
 
     private updateValue( value: number ): void {
@@ -111,5 +141,34 @@ export class OwlTimerBoxComponent implements OnInit, OnDestroy {
             return;
         }
         this.inputChange.emit(value);
+    }
+
+    private onValueInputMouseWheel( event: any ): void {
+        event = event || window.event;
+        const delta = event.wheelDelta || -event.deltaY || -event.detail;
+
+        if (delta > 0) {
+          if (!this.upBtnDisabled) {
+            this.upBtnClicked();
+          }
+        } else if (delta < 0) {
+          if (!this.downBtnDisabled) {
+            this.downBtnClicked();
+          }
+        }
+
+        event.preventDefault ? event.preventDefault() : (event.returnValue = false);
+    }
+
+    private bindValueInputMouseWheel(): void {
+        this.valueInput.nativeElement.addEventListener(
+            'onwheel' in document ? 'wheel' : 'mousewheel',
+            this.onValueInputMouseWheelBind);
+    }
+
+    private unbindValueInputMouseWheel(): void {
+        this.valueInput.nativeElement.removeEventListener(
+            'onwheel' in document ? 'wheel' : 'mousewheel',
+            this.onValueInputMouseWheelBind);
     }
 }

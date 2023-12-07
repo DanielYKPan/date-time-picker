@@ -1,13 +1,13 @@
 /**
  * calendar-body.component.spec
  */
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { CalendarCell, OwlCalendarBodyComponent } from './calendar-body.component';
 import { Component } from '@angular/core';
 import { By } from '@angular/platform-browser';
 
 describe('OwlCalendarBodyComponent', () => {
-    beforeEach(async(() => {
+    beforeEach((() => {
         TestBed.configureTestingModule({
             declarations: [
                 OwlCalendarBodyComponent,
@@ -25,7 +25,7 @@ describe('OwlCalendarBodyComponent', () => {
         let rowEls: NodeListOf<Element>;
         let cellEls: NodeListOf<Element>;
 
-        let refreshElementLists = () => {
+        const refreshElementLists = () => {
             rowEls = calendarBodyNativeElement.querySelectorAll('tr');
             cellEls = calendarBodyNativeElement.querySelectorAll('.owl-dt-calendar-cell');
         };
@@ -34,7 +34,7 @@ describe('OwlCalendarBodyComponent', () => {
             fixture = TestBed.createComponent(StandardCalendarBodyComponent);
             fixture.detectChanges();
 
-            let calendarBodyDebugElement = fixture.debugElement.query(By.directive(OwlCalendarBodyComponent));
+            const calendarBodyDebugElement = fixture.debugElement.query(By.directive(OwlCalendarBodyComponent));
             calendarBodyNativeElement = calendarBodyDebugElement.nativeElement;
             testComponent = fixture.componentInstance;
 
@@ -47,13 +47,13 @@ describe('OwlCalendarBodyComponent', () => {
         });
 
         it('should highlight today', () => {
-            let todayCell = calendarBodyNativeElement.querySelector('.owl-dt-calendar-cell-today')!;
+            const todayCell = calendarBodyNativeElement.querySelector('.owl-dt-calendar-cell-today');
             expect(todayCell).not.toBeNull();
             expect(todayCell.innerHTML.trim()).toBe('3');
         });
 
         it('should highlight selected', () => {
-            let selectedCell = calendarBodyNativeElement.querySelector('.owl-dt-calendar-cell-selected')!;
+            const selectedCell = calendarBodyNativeElement.querySelector('.owl-dt-calendar-cell-selected');
             expect(selectedCell).not.toBeNull();
             expect(selectedCell.innerHTML.trim()).toBe('4');
         });
@@ -61,7 +61,7 @@ describe('OwlCalendarBodyComponent', () => {
         it('cell should be selected on click', () => {
             spyOn(testComponent, 'handleSelect');
             expect(testComponent.handleSelect).not.toHaveBeenCalled();
-            let todayElement =
+            const todayElement =
                 calendarBodyNativeElement.querySelector('.owl-dt-calendar-cell-today') as HTMLElement;
             todayElement.click();
             fixture.detectChanges();
@@ -72,6 +72,23 @@ describe('OwlCalendarBodyComponent', () => {
         it('should mark active date', () => {
             expect((cellEls[10] as HTMLElement).innerText.trim()).toBe('11');
             expect(cellEls[10].classList).toContain('owl-dt-calendar-cell-active');
+        });
+
+        it('should have aria-current set for today', () => {
+            const currentCells = calendarBodyNativeElement.querySelectorAll('.owl-dt-calendar-cell[aria-current]');
+            expect(currentCells.length).toBe(1);
+            const todayCell = calendarBodyNativeElement.querySelector('.owl-dt-calendar-cell-today');
+            expect(currentCells[0].getAttribute('aria-current')).toBe('date');
+            expect(currentCells[0].firstChild).toBe(todayCell);
+        });
+
+        it('should have aria-selected set on selected cells', () => {
+            const calendarCells = calendarBodyNativeElement.querySelectorAll('.owl-dt-calendar-cell');
+            const selectedCells = calendarBodyNativeElement.querySelectorAll('.owl-dt-calendar-cell[aria-selected=true]');
+            const nonSelectedCells = calendarBodyNativeElement.querySelectorAll('.owl-dt-calendar-cell[aria-selected=false]');
+            expect(nonSelectedCells.length).toBe(calendarCells.length - selectedCells.length);
+            const selectedCell = calendarBodyNativeElement.querySelector('.owl-dt-calendar-cell-selected');
+            expect(selectedCells[0].firstChild).toBe(selectedCell);
         });
     });
 });

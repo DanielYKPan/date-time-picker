@@ -1,0 +1,16 @@
+language: node_js
+node_js:
+  - "10"
+cache:
+  directories:
+    - ./node_modules
+addons:
+  chrome: stable
+before_script:
+  - npm install -g @angular/cli@17
+  - npm install
+script:
+  - npm run test-with-coverage
+after_success:
+  - ./node_modules/.bin/codecov -f coverage-final.json
+sudo: required

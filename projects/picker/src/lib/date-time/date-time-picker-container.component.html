@@ -14,9 +14,12 @@
             [maxDate]="picker.maxDateTime"
             [dateFilter]="picker.dateTimeFilter"
             [startView]="picker.startView"
+            [yearOnly]="picker.yearOnly"
+            [multiyearOnly]="picker.multiyearOnly"
             [hideOtherMonths]="picker.hideOtherMonths"
             (yearSelected)="picker.selectYear($event)"
             (monthSelected)="picker.selectMonth($event)"
+            (dateClicked)="picker.selectDate($event)"
             (selectedChange)="dateSelected($event)"></owl-date-time-calendar>
 
     <owl-date-time-timer

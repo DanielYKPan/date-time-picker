@@ -1,6 +1,13 @@
 {
     "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
     "version": 1,
+    "cli": {
+        "cache": {
+            "enabled": true,
+            "path": ".cache",
+            "environment": "all"
+        }
+    },
     "newProjectRoot": "projects",
     "projects": {
         "date-time-picker-app": {
@@ -10,20 +17,26 @@
             "prefix": "owl",
             "schematics": {
                 "@schematics/angular:component": {
-                    "styleext": "sass"
+                    "style": "sass"
                 }
             },
             "architect": {
                 "build": {
                     "builder": "@angular-devkit/build-angular:browser",
                     "options": {
+                        "aot": true,
                         "outputPath": "dist/date-time-picker-app",
                         "index": "src/index.html",
                         "main": "src/main.ts",
                         "polyfills": "src/polyfills.ts",
                         "tsConfig": "src/tsconfig.app.json",
-                        "assets": ["src/favicon.ico", "src/assets"],
-                        "styles": ["src/styles.sass"],
+                        "assets": [
+                            "src/favicon.ico",
+                            "src/assets"
+                        ],
+                        "styles": [
+                            "src/styles.sass"
+                        ],
                         "scripts": []
                     },
                     "configurations": {
@@ -48,6 +61,10 @@
                                     "type": "initial",
                                     "maximumWarning": "2mb",
                                     "maximumError": "5mb"
+                                },
+                                {
+                                    "type": "anyComponentStyle",
+                                    "maximumWarning": "6kb"
                                 }
                             ]
                         }
@@ -56,18 +73,18 @@
                 "serve": {
                     "builder": "@angular-devkit/build-angular:dev-server",
                     "options": {
-                        "browserTarget": "date-time-picker-app:build"
+                      "buildTarget": "date-time-picker-app:build"
                     },
                     "configurations": {
                         "production": {
-                            "browserTarget": "date-time-picker-app:build:production"
+                          "buildTarget": "date-time-picker-app:build:production"
                         }
                     }
                 },
                 "extract-i18n": {
                     "builder": "@angular-devkit/build-angular:extract-i18n",
                     "options": {
-                        "browserTarget": "date-time-picker-app:build"
+                      "buildTarget": "date-time-picker-app:build"
                     }
                 },
                 "test": {
@@ -77,9 +94,14 @@
                         "polyfills": "src/polyfills.ts",
                         "tsConfig": "src/tsconfig.spec.json",
                         "karmaConfig": "src/karma.conf.js",
-                        "styles": ["src/styles.sass"],
+                        "styles": [
+                            "src/styles.sass"
+                        ],
                         "scripts": [],
-                        "assets": ["src/favicon.ico", "src/assets"]
+                        "assets": [
+                            "src/favicon.ico",
+                            "src/assets"
+                        ]
                     }
                 },
                 "lint": {
@@ -89,7 +111,9 @@
                             "src/tsconfig.app.json",
                             "src/tsconfig.spec.json"
                         ],
-                        "exclude": ["**/node_modules/**"]
+                        "exclude": [
+                            "**/node_modules/**"
+                        ]
                     }
                 }
             }
@@ -115,7 +139,9 @@
                     "builder": "@angular-devkit/build-angular:tslint",
                     "options": {
                         "tsConfig": "e2e/tsconfig.e2e.json",
-                        "exclude": ["**/node_modules/**"]
+                        "exclude": [
+                            "**/node_modules/**"
+                        ]
                     }
                 }
             }
@@ -127,10 +153,15 @@
             "prefix": "owl",
             "architect": {
                 "build": {
-                    "builder": "@angular-devkit/build-ng-packagr:build",
+                    "builder": "@angular-devkit/build-angular:ng-packagr",
                     "options": {
                         "tsConfig": "projects/picker/tsconfig.lib.json",
                         "project": "projects/picker/ng-package.json"
+                    },
+                    "configurations": {
+                        "production": {
+                            "tsConfig": "projects/picker/tsconfig.lib.prod.json"
+                        }
                     }
                 },
                 "test": {
@@ -148,11 +179,12 @@
                             "projects/picker/tsconfig.lib.json",
                             "projects/picker/tsconfig.spec.json"
                         ],
-                        "exclude": ["**/node_modules/**"]
+                        "exclude": [
+                            "**/node_modules/**"
+                        ]
                     }
                 }
             }
         }
-    },
-    "defaultProject": "date-time-picker-app"
+    }
 }

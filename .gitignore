@@ -7,6 +7,7 @@
 
 # dependencies
 /node_modules
+/projects/picker/node_modules
 
 # IDEs and editors
 /.idea
@@ -38,3 +39,7 @@ testem.log
 .DS_Store
 Thumbs.db
 /.vscode
+
+.angular
+.cache
+coverage

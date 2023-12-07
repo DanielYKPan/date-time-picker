@@ -2,5 +2,5 @@
 <input [(ngModel)]="selectedMoments" [selectMode]="'range'"
        [owlDateTimeTrigger]="date_range_component" [owlDateTime]="date_range_component"
        style="width: 100%; color: cornflowerblue"
-       id="daterange" matInput>
-<owl-date-time #date_range_component></owl-date-time>
+       id="daterange" matInput required>
+<owl-date-time #date_range_component [startAt]="currentValue" [endAt]="endValue" (afterPickerClosed)="selectedTrigger($event)" (dateSelected)="selectedTrigger($event)"></owl-date-time>

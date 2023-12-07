@@ -2,13 +2,12 @@
  * dialog-ref.class
  */
 import { AnimationEvent } from '@angular/animations';
-import { Location } from '@angular/common';
-import { GlobalPositionStrategy, OverlayRef } from '@angular/cdk/overlay';
 import { ESCAPE } from '@angular/cdk/keycodes';
-import { OwlDialogContainerComponent } from './dialog-container.component';
+import { GlobalPositionStrategy, OverlayRef } from '@angular/cdk/overlay';
+import { Location } from '@angular/common';
+import { Observable, Subject, Subscription, SubscriptionLike, filter, take } from 'rxjs';
 import { DialogPosition } from './dialog-config.class';
-import { Observable, Subject, Subscription, SubscriptionLike as ISubscription } from 'rxjs';
-import { filter, take } from 'rxjs/operators';
+import { OwlDialogContainerComponent } from './dialog-container.component';
 
 export class OwlDialogRef<T> {
 
@@ -16,12 +15,14 @@ export class OwlDialogRef<T> {
 
     private _beforeClose$ = new Subject<any>();
 
+    private _beforeOpen$ = new Subject<any>();
+
     private _afterOpen$ = new Subject<any>();
 
     private _afterClosed$ = new Subject<any>();
 
     /** Subscription to changes in the user's location. */
-    private locationChanged: ISubscription = Subscription.EMPTY;
+    private locationChanged: SubscriptionLike = Subscription.EMPTY;
 
     /**
      * The instance of component opened into modal
@@ -29,12 +30,23 @@ export class OwlDialogRef<T> {
     public componentInstance: T;
 
     /** Whether the user is allowed to close the dialog. */
-    public disableClose = this.container.config.disableClose;
+    public disableClose = true;
 
-    constructor( private overlayRef: OverlayRef,
-                 private container: OwlDialogContainerComponent,
-                 public readonly id: string,
-                 location?: Location ) {
+    constructor(private overlayRef: OverlayRef,
+        private container: OwlDialogContainerComponent,
+        public readonly id: string,
+        location?: Location) {
+        this.disableClose = this.container.config.disableClose;
+
+        this.container.animationStateChanged
+            .pipe(
+                filter(( event: AnimationEvent ) => event.phaseName === 'start' && event.toState === 'enter'),
+                take(1)
+            )
+            .subscribe(() => {
+                this._beforeOpen$.next(null);
+                this._beforeOpen$.complete();
+            });
 
         this.container.animationStateChanged
             .pipe(
@@ -42,13 +54,13 @@ export class OwlDialogRef<T> {
                 take(1)
             )
             .subscribe(() => {
-                this._afterOpen$.next();
+                this._afterOpen$.next(null);
                 this._afterOpen$.complete();
             });
 
         this.container.animationStateChanged
             .pipe(
-                filter(( event: AnimationEvent ) => event.phaseName === 'done' && event.toState === 'exit'),
+                filter((event: AnimationEvent) => event.phaseName === 'done' && event.toState === 'exit'),
                 take(1)
             )
             .subscribe(() => {
@@ -56,7 +68,7 @@ export class OwlDialogRef<T> {
                 this.locationChanged.unsubscribe();
                 this._afterClosed$.next(this.result);
                 this._afterClosed$.complete();
-                this.componentInstance = null!;
+                this.componentInstance = null;
             });
 
         this.overlayRef.keydownEvents()
@@ -72,12 +84,12 @@ export class OwlDialogRef<T> {
         }
     }
 
-    public close( dialogResult?: any ) {
+    public close(dialogResult?: any) {
         this.result = dialogResult;
 
         this.container.animationStateChanged
             .pipe(
-                filter(( event: AnimationEvent ) => event.phaseName === 'start'),
+                filter((event: AnimationEvent) => event.phaseName === 'start'),
                 take(1)
             )
             .subscribe(() => {
@@ -107,8 +119,8 @@ export class OwlDialogRef<T> {
      * Updates the dialog's position.
      * @param position New dialog position.
      */
-    public updatePosition( position?: DialogPosition ): this {
-        let strategy = this.getPositionStrategy();
+    public updatePosition(position?: DialogPosition): this {
+        const strategy = this.getPositionStrategy();
 
         if (position && (position.left || position.right)) {
             position.left ? strategy.left(position.left) : strategy.right(position.right);
@@ -132,7 +144,7 @@ export class OwlDialogRef<T> {
      * @param width New width of the dialog.
      * @param height New height of the dialog.
      */
-    updateSize( width: string = 'auto', height: string = 'auto' ): this {
+    updateSize(width: string = 'auto', height: string = 'auto'): this {
         this.getPositionStrategy().width(width).height(height);
         this.overlayRef.updatePosition();
         return this;
@@ -140,6 +152,10 @@ export class OwlDialogRef<T> {
 
     public isAnimating(): boolean {
         return this.container.isAnimating;
+    }
+
+    public beforeOpen(): Observable<any> {
+        return this._beforeOpen$.asObservable();
     }
 
     public afterOpen(): Observable<any> {
