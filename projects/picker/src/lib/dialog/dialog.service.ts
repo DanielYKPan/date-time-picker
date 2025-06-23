@@ -242,7 +242,7 @@ export class OwlDialogService {
         );
 
         return Injector.create({
-        providers,
+        providers: providers,
         parent: userInjector || this.injector
         });
     }
