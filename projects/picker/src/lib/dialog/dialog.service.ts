@@ -234,10 +234,17 @@ export class OwlDialogService {
         injectionTokens.set(OwlDialogContainerComponent, dialogContainer);
         injectionTokens.set(OWL_DIALOG_DATA, config.data);
 
-        return new PortalInjector(
-            userInjector || this.injector,
-            injectionTokens
+        const providers = Object.entries(injectionTokens).map(
+        ([token, value]) => ({
+            provide: token,
+            useValue: value
+        })
         );
+
+        return Injector.create({
+        providers,
+        parent: userInjector || this.injector
+        });
     }
 
     private createOverlay(config: OwlDialogConfig): OverlayRef {
