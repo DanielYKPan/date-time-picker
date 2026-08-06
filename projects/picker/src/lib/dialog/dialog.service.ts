@@ -13,7 +13,7 @@ import {
     TemplateRef
 } from '@angular/core';
 import { Location } from '@angular/common';
-import { OwlDialogConfig } from './dialog-config.class';
+import { OwlDialogConfig, OwlDialogConfigInterface } from './dialog-config.class';
 import { OwlDialogRef } from './dialog-ref.class';
 import { OwlDialogContainerComponent } from './dialog-container.component';
 import { extendObject } from '../utils';
@@ -29,7 +29,6 @@ import {
 import {
     ComponentPortal,
     ComponentType,
-    PortalInjector
 } from '@angular/cdk/portal';
 
 export const OWL_DIALOG_DATA = new InjectionToken<any>('OwlDialogData');
@@ -55,8 +54,8 @@ export const OWL_DIALOG_SCROLL_STRATEGY_PROVIDER = {
     useFactory: OWL_DIALOG_SCROLL_STRATEGY_PROVIDER_FACTORY
 };
 
-/** I
- * njection token that can be used to specify default dialog options.
+/**
+ * Injection token that can be used to specify default dialog options.
  * */
 export const OWL_DIALOG_DEFAULT_OPTIONS = new InjectionToken<OwlDialogConfig>(
     'owl-dialog-default-options'
@@ -67,6 +66,7 @@ export class OwlDialogService {
     private ariaHiddenElements = new Map<Element, string | null>();
 
     private _openDialogsAtThisLevel: OwlDialogRef<any>[] = [];
+    private _beforeOpenAtThisLevel = new Subject<OwlDialogRef<any>>();
     private _afterOpenAtThisLevel = new Subject<OwlDialogRef<any>>();
     private _afterAllClosedAtThisLevel = new Subject<void>();
 
@@ -75,6 +75,13 @@ export class OwlDialogService {
         return this.parentDialog
             ? this.parentDialog.openDialogs
             : this._openDialogsAtThisLevel;
+    }
+
+    /** Stream that emits when a dialog has been opened. */
+    get beforeOpen(): Subject<OwlDialogRef<any>> {
+        return this.parentDialog
+            ? this.parentDialog.beforeOpen
+            : this._beforeOpenAtThisLevel;
     }
 
     /** Stream that emits when a dialog has been opened. */
@@ -103,7 +110,7 @@ export class OwlDialogService {
                 : this._afterAllClosed.pipe(startWith(undefined))
     );
 
-    private scrollStrategy: () => ScrollStrategy;
+    private readonly scrollStrategy: () => ScrollStrategy;
 
     constructor(
         private overlay: Overlay,
@@ -112,7 +119,7 @@ export class OwlDialogService {
         @Inject(OWL_DIALOG_SCROLL_STRATEGY) scrollStrategy: any,
         @Optional()
         @Inject(OWL_DIALOG_DEFAULT_OPTIONS)
-        private defaultOptions: OwlDialogConfig,
+        private defaultOptions: OwlDialogConfigInterface,
         @Optional()
         @SkipSelf()
         private parentDialog: OwlDialogService,
@@ -126,7 +133,7 @@ export class OwlDialogService {
 
     public open<T>(
         componentOrTemplateRef: ComponentType<T> | TemplateRef<T>,
-        config?: OwlDialogConfig
+        config?: OwlDialogConfigInterface
     ): OwlDialogRef<any> {
         config = applyConfigDefaults(config, this.defaultOptions);
 
@@ -155,6 +162,7 @@ export class OwlDialogService {
         dialogRef
             .afterClosed()
             .subscribe(() => this.removeOpenDialog(dialogRef));
+        this.beforeOpen.next(dialogRef);
         this.afterOpen.next(dialogRef);
         return dialogRef;
     }
@@ -182,7 +190,7 @@ export class OwlDialogService {
         componentOrTemplateRef: ComponentType<T> | TemplateRef<T>,
         dialogContainer: OwlDialogContainerComponent,
         overlayRef: OverlayRef,
-        config: OwlDialogConfig
+        config: OwlDialogConfigInterface
     ) {
         const dialogRef = new OwlDialogRef<T>(
             overlayRef,
@@ -209,7 +217,7 @@ export class OwlDialogService {
             const contentRef = dialogContainer.attachComponentPortal(
                 new ComponentPortal(componentOrTemplateRef, undefined, injector)
             );
-            dialogRef.componentInstance = contentRef.instance;
+            dialogRef.componentInstance.set(contentRef.instance);
         }
 
         dialogRef
@@ -220,34 +228,32 @@ export class OwlDialogService {
     }
 
     private createInjector<T>(
-        config: OwlDialogConfig,
+        config: OwlDialogConfigInterface,
         dialogRef: OwlDialogRef<T>,
         dialogContainer: OwlDialogContainerComponent
     ) {
         const userInjector =
-            config &&
-            config.viewContainerRef &&
-            config.viewContainerRef.injector;
-        const injectionTokens = new WeakMap();
+            config?.viewContainerRef?.injector;
+        const providers = [
+            { provide: OwlDialogRef, useValue: dialogRef },
+            { provide: OwlDialogContainerComponent, useValue: dialogContainer },
+            { provide: OWL_DIALOG_DATA, useValue: config?.data },
+        ];
 
-        injectionTokens.set(OwlDialogRef, dialogRef);
-        injectionTokens.set(OwlDialogContainerComponent, dialogContainer);
-        injectionTokens.set(OWL_DIALOG_DATA, config.data);
-
-        return new PortalInjector(
-            userInjector || this.injector,
-            injectionTokens
-        );
+        return Injector.create({
+            providers,
+            parent: userInjector || this.injector,
+        });
     }
 
-    private createOverlay(config: OwlDialogConfig): OverlayRef {
+    private createOverlay(config: OwlDialogConfigInterface): OverlayRef {
         const overlayConfig = this.getOverlayConfig(config);
         return this.overlay.create(overlayConfig);
     }
 
     private attachDialogContainer(
         overlayRef: OverlayRef,
-        config: OwlDialogConfig
+        config: OwlDialogConfigInterface
     ): OwlDialogContainerComponent {
         const containerPortal = new ComponentPortal(
             OwlDialogContainerComponent,
@@ -261,7 +267,7 @@ export class OwlDialogService {
         return containerRef.instance;
     }
 
-    private getOverlayConfig(dialogConfig: OwlDialogConfig): OverlayConfig {
+    private getOverlayConfig(dialogConfig: OwlDialogConfigInterface): OverlayConfig {
         const state = new OverlayConfig({
             positionStrategy: this.overlay.position().global(),
             scrollStrategy:
@@ -314,7 +320,7 @@ export class OwlDialogService {
             const siblings = overlayContainer.parentElement.children;
 
             for (let i = siblings.length - 1; i > -1; i--) {
-                let sibling = siblings[i];
+                const sibling = siblings[i];
 
                 if (
                     sibling !== overlayContainer &&
@@ -340,8 +346,8 @@ export class OwlDialogService {
  * @returns The new configuration object.
  */
 function applyConfigDefaults(
-    config?: OwlDialogConfig,
-    defaultOptions?: OwlDialogConfig
+    config?: OwlDialogConfigInterface,
+    defaultOptions?: OwlDialogConfigInterface
 ): OwlDialogConfig {
     return extendObject(new OwlDialogConfig(), config, defaultOptions);
 }

@@ -1,6 +1,77 @@
-<label for="daterange">Datetime range (click, then press 'Set' to modify):</label>
-<input [(ngModel)]="selectedMoments" [selectMode]="'range'"
-       [owlDateTimeTrigger]="date_range_component" [owlDateTime]="date_range_component"
-       style="width: 100%; color: cornflowerblue"
-       id="daterange" matInput>
-<owl-date-time #date_range_component></owl-date-time>
+<div class="button-row">
+  Select demo:
+  <button
+    (click)="currentTab.set('date-range')"
+    [class.active]="currentTab() === 'date-range'">
+    Date Range
+  </button>
+    <button
+        (click)="currentTab.set('date-range-dialog')"
+        [class.active]="currentTab() === 'date-range-dialog'">
+        Date Range (Dialog)
+    </button>
+  <button
+    (click)="currentTab.set('date-time-inline')"
+    [class.active]="currentTab() === 'date-time-inline'">
+    DateTime Range (Inline)
+  </button>
+</div>
+
+<main>
+  @switch (currentTab()) {
+    @case ('date-range') {
+      <label for="daterange">
+        Datetime range (click, then press 'Set' to modify):
+      </label>
+
+      <input
+        [(ngModel)]="selectedDates"
+        [selectMode]="'range'"
+        [owlDateTimeTrigger]="date_range_component"
+        [owlDateTime]="date_range_component"
+        style="width: 100%; color: cornflowerblue"
+        id="daterange">
+
+      <owl-date-time
+        #date_range_component
+        [startAt]="currentValue"
+        [endAt]="endValue"
+        (afterPickerClosed)="selectedTrigger($event)"
+        (dateSelected)="selectedTrigger($event)">
+      </owl-date-time>
+    }
+
+      @case ('date-range-dialog') {
+          <label for="daterange">
+              Datetime range (click, then press 'Set' to modify):
+          </label>
+
+          <input
+              [(ngModel)]="selectedDates"
+              [selectMode]="'range'"
+              [owlDateTimeTrigger]="date_range_component"
+              [owlDateTime]="date_range_component"
+              style="width: 100%; color: cornflowerblue"
+              id="daterange">
+
+          <owl-date-time
+              #date_range_component
+              [startAt]="currentValue"
+              pickerMode="dialog"
+              [endAt]="endValue"
+              (afterPickerClosed)="selectedTrigger($event)"
+              (dateSelected)="selectedTrigger($event)">
+          </owl-date-time>
+      }
+
+      @case ('date-time-inline') {
+      <owl-date-time-inline
+        [(ngModel)]="selectedDates"
+        [startAt]="currentValue"
+        [endAt]="endValue"
+        selectMode="range"
+        pickerType="both">
+      </owl-date-time-inline>
+    }
+  }
+</main>

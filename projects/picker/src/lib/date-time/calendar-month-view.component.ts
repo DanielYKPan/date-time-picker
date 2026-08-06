@@ -38,7 +38,7 @@ import {
     RIGHT_ARROW,
     UP_ARROW
 } from '@angular/cdk/keycodes';
-import { coerceNumberProperty } from '@angular/cdk/coercion';
+import { getLocaleFirstDayOfWeek } from '@angular/common';
 
 const DAYS_PER_WEEK = 7;
 const WEEKS_PER_VIEW = 6;
@@ -48,6 +48,7 @@ const WEEKS_PER_VIEW = 6;
     exportAs: 'owlYearView',
     templateUrl: './calendar-month-view.component.html',
     styleUrls: ['./calendar-month-view.component.scss'],
+    standalone: false,
     host: {
         '[class.owl-dt-calendar-view]': 'owlDTCalendarView'
     },
@@ -60,22 +61,31 @@ export class OwlMonthViewComponent<T>
      * Whether to hide dates in other months at the start or end of the current month.
      * */
     @Input()
-    hideOtherMonths: boolean = false;
+    hideOtherMonths = false;
+
+    /**
+     * Whether to show calendar weeks in the calendar
+     * */
+    @Input()
+    showCalendarWeeks = false;
+
+    private isDefaultFirstDayOfWeek = true;
 
     /**
      * Define the first day of a week
-     * Sunday: 0 ~ Saturday: 6
+     * Sunday: 0 - Saturday: 6
      * */
-    private _firstDayOfWeek: number = 0;
+    private _firstDayOfWeek: number;
+
     @Input()
     get firstDayOfWeek(): number {
         return this._firstDayOfWeek;
     }
 
     set firstDayOfWeek(val: number) {
-        val = coerceNumberProperty(val);
         if (val >= 0 && val <= 6 && val !== this._firstDayOfWeek) {
             this._firstDayOfWeek = val;
+            this.isDefaultFirstDayOfWeek = false;
 
             if (this.initiated) {
                 this.generateWeekDays();
@@ -255,6 +265,11 @@ export class OwlMonthViewComponent<T>
     public todayDate: number | null;
 
     /**
+     * Week day numbers
+     * */
+    public weekNumbers: number[];
+
+    /**
      * An array to hold all selectedDates' value
      * the value is the day number in current month
      * */
@@ -296,13 +311,17 @@ export class OwlMonthViewComponent<T>
     ) {}
 
     public ngOnInit() {
+        this.updateFirstDayOfWeek(this.dateTimeAdapter.getLocale());
         this.generateWeekDays();
 
-        this.localeSub = this.dateTimeAdapter.localeChanges.subscribe(() => {
-            this.generateWeekDays();
-            this.generateCalendar();
-            this.cdRef.markForCheck();
-        });
+        this.localeSub = this.dateTimeAdapter.localeChanges.subscribe(
+            locale => {
+                this.updateFirstDayOfWeek(locale);
+                this.generateWeekDays();
+                this.generateCalendar();
+                this.cdRef.markForCheck();
+            }
+        );
     }
 
     public ngAfterContentInit(): void {
@@ -461,8 +480,8 @@ export class OwlMonthViewComponent<T>
         });
 
         this._weekdays = weekdays
-            .slice(firstDayOfWeek)
-            .concat(weekdays.slice(0, firstDayOfWeek));
+            .slice(firstDayOfWeek-this.dateTimeAdapter.firstDayOfTheWeek)
+            .concat(weekdays.slice(0, firstDayOfWeek-this.dateTimeAdapter.firstDayOfTheWeek));
 
         this.dateNames = this.dateTimeAdapter.getDateNames();
 
@@ -478,6 +497,7 @@ export class OwlMonthViewComponent<T>
         }
 
         this.todayDate = null;
+        this.weekNumbers = [];
 
         // the first weekday of the month
         const startWeekdayOfMonth = this.dateTimeAdapter.getDay(
@@ -504,7 +524,6 @@ export class OwlMonthViewComponent<T>
                     daysDiff
                 );
                 const dateCell = this.createDateCell(date, daysDiff);
-
                 // check if the date is today
                 if (
                     this.dateTimeAdapter.isSameDay(
@@ -519,9 +538,33 @@ export class OwlMonthViewComponent<T>
                 daysDiff += 1;
             }
             this._days.push(week);
+            if (this.showCalendarWeeks) {
+                const weekNumber = this.getISOWeek(new Date(week[0].ariaLabel));
+                this.weekNumbers.push(weekNumber);
+            }
         }
-
         this.setSelectedDates();
+    }
+
+    public getISOWeek(d: Date): number {
+        const clonedDate = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
+        // Make Sunday's day number 7
+        clonedDate.setUTCDate(clonedDate.getUTCDate() + 4 - (clonedDate.getUTCDay()||7));
+        // Get first day of year
+        const yearStart = new Date(Date.UTC(clonedDate.getUTCFullYear(),0,1));
+        // Calculate full weeks to nearest Thursday
+        const weekNo = Math.ceil(( ( (+clonedDate - +yearStart) / 86400000) + 1)/7);
+        return weekNo;
+    }
+
+    private updateFirstDayOfWeek(locale: string): void {
+        if (this.isDefaultFirstDayOfWeek) {
+            try {
+                this._firstDayOfWeek = getLocaleFirstDayOfWeek(locale);
+            } catch {
+                this._firstDayOfWeek = 0;
+            }
+        }
     }
 
     /**

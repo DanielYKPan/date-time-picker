@@ -18,6 +18,7 @@ import { merge, of as observableOf, Subscription } from 'rxjs';
 
 @Directive({
     selector: '[owlDateTimeTrigger]',
+    standalone: false,
     host: {
         '(click)': 'handleClickOnHost($event)',
         '[class.owl-dt-trigger-disabled]': 'owlDTTriggerDisabledClass'
@@ -79,7 +80,7 @@ export class OwlDateTimeTriggerDirective<T> implements OnInit, OnChanges, AfterC
         const pickerDisabled = this.dtPicker ?
             this.dtPicker.disabledChange : observableOf();
 
-        this.stateChanges = merge(pickerDisabled, inputDisabled)
+        this.stateChanges = merge([pickerDisabled, inputDisabled])
             .subscribe(() => {
                 this.changeDetector.markForCheck();
             });

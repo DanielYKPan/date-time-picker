@@ -42,6 +42,7 @@ export const OWL_DATETIME_VALUE_ACCESSOR: any = {
     host: {
         '[class.owl-dt-inline]': 'owlDTInlineClass'
     },
+    standalone: false,
     changeDetection: ChangeDetectionStrategy.OnPush,
     preserveWhitespaces: false,
     providers: [OWL_DATETIME_VALUE_ACCESSOR]
@@ -122,6 +123,32 @@ export class OwlDateTimeInlineComponent<T> extends OwlDateTime<T>
 
     set startAt(date: T | null) {
         this._startAt = this.getValidDate(
+            this.dateTimeAdapter.deserialize(date)
+        );
+    }
+
+    /** The date to open for range calendar. */
+    private _endAt: T | null;
+    @Input()
+    get endAt(): T | null {
+        if (this._endAt) {
+            return this._endAt;
+        }
+
+        if (this.selectMode === 'single') {
+            return this.value || null;
+        } else if (
+            this.selectMode === 'range' ||
+            this.selectMode === 'rangeFrom'
+        ) {
+            return this.values[1] || null;
+        } else {
+            return null;
+        }
+    }
+
+    set endAt(date: T | null) {
+        this._endAt = this.getValidDate(
             this.dateTimeAdapter.deserialize(date)
         );
     }
@@ -210,6 +237,12 @@ export class OwlDateTimeInlineComponent<T> extends OwlDateTime<T>
     @Output()
     monthSelected = new EventEmitter<T>();
 
+    /**
+     * Emits selected date
+     * */
+    @Output()
+    dateSelected = new EventEmitter<T>();
+
     private _selected: T | null;
     get selected() {
         return this._selected;
@@ -254,8 +287,8 @@ export class OwlDateTimeInlineComponent<T> extends OwlDateTime<T>
         return true;
     }
 
-    private onModelChange: Function = () => {};
-    private onModelTouched: Function = () => {};
+    private onModelChange: Function = () => { };
+    private onModelTouched: Function = () => { };
 
     constructor(
         protected changeDetector: ChangeDetectorRef,
@@ -321,5 +354,12 @@ export class OwlDateTimeInlineComponent<T> extends OwlDateTime<T>
      * */
     public selectMonth(normalizedMonth: T): void {
         this.monthSelected.emit(normalizedMonth);
+    }
+
+    /**
+     * Emits the selected date
+     * */
+     public selectDate(normalizedDate: T): void {
+        this.dateSelected.emit(normalizedDate);
     }
 }

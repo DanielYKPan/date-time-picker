@@ -1,0 +1,32 @@
+.button-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 5px;
+  padding: 0.5rem;
+  background-color: white;
+
+  box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.5);
+
+  > button {
+    border: none;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+
+    background: white;
+    border: 1px solid #aaa;
+    border-radius: 4px;
+
+    &:hover {
+      background: #f0f0f0;
+    }
+    &.active {
+      background: #155799;
+      color: white;
+    }
+  }
+}
+
+main {
+  padding: 1rem;
+}

@@ -1,23 +1,39 @@
 {
-  "name": "ng-pick-datetime",
-  "version": "8.0.0",
-  "description": "Angular Date Time Picker",
-  "keywords": [
-    "Angular",
-    "datepicker",
-    "date picker",
-    "timepicker",
-    "time picker"
-  ],
-  "author": "daniel pan <myron.yk.pan@gmail.com>",
-  "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/DanielYKPan/date-time-picker.git"
-  },
-  "peerDependencies": {
-    "@angular/common": "^7.0.0",
-    "@angular/core": "^7.0.0",
-    "@angular/cdk": "^7.0.0"
-  }
+    "name": "@danielmoncada/angular-datetime-picker",
+    "version": "22.0.0",
+    "description": "Angular Date Time Picker",
+    "keywords": [
+        "Angular",
+        "datepicker",
+        "date picker",
+        "timepicker",
+        "time picker",
+        "datetime picker",
+        "date time picker",
+        "material",
+        "ngx"
+    ],
+    "author": "Maintained and updated by Daniel Moncada, original implementation by Daniel Pan",
+    "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/danielmoncada/date-time-picker.git"
+    },
+    "homepage": "https://github.com/danielmoncada/date-time-picker",
+    "publishConfig": {
+        "access": "public"
+    },
+    "peerDependencies": {
+        "@angular/common": "^21.0.0 || ^22.0.0",
+        "@angular/core": "^21.0.0 || ^22.0.0",
+        "@angular/cdk": "^21.0.0 || ^22.0.0"
+    },
+    "dependencies": {
+        "tslib": "^2.6.2"
+    },
+    "exports": {
+        "./assets/style/picker.min.css": {
+            "default": "./assets/style/picker.min.css"
+        }
+    }
 }

@@ -29,11 +29,14 @@ export abstract class DateTimeAdapter<T> {
     protected locale: any;
 
     /** A stream that emits when the locale changes. */
-    protected _localeChanges = new Subject<void>();
-    get localeChanges(): Observable<void> {
+    protected _localeChanges = new Subject<string>();
+    get localeChanges(): Observable<string> {
         return this._localeChanges;
     }
 
+	public firstMonthOfTheYear: number = 0;
+	public firstDayOfTheWeek: number = 0;
+    
     /** total milliseconds in a day. */
     protected readonly millisecondsInDay = 86400000;
 
@@ -283,9 +286,16 @@ export abstract class DateTimeAdapter<T> {
     /**
      * Sets the locale used for all dates.
      */
-    setLocale(locale: any) {
+    setLocale(locale: string) {
         this.locale = locale;
-        this._localeChanges.next();
+        this._localeChanges.next(locale);
+    }
+
+     /**
+     * Get the locale used for all dates.
+     * */
+    getLocale() {
+        return this.locale;
     }
 
     /**

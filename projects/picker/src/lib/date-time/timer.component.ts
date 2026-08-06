@@ -24,6 +24,7 @@ import { take } from 'rxjs/operators';
     templateUrl: './timer.component.html',
     styleUrls: ['./timer.component.scss'],
     preserveWhitespaces: false,
+    standalone: false,
     changeDetection: ChangeDetectionStrategy.OnPush,
     host: {
         '[class.owl-dt-timer]': 'owlDTTimerClass',
@@ -68,7 +69,7 @@ export class OwlTimerComponent<T> implements OnInit {
         this._maxDateTime = this.getValidDate(value);
     }
 
-    private isPM: boolean = false; // a flag indicates the current timer moment is in PM or AM
+    private isPM = false; // a flag indicates the current timer moment is in PM or AM
 
     /**
      * Whether to show the second's timer

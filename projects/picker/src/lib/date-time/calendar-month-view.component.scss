@@ -1,0 +1,16 @@
+.week-number {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  margin-bottom: 14px;
+  margin-top: 46px;
+  border-right: 1px solid rgba(0, 0, 0, .12);
+  width: 8%;
+  font-weight: bold;
+  li {
+    font-size: .8em;
+  } 
+}

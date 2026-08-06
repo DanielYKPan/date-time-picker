@@ -50,6 +50,7 @@ const MONTHS_PER_ROW = 3;
     host: {
         '[class.owl-dt-calendar-view]': 'owlDTCalendarView'
     },
+    standalone: false,
     preserveWhitespaces: false,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
@@ -406,7 +407,7 @@ export class OwlYearViewComponent<T>
             const row = [];
 
             for (let j = 0; j < MONTHS_PER_ROW; j++) {
-                const month = j + i * MONTHS_PER_ROW;
+                const month = j + i * MONTHS_PER_ROW + this.dateTimeAdapter.firstMonthOfTheYear;
                 const monthCell = this.createMonthCell(month);
                 row.push(monthCell);
             }
@@ -433,7 +434,7 @@ export class OwlYearViewComponent<T>
         const cellClass = 'owl-dt-month-' + month;
         return new CalendarCell(
             month,
-            this.monthNames[month],
+            this.monthNames[month-this.dateTimeAdapter.firstMonthOfTheYear],
             ariaLabel,
             this.isMonthEnabled(month),
             false,

@@ -1,0 +1,8 @@
+@use "@angular/cdk/overlay-prebuilt.css";
+@use '../projects/picker/src/sass/picker.scss';
+
+html,
+body {
+  margin: 0;
+  background-color: #f0f0f0;
+}

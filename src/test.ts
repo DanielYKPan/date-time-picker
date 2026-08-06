@@ -1,20 +1,45 @@
-// This file is required by karma.conf.js and loads recursively all the .spec and framework files
+// Global setup file for the vitest unit-test builder.
+// The builder initializes the Angular TestBed (and loads zone.js via the build
+// target's polyfills) before this file is executed.
 
-import 'zone.js/dist/zone-testing';
+// Patches vitest's describe/it/beforeEach to run inside zone.js ProxyZone,
+// which is required for fakeAsync()/tick()/flush() to work.
+import 'zone.js/plugins/vitest-patch';
+
 import { getTestBed } from '@angular/core/testing';
-import {
-  BrowserDynamicTestingModule,
-  platformBrowserDynamicTesting
-} from '@angular/platform-browser-dynamic/testing';
+import { provideZoneChangeDetection } from '@angular/core';
 
-declare const require: any;
+const testBed = getTestBed();
 
-// First, initialize the Angular testing environment.
-getTestBed().initTestEnvironment(
-  BrowserDynamicTestingModule,
-  platformBrowserDynamicTesting()
-);
-// Then we find all the tests.
-const context = require.context('./', true, /\.spec\.ts$/);
-// And load the modules.
-context.keys().map(context);
+// Workaround for Angular 21+ where the test builder doesn't provide zone change detection
+// We patch TestBed.configureTestingModule to always include provideZoneChangeDetection()
+// unless it's already there or there's already a zone provider
+const originalConfigureTestingModule = testBed.configureTestingModule;
+
+testBed.configureTestingModule = function(moduleDef: any): any {
+  if (!moduleDef) {
+    moduleDef = {};
+  }
+  
+  if (!moduleDef.providers) {
+    moduleDef.providers = [];
+  }
+  
+  // Check if provideZoneChangeDetection is already in the providers
+  const hasZoneChangeDetection = moduleDef.providers.some((provider: any) => {
+    if (!provider) return false;
+    // Check if it's the provideZoneChangeDetection function
+    return provider.ɵproviders || (typeof provider === 'function' && provider.toString().includes('provideZoneChangeDetection'));
+  });
+  
+  // Add it if not already present
+  if (!hasZoneChangeDetection) {
+    moduleDef.providers.push(provideZoneChangeDetection());
+  }
+  
+  return originalConfigureTestingModule.call(this, moduleDef);
+};
+
+
+
+

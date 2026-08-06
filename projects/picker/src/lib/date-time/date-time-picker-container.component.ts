@@ -5,28 +5,29 @@
 import {
     AfterContentInit,
     AfterViewInit,
+    AnimationCallbackEvent,
     ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
     ElementRef,
+    EventEmitter,
     OnInit,
     Optional,
-    ViewChild
+    ViewChild,
 } from '@angular/core';
-import { AnimationEvent } from '@angular/animations';
 import { OwlDateTimeIntl } from './date-time-picker-intl.service';
 import { OwlCalendarComponent } from './calendar.component';
+import { IDateTimePickerAnimationEvent } from './date-time-picker-animation-event';
 import { OwlTimerComponent } from './timer.component';
 import { DateTimeAdapter } from './adapter/date-time-adapter.class';
 import { OwlDateTime, PickerType } from './date-time.class';
 import { Observable, Subject } from 'rxjs';
-import { owlDateTimePickerAnimations } from './date-time-picker.animations';
 import {
     DOWN_ARROW,
     LEFT_ARROW,
     RIGHT_ARROW,
     SPACE,
-    UP_ARROW
+    UP_ARROW,
 } from '@angular/cdk/keycodes';
 
 @Component({
@@ -36,30 +37,35 @@ import {
     styleUrls: ['./date-time-picker-container.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     preserveWhitespaces: false,
-    animations: [
-        owlDateTimePickerAnimations.transformPicker,
-        owlDateTimePickerAnimations.fadeInPicker
-    ],
+    standalone: false,
     host: {
-        '(@transformPicker.done)': 'handleContainerAnimationDone($event)',
+        '(animate.enter)': 'onAnimateEnter($event)',
+        '(animate.leave)': 'onAnimateLeave($event)',
         '[class.owl-dt-container]': 'owlDTContainerClass',
         '[class.owl-dt-popup-container]': 'owlDTPopupContainerClass',
         '[class.owl-dt-dialog-container]': 'owlDTDialogContainerClass',
         '[class.owl-dt-inline-container]': 'owlDTInlineContainerClass',
         '[class.owl-dt-container-disabled]': 'owlDTContainerDisabledClass',
         '[attr.id]': 'owlDTContainerId',
-        '[@transformPicker]': 'owlDTContainerAnimation',
     }
 })
 export class OwlDateTimeContainerComponent<T>
-    implements OnInit, AfterContentInit, AfterViewInit {
-    @ViewChild(OwlCalendarComponent, { static: false })
+    implements OnInit, AfterContentInit, AfterViewInit
+{
+    @ViewChild(OwlCalendarComponent)
     calendar: OwlCalendarComponent<T>;
-    @ViewChild(OwlTimerComponent, { static: false })
+    @ViewChild(OwlTimerComponent)
     timer: OwlTimerComponent<T>;
 
     public picker: OwlDateTime<T>;
     public activeSelectedIndex = 0; // The current active SelectedIndex in range select mode (0: 'from', 1: 'to')
+
+    /** Emits when an animation state changes. */
+    public animationStateChanged = new EventEmitter<IDateTimePickerAnimationEvent>();
+
+    // retain start and end time
+    private retainStartTime: T;
+    private retainEndTime: T;
 
     /**
      * Stream emits when try to hide picker
@@ -77,6 +83,12 @@ export class OwlDateTimeContainerComponent<T>
 
     get confirmSelectedStream(): Observable<any> {
         return this.confirmSelected$.asObservable();
+    }
+
+    private beforePickerOpened$ = new Subject<any>();
+
+    get beforePickerOpenedStream(): Observable<any> {
+        return this.beforePickerOpened$.asObservable();
     }
 
     private pickerOpened$ = new Subject<any>();
@@ -100,7 +112,7 @@ export class OwlDateTimeContainerComponent<T>
             this._clamPickerMoment = this.dateTimeAdapter.clampDate(
                 value,
                 this.picker.minDateTime,
-                this.picker.maxDateTime
+                this.picker.maxDateTime,
             );
         }
         this.cdRef.markForCheck();
@@ -197,13 +209,27 @@ export class OwlDateTimeContainerComponent<T>
         return this.picker.pickerMode === 'inline' ? '' : 'enter';
     }
 
-    constructor( private cdRef: ChangeDetectorRef,
-                  private elmRef: ElementRef,
-                  private pickerIntl: OwlDateTimeIntl,
-                 @Optional() private dateTimeAdapter: DateTimeAdapter<T> ) {
-    }
+    constructor(
+        private cdRef: ChangeDetectorRef,
+        private elmRef: ElementRef,
+        private pickerIntl: OwlDateTimeIntl,
+        @Optional() private dateTimeAdapter: DateTimeAdapter<T>,
+    ) {}
 
-    public ngOnInit() {}
+    public ngOnInit() {
+        if (this.picker.selectMode === 'range') {
+            if (this.picker.selecteds[0]) {
+                this.retainStartTime = this.dateTimeAdapter.clone(
+                    this.picker.selecteds[0],
+                );
+            }
+            if (this.picker.selecteds[1]) {
+                this.retainEndTime = this.dateTimeAdapter.clone(
+                    this.picker.selecteds[1],
+                );
+            }
+        }
+    }
 
     public ngAfterContentInit(): void {
         this.initPicker();
@@ -213,11 +239,24 @@ export class OwlDateTimeContainerComponent<T>
         this.focusPicker();
     }
 
-    public handleContainerAnimationDone(event: AnimationEvent): void {
-        const toState = event.toState;
-        if (toState === 'enter') {
-            this.pickerOpened$.next();
+    public handleContainerAnimationStart(animationName: 'enter' | 'leave'): void {
+        if (animationName === 'enter') {
+            this.beforePickerOpened$.next(null);
         }
+        this.animationStateChanged.emit({
+            phaseName: 'start',
+            toState: animationName
+        });
+    }
+
+    public handleContainerAnimationDone(animationName: 'enter' | 'leave'): void {
+        if (animationName === 'enter') {
+            this.pickerOpened$.next(null);
+        }
+        this.animationStateChanged.emit({
+            phaseName: 'done',
+            toState: animationName
+        });
     }
 
     public dateSelected(date: T): void {
@@ -268,13 +307,13 @@ export class OwlDateTimeContainerComponent<T>
                     selecteds[1] &&
                     this.dateTimeAdapter.compare(
                         this.pickerMoment,
-                        selecteds[1]
+                        selecteds[1],
                     ) === 1) ||
                 (this.activeSelectedIndex === 1 &&
                     selecteds[0] &&
                     this.dateTimeAdapter.compare(
                         this.pickerMoment,
-                        selecteds[0]
+                        selecteds[0],
                     ) === -1)
             ) {
                 selecteds[0] = this.pickerMoment;
@@ -283,6 +322,12 @@ export class OwlDateTimeContainerComponent<T>
                 selecteds[this.activeSelectedIndex] = this.pickerMoment;
             }
 
+            if (selecteds[0]) {
+                this.retainStartTime = this.dateTimeAdapter.clone(selecteds[0]);
+            }
+            if (selecteds[1]) {
+                this.retainEndTime = this.dateTimeAdapter.clone(selecteds[1]);
+            }
             this.picker.select(selecteds);
         }
     }
@@ -326,7 +371,7 @@ export class OwlDateTimeContainerComponent<T>
     public handleKeydownOnInfoGroup(
         event: any,
         next: any,
-        index: number
+        index: number,
     ): void {
         switch (event.keyCode) {
             case DOWN_ARROW:
@@ -347,6 +392,49 @@ export class OwlDateTimeContainerComponent<T>
 
             default:
                 return;
+        }
+    }
+
+    protected onAnimateEnter(event: AnimationCallbackEvent): void {
+        this.handleContainerAnimationStart('enter');
+        const duration = this.parseCssVariableDuration(event.target, '--container-enter-animation-duration');
+        if (duration === 0) {
+            this.handleContainerAnimationDone('enter');
+            event.animationComplete();
+        } else {
+            const animation = event.target.animate([
+                { opacity: 0, transform: 'scaleY(0)' },
+                { opacity: 1, transform: 'scaleY(1)' }
+            ], {
+                duration: duration ?? 400,
+                easing: 'cubic-bezier(0.25, 0.8, 0.25, 1)',
+                fill: 'forwards'
+            });
+            animation.finished.then(() => {
+                this.handleContainerAnimationDone('enter');
+                event.animationComplete();
+            });
+        }
+    }
+
+    protected onAnimateLeave(event: AnimationCallbackEvent): void {
+        this.handleContainerAnimationStart('leave');
+        const duration = this.parseCssVariableDuration(event.target, '--container-leave-animation-duration');
+        if (duration === 0) {
+            this.handleContainerAnimationDone('leave');
+            event.animationComplete();
+        } else {
+            event.target.animate([
+                { opacity: 1 },
+                { opacity: 0 }
+            ], {
+                duration: duration ?? 100,
+                easing: 'linear',
+                fill: 'forwards'
+            }).finished.then(() => {
+                this.handleContainerAnimationDone('leave');
+                event.animationComplete();
+            });
         }
     }
 
@@ -409,10 +497,50 @@ export class OwlDateTimeContainerComponent<T>
                 from &&
                 this.dateTimeAdapter.differenceInCalendarDays(result, from) >= 0
             ) {
-                to = result;
+                if (this.picker.endAt && !this.retainEndTime) {
+                    to = this.dateTimeAdapter.createDate(
+                        this.dateTimeAdapter.getYear(result),
+                        this.dateTimeAdapter.getMonth(result),
+                        this.dateTimeAdapter.getDate(result),
+                        this.dateTimeAdapter.getHours(this.picker.endAt),
+                        this.dateTimeAdapter.getMinutes(this.picker.endAt),
+                        this.dateTimeAdapter.getSeconds(this.picker.endAt),
+                    );
+                } else if (this.retainEndTime) {
+                    to = this.dateTimeAdapter.createDate(
+                        this.dateTimeAdapter.getYear(result),
+                        this.dateTimeAdapter.getMonth(result),
+                        this.dateTimeAdapter.getDate(result),
+                        this.dateTimeAdapter.getHours(this.retainEndTime),
+                        this.dateTimeAdapter.getMinutes(this.retainEndTime),
+                        this.dateTimeAdapter.getSeconds(this.retainEndTime),
+                    );
+                } else {
+                    to = result;
+                }
                 this.activeSelectedIndex = 1;
             } else {
-                from = result;
+                if (this.picker.startAt && !this.retainStartTime) {
+                    from = this.dateTimeAdapter.createDate(
+                        this.dateTimeAdapter.getYear(result),
+                        this.dateTimeAdapter.getMonth(result),
+                        this.dateTimeAdapter.getDate(result),
+                        this.dateTimeAdapter.getHours(this.picker.startAt),
+                        this.dateTimeAdapter.getMinutes(this.picker.startAt),
+                        this.dateTimeAdapter.getSeconds(this.picker.startAt),
+                    );
+                } else if (this.retainStartTime) {
+                    from = this.dateTimeAdapter.createDate(
+                        this.dateTimeAdapter.getYear(result),
+                        this.dateTimeAdapter.getMonth(result),
+                        this.dateTimeAdapter.getDate(result),
+                        this.dateTimeAdapter.getHours(this.retainStartTime),
+                        this.dateTimeAdapter.getMinutes(this.retainStartTime),
+                        this.dateTimeAdapter.getSeconds(this.retainStartTime),
+                    );
+                } else {
+                    from = result;
+                }
                 to = null;
                 this.activeSelectedIndex = 0;
             }
@@ -453,12 +581,12 @@ export class OwlDateTimeContainerComponent<T>
                 this.dateTimeAdapter.getDate(date),
                 this.dateTimeAdapter.getHours(this.pickerMoment),
                 this.dateTimeAdapter.getMinutes(this.pickerMoment),
-                this.dateTimeAdapter.getSeconds(this.pickerMoment)
+                this.dateTimeAdapter.getSeconds(this.pickerMoment),
             );
             result = this.dateTimeAdapter.clampDate(
                 result,
                 this.picker.minDateTime,
-                this.picker.maxDateTime
+                this.picker.maxDateTime,
             );
         } else {
             result = this.dateTimeAdapter.clone(date);
@@ -481,5 +609,23 @@ export class OwlDateTimeContainerComponent<T>
         } else if (this.timer) {
             this.timer.focus();
         }
+    }
+
+    private parseCssVariableDuration(el: Element, cssVariableName: string) {
+        const durationStr = getComputedStyle(el).getPropertyValue(cssVariableName).trim();
+
+        // Convert to ms
+        let duration: number | undefined = undefined;
+        if (durationStr.endsWith('ms')) {
+            duration = parseFloat(durationStr);
+        } else if (durationStr.endsWith('s')) {
+            duration = parseFloat(durationStr) * 1000;
+        } else if (durationStr) {
+            duration = parseFloat(durationStr);
+            if (isNaN(duration)) {
+                duration = undefined;
+            }
+        }
+        return duration;
     }
 }
